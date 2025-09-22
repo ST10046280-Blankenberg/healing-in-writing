@@ -1,0 +1,133 @@
+## Visual Studio user settings
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.rsuser
+*.sln.ide
+*.DotSettings.user
+
+## IDE directories
+.vscode/
+.idea/
+*.sln.iml
+
+## Build output
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+[Ll]og*/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Dd]ebug-*/
+[Rr]elease/
+[Rr]eleases/
+[Rr]eleases-*/
+x64/
+x86/
+[Bb]uild/
+[Bb]uilds/
+[Bb]ld/
+[Bb]enchmarkDotNet.Artifacts/
+[Tt]est[Rr]esult*/
+[Tt]est[Rr]esults/
+[Tt]est[Cc]ache/
+*.log
+*.log.*
+**/GeneratedFiles/
+.AppleDouble
+
+## Publish and packaging
+[Pp]ublish/
+[Pp]ublished*/
+AppPackages/
+BundleArtifacts/
+_UpgradeReport_Files/
+Backup*/
+*.PublishSettings
+publish/
+
+## NuGet
+.nuget/
+packages/
+*.nupkg
+*.snupkg
+*.nuget.props
+*.nuget.targets
+*.nuget.cache
+artifacts/
+
+## Entity Framework Core
+[Mm]igrations/
+
+## Coverage and profiling
+*.coverage
+*.coveragexml
+*.coveragejson
+*.dotCover
+*.opencover.xml
+*.ncb
+*.vsp
+*.vspx
+
+## Database files
+*.dbmdl
+*.mdf
+*.ldf
+*.ndf
+
+## OS generated files
+[Tt]humbs.db
+[Dd]esktop.ini
+*.DS_Store
+$RECYCLE.BIN/
+
+## Temporary and crash dumps
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+*.cache
+*.pidb
+*.pdb
+*.ilk
+*.pch
+*.ipch
+*.iobj
+*.idb
+*.dmp
+*.mdmp
+*.stackdump
+CrashDumps/
+
+## Front-end assets
+node_modules/
+**/wwwroot/dist/
+**/wwwroot/lib/
+
+## Configuration and secrets
+appsettings.*.json
+!appsettings.json
+appsettings.*.local.json
+appsettings.*.Development.json
+Secrets.json
+secrets.json
+*.secret.json
+*.secrets.json
+*.config.local
+*.config.development
+.env
+.env.*
+
+## Azure and publish profiles
+.publishsettings
+**/ServiceConfiguration.*.cscfg
+**/ServiceDefinition.csdef
+
+## Miscellaneous
+*.psess
+*.vsix
+*.code-workspace

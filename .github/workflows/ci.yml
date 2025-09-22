@@ -1,0 +1,49 @@
+name: CI
+
+# Run this pipeline on every branch so surprises don't hide in long-lived work.
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        # Ensure the runner works against the exact revision under review.
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        # Match the runner to our .NET 8 SDK to keep build behaviour consistent.
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        # Restore NuGet packages first to avoid redundant restores during build.
+        run: dotnet restore HealingInWriting.sln
+
+      - name: Build
+        # Compile in Release so we catch issues that only surface in optimised builds.
+        run: dotnet build HealingInWriting.sln --configuration Release --no-restore
+
+      - name: Detect test projects
+        id: detect-tests
+        # Check for test projects so the pipeline can skip the test command until they exist.
+        run: |
+          if [ -n "$(find . -type f \( -name '*Tests.csproj' -o -name '*Test.csproj' \) -print -quit)" ]; then
+            echo "has-tests=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has-tests=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run tests
+        if: steps.detect-tests.outputs.has-tests == 'true'
+        # Run the full test suite once tests land to keep every branch healthy before merging.
+        run: dotnet test HealingInWriting.sln --configuration Release --no-build --verbosity normal
