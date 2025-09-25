@@ -131,3 +131,11 @@ secrets.json
 *.psess
 *.vsix
 *.code-workspace
+dist/
+build/
+*.zip
+*.tar
+*.tar.gz
+*.7z
+*.rar
+/config/local/
