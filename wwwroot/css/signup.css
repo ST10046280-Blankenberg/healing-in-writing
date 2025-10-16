@@ -16,25 +16,37 @@
     justify-content: center;
     padding: 2rem;
     position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.signup-left.has-image {
+    background-image: linear-gradient(135deg, rgba(47, 22, 72, 0.7) 0%, rgba(202, 159, 157, 0.6) 100%), url('../images/community-illustration.png');
+    background-blend-mode: normal;
 }
 
 .signup-left-content {
     text-align: center;
     color: #fff;
     max-width: 500px;
+    position: relative;
+    z-index: 1;
 }
 
 .signup-welcome {
     font-size: 3.5rem;
     font-weight: var(--font-weight-extra);
     color: #fff;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
 }
 
 .signup-subtitle {
-    font-size: 1.25rem;
-    color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 2rem;
+    font-size: 1.125rem;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 3rem;
+    font-weight: var(--font-weight-normal);
 }
 
 .signup-login-prompt {
@@ -47,8 +59,9 @@
     background-color: transparent;
     border: 2px solid #fff;
     color: #fff;
-    padding: 0.75rem 2rem;
-    font-weight: var(--font-weight-bold);
+    padding: 0.75rem 2.5rem;
+    font-weight: var(--font-weight-semi);
+    font-size: 1rem;
     border-radius: var(--radius-md);
     transition: all 0.3s ease;
     text-decoration: none;
@@ -79,15 +92,17 @@
     font-size: 2rem;
     font-weight: var(--font-weight-bold);
     color: var(--neutral-900);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
     text-align: center;
+    line-height: 1.2;
 }
 
 .signup-description {
     font-size: 1rem;
     color: var(--neutral-400);
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     text-align: center;
+    line-height: 1.5;
 }
 
 .signup-form {
@@ -98,11 +113,20 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0;
+}
+
+.form-row .form-group .form-control {
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.form-row .form-group {
+    margin-bottom: 1.25rem;
 }
 
 .form-group label {
@@ -110,16 +134,52 @@
     font-weight: var(--font-weight-semi);
     color: var(--neutral-900);
     margin-bottom: 0.5rem;
-    font-size: 0.9rem;
+    font-size: 0.875rem;
+}
+
+.form-group .form-control {
+    background-color: #FAFAFA;
+    border: 1px solid rgba(12, 12, 32, 0.10);
+    padding: 0.875rem 1rem;
+    font-size: 0.9375rem;
+    transition: all 0.2s ease;
+}
+
+.form-group .form-control::placeholder {
+    color: #9CA3AF;
+}
+
+.form-group .form-control:hover {
+    border-color: rgba(12, 12, 32, 0.15);
+    background-color: #fff;
+}
+
+.form-group .form-control:focus {
+    border-color: var(--brand-700);
+    box-shadow: 0 0 0 3px rgba(47, 22, 72, 0.1);
+    background-color: #fff;
 }
 
 .btn-block {
     width: 100%;
     padding: 1rem;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     font-size: 1rem;
+    font-weight: var(--font-weight-semi);
     border: none;
     cursor: pointer;
+    border-radius: var(--radius-md);
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(47, 22, 72, 0.15);
+}
+
+.btn-block:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(47, 22, 72, 0.2);
+}
+
+.btn-block:active {
+    transform: translateY(0);
 }
 
 .signup-terms {
@@ -132,12 +192,13 @@
 
 .signup-terms a {
     color: var(--brand-700);
-    text-decoration: underline;
-    font-weight: var(--font-weight-semi);
+    text-decoration: none;
+    font-weight: var(--font-weight-regular);
 }
 
 .signup-terms a:hover {
     color: var(--brand-600);
+    text-decoration: underline;
 }
 
 .signup-divider {
@@ -176,7 +237,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 0.625rem;
     padding: 0.75rem 1rem;
     background-color: #fff;
     border: 1px solid rgba(12, 12, 32, 0.12);
@@ -186,15 +247,29 @@
     color: var(--neutral-900);
     cursor: pointer;
     transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(12, 12, 32, 0.05);
 }
 
 .btn-social:hover {
-    box-shadow: var(--shadow-soft-md);
+    box-shadow: 0 4px 8px rgba(12, 12, 32, 0.1);
     border-color: rgba(12, 12, 32, 0.2);
+    transform: translateY(-1px);
+}
+
+.btn-social:active {
+    transform: translateY(0);
 }
 
 .btn-social i {
     font-size: 1.1rem;
+}
+
+.btn-google i {
+    color: #4285F4;
+}
+
+.btn-facebook i {
+    color: #1877F2;
 }
 
 .btn-google:hover {
