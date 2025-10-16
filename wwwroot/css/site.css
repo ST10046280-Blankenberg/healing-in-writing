@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap');
 
 /* =========================================================
-   Healing In Writing — Global Style Guide (Brand Links)
+   Healing In Writing ï¿½ Global Style Guide (Brand Links)
    ========================================================= */
 
 :root {
@@ -108,7 +108,7 @@ p, ul, ol, li {
     font-size: var(--font-size-body-lg);
 }
 
-/* Links — on-brand purple */
+/* Links ï¿½ on-brand purple */
 a {
     color: var(--brand-700);
     text-decoration: none;

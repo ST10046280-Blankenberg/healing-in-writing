@@ -1,0 +1,229 @@
+/* =========================================================
+   Sign Up Page Layout
+   ========================================================= */
+
+.signup-container {
+    display: flex;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.signup-left {
+    flex: 1;
+    background: linear-gradient(135deg, var(--brand-700) 0%, var(--accent-200) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+}
+
+.signup-left-content {
+    text-align: center;
+    color: #fff;
+    max-width: 500px;
+}
+
+.signup-welcome {
+    font-size: 3.5rem;
+    font-weight: var(--font-weight-extra);
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.signup-subtitle {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2rem;
+}
+
+.signup-login-prompt {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 1rem;
+}
+
+.btn-outline-light {
+    background-color: transparent;
+    border: 2px solid #fff;
+    color: #fff;
+    padding: 0.75rem 2rem;
+    font-weight: var(--font-weight-bold);
+    border-radius: var(--radius-md);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-outline-light:hover {
+    background-color: #fff;
+    color: var(--brand-700);
+    text-decoration: none;
+}
+
+.signup-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background-color: #fff;
+}
+
+.signup-form-container {
+    width: 100%;
+    max-width: 450px;
+}
+
+.signup-title {
+    font-size: 2rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--neutral-900);
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.signup-description {
+    font-size: 1rem;
+    color: var(--neutral-400);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.signup-form {
+    width: 100%;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: var(--font-weight-semi);
+    color: var(--neutral-900);
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.btn-block {
+    width: 100%;
+    padding: 1rem;
+    margin-top: 1rem;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+}
+
+.signup-terms {
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--neutral-400);
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.signup-terms a {
+    color: var(--brand-700);
+    text-decoration: underline;
+    font-weight: var(--font-weight-semi);
+}
+
+.signup-terms a:hover {
+    color: var(--brand-600);
+}
+
+.signup-divider {
+    text-align: center;
+    position: relative;
+    margin: 2rem 0 1.5rem;
+}
+
+.signup-divider span {
+    background-color: #fff;
+    padding: 0 1rem;
+    color: var(--neutral-400);
+    font-size: 0.875rem;
+    position: relative;
+    z-index: 1;
+}
+
+.signup-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: rgba(12, 12, 32, 0.12);
+    z-index: 0;
+}
+
+.signup-social {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.btn-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background-color: #fff;
+    border: 1px solid rgba(12, 12, 32, 0.12);
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    font-weight: var(--font-weight-semi);
+    color: var(--neutral-900);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-social:hover {
+    box-shadow: var(--shadow-soft-md);
+    border-color: rgba(12, 12, 32, 0.2);
+}
+
+.btn-social i {
+    font-size: 1.1rem;
+}
+
+.btn-google:hover {
+    background-color: #f8f9fa;
+}
+
+.btn-facebook:hover {
+    background-color: #f8f9fa;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .signup-container {
+        flex-direction: column;
+    }
+
+    .signup-left {
+        min-height: 30vh;
+    }
+
+    .signup-welcome {
+        font-size: 2.5rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .signup-social {
+        grid-template-columns: 1fr;
+    }
+}
