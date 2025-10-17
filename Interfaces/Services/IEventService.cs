@@ -1,4 +1,4 @@
-namespace HealingInWriting.Services.Events;
+namespace HealingInWriting.Interfaces.Services;
 
 // TODO: Define event management operations consumed by controllers.
 public interface IEventService

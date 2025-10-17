@@ -1,4 +1,4 @@
-namespace HealingInWriting.Services.Auth;
+namespace HealingInWriting.Interfaces.Services;
 
 // TODO: Define authentication operations exposed to controllers.
 public interface IAuthService

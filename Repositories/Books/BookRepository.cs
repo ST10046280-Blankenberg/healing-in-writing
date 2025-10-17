@@ -1,3 +1,5 @@
+using HealingInWriting.Interfaces.Models;
+
 namespace HealingInWriting.Repositories.Books;
 
 // TODO: Persist books through the configured ORM while enforcing data constraints.

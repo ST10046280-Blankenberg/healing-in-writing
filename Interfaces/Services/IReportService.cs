@@ -1,4 +1,4 @@
-namespace HealingInWriting.Services.Reports;
+namespace HealingInWriting.Interfaces.Services;
 
 // TODO: Define reporting operations aggregating data for dashboards.
 public interface IReportService

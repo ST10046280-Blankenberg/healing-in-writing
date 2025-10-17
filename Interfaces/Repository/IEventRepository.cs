@@ -1,4 +1,4 @@
-namespace HealingInWriting.Repositories.Events;
+namespace HealingInWriting.Interfaces.Models;
 
 // TODO: Specify event persistence operations separating data access concerns.
 public interface IEventRepository

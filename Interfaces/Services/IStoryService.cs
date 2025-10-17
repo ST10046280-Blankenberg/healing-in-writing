@@ -1,4 +1,4 @@
-namespace HealingInWriting.Services.Stories;
+namespace HealingInWriting.Interfaces.Services;
 
 // TODO: Expose story workflows for controllers while hiding persistence.
 public interface IStoryService

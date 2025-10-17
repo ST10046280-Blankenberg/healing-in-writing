@@ -1,4 +1,4 @@
-namespace HealingInWriting.Services.Books;
+namespace HealingInWriting.Interfaces.Services;
 
 // TODO: Offer book catalogue operations to controllers.
 public interface IBookService

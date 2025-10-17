@@ -1,4 +1,4 @@
-namespace HealingInWriting.Services.Volunteers;
+namespace HealingInWriting.Interfaces.Services;
 
 // TODO: Define volunteer workflows exposed to MVC controllers.
 public interface IVolunteerService

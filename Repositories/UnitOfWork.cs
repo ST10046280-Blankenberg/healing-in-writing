@@ -1,3 +1,5 @@
+using HealingInWriting.Interfaces.Models;
+
 namespace HealingInWriting.Repositories;
 
 // TODO: Implement unit of work to coordinate repository persistence operations.

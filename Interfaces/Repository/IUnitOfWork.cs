@@ -1,4 +1,4 @@
-namespace HealingInWriting.Repositories;
+namespace HealingInWriting.Interfaces.Models;
 
 // TODO: Define commit boundaries encapsulating persistence transactions.
 public interface IUnitOfWork

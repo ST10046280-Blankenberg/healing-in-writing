@@ -1,3 +1,5 @@
+using HealingInWriting.Interfaces.Models;
+
 namespace HealingInWriting.Repositories.Stories;
 
 // TODO: Implement story persistence using the configured data access technology.

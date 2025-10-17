@@ -1,3 +1,5 @@
+using HealingInWriting.Interfaces.Services;
+
 namespace HealingInWriting.Services.Stories;
 
 // TODO: Implement story workflows ensuring domain invariants and repository coordination.
