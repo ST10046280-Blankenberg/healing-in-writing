@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HealingInWriting.Models.Auth;
 
-public class RegisterVm
+public class RegisterViewModel
 {
     [Required(ErrorMessage = "First name is required")]
     [Display(Name = "First Name")]

@@ -1,4 +1,4 @@
-using HealingInWriting.Interfaces.Models;
+using HealingInWriting.Interfaces.Repository;
 
 namespace HealingInWriting.Repositories.Stories;
 

@@ -1,4 +1,4 @@
-namespace HealingInWriting.Interfaces.Models;
+namespace HealingInWriting.Interfaces.Repository;
 
 // TODO: Outline volunteer persistence operations separate from domain logic.
 public interface IVolunteerRepository

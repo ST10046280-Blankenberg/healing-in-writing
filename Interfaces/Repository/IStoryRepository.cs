@@ -1,4 +1,4 @@
-namespace HealingInWriting.Interfaces.Models;
+namespace HealingInWriting.Interfaces.Repository;
 
 // TODO: Define story persistence operations abstracting the data source.
 public interface IStoryRepository

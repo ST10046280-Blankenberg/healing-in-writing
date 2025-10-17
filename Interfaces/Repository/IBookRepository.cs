@@ -1,4 +1,4 @@
-namespace HealingInWriting.Interfaces.Models;
+namespace HealingInWriting.Interfaces.Repository;
 
 // TODO: Declare book persistence operations decoupled from domain logic.
 public interface IBookRepository
