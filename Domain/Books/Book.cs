@@ -7,31 +7,61 @@ public class Book
     [Key]
     public int BookId { get; set; }
 
+    [Required]
+    [StringLength(200)]
     public string Title { get; set; }
+
+    [Required]
     public List<string> Authors { get; set; }
+
+    [StringLength(100)]
     public string Publisher { get; set; }
+
+    [Required]
+    [RegularExpression(@"^\d{4}(-\d{2}-\d{2})?$", ErrorMessage = "PublishedDate must be a valid year or date.")]
     public string PublishedDate { get; set; }
+
+    [StringLength(2000)]
     public string Description { get; set; }
+
+    [Required]
     public List<IndustryIdentifier> IndustryIdentifiers { get; set; }
+
+    [Range(1, int.MaxValue)]
     public int PageCount { get; set; }
+
     public List<string> Categories { get; set; }
+
+    [Required]
+    [StringLength(10)]
     public string Language { get; set; }
+
     public ImageLinks ImageLinks { get; set; }
+
+    [Url]
     public string PreviewLink { get; set; }
+
+    [Url]
     public string InfoLink { get; set; }
 }
 
-
-
 public class IndustryIdentifier
 {
+    [Required]
+    [StringLength(20)]
     public string Type { get; set; }
+
+    [Required]
+    [StringLength(13, MinimumLength = 10)]
     public string Identifier { get; set; }
 }
 
 public class ImageLinks
 {
+    [Url]
     public string SmallThumbnail { get; set; }
+
+    [Url]
     public string Thumbnail { get; set; }
 }
 
