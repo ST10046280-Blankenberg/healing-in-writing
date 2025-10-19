@@ -17,7 +17,7 @@
                 and build resilience together. You're not alone in your journey.
             </p>
             <div class="home-hero__actions">
-                <a class="home-hero__btn" asp-controller="Auth" asp-action="Register">
+                <a class="home-hero__btn" asp-controller="Auth" asp-action="Auth" asp-route-mode="register">
                     Join Our Community
                 </a>
                 <a class="home-hero__btn home-hero__btn--secondary" asp-controller="Home" asp-action="About">
@@ -171,7 +171,7 @@
             </div>
             
             <div class="home-events__featured-image">
-                <img src="~/images/upcoming-events.png" 
+                <img src="~/images/upcoming-events.webp" 
                      alt="Monthly Support Circle gathering" 
                      class="home-events__image" />
             </div>
@@ -190,6 +190,14 @@
                             <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
                         </svg>
                         <span>March 22, 2024</span>
+                    </div>
+                    
+                    <div class="home-events__info-item home-events__info-item--small">
+                        <svg class="home-events__icon home-events__icon--small" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+                        </svg>
+                        <span>2:00 PM - 4:00 PM</span>
                     </div>
                     
                     <div class="home-events__info-item home-events__info-item--small">

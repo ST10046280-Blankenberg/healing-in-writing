@@ -1,1 +1,111 @@
-@* TODO: Implement the login form wiring it to the authentication service. *@
+@model HealingInWriting.Models.Auth.LoginVm
+@{
+    ViewData["Title"] = "Sign In";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Healing In Writing</title>
+    <link rel="stylesheet" href="~/css/base/_variables.css" />
+    <link rel="stylesheet" href="~/css/views/auth.css" />
+</head>
+<body>
+    <main class="auth">
+        <!-- Left Side: Form Container -->
+        <section class="auth__left">
+            <div class="auth__form-wrapper">
+                <header>
+                    <h1 class="auth__title">Welcome Back</h1>
+                    <p class="auth__subtitle">Sign in to continue your healing journey</p>
+                </header>
+
+                <form class="auth__form auth__form--login" method="post" asp-action="Login" asp-controller="Auth">
+                    @Html.AntiForgeryToken()
+                    
+                    <!-- Email Field -->
+                    <div class="auth__form-group">
+                        <label for="email" class="auth__label">Email Address</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="Email"
+                            class="auth__input" 
+                            placeholder="Enter your email address" 
+                            required 
+                            autocomplete="email"
+                            aria-describedby="email-error" />
+                        <span id="email-error" class="auth__error-message"></span>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="auth__form-group">
+                        <label for="password" class="auth__label">Password</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="Password"
+                            class="auth__input" 
+                            placeholder="Enter your password" 
+                            required 
+                            autocomplete="current-password"
+                            aria-describedby="password-error" />
+                        <span id="password-error" class="auth__error-message"></span>
+                    </div>
+
+                    <!-- Remember Me & Forgot Password -->
+                    <div class="auth__link-group">
+                        <div class="auth__checkbox-group">
+                            <input 
+                                type="checkbox" 
+                                id="rememberMe" 
+                                name="RememberMe"
+                                class="auth__checkbox" />
+                            <label for="rememberMe" class="auth__checkbox-label">Remember me</label>
+                        </div>
+                        <a href="@Url.Action("ForgotPassword", "Auth")" class="auth__link">Forgot password?</a>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="auth__button">Sign In</button>
+
+                    <!-- Validation Summary -->
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="auth__error-message" role="alert">
+                            @Html.ValidationSummary(false, "", new { @class = "auth__validation-summary" })
+                        </div>
+                    }
+                </form>
+
+                <!-- Toggle to Register -->
+                <div class="auth__toggle">
+                    Don't have an account? <a href="@Url.Action("Register", "Auth")" class="auth__toggle-link">Create one now</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Side: Image Panel -->
+        <aside class="auth__right" aria-label="Community background">
+            <div class="auth__overlay"></div>
+            <img 
+                src="~/images/auth-background.jpg" 
+                class="auth__image" 
+                alt="Healing In Writing community gathering" 
+                loading="lazy" />
+            <div class="auth__content">
+                <h2 class="auth__content-title">Join Our Community</h2>
+                <p class="auth__content-text">
+                    Connect with others, share your story, and find healing through the power of written expression.
+                </p>
+            </div>
+        </aside>
+    </main>
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>

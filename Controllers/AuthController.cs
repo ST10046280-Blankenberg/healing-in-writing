@@ -6,11 +6,19 @@ namespace HealingInWriting.Controllers
     // TODO: Inject an authentication service and defer all auth workflows to it.
     public class AuthController : Controller
     {
+        // GET: /Auth/Auth - Unified authentication page
+        [HttpGet]
+        public IActionResult Auth()
+        {
+            return View();
+        }
+
         // GET: /Auth/Register
         [HttpGet]
         public IActionResult Register()
         {
-            return View();
+            // Redirect to unified Auth page with register state
+            return RedirectToAction("Auth", new { mode = "register" });
         }
 
         // POST: /Auth/Register
@@ -20,7 +28,7 @@ namespace HealingInWriting.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View("Auth", model);
             }
 
             // TODO: Implement registration logic via authentication service
@@ -33,8 +41,23 @@ namespace HealingInWriting.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            // TODO: Implement login view
-            return View();
+            // Redirect to unified Auth page with login state
+            return RedirectToAction("Auth", new { mode = "login" });
+        }
+
+        // POST: /Auth/Login
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Login(LoginVm model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Auth", model);
+            }
+
+            // TODO: Implement login logic via authentication service
+            TempData["SuccessMessage"] = "Login successful!";
+            return RedirectToAction("Index", "Home");
         }
     }
 }

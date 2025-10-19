@@ -52,8 +52,8 @@
                 </ul>
                 
                 <div class="header__auth">
-                    <a class="header__auth-link" asp-controller="Auth" asp-action="Login">Login</a>
-                    <a class="header__auth-link header__auth-link--signup" asp-controller="Auth" asp-action="Register">Sign Up</a>
+                    <a class="header__auth-link" asp-controller="Auth" asp-action="Auth">Login</a>
+                    <a class="header__auth-link header__auth-link--signup" asp-controller="Auth" asp-action="Auth" asp-route-mode="register">Sign Up</a>
                 </div>
             </nav>
         </div>

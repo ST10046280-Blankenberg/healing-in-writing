@@ -1,0 +1,255 @@
+@{
+    ViewData["Title"] = "Authentication";
+    Layout = null;
+    var mode = Context.Request.Query["mode"].ToString();
+    var isRegisterMode = mode == "register";
+    var initialState = isRegisterMode ? "auth--register" : "auth--login";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@(isRegisterMode ? "Join Our Community" : "Sign In") - Healing In Writing</title>
+    <link rel="stylesheet" href="~/css/base/_variables.css" />
+    <link rel="stylesheet" href="~/css/views/auth.css" />
+</head>
+<body>
+    <main class="auth @initialState">
+        <!-- Image Panel (Left on Register, Right on Login) -->
+        <aside class="auth__image-panel" aria-label="Community background">
+            <div class="auth__overlay"></div>
+            <img 
+                src="~/images/auth-bg-img.webp" 
+                class="auth__image" 
+                alt="Healing In Writing community gathering" 
+                loading="lazy" />
+            <div class="auth__content">
+                <h2 class="auth__content-title" data-login-text="Join Our Community" data-register-text="Your Story Matters">@(isRegisterMode ? "Your Story Matters" : "Join Our Community")</h2>
+                <p class="auth__content-text" data-login-text="Connect with others, share your story, and find healing through the power of written expression." data-register-text="Join a supportive community where your voice is heard and your healing journey is honored through the transformative power of writing.">
+                    @(isRegisterMode ? "Join a supportive community where your voice is heard and your healing journey is honored through the transformative power of writing." : "Connect with others, share your story, and find healing through the power of written expression.")
+                </p>
+            </div>
+        </aside>
+
+        <!-- Form Panel (Right on Register, Left on Login) -->
+        <section class="auth__form-panel">
+            <div class="auth__form-wrapper">
+                <!-- Dynamic Header -->
+                <header class="auth__header">
+                    <h1 class="auth__title" data-login-text="Welcome Back" data-register-text="Join Our Community">@(isRegisterMode ? "Join Our Community" : "Welcome Back")</h1>
+                    <p class="auth__subtitle" data-login-text="Sign in to continue your healing journey" data-register-text="Create your account and start your healing journey">@(isRegisterMode ? "Create your account and start your healing journey" : "Sign in to continue your healing journey")</p>
+                </header>
+
+                <!-- Login Form -->
+                <form class="auth__form auth__form--login" method="post" asp-action="Login" asp-controller="Auth">
+                    @Html.AntiForgeryToken()
+                    
+                    <!-- Email Field -->
+                    <div class="auth__form-group">
+                        <label for="login-email" class="auth__label">Email Address</label>
+                        <input 
+                            type="email" 
+                            id="login-email" 
+                            name="Email"
+                            class="auth__input" 
+                            placeholder="Enter your email address" 
+                            required 
+                            autocomplete="email"
+                            aria-describedby="login-email-error" />
+                        <span id="login-email-error" class="auth__error-message"></span>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="auth__form-group">
+                        <label for="login-password" class="auth__label">Password</label>
+                        <input 
+                            type="password" 
+                            id="login-password" 
+                            name="Password"
+                            class="auth__input" 
+                            placeholder="Enter your password" 
+                            required 
+                            autocomplete="current-password"
+                            aria-describedby="login-password-error" />
+                        <span id="login-password-error" class="auth__error-message"></span>
+                    </div>
+
+                    <!-- Remember Me & Forgot Password -->
+                    <div class="auth__link-group">
+                        <div class="auth__checkbox-group">
+                            <input 
+                                type="checkbox" 
+                                id="rememberMe" 
+                                name="RememberMe"
+                                class="auth__checkbox" />
+                            <label for="rememberMe" class="auth__checkbox-label">Remember me</label>
+                        </div>
+                        <a href="@Url.Action("ForgotPassword", "Auth")" class="auth__link">Forgot password?</a>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="auth__button">Sign In</button>
+                </form>
+
+                <!-- Register Form -->
+                <form class="auth__form auth__form--register" method="post" asp-action="Register" asp-controller="Auth">
+                    @Html.AntiForgeryToken()
+                    
+                    <!-- Name Fields Row -->
+                    <div class="auth__form-row">
+                        <div class="auth__form-group">
+                            <label for="firstName" class="auth__label">First Name</label>
+                            <input 
+                                type="text" 
+                                id="firstName" 
+                                name="FirstName"
+                                class="auth__input" 
+                                placeholder="Enter your first name" 
+                                autocomplete="given-name"
+                                aria-describedby="firstName-error" />
+                            <span id="firstName-error" class="auth__error-message"></span>
+                        </div>
+
+                        <div class="auth__form-group">
+                            <label for="lastName" class="auth__label">Last Name</label>
+                            <input 
+                                type="text" 
+                                id="lastName" 
+                                name="LastName"
+                                class="auth__input" 
+                                placeholder="Enter your last name" 
+                                autocomplete="family-name"
+                                aria-describedby="lastName-error" />
+                            <span id="lastName-error" class="auth__error-message"></span>
+                        </div>
+                    </div>
+
+                    <!-- Email Field -->
+                    <div class="auth__form-group">
+                        <label for="register-email" class="auth__label">Email Address</label>
+                        <input 
+                            type="email" 
+                            id="register-email" 
+                            name="Email"
+                            class="auth__input" 
+                            placeholder="Enter your email address" 
+                            autocomplete="email"
+                            aria-describedby="register-email-error" />
+                        <span id="register-email-error" class="auth__error-message"></span>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="auth__form-group">
+                        <label for="register-password" class="auth__label">Password</label>
+                        <input 
+                            type="password" 
+                            id="register-password" 
+                            name="Password"
+                            class="auth__input" 
+                            placeholder="Create a password (min. 8 characters)" 
+                            autocomplete="new-password"
+                            aria-describedby="register-password-error" />
+                        <span id="register-password-error" class="auth__error-message"></span>
+                    </div>
+
+                    <!-- Confirm Password Field -->
+                    <div class="auth__form-group">
+                        <label for="confirmPassword" class="auth__label">Confirm Password</label>
+                        <input 
+                            type="password" 
+                            id="confirmPassword" 
+                            name="ConfirmPassword"
+                            class="auth__input" 
+                            placeholder="Confirm your password" 
+                            autocomplete="new-password"
+                            aria-describedby="confirmPassword-error" />
+                        <span id="confirmPassword-error" class="auth__error-message"></span>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="auth__button">Create Account</button>
+                </form>
+
+                <!-- Toggle Links -->
+                <div class="auth__toggle">
+                    <span class="auth__toggle-text auth__toggle-text--login">
+                        Don't have an account? <a href="#" class="auth__toggle-link" data-toggle="register">Create one now</a>
+                    </span>
+                    <span class="auth__toggle-text auth__toggle-text--register">
+                        Already have an account? <a href="#" class="auth__toggle-link" data-toggle="login">Sign in here</a>
+                    </span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Toggle between login and register forms with simple fade transition
+        document.addEventListener('DOMContentLoaded', function() {
+            const authContainer = document.querySelector('.auth');
+            const toggleLinks = document.querySelectorAll('[data-toggle]');
+            const title = document.querySelector('.auth__title');
+            const subtitle = document.querySelector('.auth__subtitle');
+            const contentTitle = document.querySelector('.auth__content-title');
+            const contentText = document.querySelector('.auth__content-text');
+            
+            // Set initial state based on query parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const mode = urlParams.get('mode');
+            if (mode === 'register') {
+                updateContent('register');
+            } else {
+                updateContent('login');
+            }
+
+            toggleLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetMode = this.getAttribute('data-toggle');
+                    
+                    // Prevent multiple clicks during transition
+                    if (authContainer.classList.contains('transitioning')) {
+                        return;
+                    }
+                    
+                    // Add transitioning class for fade-out
+                    authContainer.classList.add('transitioning');
+                    
+                    // Wait for fade-out, then switch state
+                    setTimeout(() => {
+                        if (targetMode === 'register') {
+                            authContainer.classList.remove('auth--login');
+                            authContainer.classList.add('auth--register');
+                            updateContent('register');
+                            document.title = 'Join Our Community - Healing In Writing';
+                            window.history.pushState({}, '', '@Url.Action("Auth", "Auth")?mode=register');
+                        } else {
+                            authContainer.classList.remove('auth--register');
+                            authContainer.classList.add('auth--login');
+                            updateContent('login');
+                            document.title = 'Sign In - Healing In Writing';
+                            window.history.pushState({}, '', '@Url.Action("Auth", "Auth")?mode=login');
+                        }
+                        
+                        // Remove transitioning class for fade-in
+                        setTimeout(() => {
+                            authContainer.classList.remove('transitioning');
+                        }, 50);
+                    }, 200); // Half the transition time for smooth crossfade
+                });
+            });
+
+            function updateContent(mode) {
+                const attr = mode === 'login' ? 'data-login-text' : 'data-register-text';
+                
+                if (title) title.textContent = title.getAttribute(attr);
+                if (subtitle) subtitle.textContent = subtitle.getAttribute(attr);
+                if (contentTitle) contentTitle.textContent = contentTitle.getAttribute(attr);
+                if (contentText) contentText.textContent = contentText.getAttribute(attr);
+            }
+        });
+    </script>
+</body>
+</html>
