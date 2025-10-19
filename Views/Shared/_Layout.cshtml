@@ -7,11 +7,13 @@
     <title>@ViewData["Title"] - Healing In Writing</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/base/_variables.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/shared/header.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/shared/footer.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/HealingInWriting.styles.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
     <header class="header">
@@ -66,7 +68,7 @@
             <div class="footer__content">
                 <section class="footer__section">
                     <div class="footer__brand">
-                        <img class="footer__logo" src="~/images/logo.png" alt="Healing In Writing Logo" />
+                        <img class="footer__logo" src="~/images/footer-logo.png" alt="Healing In Writing Logo" />
                         <h2 class="footer__brand-name">Healing-In-Writing</h2>
                     </div>
                     <p class="footer__description">

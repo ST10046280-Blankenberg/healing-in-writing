@@ -1,3 +1,6 @@
+/* Import Global Variables */
+@import url('../base/_variables.css');
+
 /* =========================================================
    Header Component Styles
    ========================================================= */
@@ -9,6 +12,8 @@
     background: #ffffff;
     border-bottom: 1px solid rgba(75, 85, 99, 0.1);
     box-shadow: var(--shadow-soft-sm);
+    flex-shrink: 0;
+    width: 100%;
 }
 
 .header__container {
@@ -223,4 +228,3 @@
         height: 2.5rem;
     }
 }
-
