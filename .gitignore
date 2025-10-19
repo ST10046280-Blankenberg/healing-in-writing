@@ -140,3 +140,4 @@ build/
 *.rar
 /config/local/
 COPILOT_INSTRUCTIONS.md
+/.github/
