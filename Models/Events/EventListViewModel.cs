@@ -24,6 +24,6 @@ public class EventSummaryViewModel
     public List<Tag> EventTags { get; set; } = new();
     public string Title { get; set; } = string.Empty;
     public DateTime StartDateTime { get; set; }
-    public string Decription { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
     public Address Address { get; set; } = new Address();
 }
