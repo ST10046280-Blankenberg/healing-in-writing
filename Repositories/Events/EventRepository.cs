@@ -1,3 +1,5 @@
+using HealingInWriting.Interfaces.Repository;
+
 namespace HealingInWriting.Repositories.Events;
 
 // TODO: Implement event repository using EF Core or other data source abstractions.

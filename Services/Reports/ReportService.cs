@@ -1,3 +1,5 @@
+using HealingInWriting.Interfaces.Services;
+
 namespace HealingInWriting.Services.Reports;
 
 // TODO: Implement report generation by orchestrating multiple repositories.
