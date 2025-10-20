@@ -1,3 +1,5 @@
+using HealingInWriting.Interfaces.Services;
+
 namespace HealingInWriting.Services.Auth;
 
 // TODO: Implement IAuthService by coordinating repositories and domain rules.

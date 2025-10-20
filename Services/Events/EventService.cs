@@ -1,3 +1,5 @@
+using HealingInWriting.Interfaces.Services;
+
 namespace HealingInWriting.Services.Events;
 
 // TODO: Implement event orchestration while delegating data access to repositories.

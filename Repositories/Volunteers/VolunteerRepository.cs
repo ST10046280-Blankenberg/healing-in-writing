@@ -1,3 +1,5 @@
+using HealingInWriting.Interfaces.Repository;
+
 namespace HealingInWriting.Repositories.Volunteers;
 
 // TODO: Implement volunteer persistence using EF Core mappings.
