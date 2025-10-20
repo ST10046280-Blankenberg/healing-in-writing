@@ -1,6 +1,4 @@
 using HealingInWriting.Domain.Events;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace HealingInWriting.Interfaces.Repository
 {
