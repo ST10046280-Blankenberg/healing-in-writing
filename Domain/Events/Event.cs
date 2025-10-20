@@ -35,6 +35,9 @@ public class Event
     [Required]
     public EventStatus EventStatus { get; set; }
 
+    /// <summary>
+    /// Collection of tags associated with the event, used for categorization and search.
+    /// </summary>
     public List<Tag> EventTags { get; set; } = new List<Tag>();
 
     /// <summary>
