@@ -1,3 +1,5 @@
+using HealingInWriting.Domain.Shared;
+using HealingInWriting.Domain.Users;
 using System.ComponentModel.DataAnnotations;
 
 namespace HealingInWriting.Domain.Events;
@@ -5,6 +7,7 @@ namespace HealingInWriting.Domain.Events;
 // TODO: Capture event scheduling details and ownership metadata.
 public class Event
 {
+    #region Metadata
     [Key]
     public int EventId { get; set; }        // PK: event_id
 
@@ -19,10 +22,13 @@ public class Event
 
     [Required]
     [StringLength(200)]
-    public string Title { get; set; }
+    public required string Title { get; set; }
 
     [StringLength(2000)]
-    public string Description { get; set; }
+    public required string Description { get; set; }
+
+    [Required]
+    public EventType EventType { get; set; }
 
     [Required]
     public DateTime StartDateTime { get; set; }
@@ -32,9 +38,29 @@ public class Event
 
     [Range(1, int.MaxValue)]
     public int Capacity { get; set; }
+    #endregion
+
+    #region Navigation Properties
+    [Required]
+    public required Address Address { get; set; }
+    [Required]
+    public required UserProfile User { get; set; }
 
     // TODO: Navigation properties for related entities
-    // public User User { get; set; }
-    // public Address Address { get; set; }
     // public Status Status { get; set; }
+    // Possible change Status to a an Enum if only a few states exist or if only used by this domain.
+    #endregion
 }
+public enum EventType
+{
+    Workshop,
+    CommunityEvent
+}
+
+/* 
+ To display Enum As String in ASP.NET MVC Razor View:
+@foreach (var type in Enum.GetValues(typeof(EventType)))
+{
+    <option value="@type">@type</option>
+}
+ */
