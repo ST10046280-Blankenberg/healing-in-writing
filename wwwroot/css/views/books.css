@@ -19,6 +19,8 @@
     padding: 32px 64px 64px 64px;
     gap: 32px;
     width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
 }
 
 .books__hero-content {
@@ -53,9 +55,11 @@
 .books__list-section {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     padding: 0px 64px 32px 64px;
     width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
 }
 
 .books__list-container {
@@ -345,4 +349,3 @@
         line-height: 32px;
     }
 }
-
