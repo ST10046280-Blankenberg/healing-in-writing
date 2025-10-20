@@ -1,0 +1,348 @@
+/* =========================================================
+   Books Index Page Styles
+   ========================================================= */
+
+/* Page Container */
+.books {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: 100vh;
+    background: linear-gradient(165.21deg, #FDF5ED 20.59%, #E9D5EB 77.36%);
+}
+
+/* Hero Section */
+.books__hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 64px 64px 64px;
+    gap: 32px;
+    width: 100%;
+}
+
+.books__hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 800px;
+    gap: 16px;
+}
+
+.books__title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 48px;
+    text-align: center;
+    color: #2F1648;
+    margin: 0;
+}
+
+.books__subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    text-align: center;
+    color: #4B5563;
+    margin: 0;
+}
+
+/* Books List Section */
+.books__list-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px 64px 32px 64px;
+    width: 100%;
+}
+
+.books__list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+    width: 100%;
+    max-width: 1312px;
+    margin: 0 auto;
+}
+
+/* Book Card */
+.book-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 32px;
+    gap: 10px;
+    width: 100%;
+    background: #F6FAF9;
+    border-radius: 16px;
+    transition: box-shadow 0.3s ease;
+}
+
+.book-card:hover {
+    box-shadow: 0px 4px 12px rgba(47, 22, 72, 0.12);
+}
+
+.book-card__content {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 16px;
+    width: 100%;
+}
+
+/* Book Cover Image */
+.book-card__cover {
+    width: 187px;
+    height: 280px;
+    flex-shrink: 0;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.book-card__cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Book Info Container */
+.book-card__info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    flex: 1;
+}
+
+/* Book Header (Title + Meta) */
+.book-card__header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    width: 100%;
+}
+
+.book-card__title {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 65px;
+    color: #0C0C20;
+    margin: 0;
+}
+
+/* Meta Information Row */
+.book-card__meta {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 8px;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.book-card__meta-item {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #4B5563;
+}
+
+/* Details Row (Price/Tags) */
+.book-card__details {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 8px;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.book-card__price {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 27px;
+    color: #0C0C20;
+}
+
+/* Tag List */
+.book-card__tags {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.book-card__tag {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 16px;
+    min-width: 140px;
+    height: 37px;
+    background: #E9D5EB;
+    border-radius: 9999px;
+}
+
+.book-card__tag-text {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #2F1648;
+    white-space: nowrap;
+}
+
+/* Book Description */
+.book-card__description {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0px 8px;
+    width: 100%;
+}
+
+.book-card__description-text {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 27px;
+    color: #0C0C20;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Empty State */
+.books__empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 64px;
+    width: 100%;
+}
+
+.books__empty p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    line-height: 28px;
+    color: #4B5563;
+    text-align: center;
+}
+
+/* Load More Button Container */
+.books__load-more {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0;
+}
+
+.books__load-more-button {
+    padding: 13px 32px;
+    min-width: 206px;
+    background: #FFFFFF;
+    border: 1px solid #2F1648;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #2F1648;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.books__load-more-button:hover {
+    background: #2F1648;
+    color: #FFFFFF;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .books__hero {
+        padding: 32px 32px 48px 32px;
+    }
+    
+    .books__list-section {
+        padding: 0px 32px 32px 32px;
+    }
+    
+    .book-card__title {
+        font-size: 36px;
+        line-height: 48px;
+    }
+}
+
+@media (max-width: 768px) {
+    .books__title {
+        font-size: 32px;
+        line-height: 40px;
+    }
+    
+    .books__subtitle {
+        font-size: 16px;
+        line-height: 24px;
+    }
+    
+    .books__hero {
+        padding: 24px 16px 32px 16px;
+    }
+    
+    .books__list-section {
+        padding: 0px 16px 24px 16px;
+    }
+    
+    .book-card {
+        padding: 24px;
+    }
+    
+    .book-card__content {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .book-card__cover {
+        width: 100%;
+        max-width: 250px;
+        height: auto;
+        aspect-ratio: 187 / 280;
+    }
+    
+    .book-card__title {
+        font-size: 28px;
+        line-height: 38px;
+    }
+    
+    .book-card__meta,
+    .book-card__details {
+        padding: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .books__hero {
+        padding: 16px 16px 24px 16px;
+    }
+    
+    .book-card {
+        padding: 16px;
+    }
+    
+    .book-card__title {
+        font-size: 24px;
+        line-height: 32px;
+    }
+}
+

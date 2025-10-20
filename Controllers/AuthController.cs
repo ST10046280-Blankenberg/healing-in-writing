@@ -48,7 +48,7 @@ namespace HealingInWriting.Controllers
         // POST: /Auth/Login
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Login(LoginVm model)
+        public IActionResult Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
             {
