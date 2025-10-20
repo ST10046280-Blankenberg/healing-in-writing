@@ -1,7 +1,35 @@
-namespace HealingInWriting.Interfaces.Repository;
+using HealingInWriting.Domain.Books;
 
-// TODO: Declare book persistence operations decoupled from domain logic.
-public interface IBookRepository
+namespace HealingInWriting.Interfaces.Repository
 {
-    // TODO: Provide queries for catalogue listings and single book retrieval.
+    /// <summary>
+    /// Declares book persistence operations decoupled from domain logic.
+    /// </summary>
+    public interface IBookRepository
+    {
+        /// <summary>
+        /// Retrieves all books in the catalogue.
+        /// </summary>
+        Task<IEnumerable<Book>> GetAllAsync();
+
+        /// <summary>
+        /// Retrieves a single book by its unique identifier.
+        /// </summary>
+        Task<Book?> GetByIdAsync(int bookId);
+
+        /// <summary>
+        /// Adds a new book to the catalogue.
+        /// </summary>
+        Task AddAsync(Book book);
+
+        /// <summary>
+        /// Updates an existing book in the catalogue.
+        /// </summary>
+        Task UpdateAsync(Book book);
+
+        /// <summary>
+        /// Deletes a book from the catalogue by its unique identifier.
+        /// </summary>
+        Task DeleteAsync(int bookId);
+    }
 }

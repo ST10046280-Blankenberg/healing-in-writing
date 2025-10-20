@@ -1,7 +1,35 @@
-namespace HealingInWriting.Interfaces.Repository;
+using HealingInWriting.Domain.Stories;
 
-// TODO: Define story persistence operations abstracting the data source.
-public interface IStoryRepository
+namespace HealingInWriting.Interfaces.Repository
 {
-    // TODO: Add methods for fetching and storing story aggregates.
+    /// <summary>
+    /// Defines story persistence operations abstracting the data source.
+    /// </summary>
+    public interface IStoryRepository
+    {
+        /// <summary>
+        /// Retrieves all stories in the catalogue.
+        /// </summary>
+        Task<IEnumerable<Story>> GetAllAsync();
+
+        /// <summary>
+        /// Retrieves a single story by its unique identifier.
+        /// </summary>
+        Task<Story?> GetByIdAsync(int storyId);
+
+        /// <summary>
+        /// Adds a new story to the catalogue.
+        /// </summary>
+        Task AddAsync(Story story);
+
+        /// <summary>
+        /// Updates an existing story in the catalogue.
+        /// </summary>
+        Task UpdateAsync(Story story);
+
+        /// <summary>
+        /// Deletes a story from the catalogue by its unique identifier.
+        /// </summary>
+        Task DeleteAsync(int storyId);
+    }
 }
