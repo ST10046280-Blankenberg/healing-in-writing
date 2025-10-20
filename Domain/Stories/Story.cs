@@ -1,3 +1,4 @@
+using HealingInWriting.Domain.Shared;
 using System.ComponentModel.DataAnnotations;
 
 namespace HealingInWriting.Domain.Stories;
@@ -11,6 +12,8 @@ public class Story
 
     [Required]
     public int UserId { get; set; }         // FK: user_id
+
+    public List<Tag> Tags { get; set; } = new();
 
     [Required]
     [StringLength(200)]
