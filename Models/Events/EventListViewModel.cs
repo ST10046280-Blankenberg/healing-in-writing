@@ -1,7 +1,29 @@
+using HealingInWriting.Domain.Shared;
+
 namespace HealingInWriting.Models.Events;
 
 // TODO: Structure event listings for the events index page.
 public class EventListViewModel
 {
-    // TODO: Add upcoming event summaries and pagination details.
+    public List<EventSummaryViewModel> Events { get; set; } = new();
+
+    //Filtering Metadata
+    public List<DateTime> AvailableDates { get; set; } = new();
+    public List<Tag> AvailableTags { get; set; } = new();
+
+    public List<int> SelectedTagIds { get; set; } = new();
+    public string SearchAddress { get; set; } = string.Empty;
+    public double SearchLatitude { get; set; }
+    public double SearchLongitude { get; set; }
+}
+
+public class EventSummaryViewModel
+{
+    public int Id { get; set; }
+    public string EventType { get; set; } = string.Empty;
+    public List<Tag> EventTags { get; set; } = new();
+    public string Title { get; set; } = string.Empty;
+    public DateTime StartDateTime { get; set; }
+    public string Description { get; set; } = string.Empty;
+    public Address Address { get; set; } = new Address();
 }

@@ -2,69 +2,128 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HealingInWriting.Domain.Books;
 
+/// <summary>
+/// Represents a book in the catalogue, including bibliographic metadata and classification details.
+/// </summary>
 public class Book
 {
+    /// <summary>
+    /// Unique identifier for the book.
+    /// </summary>
     [Key]
     public int BookId { get; set; }
 
+    /// <summary>
+    /// Title of the book.
+    /// </summary>
     [Required]
     [StringLength(200)]
     public string Title { get; set; }
 
+    /// <summary>
+    /// List of authors who contributed to the book.
+    /// </summary>
     [Required]
     public List<string> Authors { get; set; }
 
+    /// <summary>
+    /// Publisher of the book.
+    /// </summary>
     [StringLength(100)]
     public string Publisher { get; set; }
 
+    /// <summary>
+    /// Publication date in 'yyyy' or 'yyyy-MM-dd' format.
+    /// </summary>
     [Required]
     [RegularExpression(@"^\d{4}(-\d{2}-\d{2})?$", ErrorMessage = "PublishedDate must be a valid year or date.")]
     public string PublishedDate { get; set; }
 
+    /// <summary>
+    /// Summary or description of the book's content.
+    /// </summary>
     [StringLength(2000)]
     public string Description { get; set; }
 
+    /// <summary>
+    /// List of industry identifiers (e.g., ISBN-10, ISBN-13) for the book.
+    /// </summary>
     [Required]
     public List<IndustryIdentifier> IndustryIdentifiers { get; set; }
 
+    /// <summary>
+    /// Total number of pages in the book.
+    /// </summary>
     [Range(1, int.MaxValue)]
     public int PageCount { get; set; }
 
+    /// <summary>
+    /// List of categories or genres associated with the book.
+    /// </summary>
     public List<string> Categories { get; set; }
 
+    /// <summary>
+    /// Language code (ISO 639-1 or 639-2) of the book.
+    /// </summary>
     [Required]
     [StringLength(10)]
     public string Language { get; set; }
 
+    /// <summary>
+    /// Links to cover images for the book.
+    /// </summary>
     public ImageLinks ImageLinks { get; set; }
 
+    /// <summary>
+    /// URL to a preview of the book, if available.
+    /// </summary>
     [Url]
     public string PreviewLink { get; set; }
 
+    /// <summary>
+    /// URL to more information about the book.
+    /// </summary>
     [Url]
     public string InfoLink { get; set; }
 }
 
+/// <summary>
+/// Represents an industry identifier for a book, ISBN-10 or ISBN-13.
+/// </summary>
 public class IndustryIdentifier
 {
+    /// <summary>
+    /// Type of identifier (e.g., "ISBN_10", "ISBN_13").
+    /// </summary>
     [Required]
     [StringLength(20)]
     public string Type { get; set; }
 
+    /// <summary>
+    /// The identifier value.
+    /// </summary>
     [Required]
     [StringLength(13, MinimumLength = 10)]
     public string Identifier { get; set; }
 }
 
+/// <summary>
+/// Contains URLs to cover images for a book.
+/// </summary>
 public class ImageLinks
 {
+    /// <summary>
+    /// URL to a small thumbnail image of the book cover.
+    /// </summary>
     [Url]
     public string SmallThumbnail { get; set; }
 
+    /// <summary>
+    /// URL to a standard thumbnail image of the book cover.
+    /// </summary>
     [Url]
     public string Thumbnail { get; set; }
 }
-
 
 //Info fetched from Google Books API
 /*
