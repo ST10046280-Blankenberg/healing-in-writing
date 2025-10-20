@@ -35,6 +35,8 @@ public class Event
     [Required]
     public EventStatus EventStatus { get; set; }
 
+    public List<Tags> EventTags { get; set; } = new List<Tags>();
+
     /// <summary>
     /// Title of the event.
     /// </summary>
