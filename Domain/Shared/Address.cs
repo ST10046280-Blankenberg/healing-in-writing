@@ -32,6 +32,11 @@ public class Address
     [StringLength(120)]
     public string Country { get; set; } = "South Africa";
 
+    [Required]
+    public double Latitude { get; set; }
+    [Required]
+    public double Longitude { get; set; }
+
     // Navigation properties
     // public ICollection<UserProfile> UserProfiles { get; set; }
     // public ICollection<Event> Events { get; set; }
