@@ -18,7 +18,7 @@ public class Event
     public int AddressId { get; set; }      // FK: address_id
 
     [Required]
-    public int StatusId { get; set; }       // FK: status_id
+    public EventStatus EventStatus { get; set; }
 
     [Required]
     [StringLength(200)]
@@ -47,7 +47,7 @@ public class Event
     public required UserProfile User { get; set; }
 
     // TODO: Navigation properties for related entities
-    // public Status Status { get; set; }
+    // public EventStatus Status { get; set; }
     // Possible change Status to a an Enum if only a few states exist or if only used by this domain.
     #endregion
 }
@@ -55,12 +55,47 @@ public enum EventType
 {
     Workshop,
     CommunityEvent
+    /* 
+        To display Enum As String in ASP.NET MVC Razor View:
+        @foreach (var type in Enum.GetValues(typeof(EventType)))
+        {
+        <option value="@type">@type</option>
+        }
+    */
 }
 
-/* 
- To display Enum As String in ASP.NET MVC Razor View:
-@foreach (var type in Enum.GetValues(typeof(EventType)))
+/// <summary>
+/// Defines the lifecycle status of an event.
+/// </summary>
+public enum EventStatus
 {
-    <option value="@type">@type</option>
+    /// <summary>
+    /// Event is being drafted and not yet published
+    /// </summary>
+    Draft,
+
+    /// <summary>
+    /// Event is published and open for registration
+    /// </summary>
+    Published,
+
+    /// <summary>
+    /// Event registration is closed but event hasn't occurred yet
+    /// </summary>
+    RegistrationClosed,
+
+    /// <summary>
+    /// Event is currently in progress
+    /// </summary>
+    InProgress,
+
+    /// <summary>
+    /// Event has been completed
+    /// </summary>
+    Completed,
+
+    /// <summary>
+    /// Event has been cancelled
+    /// </summary>
+    Cancelled
 }
- */
