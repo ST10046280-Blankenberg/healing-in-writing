@@ -1,5 +1,7 @@
 using HealingInWriting.Domain.Shared;
+using HealingInWriting.Domain.Users;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HealingInWriting.Domain.Stories;
 
@@ -26,13 +28,15 @@ public class Story
     public string Content { get; set; }
 
     [Required]
-    [StringLength(50)]
-    public string Status { get; set; }
+    public StoryStatus Status { get; set; }
 
     [Required]
     public DateTime CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
+    
+    [ForeignKey(nameof(UserId))]
+    public UserProfile Author { get; set; }
 }
 
 /// <summary>
