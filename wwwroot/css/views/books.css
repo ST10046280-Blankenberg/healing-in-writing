@@ -11,44 +11,14 @@
     background: linear-gradient(165.21deg, #FDF5ED 20.59%, #E9D5EB 77.36%);
 }
 
-/* Hero Section */
-.books__hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 32px 64px 64px 64px;
-    gap: 32px;
+/* =========================================================
+   Search Bar Positioning (within hero)
+   ========================================================= */
+
+.page-hero .search-bar {
+    max-width: 1300px;
     width: 100%;
-    max-width: 1440px;
-    margin: 0 auto;
-}
-
-.books__hero-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 800px;
-    gap: 16px;
-}
-
-.books__title {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 700;
-    font-size: 48px;
-    line-height: 48px;
-    text-align: center;
-    color: #2F1648;
-    margin: 0;
-}
-
-.books__subtitle {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 28px;
-    text-align: center;
-    color: #4B5563;
-    margin: 0;
+    margin: 32px auto 0 auto;
 }
 
 /* Books List Section */

@@ -8,51 +8,7 @@
     flex-direction: column;
     align-items: flex-start;
     min-height: 100vh;
-    background: #FDF5ED;
-}
-
-/* Hero Section */
-.stories__hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 64px;
-    width: 100%;
-    height: 284px;
     background: linear-gradient(135deg, #E9D5EB 0%, #FDF5ED 70.71%);
-}
-
-.stories__hero-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    max-width: 1152px;
-    width: 100%;
-}
-
-.stories__title {
-    font-family: 'Poppins', sans-serif;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 48px;
-    line-height: 48px;
-    text-align: center;
-    color: #2F1648;
-    margin: 0;
-}
-
-.stories__subtitle {
-    font-family: 'Poppins', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 28px;
-    text-align: center;
-    color: #4B5563;
-    margin: 0;
-    max-width: 660px;
 }
 
 /* Navigation Tabs Section - Now integrated in search bar */
@@ -139,7 +95,7 @@
     align-items: center;
     padding: 32px 64px;
     width: 100%;
-    background: #FDF5ED;
+    background: transparent;
 }
 
 /* Stories Content Section */
