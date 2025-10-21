@@ -11,6 +11,21 @@
     background: linear-gradient(135deg, #E9D5EB 0%, #FDF5ED 70.71%);
 }
 
+/* =========================================================
+   Search Bar Positioning (within hero)
+   ========================================================= */
+
+.page-hero .search-bar {
+    /* Box Model */
+    max-width: 1300px;
+    width: 100%;
+    margin: 32px auto 0 auto;
+
+    /* Layout */
+    flex: none;
+    align-self: center;
+}
+
 /* Navigation Tabs Section - Now integrated in search bar */
 .stories__nav-tabs {
     display: flex;
