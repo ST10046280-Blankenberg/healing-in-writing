@@ -1,4 +1,4 @@
-@model HealingInWriting.Domain.Stories.Story
+@model HealingInWriting.Models.Stories.StorySummaryViewModel
 
 <article class="story-card story-card--large">
     <div class="story-card__image" style="background-image: url('@(string.IsNullOrEmpty(Model.Summary) ? "/images/placeholder-story.jpg" : Model.Summary)')"></div>
@@ -6,16 +6,15 @@
         @foreach (var tag in Model.Tags)
         {
             <span class="story-card__tag">
-                <span class="story-card__tag-text">@tag.Name</span>
+                <span class="story-card__tag-text">@tag</span>
             </span>
         }
     </div>
     <time class="story-card__date">@Model.CreatedAt.ToString("MMMM dd, yyyy")</time>
     <div class="story-card__content">
         <h2 class="story-card__title">@Model.Title</h2>
-        <p class="story-card__author">@Model.Author?.User?.FirstName @Model.Author?.User?.LastName</p>
+        <p class="story-card__author">@(!string.IsNullOrWhiteSpace(Model.AuthorName) ? Model.AuthorName : "Anonymous")</p>
         <p class="story-card__description">@Model.Summary</p>
     </div>
     <a href="@Url.Action("Details", "Stories", new { id = Model.StoryId })" class="story-card__button">Read More</a>
 </article>
-
