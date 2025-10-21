@@ -1,4 +1,5 @@
 using HealingInWriting.Interfaces.Services;
+using HealingInWriting.Services.Books;
 using HealingInWriting.Services.Stories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IStoryService, StoryService>();
+builder.Services.AddScoped<IBookService, BookService>();
 
 var app = builder.Build();
 

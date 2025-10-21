@@ -1,7 +1,11 @@
+using HealingInWriting.Domain.Books;
+
 namespace HealingInWriting.Interfaces.Services;
 
-// TODO: Offer book catalogue operations to controllers.
 public interface IBookService
 {
-    // TODO: Support listing, detail retrieval, and admin catalogue actions.
+    /// <summary>
+    /// Retrieves books to display on the catalogue landing page.
+    /// </summary>
+    Task<IReadOnlyCollection<Book>> GetFeaturedAsync();
 }

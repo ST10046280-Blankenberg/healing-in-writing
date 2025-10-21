@@ -1,4 +1,4 @@
-@model IEnumerable<HealingInWriting.Domain.Books.Book>
+@model HealingInWriting.Models.Books.BookListViewModel
 
 @{
     ViewData["Title"] = "Books for the Community";
@@ -57,21 +57,17 @@
     <!-- Books List Section -->
     <section class="books__list-section">
         <div class="books__list-container">
-            @if (Model?.Any() == true)
+            @if (Model?.Books?.Any() == true)
             {
-                @foreach (var book in Model)
+                @foreach (var book in Model.Books)
                 {
                     <article class="book-card">
                         <div class="book-card__content">
                             <!-- Book Cover -->
                             <div class="book-card__cover">
-                                @if (!string.IsNullOrEmpty(book.ImageLinks?.Thumbnail))
+                                @if (!string.IsNullOrEmpty(book.ThumbnailUrl))
                                 {
-                                    <img src="@book.ImageLinks.Thumbnail" alt="@book.Title cover" />
-                                }
-                                else if (!string.IsNullOrEmpty(book.ImageLinks?.SmallThumbnail))
-                                {
-                                    <img src="@book.ImageLinks.SmallThumbnail" alt="@book.Title cover" />
+                                    <img src="@book.ThumbnailUrl" alt="@book.Title cover" />
                                 }
                                 else
                                 {
@@ -85,9 +81,9 @@
                                     <h2 class="book-card__title">@book.Title</h2>
                                     
                                     <div class="book-card__meta">
-                                        @if (book.Authors?.Any() == true)
+                                        @if (!string.IsNullOrWhiteSpace(book.Authors))
                                         {
-                                            <span class="book-card__meta-item">By @string.Join(", ", book.Authors)</span>
+                                            <span class="book-card__meta-item">By @book.Authors</span>
                                         }
                                         @if (!string.IsNullOrEmpty(book.PublishedDate))
                                         {
