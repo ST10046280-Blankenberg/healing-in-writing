@@ -12,19 +12,17 @@
     /* Box Model */
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    padding: 0;
-    width: 100%;
-    min-height: 1090px;
-    
+    align-items: center;
+    min-height: 100vh;
+
     /* Visual */
     background: linear-gradient(165.21deg, #FDF5ED 20.59%, #E9D5EB 77.36%);
-    
-    /* Layout */
-    flex: none;
-    align-self: stretch;
-    flex-grow: 0;
 }
+/*    !* Layout *!*/
+/*    flex: none;*/
+/*    align-self: stretch;*/
+/*    flex-grow: 0;*/
+/*}*/
 
 /* =========================================================
    Hero Section
@@ -59,6 +57,18 @@
     flex: none;
     flex-grow: 0;
 }
+
+.events__hero .search-bar {
+    /* Box Model */
+    max-width: 1300px;
+    width: 100%;
+    margin: 32px auto 0 auto;
+
+    /* Layout */
+    flex: none;
+    align-self: center;
+}
+
 
 .events__title {
     /* Box Model */
@@ -110,7 +120,7 @@
     /* Box Model */
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     padding: 32px 64px;
     gap: 32px;
     width: 100%;
@@ -134,13 +144,16 @@
     align-content: flex-start;
     padding: 0;
     gap: 32px;
-    width: 100%;
-    
+    max-width: 1400px;  /* ← Add this to constrain the grid width */
+    margin: 0 auto;
+    justify-content: center;  /* ← Change from flex-start to center */
+
     /* Layout */
     flex: none;
     align-self: stretch;
     flex-grow: 0;
 }
+
 
 /* =========================================================
    Event Card Component
