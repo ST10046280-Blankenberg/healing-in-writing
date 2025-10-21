@@ -1,4 +1,4 @@
-@model IEnumerable<HealingInWriting.Domain.Stories.Story>
+@model HealingInWriting.Models.Stories.StoryListViewModel
 
 @{
     ViewData["Title"] = "Community Stories";
@@ -94,9 +94,9 @@
     <!-- Stories Masonry Grid -->
     <section class="stories__content">
         <div class="stories__masonry">
-            @if (Model != null && Model.Any())
+            @if (Model?.Stories?.Any() == true)
             {
-                var stories = Model.ToList();
+                var stories = Model.Stories;
                 int storyIndex = 0;
 
                 while (storyIndex < stories.Count)
