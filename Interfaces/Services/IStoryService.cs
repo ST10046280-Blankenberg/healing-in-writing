@@ -1,7 +1,11 @@
+using HealingInWriting.Domain.Stories;
+
 namespace HealingInWriting.Interfaces.Services;
 
-// TODO: Expose story workflows for controllers while hiding persistence.
 public interface IStoryService
 {
-    // TODO: Provide methods for listing, submitting, and approving stories.
+    /// <summary>
+    /// Retrieves the set of stories ready to be displayed publicly.
+    /// </summary>
+    Task<IReadOnlyCollection<Story>> GetPublishedAsync();
 }
