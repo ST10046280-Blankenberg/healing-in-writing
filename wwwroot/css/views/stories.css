@@ -1,0 +1,558 @@
+/* =========================================================
+   Community Stories Page Styles
+   ========================================================= */
+
+/* Page Container */
+.stories {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: 100vh;
+    background: #FDF5ED;
+}
+
+/* Hero Section */
+.stories__hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 64px;
+    width: 100%;
+    height: 284px;
+    background: linear-gradient(135deg, #E9D5EB 0%, #FDF5ED 70.71%);
+}
+
+.stories__hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    max-width: 1152px;
+    width: 100%;
+}
+
+.stories__title {
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 48px;
+    text-align: center;
+    color: #2F1648;
+    margin: 0;
+}
+
+.stories__subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 28px;
+    text-align: center;
+    color: #4B5563;
+    margin: 0;
+    max-width: 660px;
+}
+
+/* Navigation Tabs Section - Now integrated in search bar */
+.stories__nav-tabs {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+    gap: 32px;
+}
+
+.stories__nav-tab {
+    box-sizing: border-box;
+    padding: 8px 0;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #4B5563;
+    
+    transition: all 0.2s ease;
+}
+
+.stories__nav-tab--active {
+    font-weight: 500;
+    color: #2F1648;
+    border-bottom-color: #2F1648;
+}
+
+.stories__nav-tab:hover {
+    color: #2F1648;
+}
+
+/* Write a Story Button */
+.stories__write-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 19px;
+    gap: 8px;
+    height: 40px;
+    
+    background: #2F1648;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.stories__write-button:hover {
+    background: #3d1d5a;
+}
+
+.stories__write-button:active {
+    background: #251038;
+}
+
+.stories__write-icon {
+    width: 14px;
+    height: 16px;
+}
+
+.stories__write-text {
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+/* Search Section */
+.stories__search-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 32px 64px;
+    width: 100%;
+    background: #FDF5ED;
+}
+
+/* Stories Content Section */
+.stories__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 64px;
+    gap: 10px;
+    width: 100%;
+}
+
+/* Masonry Grid Layout */
+.stories__masonry {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: 100%;
+    max-width: 1312px;
+}
+
+/* Each Row */
+.stories__row {
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+}
+
+/* Large Column (1 large card) */
+.stories__column--large {
+    flex: 1;
+    max-width: 640px;
+}
+
+/* Small Stack Column (2 small cards stacked) */
+.stories__column--small-stack {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    max-width: 640px;
+}
+
+/* Small Single Column (1 small card - side by side) */
+.stories__column--small-single {
+    flex: 1;
+    max-width: 640px;
+}
+
+/* Two-Small Row (equal width columns) */
+.stories__row--two-small .stories__column--small-single {
+    flex: 1;
+}
+
+/* Legacy column support - remove after migration */
+.stories__column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+    width: 640px;
+}
+
+/* Empty state */
+.stories__empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 64px 32px;
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    color: #6B7280;
+}
+
+/* Story Card Base */
+.story-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+    width: 100%;
+    
+    background: #FFFFFF;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1), 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.story-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.12), 0px 6px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* Large Featured Card */
+.story-card--large {
+    gap: 16px;
+    min-height: 662px;
+}
+
+/* Small Card */
+.story-card--small {
+    gap: 15px;
+    min-height: 315px;
+}
+
+/* Story Card Image */
+.story-card__image {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 10px;
+    width: 100%;
+    height: 160px;
+    
+    border-radius: 16px;
+    background-size: cover;
+    background-position: center;
+}
+
+/* Story Card Tags */
+.story-card__tags {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 8px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.story-card__tag {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 16px;
+    min-width: 140px;
+    height: 37px;
+    
+    background: #E9D5EB;
+    border-radius: 9999px;
+}
+
+.story-card__tag--small {
+    min-width: auto;
+    height: 24px;
+    padding: 4px 8px;
+}
+
+.story-card__tag-text {
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #2F1648;
+    white-space: nowrap;
+}
+
+.story-card__tag--small .story-card__tag-text {
+    font-size: 12px;
+    line-height: 18px;
+}
+
+/* Story Card Date */
+.story-card__date {
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #6B7280;
+    width: 100%;
+}
+
+/* Story Card Content */
+.story-card__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    width: 100%;
+    flex-grow: 1;
+}
+
+.story-card__header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    width: 100%;
+}
+
+.story-card__title {
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 30px;
+    color: #2F1648;
+    margin: 0;
+    width: 100%;
+}
+
+.story-card__author {
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #6B7280;
+    margin: 0;
+    width: 100%;
+}
+
+.story-card__description {
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 27px;
+    color: #2F1648;
+    margin: 0;
+    width: 100%;
+    flex-grow: 1;
+}
+
+.story-card__excerpt {
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #4B5563;
+    margin: 0;
+    width: 100%;
+    flex-grow: 1;
+}
+
+/* Story Card Button */
+.story-card__button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 100px;
+    gap: 10px;
+    width: 292px;
+    height: 40px;
+    
+    background: #2F1648;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #FFFFFF;
+    
+    transition: background-color 0.2s ease;
+}
+
+.story-card__button:hover {
+    background: #3d1d5a;
+}
+
+.story-card__button:active {
+    background: #251038;
+}
+
+/* Responsive Design */
+@media (max-width: 1440px) {
+    .stories__masonry {
+        max-width: 100%;
+    }
+    
+    .stories__column {
+        width: calc(50% - 16px);
+    }
+}
+
+@media (max-width: 1024px) {
+    .stories__hero {
+        padding: 48px 32px;
+        height: auto;
+    }
+    
+    .stories__title {
+        font-size: 36px;
+        line-height: 40px;
+    }
+    
+    .stories__subtitle {
+        font-size: 18px;
+        line-height: 26px;
+    }
+    
+    .stories__nav {
+        padding: 16px 32px;
+    }
+    
+    .stories__search-section {
+        padding: 24px 32px;
+    }
+    
+    .stories__content {
+        padding: 48px 32px;
+    }
+    
+    .stories__masonry {
+        gap: 24px;
+    }
+    
+    .stories__column {
+        gap: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .stories__hero {
+        padding: 32px 16px;
+    }
+    
+    .stories__title {
+        font-size: 32px;
+        line-height: 36px;
+    }
+    
+    .stories__subtitle {
+        font-size: 16px;
+        line-height: 24px;
+    }
+    
+    .stories__nav {
+        flex-direction: column;
+        gap: 16px;
+        padding: 16px;
+    }
+    
+    .stories__nav-tabs {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px;
+    }
+    
+    .stories__search-section {
+        padding: 16px;
+    }
+    
+    .stories__content {
+        padding: 32px 16px;
+    }
+    
+    .stories__masonry {
+        gap: 24px;
+    }
+    
+    .stories__row {
+        flex-direction: column;
+        gap: 24px;
+    }
+    
+    .stories__column--large,
+    .stories__column--small-stack,
+    .stories__column--small-single {
+        max-width: 100%;
+    }
+    
+    .stories__column {
+        width: 100%;
+    }
+    
+    .story-card__button {
+        width: 100%;
+        padding: 8px 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .stories__hero {
+        padding: 24px 16px;
+    }
+    
+    .stories__title {
+        font-size: 28px;
+        line-height: 32px;
+    }
+    
+    .stories__subtitle {
+        font-size: 14px;
+        line-height: 20px;
+    }
+    
+    .stories__nav-tabs {
+        gap: 12px;
+    }
+    
+    .stories__nav-tab {
+        font-size: 14px;
+    }
+    
+    .story-card {
+        padding: 16px;
+    }
+    
+    .story-card__title {
+        font-size: 18px;
+        line-height: 26px;
+    }
+}

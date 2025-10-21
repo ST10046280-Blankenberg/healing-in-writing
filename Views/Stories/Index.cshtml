@@ -1,1 +1,194 @@
-@* TODO: List stories fetched via the stories service once available. *@
+@model IEnumerable<HealingInWriting.Domain.Stories.Story>
+
+@{
+    ViewData["Title"] = "Community Stories";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/shared/search-bar.css" />
+    <link rel="stylesheet" href="~/css/views/stories.css" />
+}
+
+<main class="stories">
+    <!-- Hero Section -->
+    <section class="stories__hero">
+        <div class="stories__hero-content">
+            <h1 class="stories__title">Community Stories</h1>
+            <p class="stories__subtitle">Discover inspiring stories from our community members. Share experiences, learn from others, and connect through the power of storytelling.</p>
+        </div>
+    </section>
+
+    <!-- Combined Navigation and Search Section -->
+    <section class="stories__search-section">
+        <div class="search-bar search-bar--with-nav">
+            <!-- Navigation Tabs Row -->
+            <div class="search-bar__nav-row">
+                <div class="stories__nav-tabs">
+                    <button class="stories__nav-tab stories__nav-tab--active">All Stories</button>
+                    <button class="stories__nav-tab">Latest</button>
+                    <button class="stories__nav-tab">Most Read</button>
+                    <button class="stories__nav-tab">Categories</button>
+                </div>
+                <button class="stories__write-button">
+                    <svg class="stories__write-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16" fill="none">
+                        <path d="M7 1v14M1 8h12" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <span class="stories__write-text">Write a Story</span>
+                </button>
+            </div>
+            
+            <!-- Search Filters Row -->
+            <div class="search-bar__filters-row">
+                <!-- Search Input with Icon -->
+                <div class="search-bar__input-container">
+                    <svg class="search-bar__icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <input type="text" class="search-bar__input" placeholder="Search..." />
+                </div>
+
+                <!-- Any Date Dropdown -->
+                <div class="search-bar__dropdown">
+                    <span class="search-bar__dropdown-label">Any Date</span>
+                    <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+                <!-- Any Status Dropdown -->
+                <div class="search-bar__dropdown">
+                    <span class="search-bar__dropdown-label">Any Status</span>
+                    <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+                <!-- Any Tags Dropdown -->
+                <div class="search-bar__dropdown">
+                    <span class="search-bar__dropdown-label">Any Tags</span>
+                    <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+                <!-- Newest Dropdown -->
+                <div class="search-bar__dropdown">
+                    <span class="search-bar__dropdown-label">Newest</span>
+                    <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+                <!-- Search Button -->
+                <button class="search-bar__button" type="button">
+                    <svg class="search-bar__button-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="search-bar__button-label">Search</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stories Masonry Grid -->
+    <section class="stories__content">
+        <div class="stories__masonry">
+            @if (Model != null && Model.Any())
+            {
+                var stories = Model.ToList();
+                int storyIndex = 0;
+
+                while (storyIndex < stories.Count)
+                {
+                    var cyclePosition = (storyIndex / 3) % 4; // 4-row cycle: 0, 1, 2, 3
+
+                    if (cyclePosition == 0)
+                    {
+                        // Row 1: Large Left + 2 Small Right (Stacked)
+                        <div class="stories__row">
+                            <div class="stories__column stories__column--large">
+                                <partial name="_StoryCardLarge" model="@stories[storyIndex]" />
+                            </div>
+                            <div class="stories__column stories__column--small-stack">
+                                @if (storyIndex + 1 < stories.Count)
+                                {
+                                    <partial name="_StoryCardSmall" model="@stories[storyIndex + 1]" />
+                                }
+                                @if (storyIndex + 2 < stories.Count)
+                                {
+                                    <partial name="_StoryCardSmall" model="@stories[storyIndex + 2]" />
+                                }
+                            </div>
+                        </div>
+                        storyIndex += 3;
+                    }
+                    else if (cyclePosition == 1)
+                    {
+                        // Row 2: Small Left + Small Right (Side-by-Side)
+                        <div class="stories__row stories__row--two-small">
+                            <div class="stories__column stories__column--small-single">
+                                <partial name="_StoryCardSmall" model="@stories[storyIndex]" />
+                            </div>
+                            @if (storyIndex + 1 < stories.Count)
+                            {
+                                <div class="stories__column stories__column--small-single">
+                                    <partial name="_StoryCardSmall" model="@stories[storyIndex + 1]" />
+                                </div>
+                            }
+                        </div>
+                        storyIndex += 2;
+                    }
+                    else if (cyclePosition == 2)
+                    {
+                        // Row 3: 2 Small Left (Stacked) + Large Right
+                        <div class="stories__row stories__row--reversed">
+                            <div class="stories__column stories__column--small-stack">
+                                <partial name="_StoryCardSmall" model="@stories[storyIndex]" />
+                                @if (storyIndex + 1 < stories.Count)
+                                {
+                                    <partial name="_StoryCardSmall" model="@stories[storyIndex + 1]" />
+                                }
+                            </div>
+                            @if (storyIndex + 2 < stories.Count)
+                            {
+                                <div class="stories__column stories__column--large">
+                                    <partial name="_StoryCardLarge" model="@stories[storyIndex + 2]" />
+                                </div>
+                            }
+                        </div>
+                        storyIndex += 3;
+                    }
+                    else
+                    {
+                        // Row 4: Small Left + Small Right (Side-by-Side)
+                        <div class="stories__row stories__row--two-small">
+                            <div class="stories__column stories__column--small-single">
+                                <partial name="_StoryCardSmall" model="@stories[storyIndex]" />
+                            </div>
+                            @if (storyIndex + 1 < stories.Count)
+                            {
+                                <div class="stories__column stories__column--small-single">
+                                    <partial name="_StoryCardSmall" model="@stories[storyIndex + 1]" />
+                                </div>
+                            }
+                        </div>
+                        storyIndex += 2;
+                    }
+                }
+            }
+            else
+            {
+                <div class="stories__empty">
+                    <p>No stories available at the moment.</p>
+                </div>
+            }
+        </div>
+    </section>
+</main>
+
+@section Scripts {
+    <script>
+        // TODO: Implement story filtering and search functionality
+        // TODO: Implement dynamic masonry layout
+    </script>
+}
