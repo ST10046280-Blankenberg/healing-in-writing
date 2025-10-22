@@ -79,4 +79,24 @@ public class BookService : IBookService
     {
         return Task.FromResult(FeaturedBooks);
     }
+
+    public async Task<IReadOnlyCollection<Book>> GetFeaturedFilteredAsync(string searchTerm, string selectedAuthor, string selectedCategory, string selectedTag)
+    {
+        var books = await GetFeaturedAsync();
+
+        if (!string.IsNullOrWhiteSpace(selectedAuthor))
+            books = books.Where(b => b.Authors.Contains(selectedAuthor)).ToList();
+
+        if (!string.IsNullOrWhiteSpace(selectedCategory))
+            books = books.Where(b => b.Categories.Contains(selectedCategory)).ToList();
+
+        if (!string.IsNullOrWhiteSpace(selectedTag))
+            books = books.Where(b => b.Categories.Contains(selectedTag)).ToList();
+
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+            books = books.Where(b => b.Title.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                                     b.Description.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
+
+        return books.ToList();
+    }
 }

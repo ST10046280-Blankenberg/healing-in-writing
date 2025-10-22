@@ -15,27 +15,7 @@ namespace HealingInWriting.Controllers
 
         public async Task<IActionResult> Index(string searchTerm, string selectedAuthor, string selectedCategory, string selectedTag)
         {
-            var books = await _bookService.GetFeaturedAsync();
-
-            // Filter logic
-            if (!string.IsNullOrWhiteSpace(selectedAuthor))
-                books = books.Where(b => b.Authors.Contains(selectedAuthor)).ToList();
-
-            if (!string.IsNullOrWhiteSpace(selectedCategory))
-                books = books.Where(b => b.Categories.Contains(selectedCategory)).ToList();
-
-            // Tag filtering (assuming tags are stored in Categories for now)
-            if (!string.IsNullOrWhiteSpace(selectedTag))
-                books = books.Where(b => b.Categories.Contains(selectedTag)).ToList();
-
-            if (!string.IsNullOrWhiteSpace(searchTerm))
-                books = books.Where(b => b.Title.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
-                                         b.Description.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
-
-            var allTags = books.SelectMany(book => book.Categories ?? Enumerable.Empty<string>())
-                .Distinct()
-                .OrderBy(tag => tag)
-                .ToList();
+            var books = await _bookService.GetFeaturedFilteredAsync(searchTerm, selectedAuthor, selectedCategory, selectedTag);
 
             var viewModel = new BookListViewModel
             {
