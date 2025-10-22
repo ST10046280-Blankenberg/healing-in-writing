@@ -13,9 +13,13 @@ namespace HealingInWriting.Controllers
             _bookService = bookService;
         }
 
-        public async Task<IActionResult> Index(string searchTerm, string selectedAuthor, string selectedCategory, string selectedTag)
+        // Show newest books only
+        public async Task<IActionResult> Index()
         {
-            var books = await _bookService.GetFeaturedFilteredAsync(searchTerm, selectedAuthor, selectedCategory, selectedTag);
+            var books = (await _bookService.GetFeaturedAsync())
+                .OrderByDescending(b => b.PublishedDate)
+                .Take(10) // Show top 10 newest books
+                .ToList();
 
             var viewModel = new BookListViewModel
             {
@@ -29,7 +33,7 @@ namespace HealingInWriting.Controllers
                     PageCount = book.PageCount,
                     Description = book.Description ?? string.Empty,
                     Categories = book.Categories?.ToList() ?? new List<string>(),
-                    ThumbnailUrl = book.ImageLinks?.Thumbnail ?? book.ImageLinks?.SmallThumbnail ?? string.Empty
+                    ThumbnailUrl = book.ImageLinks?.Thumbnail ?? book.ImageLinks?.Thumbnail ?? string.Empty
                 }).ToList(),
                 AvailableAuthors = books.SelectMany(book => book.Authors ?? Enumerable.Empty<string>())
                     .Distinct()
@@ -38,12 +42,33 @@ namespace HealingInWriting.Controllers
                 AvailableCategories = books.SelectMany(book => book.Categories ?? Enumerable.Empty<string>())
                     .Distinct()
                     .OrderBy(category => category)
-                    .ToList(),
-                SelectedAuthor = selectedAuthor ?? string.Empty,
-                SelectedCategory = selectedCategory ?? string.Empty
+                    .ToList()
             };
 
             return View(viewModel);
+        }
+
+        // AJAX filter endpoint
+        [HttpGet]
+        public async Task<IActionResult> Filter(string searchTerm, string selectedAuthor, string selectedCategory)
+        {
+            var books = await _bookService.GetFeaturedFilteredAsync(searchTerm, selectedAuthor, selectedCategory, null);
+
+            var filteredBooks = books.Select(book => new BookSummaryViewModel
+            {
+                BookId = book.BookId,
+                Title = book.Title,
+                Authors = book.Authors?.Any() == true ? string.Join(", ", book.Authors) : string.Empty,
+                PublishedDate = book.PublishedDate ?? string.Empty,
+                Publisher = book.Publisher ?? string.Empty,
+                PageCount = book.PageCount,
+                Description = book.Description ?? string.Empty,
+                Categories = book.Categories?.ToList() ?? new List<string>(),
+                ThumbnailUrl = book.ImageLinks?.Thumbnail ?? book.ImageLinks?.Thumbnail ?? string.Empty
+            }).ToList();
+
+            // Return a partial view with just the book cards
+            return PartialView("_BookCardsPartial", filteredBooks);
         }
     }
 }

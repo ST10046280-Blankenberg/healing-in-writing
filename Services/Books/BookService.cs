@@ -24,7 +24,7 @@ public class BookService : IBookService
             ImageLinks = new ImageLinks
             {
                 SmallThumbnail = "http://books.google.com/books/content?id=X_dJAAAACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api",
-                Thumbnail = "http://books.google.com/books/content?id=X_dJAAAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+                Thumbnail = "http://books.google.com/books/content?id=ezeekgAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
             },
             IndustryIdentifiers = new List<IndustryIdentifier>
             {
