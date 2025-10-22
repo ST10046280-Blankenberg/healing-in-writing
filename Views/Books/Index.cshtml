@@ -19,59 +19,39 @@
         </div>
 
         <!-- Reusable Search Bar Component -->
-        @* <div class="search-bar"> *@
-        <form method="get" asp-controller="Books" asp-action="Index" class="search-bar">
+        <div class="search-bar">
             <!-- Search Input with Icon -->
             <div class="search-bar__input-container">
                 <svg class="search-bar__icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <input type="text" class="search-bar__input" placeholder="Search..." />
             </div>
 
-            @*  <!-- Any Tags Dropdown -->
-                <select name="SelectedTag" class="search-bar__dropdown">
-                    <span class="search-bar__dropdown-label">Any Tags</span>
-                    <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </select> *@
-            <!-- Category/Tag Filter Dropdown -->
-
-            <select name="SelectedCategory" class="search-bar__dropdown">
-                <option value="">Any Category</option>
-                @foreach (var category in Model.AvailableCategories)
-                {
-                    <option value="@category" selected=@(category == Model.SelectedCategory ? "selected" : null)>@category</option>
-                }
-            </select>
-
-            <!-- Author Filter Dropdown -->
-            <select name="SelectedAuthor" class="search-bar__dropdown">
-                <option value="">Any Author</option>
-                @foreach (var author in Model.AvailableAuthors)
-                {
-                    <option value="@author" selected="@(author == Model.SelectedAuthor ? "selected" : null)">@author</option>
-                }
-            </select>
+            <!-- Any Tags Dropdown -->
+            <div class="search-bar__dropdown">
+                <span class="search-bar__dropdown-label">Any Tags</span>
+                <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
 
             <!-- Newest Dropdown -->
             <div class="search-bar__dropdown">
                 <span class="search-bar__dropdown-label">Newest</span>
                 <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </div>
 
             <!-- Search Button -->
             <button class="search-bar__button" type="button">
                 <svg class="search-bar__button-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <span class="search-bar__button-label">Search</span>
             </button>
-        </form>
-        @* </div> *@
+        </div>
     </section>
 
     <!-- Books List Section -->
@@ -99,7 +79,7 @@
                             <div class="book-card__info">
                                 <div class="book-card__header">
                                     <h2 class="book-card__title">@book.Title</h2>
-
+                                    
                                     <div class="book-card__meta">
                                         @if (!string.IsNullOrWhiteSpace(book.Authors))
                                         {
