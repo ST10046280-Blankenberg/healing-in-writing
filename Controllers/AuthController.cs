@@ -10,15 +10,14 @@ namespace HealingInWriting.Controllers
     /// </summary>
     public class AuthController : Controller
     {
-        // TODO [Database Required]: Uncomment and inject IAuthService once database is configured
-        // private readonly IAuthService _authService;
-        // private readonly ILogger<AuthController> _logger;
-        //
-        // public AuthController(IAuthService authService, ILogger<AuthController> logger)
-        // {
-        //     _authService = authService;
-        //     _logger = logger;
-        // }
+        private readonly IAuthService _authService;
+        private readonly ILogger<AuthController> _logger;
+
+        public AuthController(IAuthService authService, ILogger<AuthController> logger)
+        {
+            _authService = authService;
+            _logger = logger;
+        }
 
         /// <summary>
         /// GET: /Auth/Auth - Displays the unified authentication page.
@@ -56,22 +55,17 @@ namespace HealingInWriting.Controllers
                 return View("Auth", model);
             }
 
-            // TODO [Database Required]: Implement registration with IAuthService
-            // var result = await _authService.RegisterAsync(model);
-            //
-            // if (result.Success)
-            // {
-            //     TempData["SuccessMessage"] = result.Message;
-            //     return RedirectToAction("EmailVerificationPending");
-            // }
-            //
-            // ModelState.AddModelError(string.Empty, result.Message);
-            // ViewData["Mode"] = "register";
-            // return View("Auth", model);
+            var result = await _authService.RegisterAsync(model);
 
-            // Placeholder until database is configured
-            TempData["InfoMessage"] = "Database not configured. Registration unavailable.";
-            return RedirectToAction("Auth", new { mode = "register" });
+            if (result.Success)
+            {
+                TempData["SuccessMessage"] = result.Message;
+                return RedirectToAction("Auth", new { mode = "login" });
+            }
+
+            ModelState.AddModelError(string.Empty, result.Message);
+            ViewData["Mode"] = "register";
+            return View("Auth", model);
         }
 
         /// <summary>
@@ -98,24 +92,19 @@ namespace HealingInWriting.Controllers
                 return View("Auth", model);
             }
 
-            // TODO [Database Required]: Implement login with IAuthService
-            // var result = await _authService.LoginAsync(model);
-            //
-            // if (result.Success)
-            // {
-            //     // Successful login - redirect to landing page (Home/Index)
-            //     TempData["SuccessMessage"] = "Welcome back!";
-            //     return RedirectToAction("Index", "Home");
-            // }
-            //
-            // // Login failed - could be invalid credentials or unverified email
-            // ModelState.AddModelError(string.Empty, result.Message);
-            // ViewData["Mode"] = "login";
-            // return View("Auth", model);
+            var result = await _authService.LoginAsync(model);
 
-            // Placeholder until database is configured
-            TempData["InfoMessage"] = "Database not configured. Login unavailable.";
-            return RedirectToAction("Auth", new { mode = "login" });
+            if (result.Success)
+            {
+                // Successful login - redirect to landing page (Home/Index)
+                TempData["SuccessMessage"] = "Welcome back!";
+                return RedirectToAction("Index", "Home");
+            }
+
+            // Login failed - could be invalid credentials or unverified email
+            ModelState.AddModelError(string.Empty, result.Message);
+            ViewData["Mode"] = "login";
+            return View("Auth", model);
         }
 
         /// <summary>
@@ -132,20 +121,15 @@ namespace HealingInWriting.Controllers
                 return RedirectToAction("Auth", new { mode = "login" });
             }
 
-            // TODO [Database Required]: Implement email verification with IAuthService
-            // var result = await _authService.VerifyEmailAsync(userId, token);
-            //
-            // if (result.Success)
-            // {
-            //     TempData["SuccessMessage"] = result.Message;
-            //     return RedirectToAction("EmailVerificationSuccess");
-            // }
-            //
-            // TempData["ErrorMessage"] = result.Message;
-            // return RedirectToAction("Auth", new { mode = "login" });
+            var result = await _authService.VerifyEmailAsync(userId, token);
 
-            // Placeholder until database is configured
-            TempData["InfoMessage"] = "Database not configured. Email verification unavailable.";
+            if (result.Success)
+            {
+                TempData["SuccessMessage"] = result.Message;
+                return RedirectToAction("EmailVerificationSuccess");
+            }
+
+            TempData["ErrorMessage"] = result.Message;
             return RedirectToAction("Auth", new { mode = "login" });
         }
 
@@ -174,13 +158,8 @@ namespace HealingInWriting.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            // TODO [Database Required]: Implement logout with IAuthService
-            // await _authService.LogoutAsync();
-            // TempData["SuccessMessage"] = "You have been logged out successfully.";
-            // return RedirectToAction("Auth", new { mode = "login" });
-
-            // Placeholder until database is configured
-            TempData["InfoMessage"] = "Database not configured. Logout unavailable.";
+            await _authService.LogoutAsync();
+            TempData["SuccessMessage"] = "You have been logged out successfully.";
             return RedirectToAction("Auth", new { mode = "login" });
         }
 
