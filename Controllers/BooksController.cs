@@ -13,9 +13,29 @@ namespace HealingInWriting.Controllers
             _bookService = bookService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchTerm, string selectedAuthor, string selectedCategory, string selectedTag)
         {
             var books = await _bookService.GetFeaturedAsync();
+
+            // Filter logic
+            if (!string.IsNullOrWhiteSpace(selectedAuthor))
+                books = books.Where(b => b.Authors.Contains(selectedAuthor)).ToList();
+
+            if (!string.IsNullOrWhiteSpace(selectedCategory))
+                books = books.Where(b => b.Categories.Contains(selectedCategory)).ToList();
+
+            // Tag filtering (assuming tags are stored in Categories for now)
+            if (!string.IsNullOrWhiteSpace(selectedTag))
+                books = books.Where(b => b.Categories.Contains(selectedTag)).ToList();
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+                books = books.Where(b => b.Title.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                                         b.Description.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            var allTags = books.SelectMany(book => book.Categories ?? Enumerable.Empty<string>())
+                .Distinct()
+                .OrderBy(tag => tag)
+                .ToList();
 
             var viewModel = new BookListViewModel
             {
@@ -38,7 +58,9 @@ namespace HealingInWriting.Controllers
                 AvailableCategories = books.SelectMany(book => book.Categories ?? Enumerable.Empty<string>())
                     .Distinct()
                     .OrderBy(category => category)
-                    .ToList()
+                    .ToList(),
+                SelectedAuthor = selectedAuthor ?? string.Empty,
+                SelectedCategory = selectedCategory ?? string.Empty
             };
 
             return View(viewModel);
