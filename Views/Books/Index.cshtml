@@ -18,131 +18,68 @@
             <p class="page-hero__subtitle">Browse and share books available in the community. Find what you need or give a book a new home.</p>
         </div>
 
-        <!-- Reusable Search Bar Component -->
-        <div class="search-bar">
+        <!-- Search Bar with AJAX Filter -->
+        <form id="book-filter-form" class="search-bar">
             <!-- Search Input with Icon -->
             <div class="search-bar__input-container">
                 <svg class="search-bar__icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
-                <input type="text" class="search-bar__input" placeholder="Search..." />
+                <input type="text" name="searchTerm" class="search-bar__input" placeholder="Search..." value="@Model.SelectedCategory" />
             </div>
 
-            <!-- Any Tags Dropdown -->
-            <div class="search-bar__dropdown">
-                <span class="search-bar__dropdown-label">Any Tags</span>
-                <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </div>
+            <!-- Category Filter Dropdown -->
+            <select name="selectedCategory" class="search-bar__dropdown">
+                <option value="">Any Category</option>
+                @foreach (var category in Model.AvailableCategories)
+                {
+                    <option value="@category" selected=@(category == Model.SelectedCategory ? "selected" : null)>@category</option>
+                }
+            </select>
 
-            <!-- Newest Dropdown -->
-            <div class="search-bar__dropdown">
-                <span class="search-bar__dropdown-label">Newest</span>
-                <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </div>
+            <!-- Author Filter Dropdown -->
+            <select name="selectedAuthor" class="search-bar__dropdown">
+                <option value="">Any Author</option>
+                @foreach (var author in Model.AvailableAuthors)
+                {
+                    <option value="@author" selected=@(author == Model.SelectedAuthor ? "selected" : null)>@author</option>
+                }
+            </select>
 
             <!-- Search Button -->
-            <button class="search-bar__button" type="button">
+            <button class="search-bar__button" type="submit">
                 <svg class="search-bar__button-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
                 <span class="search-bar__button-label">Search</span>
             </button>
-        </div>
+        </form>
     </section>
 
     <!-- Books List Section -->
     <section class="books__list-section">
-        <div class="books__list-container">
-            @if (Model?.Books?.Any() == true)
-            {
-                @foreach (var book in Model.Books)
-                {
-                    <article class="book-card">
-                        <div class="book-card__content">
-                            <!-- Book Cover -->
-                            <div class="book-card__cover">
-                                @if (!string.IsNullOrEmpty(book.ThumbnailUrl))
-                                {
-                                    <img src="@book.ThumbnailUrl" alt="@book.Title cover" />
-                                }
-                                else
-                                {
-                                    <img src="~/images/placeholder-book.svg" alt="Book cover placeholder" />
-                                }
-                            </div>
-
-                            <!-- Book Information -->
-                            <div class="book-card__info">
-                                <div class="book-card__header">
-                                    <h2 class="book-card__title">@book.Title</h2>
-                                    
-                                    <div class="book-card__meta">
-                                        @if (!string.IsNullOrWhiteSpace(book.Authors))
-                                        {
-                                            <span class="book-card__meta-item">By @book.Authors</span>
-                                        }
-                                        @if (!string.IsNullOrEmpty(book.PublishedDate))
-                                        {
-                                            <span class="book-card__meta-item">@book.PublishedDate</span>
-                                        }
-                                        @if (!string.IsNullOrEmpty(book.Publisher))
-                                        {
-                                            <span class="book-card__meta-item">@book.Publisher</span>
-                                        }
-                                        @if (book.PageCount > 0)
-                                        {
-                                            <span class="book-card__meta-item">@book.PageCount pages</span>
-                                        }
-                                    </div>
-                                </div>
-
-                                <div class="book-card__details">
-                                    @if (book.Categories?.Any() == true)
-                                    {
-                                        <div class="book-card__tags">
-                                            @foreach (var category in book.Categories.Take(3))
-                                            {
-                                                <span class="book-card__tag">
-                                                    <span class="book-card__tag-text">@category</span>
-                                                </span>
-                                            }
-                                        </div>
-                                    }
-                                </div>
-
-                                @if (!string.IsNullOrEmpty(book.Description))
-                                {
-                                    <div class="book-card__description">
-                                        <p class="book-card__description-text">@book.Description</p>
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                    </article>
-                }
-            }
-            else
-            {
-                <div class="books__empty">
-                    <p>No books available at the moment. Check back soon!</p>
-                </div>
-            }
-
-            <!-- Load More Button -->
-            <div class="books__load-more">
-                <button class="books__load-more-button">Load More Books</button>
-            </div>
+        <div class="books__list-container" id="books-list-container">
+            @Html.Partial("_BookCardsPartial", Model.Books)
         </div>
     </section>
+
+    <!-- Load More Button -->
+    <div class="books__load-more">
+        <button class="books__load-more-button">Load More Books</button>
+    </div>
 </main>
 
 @section Scripts {
     <script>
-        // TODO: Implement search and filter functionality
-        // TODO: Implement load more pagination
+        document.getElementById('book-filter-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const form = e.target;
+            const params = new URLSearchParams(new FormData(form)).toString();
+            fetch('/Books/Filter?' + params)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('books-list-container').innerHTML = html;
+                });
+        });
     </script>
 }

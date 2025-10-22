@@ -1,0 +1,70 @@
+@model List<HealingInWriting.Models.Books.BookSummaryViewModel>
+
+@if (Model?.Any() == true)
+{
+    foreach (var book in Model)
+    {
+        <article class="book-card">
+            <div class="book-card__content">
+                <div class="book-card__cover">
+                    @if (!string.IsNullOrEmpty(book.ThumbnailUrl))
+                    {
+                        <img src="@book.ThumbnailUrl" alt="@book.Title cover" />
+                    }
+                    else
+                    {
+                        <img src="~/images/placeholder-book.svg" alt="Book cover placeholder" />
+                    }
+                </div>
+                <div class="book-card__info">
+                    <div class="book-card__header">
+                        <h2 class="book-card__title">@book.Title</h2>
+                        <div class="book-card__meta">
+                            @if (!string.IsNullOrWhiteSpace(book.Authors))
+                            {
+                                <span class="book-card__meta-item">By @book.Authors</span>
+                            }
+                            @if (!string.IsNullOrEmpty(book.PublishedDate))
+                            {
+                                <span class="book-card__meta-item">@book.PublishedDate</span>
+                            }
+                            @if (!string.IsNullOrEmpty(book.Publisher))
+                            {
+                                <span class="book-card__meta-item">@book.Publisher</span>
+                            }
+                            @if (book.PageCount > 0)
+                            {
+                                <span class="book-card__meta-item">@book.PageCount pages</span>
+                            }
+                        </div>
+                    </div>
+                    <div class="book-card__details">
+                        @if (book.Categories?.Any() == true)
+                        {
+                            <div class="book-card__tags">
+                                @foreach (var category in book.Categories.Take(3))
+                                {
+                                    <span class="book-card__tag">
+                                        <span class="book-card__tag-text">@category</span>
+                                    </span>
+                                }
+                            </div>
+                        }
+                    </div>
+                    @if (!string.IsNullOrEmpty(book.Description))
+                    {
+                        <div class="book-card__description">
+                            <p class="book-card__description-text">@book.Description</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </article>
+    }
+}
+else
+{
+    <div class="books__empty">
+        <p>No books available at the moment. Check back soon!</p>
+    </div>
+}
