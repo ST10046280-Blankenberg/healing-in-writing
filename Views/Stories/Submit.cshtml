@@ -1,1 +1,204 @@
-@* TODO: Provide a story submission form wired to validation scripts once the model exists. *@
+@{
+    ViewData["Title"] = "Submit a Story";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/views/stories.css" asp-append-version="true" />
+}
+
+<main class="story-submit">
+    <div class="story-submit__body">
+        <!-- Header Section -->
+        <section class="story-submit__header">
+            <h1 class="story-submit__title">Submit a Story</h1>
+            <p class="story-submit__subtitle">Share your experience with the community. Your story could inspire or help others.</p>
+        </section>
+
+        <!-- Main Container -->
+        <div class="story-submit__container">
+            <!-- Form Container -->
+            <div class="story-submit__form-container">
+                <form method="post" asp-action="Submit">
+                    <!-- Story Title Field -->
+                    <div class="story-submit__field">
+                        <label class="story-submit__field-label" for="title">Story Title</label>
+                        <input class="story-submit__input" type="text" id="title" name="title" placeholder="Enter your story title..." />
+                    </div>
+
+                    <!-- Story Content Field -->
+                    <div class="story-submit__field">
+                        <label class="story-submit__field-label" for="content">Your Story</label>
+                        <div class="story-submit__textarea-container">
+                            <!-- Toolbar -->
+                            <div class="story-submit__toolbar">
+                                <button type="button" class="story-submit__toolbar-button" title="Bold">
+                                    <svg class="story-submit__toolbar-icon" viewBox="0 0 24 24" fill="none">
+                                        <path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z" fill="currentColor"/>
+                                        <path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z" fill="currentColor"/>
+                                    </svg>
+                                </button>
+                                <button type="button" class="story-submit__toolbar-button" title="Italic">
+                                    <svg class="story-submit__toolbar-icon" viewBox="0 0 24 24" fill="none">
+                                        <line x1="19" y1="4" x2="10" y2="4" stroke="currentColor" stroke-width="2"/>
+                                        <line x1="14" y1="20" x2="5" y2="20" stroke="currentColor" stroke-width="2"/>
+                                        <line x1="15" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                </button>
+                                <button type="button" class="story-submit__toolbar-button story-submit__toolbar-button--wide" title="List">
+                                    <svg class="story-submit__toolbar-icon" viewBox="0 0 24 24" fill="none">
+                                        <line x1="8" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2"/>
+                                        <line x1="8" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="2"/>
+                                        <line x1="8" y1="18" x2="21" y2="18" stroke="currentColor" stroke-width="2"/>
+                                        <line x1="3" y1="6" x2="3.01" y2="6" stroke="currentColor" stroke-width="2"/>
+                                        <line x1="3" y1="12" x2="3.01" y2="12" stroke="currentColor" stroke-width="2"/>
+                                        <line x1="3" y1="18" x2="3.01" y2="18" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <!-- Textarea -->
+                            <textarea class="story-submit__textarea" id="content" name="content" placeholder="Share your story here..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Tags Field -->
+                    <div class="story-submit__field">
+                        <label class="story-submit__tags-label" for="tags">
+                            <svg class="story-submit__tags-icon" viewBox="0 0 24 24" fill="none">
+                                <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <line x1="7" y1="7" x2="7.01" y2="7" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            Tags
+                        </label>
+                        
+                        <!-- Selected Tags Display -->
+                        <div class="story-submit__selected-tags">
+                            <span class="story-submit__tag">
+                                <span class="story-submit__tag-text">Personal Growth</span>
+                                <button type="button" class="story-submit__tag-remove" title="Remove tag">
+                                    <svg class="story-submit__tag-remove-icon" viewBox="0 0 24 24" fill="none">
+                                        <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2"/>
+                                        <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                </button>
+                            </span>
+                            <span class="story-submit__tag">
+                                <span class="story-submit__tag-text">Mental Health</span>
+                                <button type="button" class="story-submit__tag-remove" title="Remove tag">
+                                    <svg class="story-submit__tag-remove-icon" viewBox="0 0 24 24" fill="none">
+                                        <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2"/>
+                                        <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                </button>
+                            </span>
+                        </div>
+                        
+                        <!-- Tag Input -->
+                        <input class="story-submit__input" type="text" id="tags" name="tags" placeholder="Add tags (press Enter)" />
+                    </div>
+
+                    <!-- Anonymous Checkbox -->
+                    <div class="story-submit__checkbox-group">
+                        <input class="story-submit__checkbox" type="checkbox" id="anonymous" name="anonymous" />
+                        <label class="story-submit__checkbox-label" for="anonymous">
+                            <svg class="story-submit__checkbox-icon" viewBox="0 0 24 24" fill="none">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" fill="none"/>
+                            </svg>
+                            Hide my identity (post anonymously)
+                        </label>
+                    </div>
+
+                    <!-- Consent Checkbox -->
+                    <div class="story-submit__checkbox-group">
+                        <input class="story-submit__checkbox" type="checkbox" id="consent" name="consent" required />
+                        <label class="story-submit__checkbox-label" for="consent">
+                            <svg class="story-submit__checkbox-icon" viewBox="0 0 24 24" fill="none">
+                                <path d="M9 11l3 3l8-8" stroke="currentColor" stroke-width="2" fill="none"/>
+                                <path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c1.51 0 2.93.37 4.18 1.03" stroke="currentColor" stroke-width="2" fill="none"/>
+                            </svg>
+                            I understand and consent to sharing my story for review
+                        </label>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="story-submit__buttons">
+                        <button type="button" class="story-submit__button story-submit__button--secondary">
+                            Save Draft
+                        </button>
+                        <button type="submit" class="story-submit__button story-submit__button--primary">
+                            Submit for Review
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="story-submit__sidebar">
+                <!-- Guidelines Card -->
+                <div class="story-submit__guidelines">
+                    <h3 class="story-submit__guidelines-header">
+                        <svg class="story-submit__guidelines-icon" viewBox="0 0 24 24" fill="none">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="currentColor"/>
+                        </svg>
+                        <span class="story-submit__guidelines-title">Guidelines</span>
+                    </h3>
+                    <ul class="story-submit__guidelines-list">
+                        <li class="story-submit__guideline-item">
+                            <svg class="story-submit__guideline-icon" viewBox="0 0 24 24" fill="none">
+                                <polyline points="20,6 9,17 4,12" stroke="currentColor" stroke-width="2" fill="none"/>
+                            </svg>
+                            <span class="story-submit__guideline-text">Be respectful and kind to others</span>
+                        </li>
+                        <li class="story-submit__guideline-item">
+                            <svg class="story-submit__guideline-icon" viewBox="0 0 24 24" fill="none">
+                                <polyline points="20,6 9,17 4,12" stroke="currentColor" stroke-width="2" fill="none"/>
+                            </svg>
+                            <span class="story-submit__guideline-text">Avoid sharing personal information</span>
+                        </li>
+                        <li class="story-submit__guideline-item">
+                            <svg class="story-submit__guideline-icon" viewBox="0 0 24 24" fill="none">
+                                <polyline points="20,6 9,17 4,12" stroke="currentColor" stroke-width="2" fill="none"/>
+                            </svg>
+                            <span class="story-submit__guideline-text">Focus on your experience and growth</span>
+                        </li>
+                        <li class="story-submit__guideline-item">
+                            <svg class="story-submit__guideline-icon" viewBox="0 0 24 24" fill="none">
+                                <polyline points="20,6 9,17 4,12" stroke="currentColor" stroke-width="2" fill="none"/>
+                            </svg>
+                            <span class="story-submit__guideline-text">Use appropriate language</span>
+                        </li>
+                        <li class="story-submit__guideline-item">
+                            <svg class="story-submit__guideline-icon" viewBox="0 0 24 24" fill="none">
+                                <polyline points="20,6 9,17 4,12" stroke="currentColor" stroke-width="2" fill="none"/>
+                            </svg>
+                            <span class="story-submit__guideline-text">Stories will be reviewed before publishing</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Help Card -->
+                <div class="story-submit__help">
+                    <h4 class="story-submit__help-title">Need Help?</h4>
+                    <p class="story-submit__help-text">Our community team is here to support you through the submission process.</p>
+                    <button type="button" class="story-submit__help-button">
+                        <svg class="story-submit__help-icon" viewBox="0 0 24 24" fill="none">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
+                        Contact Support
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script>
+        // TODO: Implement rich text editor functionality
+        // TODO: Implement tag management
+        // TODO: Implement form validation
+        // TODO: Implement draft saving functionality
+    </script>
+}
+

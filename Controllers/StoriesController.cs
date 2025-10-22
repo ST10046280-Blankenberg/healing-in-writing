@@ -54,5 +54,10 @@ namespace HealingInWriting.Controllers
 
             return View(viewModel);
         }
+
+        public IActionResult Submit()
+        {
+            return View();
+        }
     }
 }

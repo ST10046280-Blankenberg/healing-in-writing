@@ -808,3 +808,575 @@
     }
 }
 
+/* =========================================================
+   Story Submit Page Styles
+   ========================================================= */
+
+/* Page Container */
+.story-submit {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #E9D5EB 0%, #FDF5ED 70.71%);
+}
+
+/* Body Section */
+.story-submit__body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 32px 64px;
+    gap: 16px;
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+/* Header Section */
+.story-submit__header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 8px;
+    width: 100%;
+    max-width: 1312px;
+}
+
+.story-submit__title {
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 40px;
+    color: #2F1648;
+    margin: 0;
+}
+
+.story-submit__subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    color: #4B5563;
+    margin: 0;
+    width: 100%;
+}
+
+/* Main Container */
+.story-submit__container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0;
+    gap: 32px;
+    width: 100%;
+    max-width: 1312px;
+}
+
+/* Form Container */
+.story-submit__form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 32px;
+    gap: 24px;
+    width: 976px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 10px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+}
+
+/* Form Element - Force to take full width */
+.story-submit__form-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    flex: 1;
+    gap: 24px;
+}
+
+/* Form Fields */
+.story-submit__field {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0;
+    gap: 16px;
+    width: 100%;
+}
+
+.story-submit__field-label {
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    color: #374151;
+    margin: 0;
+}
+
+.story-submit__input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 50px;
+    padding: 13px 16px;
+    background: #FFFFFF;
+    border: 1px solid #D1D5DB;
+    border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+}
+
+.story-submit__input::placeholder {
+    color: #ADAEBC;
+}
+
+/* Text Area Container */
+.story-submit__textarea-container {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1px;
+    width: 100%;
+    border: 1px solid #D1D5DB;
+    border-radius: 12px;
+}
+
+.story-submit__toolbar {
+    box-sizing: border-box;
+    width: 100%;
+    height: 57px;
+    background: #F9FAFB;
+    border-bottom: 1px solid #D1D5DB;
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    gap: 8px;
+}
+
+.story-submit__toolbar-button {
+    width: 26.5px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.story-submit__toolbar-button--wide {
+    width: 30px;
+}
+
+.story-submit__toolbar-icon {
+    width: 10.5px;
+    height: 14px;
+    fill: #4B5563;
+}
+
+.story-submit__textarea {
+    width: 100%;
+    height: 200px;
+    background: #FFFFFF;
+    border: none;
+    padding: 12px 16px;
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    resize: vertical;
+    outline: none;
+}
+
+.story-submit__textarea::placeholder {
+    color: #ADAEBC;
+}
+
+/* Tags Section */
+.story-submit__tags-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.story-submit__tags-icon {
+    width: 12.25px;
+    height: 14px;
+    fill: #374151;
+}
+
+.story-submit__selected-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+}
+
+.story-submit__tag {
+    display: flex;
+    align-items: center;
+    padding: 4px 12px;
+    background: #E9D5EB;
+    border-radius: 9999px;
+    gap: 8px;
+}
+
+.story-submit__tag-text {
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #2F1648;
+}
+
+.story-submit__tag-remove {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+}
+
+.story-submit__tag-remove-icon {
+    width: 9px;
+    height: 12px;
+    fill: #2F1648;
+}
+
+/* Checkboxes */
+.story-submit__checkbox-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+    gap: 16px;
+    width: 100%;
+}
+
+.story-submit__checkbox {
+    box-sizing: border-box;
+    width: 16px;
+    height: 16px;
+    background: #FFFFFF;
+    border: 0.5px solid #000000;
+    border-radius: 1px;
+}
+
+.story-submit__checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #374151;
+}
+
+.story-submit__checkbox-icon {
+    width: 12.25px;
+    height: 14px;
+    fill: #6B7280;
+}
+
+/* Buttons */
+.story-submit__buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+    gap: 32px;
+    width: 100%;
+}
+
+.story-submit__button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    gap: 10px;
+    height: 56px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.story-submit__button--secondary {
+    box-sizing: border-box;
+    width: 182px;
+    border: 2px solid #2F1648;
+    background: transparent;
+    color: #2F1648;
+}
+
+.story-submit__button--secondary:hover {
+    background: #f8f9fa;
+}
+
+.story-submit__button--primary {
+    width: 182px;
+    background: #2F1648;
+    border: none;
+    color: #FFFFFF;
+}
+
+.story-submit__button--primary:hover {
+    background: #3d1d5a;
+}
+
+/* Sidebar */
+.story-submit__sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 32px;
+    width: 304px;
+    flex-grow: 1;
+}
+
+/* Guidelines Card */
+.story-submit__guidelines {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+    gap: 24px;
+    width: 100%;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+}
+
+.story-submit__guidelines-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.story-submit__guidelines-icon {
+    width: 13.5px;
+    height: 18px;
+    fill: #2F1648;
+}
+
+.story-submit__guidelines-title {
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 27px;
+    color: #2F1648;
+    margin: 0;
+}
+
+.story-submit__guidelines-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 16px;
+    width: 100%;
+    list-style: none;
+    margin: 0;
+}
+
+.story-submit__guideline-item {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0;
+    gap: 8px;
+    width: 100%;
+}
+
+.story-submit__guideline-icon {
+    width: 12.25px;
+    height: 14px;
+    fill: #22C55E;
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+
+.story-submit__guideline-text {
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #4B5563;
+    flex-grow: 1;
+}
+
+/* Help Card */
+.story-submit__help {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+    gap: 12px;
+    width: 100%;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.25);
+    border-radius: 16px;
+}
+
+.story-submit__help-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    gap: 10px;
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #2F1648;
+    margin: 0;
+}
+
+.story-submit__help-text {
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #374151;
+    margin: 0;
+}
+
+.story-submit__help-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+    gap: 4px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    text-align: center;
+    color: #2F1648;
+}
+
+.story-submit__help-icon {
+    width: 14px;
+    height: 14px;
+    fill: #2F1648;
+}
+
+/* Responsive Design */
+@media (max-width: 1440px) {
+    .story-submit__body {
+        padding: 32px 48px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .story-submit__body {
+        padding: 24px 32px;
+    }
+
+    .story-submit__container {
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .story-submit__form-container {
+        width: 100%;
+        padding: 24px;
+    }
+
+    .story-submit__sidebar {
+        width: 100%;
+    }
+
+    .story-submit__title {
+        font-size: 32px;
+        line-height: 36px;
+    }
+}
+
+@media (max-width: 768px) {
+    .story-submit__body {
+        padding: 16px;
+    }
+
+    .story-submit__form-container {
+        padding: 20px;
+    }
+
+    .story-submit__title {
+        font-size: 28px;
+        line-height: 32px;
+    }
+
+    .story-submit__subtitle {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .story-submit__buttons {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .story-submit__button--secondary,
+    .story-submit__button--primary {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .story-submit__body {
+        padding: 12px;
+    }
+
+    .story-submit__form-container {
+        padding: 16px;
+    }
+
+    .story-submit__title {
+        font-size: 24px;
+        line-height: 28px;
+    }
+
+    .story-submit__subtitle {
+        font-size: 14px;
+        line-height: 20px;
+    }
+}
