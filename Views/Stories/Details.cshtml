@@ -1,1 +1,60 @@
-@* TODO: Display story details received from the orchestrating controller. *@
+@model HealingInWriting.Models.Stories.StoryDetailViewModel
+
+@{
+    ViewData["Title"] = "Story Details";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/views/stories.css" asp-append-version="true" />
+}
+
+<main class="story-details">
+    <div class="story-details__body">
+        <article class="story-details__container">
+            <div class="story-details__content">
+                <!-- Hero Image -->
+                <div class="story-details__image">
+                    <!-- Image with gradient overlay -->
+                </div>
+
+                <!-- Article Content -->
+                <div class="story-details__article">
+                    <!-- Header Section -->
+                    <header class="story-details__header">
+                        <h1 class="story-details__title">Article Title</h1>
+                        <p class="story-details__meta">By Author March 10, 2025</p>
+                    </header>
+
+                    <!-- Tags Section -->
+                    <div class="story-details__tags">
+                        <span class="story-details__tag">
+                            <span class="story-details__tag-text">Tag</span>
+                        </span>
+                        <span class="story-details__tag">
+                            <span class="story-details__tag-text">Tag</span>
+                        </span>
+                        <span class="story-details__tag">
+                            <span class="story-details__tag-text">Tag</span>
+                        </span>
+                    </div>
+
+                    <!-- Article Text Content -->
+                    <div class="story-details__text-container">
+                        <div class="story-details__text-wrapper">
+                            <p class="story-details__text">
+                                In the thick of lockdown, 2020, poet, critic, and memoirist Jamie Hood published her debut, how to be a good girl, an interrogation of modern femininity and the narratives of love, desire, and violence yoked to it. The Rumpus praised Hood's "bold vulnerability," and Vogue named it a Best Book of 2020.
+                            </p>
+                            <p class="story-details__text">
+                                In Trauma Plot, Hood draws on disparate literary forms to tell the story that lurked in good girl's margins—of three decades marred by sexual violence and the wreckage left behind. With her trademark critical remove, Hood interrogates the archetype of the rape survivor, who must perform penitence long after living through the unthinkable, invoking some of art's most infamous women to have played the role: Ovid's Philomela, David Lynch's Laura Palmer, and Artemisia Gentileschi, who captured Judith's wrath. In so doing, she asks: What do we as a culture demand of survivors? And what do survivors, in turn, owe a world that has abandoned them?
+                            </p>
+                            <p class="story-details__text">
+                                Trauma Plot is a scalding work of personal and literary criticism. It is a send-up of our culture's pious disdain for "trauma porn," a dirge for the broken promises of #MeToo, and a paean to finding life after death.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</main>
+
