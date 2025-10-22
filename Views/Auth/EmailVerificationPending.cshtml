@@ -1,0 +1,77 @@
+@{
+    ViewData["Title"] = "Verify Your Email";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Healing In Writing</title>
+    <link rel="stylesheet" href="~/css/base/_variables.css" />
+    <link rel="stylesheet" href="~/css/views/auth.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+<body>
+    <main class="auth auth--message">
+        <!-- Image Panel -->
+        <aside class="auth__image-panel" aria-label="Community background">
+            <div class="auth__overlay"></div>
+            <img
+                src="~/images/auth-bg-img.webp"
+                class="auth__image"
+                alt="Healing In Writing community gathering"
+                loading="lazy" />
+            <div class="auth__content">
+                <h2 class="auth__content-title">Your Journey Begins</h2>
+                <p class="auth__content-text">
+                    We're excited to have you join our community of writers and healers.
+                    Just one more step to get started!
+                </p>
+            </div>
+        </aside>
+
+        <!-- Message Panel -->
+        <section class="auth__form-panel">
+            <div class="auth__form-wrapper">
+                <header class="auth__header">
+                    <h1 class="auth__title">Check Your Email</h1>
+                    <p class="auth__subtitle">We've sent you a verification link</p>
+                </header>
+
+                <div class="auth__message-content">
+                    <span class="material-symbols-outlined auth__message-icon" aria-hidden="true">mail</span>
+
+                    <p class="auth__message-text">
+                        Thank you for registering! We've sent a verification email to your inbox.
+                    </p>
+
+                    <p class="auth__message-text">
+                        Please check your email and click the verification link to activate your account.
+                    </p>
+
+                    <div class="auth__message-help">
+                        <p class="auth__message-help-title">Haven't received the email?</p>
+                        <ul class="auth__message-help-list">
+                            <li>Check your spam or junk folder</li>
+                            <li>Make sure you entered the correct email address</li>
+                            <li>Wait a few minutes and refresh your inbox</li>
+                        </ul>
+                    </div>
+
+                    <!-- TODO [Future Enhancement]: Add resend verification email button -->
+                    <!-- <button type="button" class="auth__button auth__button--secondary">Resend Verification Email</button> -->
+                </div>
+
+                <!-- Back to Login Link -->
+                <div class="auth__toggle">
+                    <span class="auth__toggle-text">
+                        <a href="@Url.Action("Auth", "Auth", new { mode = "login" })" class="auth__toggle-link">Back to Sign In</a>
+                    </span>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
