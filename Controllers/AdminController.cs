@@ -34,7 +34,7 @@ namespace HealingInWriting.Controllers
             return View();
         }
 
-        public IActionResult ApproveHours()
+        public IActionResult ManageHours()
         {
             return View();
         }
@@ -45,6 +45,11 @@ namespace HealingInWriting.Controllers
         }
 
         public IActionResult SiteSettings()
+        {
+            return View();
+        }
+
+        public IActionResult AddBookView()
         {
             return View();
         }

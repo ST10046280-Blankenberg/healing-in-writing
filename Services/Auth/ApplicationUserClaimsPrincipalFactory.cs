@@ -9,20 +9,20 @@ namespace HealingInWriting.Services.Auth;
 /// Custom claims principal factory to add FirstName and LastName to user claims.
 /// This makes them accessible in views via User.Identity.
 /// </summary>
-public class ApplicationUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<ApplicationUser>
+public class ApplicationUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<ApplicationUser, IdentityRole>
 {
     public ApplicationUserClaimsPrincipalFactory(
         UserManager<ApplicationUser> userManager,
+        RoleManager<IdentityRole> roleManager,
         IOptions<IdentityOptions> optionsAccessor)
-        : base(userManager, optionsAccessor)
+        : base(userManager, roleManager, optionsAccessor)
     {
     }
 
     protected override async Task<ClaimsIdentity> GenerateClaimsAsync(ApplicationUser user)
     {
-        var identity = await base.GenerateClaimsAsync(user);
+        var identity = await base.GenerateClaimsAsync(user); // This adds role claims!
 
-        // Add custom claims for FirstName and LastName
         identity.AddClaim(new Claim("FirstName", user.FirstName ?? string.Empty));
         identity.AddClaim(new Claim("LastName", user.LastName ?? string.Empty));
         identity.AddClaim(new Claim("FullName", $"{user.FirstName} {user.LastName}"));
