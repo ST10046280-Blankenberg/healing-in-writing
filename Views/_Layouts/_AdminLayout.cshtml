@@ -6,22 +6,22 @@
             <a class="header__nav-link" asp-controller="Admin" asp-action="Index">Dashboard</a>
         </li>
         <li>
-            <a class="header__nav-link" asp-controller="ManageStories" asp-action="Index">Manage Stories</a>
+            <a class="header__nav-link" asp-controller="Admin" asp-action="ManageStories">Manage Stories</a>
         </li>
         <li>
-            <a class="header__nav-link" asp-controller="ManageEvents" asp-action="Index">Manage Events</a>
+            <a class="header__nav-link" asp-controller="Admin" asp-action="ManageEvents">Manage Events</a>
         </li>
         <li>
-            <a class="header__nav-link" asp-controller="ManageBooks" asp-action="Index">Manage Books</a>
+            <a class="header__nav-link" asp-controller="Admin" asp-action="ManageBooks">Manage Books</a>
         </li>
+       @*  <li>
+            <a class="header__nav-link" asp-controller="Admin" asp-action="ManageHours">Approve Hours</a>
+        </li> *@
         <li>
-            <a class="header__nav-link" asp-controller="ApproveVolunteerHours" asp-action="Approve">Approve Hours</a>
-        </li>
-        <li>
-            <a class="header__nav-link" asp-controller="Reports" asp-action="Index">Reports</a>
+            <a class="header__nav-link" asp-controller="Admin" asp-action="Reports">Reports</a>
         </li>
         @* <li>
-            <a class="header__nav-link" asp-controller="SiteSettings" asp-action="Index">Site Settings</a>
+            <a class="header__nav-link" asp-controller="admin" asp-action="Index">Site Settings</a>
         </li> *@
     </ul>
 </nav>

@@ -1,0 +1,158 @@
+﻿@{
+    ViewData["Title"] = "Add Book";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/views/books.css" />
+}
+
+<main class="books" style="padding-top:32px;">
+    <section style="
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 24px 32px;
+        gap: 32px;
+        width: 100%;
+        max-width: 1313px;
+        min-height: 1088px;
+        background: #fff;
+        border-radius: 16px;
+        margin: 0 auto;
+        box-shadow: var(--shadow-soft-lg);
+    ">
+        <form method="post" enctype="multipart/form-data" style="width:100%;">
+            <div style="
+                display: flex;
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 32px;
+                width: 100%;
+                max-width: 1249px;
+            ">
+                <!-- Cover Image Upload -->
+                <div style="
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 8px;
+                    width: 336px;
+                    min-width: 336px;
+                ">
+                    <label for="CoverImage" style="
+                        font-family: 'Open Sans', sans-serif;
+                        font-size: 18px;
+                        color: #0C0C20;
+                        margin-bottom: 8px;
+                    ">Cover image</label>
+                    <div style="
+                        width: 336px;
+                        height: 504px;
+                        background: url('/images/Checker.png'), #F6FAF9;
+                        border-radius: 16px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin-bottom: 8px;
+                        border: 1px solid var(--brand-300);
+                    ">
+                        <img id="coverPreview" src="~/images/placeholder-book.svg" alt="Book cover preview" style="width:100%; height:100%; object-fit:cover; border-radius:16px;" />
+                    </div>
+                    <input type="file" id="CoverImage" name="CoverImage" accept="image/*" class="input" style="margin-bottom:8px;" />
+                </div>
+                <!-- Book Details -->
+                <div style="
+                    display: flex;
+                    flex-direction: column;
+                    gap: 24px;
+                    flex: 1;
+                    min-width: 400px;
+                ">
+                    <div style="display: flex; flex-direction: row; align-items: flex-end; gap: 32px;">
+                        <div style="flex: 1;">
+                            <label for="ISBN" style="font-family: 'Poppins'; font-weight: 500; font-size: 14px; color: #374151;">ISBN</label>
+                            <input type="text" id="ISBN" name="ISBN" class="input" placeholder="Subtext" style="margin-top:8px;" />
+                        </div>
+                        <button type="button" class="btn btn-primary" style="height:56px; min-width:192px; font-size:16px;">Import Details</button>
+                    </div>
+                    <div style="display: flex; gap: 16px;">
+                        <div style="flex: 1;">
+                            <label for="Author" style="font-family: 'Poppins'; font-weight: 500; font-size: 14px; color: #374151;">Author</label>
+                            <input type="text" id="Author" name="Author" class="input" placeholder="Subtext" style="margin-top:8px;" />
+                        </div>
+                        <div style="flex: 1;">
+                            <label for="Language" style="font-family: 'Poppins'; font-weight: 500; font-size: 14px; color: #374151;">Language</label>
+                            <input type="text" id="Language" name="Language" class="input" placeholder="Subtext" style="margin-top:8px;" />
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 16px;">
+                        <div style="flex: 1;">
+                            <label for="PublishDate" style="font-family: 'Poppins'; font-weight: 500; font-size: 14px; color: #374151;">Publish Date</label>
+                            <input type="text" id="PublishDate" name="PublishDate" class="input" placeholder="Subtext" style="margin-top:8px;" />
+                        </div>
+                        <div style="flex: 1;">
+                            <label for="PageCount" style="font-family: 'Poppins'; font-weight: 500; font-size: 14px; color: #374151;">Page Count</label>
+                            <input type="number" id="PageCount" name="PageCount" class="input" placeholder="Subtext" style="margin-top:8px;" />
+                        </div>
+                    </div>
+                    <div>
+                        <label for="Category" style="font-family: 'Poppins'; font-weight: 500; font-size: 14px; color: #374151;">Category</label>
+                        <input type="text" id="Category" name="Category" class="input" placeholder="Subtext" style="margin-top:8px;" />
+                    </div>
+                    <div style="display: flex; gap: 16px; border-top:2px solid #2F1648; padding-top:8px;">
+                        <div style="flex: 1;">
+                            <label for="Condition" style="font-family: 'Poppins'; font-weight: 500; font-size: 14px; color: #374151;">Condition</label>
+                            <select id="Condition" name="Condition" class="input" style="margin-top:8px;">
+                                <option value="">Select condition</option>
+                                <option value="New">New</option>
+                                <option value="Like New">Like New</option>
+                                <option value="Good">Good</option>
+                                <option value="Fair">Fair</option>
+                                <option value="Poor">Poor</option>
+                            </select>
+                        </div>
+                        <div style="flex: 1;">
+                            <label for="Price" style="font-family: 'Poppins'; font-weight: 500; font-size: 14px; color: #374151;">Price</label>
+                            <input type="text" id="Price" name="Price" class="input" placeholder="Subtext" style="margin-top:8px;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Description -->
+            <div style="
+                margin-top:32px;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%;
+                max-width: 1249px;
+            ">
+                <label for="Description" style="font-family: 'Poppins'; font-weight: 500; font-size: 14px; color: #374151;">Description</label>
+                <textarea id="Description" name="Description" class="input" rows="10" placeholder="Enter description here..." style="
+                    margin-top:8px;
+                    width:100%;
+                    min-height: 200px;
+                    font-family: 'Poppins';
+                    font-size: 16px;
+                    color: #ADAEBC;
+                    border-radius: 12px;
+                    border: 1px solid #D1D5DB;
+                    background: #fff;
+                    resize:vertical;
+                "></textarea>
+            </div>
+            <!-- Add Book Button -->
+            <div style="margin-top:32px; display:flex; justify-content:flex-start;">
+                <button type="submit" class="btn btn-primary" style="
+                    min-width:192px;
+                    height:56px;
+                    font-family:'Poppins';
+                    font-weight:500;
+                    font-size:16px;
+                    border-radius:8px;
+                ">Add Book</button>
+            </div>
+        </form>
+    </section>
+</main>
