@@ -270,6 +270,8 @@
     line-height: 21px;
     color: #2F1648;
     white-space: nowrap;
+    text-align: center;
+    flex: 1;
 }
 
 .story-card__tag--small .story-card__tag-text {
@@ -980,8 +982,8 @@
 }
 
 .story-submit__toolbar-icon {
-    width: 10.5px;
-    height: 14px;
+    width: 18px;
+    height: 18px;
     fill: #4B5563;
 }
 
