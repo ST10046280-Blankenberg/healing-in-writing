@@ -58,14 +58,18 @@
                     <li class="header__nav-item">
                         <a class="header__nav-link" asp-controller="Contact" asp-action="Index">Contact</a>
                     </li>
-                    @* Admin tab only for admins *@
+                    <li class="header__nav-item">
+                        <a class="header__nav-link @(isAdminTabActive ? "header__nav-link--active" : "")"
+                           asp-controller="Admin" asp-action="Index">Admin</a>
+                    </li>
+                    @* Admin tab only for admins 
                     @if (isAdmin)
                     {
                         <li class="header__nav-item">
                             <a class="header__nav-link @(isAdminTabActive ? "header__nav-link--active" : "")"
                                asp-controller="Admin" asp-action="Index">Admin</a>
                         </li>
-                    }
+                    } *@
                 </ul>
                 <div class="header__auth">
                     @if (User.Identity.IsAuthenticated)
