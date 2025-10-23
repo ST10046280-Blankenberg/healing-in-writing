@@ -1,13 +1,27 @@
 @* TODO: Define the admin layout once navigation and styling are confirmed. *@
 
-<nav class="admin-navbar">
-    <ul class="admin-navbar__list">
-        <li><a asp-controller="Admin" asp-action="Dashboard">Dashboard</a></li>
-        <li><a asp-controller="AdminStories" asp-action="Index">Manage Stories</a></li>
-        <li><a asp-controller="AdminEvents" asp-action="Index">Manage Events</a></li>
-        <li><a asp-controller="AdminBooks" asp-action="Index">Manage Books</a></li>
-        <li><a asp-controller="AdminHours" asp-action="Approve">Approve Hours</a></li>
-        <li><a asp-controller="AdminReports" asp-action="Index">Reports</a></li>
-        <li><a asp-controller="AdminSettings" asp-action="Index">Site Settings</a></li>
+<nav class="admin-navbar" style="background: #FEFAF6; border-bottom: 1px solid var(--brand-300); padding-left: 128px; padding-right: 128px;">
+    <ul class="admin-navbar__list" style="display: flex; gap: 2.5rem; margin: 0; padding: 1.25rem 0 1.25rem 0; list-style: none; font-family: var(--font-family-base); font-size: 1.1rem; font-weight: var(--font-weight-semi); color: var(--brand-700); justify-content: flex-end;">
+        <li>
+            <a class="header__nav-link" asp-controller="Admin" asp-action="Dashboard">Dashboard</a>
+        </li>
+        <li>
+            <a class="header__nav-link" asp-controller="AdminStories" asp-action="Index">Manage Stories</a>
+        </li>
+        <li>
+            <a class="header__nav-link" asp-controller="AdminEvents" asp-action="Index">Manage Events</a>
+        </li>
+        <li>
+            <a class="header__nav-link" asp-controller="AdminBooks" asp-action="Index">Manage Books</a>
+        </li>
+        <li>
+            <a class="header__nav-link" asp-controller="AdminHours" asp-action="Approve">Approve Hours</a>
+        </li>
+        <li>
+            <a class="header__nav-link" asp-controller="AdminReports" asp-action="Index">Reports</a>
+        </li>
+        <li>
+            <a class="header__nav-link" asp-controller="AdminSettings" asp-action="Index">Site Settings</a>
+        </li>
     </ul>
 </nav>
