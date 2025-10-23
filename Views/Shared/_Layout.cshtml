@@ -50,10 +50,31 @@
                         <a class="header__nav-link" asp-controller="Contact" asp-action="Index">Contact</a>
                     </li>
                 </ul>
-                
                 <div class="header__auth">
-                    <a class="header__auth-link" asp-controller="Auth" asp-action="Auth">Login</a>
-                    <a class="header__auth-link header__auth-link--signup" asp-controller="Auth" asp-action="Auth" asp-route-mode="register">Sign Up</a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <span class="header__auth-user">
+                            @* TODO: Correctly pull first and last name data, as current method isn't referencing the correct info *@
+                            @* Display full name if available, else fallback to username *@
+                            @{
+                                var firstName = User.Claims.FirstOrDefault(c => c.Type == "FirstName")?.Value;
+                                var lastName = User.Claims.FirstOrDefault(c => c.Type == "LastName")?.Value;
+                                var displayName = !string.IsNullOrEmpty(firstName) && !string.IsNullOrEmpty(lastName)
+                                    ? $"{firstName} {lastName}"
+                                    : User.Identity.Name;
+                            }
+                            <span class="header__auth-name">@displayName</span>
+                        </span>
+                        <form asp-controller="Auth" asp-action="Logout" method="post" class="header__auth-logout" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="header__auth-link header__auth-link--logout">Logout</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a class="header__auth-link" asp-controller="Auth" asp-action="Auth">Login</a>
+                        <a class="header__auth-link header__auth-link--signup" asp-controller="Auth" asp-action="Auth" asp-route-mode="register">Sign Up</a>
+                    }
                 </div>
             </nav>
         </div>
