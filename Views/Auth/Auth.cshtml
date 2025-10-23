@@ -1,3 +1,4 @@
+@model dynamic
 @{
     ViewData["Title"] = "Authentication";
     Layout = null;
@@ -45,45 +46,49 @@
                 <!-- Login Form -->
                 <form class="auth__form auth__form--login" method="post" asp-action="Login" asp-controller="Auth">
                     @Html.AntiForgeryToken()
-                    
+
+                    <!-- Display validation summary for login errors -->
+                    <div asp-validation-summary="ModelOnly" class="auth__validation-summary"></div>
+
                     <!-- Email Field -->
                     <div class="auth__form-group">
                         <label for="login-email" class="auth__label">Email Address</label>
-                        <input 
-                            type="email" 
-                            id="login-email" 
+                        <input
+                            type="email"
+                            id="login-email"
                             name="Email"
-                            class="auth__input" 
-                            placeholder="Enter your email address" 
-                            required 
+                            class="auth__input"
+                            placeholder="Enter your email address"
+                            required
                             autocomplete="email"
                             aria-describedby="login-email-error" />
-                        <span id="login-email-error" class="auth__error-message"></span>
+                        <span id="login-email-error" class="auth__error-message" data-valmsg-for="Email" data-valmsg-replace="true"></span>
                     </div>
 
                     <!-- Password Field -->
                     <div class="auth__form-group">
                         <label for="login-password" class="auth__label">Password</label>
-                        <input 
-                            type="password" 
-                            id="login-password" 
+                        <input
+                            type="password"
+                            id="login-password"
                             name="Password"
-                            class="auth__input" 
-                            placeholder="Enter your password" 
-                            required 
+                            class="auth__input"
+                            placeholder="Enter your password"
+                            required
                             autocomplete="current-password"
                             aria-describedby="login-password-error" />
-                        <span id="login-password-error" class="auth__error-message"></span>
+                        <span id="login-password-error" class="auth__error-message" data-valmsg-for="Password" data-valmsg-replace="true"></span>
                     </div>
 
                     <!-- Remember Me & Forgot Password -->
                     <div class="auth__link-group">
                         <div class="auth__checkbox-group">
-                            <input 
-                                type="checkbox" 
-                                id="rememberMe" 
+                            <input
+                                type="checkbox"
+                                id="rememberMe"
                                 name="RememberMe"
-                                class="auth__checkbox" />
+                                class="auth__checkbox"
+                                value="true" />
                             <label for="rememberMe" class="auth__checkbox-label">Remember me</label>
                         </div>
                         <a href="@Url.Action("ForgotPassword", "Auth")" class="auth__link">Forgot password?</a>
@@ -96,76 +101,84 @@
                 <!-- Register Form -->
                 <form class="auth__form auth__form--register" method="post" asp-action="Register" asp-controller="Auth">
                     @Html.AntiForgeryToken()
-                    
+
+                    <!-- Display validation summary for registration errors -->
+                    <div asp-validation-summary="ModelOnly" class="auth__validation-summary"></div>
+
                     <!-- Name Fields Row -->
                     <div class="auth__form-row">
                         <div class="auth__form-group">
                             <label for="firstName" class="auth__label">First Name</label>
-                            <input 
-                                type="text" 
-                                id="firstName" 
+                            <input
+                                type="text"
+                                id="firstName"
                                 name="FirstName"
-                                class="auth__input" 
-                                placeholder="Enter your first name" 
+                                class="auth__input"
+                                placeholder="Enter your first name"
+                                required
                                 autocomplete="given-name"
                                 aria-describedby="firstName-error" />
-                            <span id="firstName-error" class="auth__error-message"></span>
+                            <span id="firstName-error" class="auth__error-message" data-valmsg-for="FirstName" data-valmsg-replace="true"></span>
                         </div>
 
                         <div class="auth__form-group">
                             <label for="lastName" class="auth__label">Last Name</label>
-                            <input 
-                                type="text" 
-                                id="lastName" 
+                            <input
+                                type="text"
+                                id="lastName"
                                 name="LastName"
-                                class="auth__input" 
-                                placeholder="Enter your last name" 
+                                class="auth__input"
+                                placeholder="Enter your last name"
+                                required
                                 autocomplete="family-name"
                                 aria-describedby="lastName-error" />
-                            <span id="lastName-error" class="auth__error-message"></span>
+                            <span id="lastName-error" class="auth__error-message" data-valmsg-for="LastName" data-valmsg-replace="true"></span>
                         </div>
                     </div>
 
                     <!-- Email Field -->
                     <div class="auth__form-group">
                         <label for="register-email" class="auth__label">Email Address</label>
-                        <input 
-                            type="email" 
-                            id="register-email" 
+                        <input
+                            type="email"
+                            id="register-email"
                             name="Email"
-                            class="auth__input" 
-                            placeholder="Enter your email address" 
+                            class="auth__input"
+                            placeholder="Enter your email address"
+                            required
                             autocomplete="email"
                             aria-describedby="register-email-error" />
-                        <span id="register-email-error" class="auth__error-message"></span>
+                        <span id="register-email-error" class="auth__error-message" data-valmsg-for="Email" data-valmsg-replace="true"></span>
                     </div>
 
                     <!-- Password Field -->
                     <div class="auth__form-group">
                         <label for="register-password" class="auth__label">Password</label>
-                        <input 
-                            type="password" 
-                            id="register-password" 
+                        <input
+                            type="password"
+                            id="register-password"
                             name="Password"
-                            class="auth__input" 
-                            placeholder="Create a password (min. 8 characters)" 
+                            class="auth__input"
+                            placeholder="Create a password (min. 8 characters)"
+                            required
                             autocomplete="new-password"
                             aria-describedby="register-password-error" />
-                        <span id="register-password-error" class="auth__error-message"></span>
+                        <span id="register-password-error" class="auth__error-message" data-valmsg-for="Password" data-valmsg-replace="true"></span>
                     </div>
 
                     <!-- Confirm Password Field -->
                     <div class="auth__form-group">
                         <label for="confirmPassword" class="auth__label">Confirm Password</label>
-                        <input 
-                            type="password" 
-                            id="confirmPassword" 
+                        <input
+                            type="password"
+                            id="confirmPassword"
                             name="ConfirmPassword"
-                            class="auth__input" 
-                            placeholder="Confirm your password" 
+                            class="auth__input"
+                            placeholder="Confirm your password"
+                            required
                             autocomplete="new-password"
                             aria-describedby="confirmPassword-error" />
-                        <span id="confirmPassword-error" class="auth__error-message"></span>
+                        <span id="confirmPassword-error" class="auth__error-message" data-valmsg-for="ConfirmPassword" data-valmsg-replace="true"></span>
                     </div>
 
                     <!-- Submit Button -->
