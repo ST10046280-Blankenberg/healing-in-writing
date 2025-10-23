@@ -1,4 +1,13 @@
-@* TODO: Align layout structure with the eventual design system before launch. *@
+@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
+@{
+    // TODO: Align layout structure with the eventual design system before launch.
+    bool isAdmin = User.Identity.IsAuthenticated && User.IsInRole("Admin");
+    var currentController = Context.Request.RouteValues["controller"]?.ToString();
+    bool isAdminTabActive = string.Equals(currentController, "Admin", StringComparison.OrdinalIgnoreCase)
+        || (ViewData["IsAdminSection"] as bool? == true);
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,6 +58,14 @@
                     <li class="header__nav-item">
                         <a class="header__nav-link" asp-controller="Contact" asp-action="Index">Contact</a>
                     </li>
+                    @* Admin tab only for admins *@
+                    @if (isAdmin)
+                    {
+                        <li class="header__nav-item">
+                            <a class="header__nav-link @(isAdminTabActive ? "header__nav-link--active" : "")"
+                               asp-controller="Admin" asp-action="Index">Admin</a>
+                        </li>
+                    }
                 </ul>
                 <div class="header__auth">
                     @if (User.Identity.IsAuthenticated)
@@ -79,6 +96,14 @@
             </nav>
         </div>
     </header>
+
+    @* Admin sub-navbar: only for admins and when Admin tab is selected *@
+    @if (isAdmin && isAdminTabActive)
+    {
+        <div class="admin-subnav">
+            @await Html.PartialAsync("~/Views/_Layouts/_AdminLayout.cshtml")
+        </div>
+    }
 
     <main role="main">
         @RenderBody()

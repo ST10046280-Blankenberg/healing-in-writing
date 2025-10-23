@@ -1,1 +1,13 @@
 @* TODO: Define the admin layout once navigation and styling are confirmed. *@
+
+<nav class="admin-navbar">
+    <ul class="admin-navbar__list">
+        <li><a asp-controller="Admin" asp-action="Dashboard">Dashboard</a></li>
+        <li><a asp-controller="AdminStories" asp-action="Index">Manage Stories</a></li>
+        <li><a asp-controller="AdminEvents" asp-action="Index">Manage Events</a></li>
+        <li><a asp-controller="AdminBooks" asp-action="Index">Manage Books</a></li>
+        <li><a asp-controller="AdminHours" asp-action="Approve">Approve Hours</a></li>
+        <li><a asp-controller="AdminReports" asp-action="Index">Reports</a></li>
+        <li><a asp-controller="AdminSettings" asp-action="Index">Site Settings</a></li>
+    </ul>
+</nav>
