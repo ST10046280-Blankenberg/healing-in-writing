@@ -1,241 +1,608 @@
-/* Add Book Styles */
+/* =========================================================
+   Add Book Admin View
+   Comprehensive form for adding new books to inventory
+   ========================================================= */
 
+/* Page Container */
 .add-book {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem;
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 32px 64px;
+    gap: 32px;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
 }
 
-/* Header */
-.add-book__header {
-    margin-bottom: 2rem;
-}
-
-.add-book__title {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #1f2937;
-}
-
-/* Form Container */
-.add-book__form-container {
-    background: #ffffff;
-    border: 2px solid #e5e7eb;
-    border-radius: 8px;
-    padding: 2rem;
+/* Main Container */
+.add-book__container {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px 32px;
+    gap: 32px;
+    width: 100%;
+    
+    /* Visual */
+    background: #FFFFFF;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
 }
 
 /* Form */
 .add-book__form {
+    /* Box Model */
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-}
-
-/* Form Group */
-.add-book__form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.add-book__label {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #374151;
-}
-
-.add-book__input,
-.add-book__textarea {
+    gap: 32px;
     width: 100%;
-    padding: 0.75rem;
-    border: 2px solid #d1d5db;
-    border-radius: 6px;
-    font-size: 1rem;
-    color: #1f2937;
-    transition: border-color 0.3s ease;
 }
 
-.add-book__input:focus,
-.add-book__textarea:focus {
-    outline: none;
-    border-color: #3b82f6;
-}
-
-.add-book__textarea {
-    resize: vertical;
-    font-family: inherit;
-}
-
-/* Form Actions */
-.add-book__form-actions {
+/* Top Section */
+.add-book__top-section {
+    /* Box Model */
     display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0;
+    gap: 32px;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
 }
 
-.add-book__submit-button {
-    flex: 1;
-    padding: 0.875rem 1.5rem;
-    background: #3b82f6;
-    color: #ffffff;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.add-book__submit-button:hover {
-    background: #2563eb;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-}
-
-.add-book__cancel-button {
-    flex: 1;
-    padding: 0.875rem 1.5rem;
-    background: #f3f4f6;
-    color: #374151;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: 600;
-    text-decoration: none;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.add-book__cancel-button:hover {
-    background: #e5e7eb;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .add-book {
-        padding: 1rem;
-    }
-
-    .add-book__title {
-        font-size: 1.5rem;
-    }
-
-    .add-book__form-container {
-        padding: 1.5rem;
-    }
-
-    .add-book__form-actions {
-        flex-direction: column;
-    }
-}
-/* Manage Books Styles */
-
-.manage-books {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-}
-
-/* Header */
-.manage-books__header {
+/* Left Column (Cover Image) */
+.add-book__left-column {
+    /* Box Model */
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 8px;
+    width: 320px;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+/* Right Column (Form Fields) */
+.add-book__right-column {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 24px;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    flex-grow: 1;
+}
+
+/* Cover Upload */
+.add-book__cover-upload {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-    gap: 1rem;
+    justify-content: center;
+    padding: 10px;
+    gap: 10px;
+    width: 320px;
+    height: 480px;
+    
+    /* Visual */
+    background: repeating-conic-gradient(#E5E7EB 0% 25%, transparent 0% 50%) 50% / 20px 20px;
+    border-radius: 16px;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    position: relative;
 }
 
-.manage-books__title {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #1f2937;
+.add-book__file-input {
+    display: none;
 }
 
-/* Add Button */
-.manage-books__add-button {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    background: #10b981;
-    color: #ffffff;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-.manage-books__add-button:hover {
-    background: #059669;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-}
-
-.manage-books__add-button-icon {
-    font-size: 1.25rem;
-}
-
-/* Content Section */
-.manage-books__content {
-    background: #ffffff;
-    border: 2px solid #e5e7eb;
-    border-radius: 8px;
-    padding: 3rem;
-    min-height: 300px;
+.add-book__cover-placeholder {
+    /* Box Model */
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    height: 100%;
+    
+    /* Visual */
+    cursor: pointer;
+    transition: opacity 0.3s ease;
 }
 
-.manage-books__placeholder {
-    font-size: 1.125rem;
-    color: #9ca3af;
-    font-style: italic;
+.add-book__cover-placeholder:hover {
+    opacity: 0.7;
 }
 
-/* Footer */
-.manage-books__footer {
-    margin-top: 2rem;
+/* Form Groups */
+.add-book__form-group {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 8px;
+    
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
 }
 
-.manage-books__back-button {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    color: #3b82f6;
-    text-decoration: none;
+.add-book__form-group--flex {
+    flex: 1;
+}
+
+/* Labels */
+.add-book__label {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
     font-weight: 500;
-    transition: color 0.3s ease;
+    font-size: 14px;
+    line-height: 21px;
+    color: #374151;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
 }
 
-.manage-books__back-button:hover {
-    color: #2563eb;
-    text-decoration: underline;
+/* Inputs */
+.add-book__input {
+    /* Box Model */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 16px;
+    gap: 10px;
+    width: 100%;
+    height: 56px;
+    
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid #D1D5DB;
+    border-radius: 12px;
+    
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+    
+    /* Animation */
+    transition: border-color 0.3s ease;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .manage-books {
-        padding: 1rem;
-    }
+.add-book__input::placeholder {
+    color: #ADAEBC;
+}
 
-    .manage-books__header {
+.add-book__input:focus {
+    outline: none;
+    border-color: #2F1648;
+}
+
+/* ISBN Row */
+.add-book__isbn-row {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    padding: 0;
+    gap: 32px;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* Import Details Button */
+.add-book__import-btn {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 36px;
+    gap: 10px;
+    width: 192px;
+    height: 56px;
+    
+    /* Visual */
+    background: #2F1648;
+    border: none;
+    border-radius: 8px;
+    
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #FFFFFF;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    
+    /* Animation */
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.add-book__import-btn:hover {
+    background: #3d1d5a;
+    transform: translateY(-1px);
+}
+
+.add-book__import-btn:active {
+    background: #251038;
+    transform: scale(0.98);
+}
+
+/* Two Column Row */
+.add-book__row {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0;
+    gap: 16px;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.add-book__row .add-book__form-group {
+    flex: 1;
+}
+
+/* Middle Section */
+.add-book__middle-section {
+    /* Box Model */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 8px 0;
+    gap: 16px;
+    width: 100%;
+    
+    /* Visual */
+    border-top: 2px solid #2F1648;
+    
+    /* Layout */
+    flex: none;
+    order: 2;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* Rich Text Editor Section */
+.add-book__editor-section {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 1;
+}
+
+.add-book__editor {
+    /* Box Model */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1px;
+    width: 100%;
+    min-height: 400px;
+    
+    /* Visual */
+    border: 1px solid #D1D5DB;
+    border-radius: 12px;
+    overflow: hidden;
+    
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 1;
+}
+
+/* Editor Toolbar */
+.add-book__editor-toolbar {
+    /* Box Model */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 16px;
+    gap: 8px;
+    width: 100%;
+    height: 56px;
+    
+    /* Visual */
+    background: #F9FAFB;
+    border-bottom: 1px solid #D1D5DB;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.add-book__editor-btn {
+    /* Box Model */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    
+    /* Visual */
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    
+    /* Animation */
+    transition: background-color 0.2s ease;
+}
+
+.add-book__editor-btn:hover {
+    background: #E5E7EB;
+}
+
+.add-book__editor-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Editor Textarea */
+.add-book__editor-textarea {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 12px 16px;
+    gap: 10px;
+    width: 100%;
+    min-height: 414px;
+    
+    /* Visual */
+    background: #FFFFFF;
+    border: none;
+    border-radius: 0;
+    resize: vertical;
+    
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.add-book__editor-textarea::placeholder {
+    color: #ADAEBC;
+}
+
+.add-book__editor-textarea:focus {
+    outline: none;
+}
+
+/* Bottom Section */
+.add-book__bottom-section {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 0;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+/* Submit Button */
+.add-book__submit-btn {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 36px;
+    gap: 10px;
+    width: 304px;
+    height: 56px;
+    
+    /* Visual */
+    background: #2F1648;
+    border: none;
+    border-radius: 8px;
+    
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #FFFFFF;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    
+    /* Animation */
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.add-book__submit-btn:hover {
+    background: #3d1d5a;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(47, 22, 72, 0.3);
+}
+
+.add-book__submit-btn:active {
+    background: #251038;
+    transform: scale(0.98);
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
+
+/* Large Tablet and below (1200px) */
+@media (max-width: 1200px) {
+    .add-book__top-section {
         flex-direction: column;
-        align-items: flex-start;
     }
-
-    .manage-books__title {
-        font-size: 1.5rem;
-    }
-
-    .manage-books__add-button {
+    
+    .add-book__left-column {
         width: 100%;
-        justify-content: center;
+        max-width: 320px;
+    }
+    
+    .add-book__right-column {
+        width: 100%;
+    }
+}
+
+/* Tablet and below (1024px) */
+@media (max-width: 1024px) {
+    .add-book {
+        padding: 24px 32px;
+    }
+    
+    .add-book__container {
+        padding: 20px 24px;
+    }
+}
+
+/* Mobile landscape and below (768px) */
+@media (max-width: 768px) {
+    .add-book {
+        padding: 20px;
+        gap: 24px;
+    }
+    
+    .add-book__container {
+        padding: 16px 20px;
+        gap: 24px;
+    }
+    
+    .add-book__row {
+        flex-direction: column;
+        gap: 16px;
+    }
+    
+    .add-book__isbn-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .add-book__import-btn {
+        width: 100%;
+    }
+    
+    .add-book__cover-upload {
+        width: 100%;
+        height: 400px;
+    }
+    
+    .add-book__left-column {
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .add-book__submit-btn {
+        width: 100%;
+    }
+}
+
+/* Mobile portrait (480px) */
+@media (max-width: 480px) {
+    .add-book {
+        padding: 16px;
+        gap: 20px;
+    }
+    
+    .add-book__container {
+        padding: 16px;
+        gap: 20px;
+    }
+    
+    .add-book__cover-upload {
+        height: 320px;
+    }
+    
+    .add-book__editor-textarea {
+        min-height: 300px;
     }
 }
 
