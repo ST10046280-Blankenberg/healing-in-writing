@@ -1,0 +1,562 @@
+/* =========================================================
+   Admin Dashboard View
+   Main dashboard for administrative functions
+   ========================================================= */
+
+/* Page Container */
+.admin-dashboard {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 32px 64px;
+    gap: 32px;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* Header Section */
+.admin-dashboard__header-section {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 16px;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* Page Title */
+.admin-dashboard__title {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 40px;
+    color: #2F1648;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+/* Stats Cards Container */
+.admin-dashboard__stats {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: flex-start;
+    padding: 0;
+    gap: 32px;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* Individual Stat Card */
+.admin-dashboard__stat-card {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px;
+    gap: 10px;
+    min-width: 280px;
+    height: 120px;
+    
+    /* Visual */
+    background: #FFFFFF;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1), 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 1;
+    
+    /* Animation */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-dashboard__stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.12), 0px 6px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* Stat Content */
+.admin-dashboard__stat-content {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.admin-dashboard__stat-label {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 28px;
+    color: #2F1648;
+    margin: 0;
+}
+
+.admin-dashboard__stat-value {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 36px;
+    color: #2F1648;
+    margin: 0;
+}
+
+/* Stat Icon */
+.admin-dashboard__stat-icon {
+    /* Box Model */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    
+    /* Visual */
+    background: #E9D5EB;
+    border-radius: 9999px;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.admin-dashboard__stat-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* Quick Actions Section */
+.admin-dashboard__quick-actions {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 16px;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.admin-dashboard__section-title {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 32px;
+    color: #2F1648;
+    margin: 0;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+/* Actions Grid */
+.admin-dashboard__actions-grid {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+    padding: 0;
+    gap: 32px;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* Action Card */
+.admin-dashboard__action-card {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    gap: 16px;
+    width: 192px;
+    height: 176px;
+    
+    /* Visual */
+    background: #FFFFFF;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1), 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    
+    /* Typography */
+    text-decoration: none;
+    cursor: pointer;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    
+    /* Animation */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-dashboard__action-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.12), 0px 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Action Icon */
+.admin-dashboard__action-icon {
+    /* Box Model */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    
+    /* Visual */
+    background: #E9D5EB;
+    border-radius: 9999px;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.admin-dashboard__action-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* Action Label */
+.admin-dashboard__action-label {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #2F1648;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* Recent Activity Section */
+.admin-dashboard__activity {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    width: 100%;
+    
+    /* Visual */
+    background: #FFFFFF;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1), 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    
+    /* Layout */
+    flex: none;
+    order: 2;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* Activity Header */
+.admin-dashboard__activity-header {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px 24px;
+    gap: 10px;
+    width: 100%;
+    
+    /* Visual */
+    background: #E9D5EB;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.admin-dashboard__activity-title {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 30px;
+    color: #2F1648;
+    margin: 0;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+/* Activity List */
+.admin-dashboard__activity-list {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+    gap: 16px;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* Activity Item */
+.admin-dashboard__activity-item {
+    /* Box Model */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 0;
+    gap: 16px;
+    width: 100%;
+    
+    /* Visual */
+    border-bottom: 1px solid #F3F4F6;
+    
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.admin-dashboard__activity-item:last-child {
+    border-bottom: none;
+}
+
+/* Activity Icon */
+.admin-dashboard__activity-icon {
+    /* Box Model */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    
+    /* Visual */
+    background: #CA9F9D;
+    border-radius: 9999px;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.admin-dashboard__activity-icon svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Activity Content */
+.admin-dashboard__activity-content {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+.admin-dashboard__activity-text {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #2F1648;
+    margin: 0;
+}
+
+.admin-dashboard__activity-time {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #6B7280;
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
+
+/* Large Tablet (1200px) */
+@media (max-width: 1200px) {
+    .admin-dashboard__stats {
+        gap: 24px;
+    }
+    
+    .admin-dashboard__stat-card {
+        min-width: 250px;
+    }
+    
+    .admin-dashboard__actions-grid {
+        gap: 24px;
+    }
+}
+
+/* Tablet and below (1024px) */
+@media (max-width: 1024px) {
+    .admin-dashboard {
+        padding: 24px 32px;
+        gap: 24px;
+    }
+    
+    .admin-dashboard__stats {
+        gap: 16px;
+    }
+    
+    .admin-dashboard__stat-card {
+        min-width: 100%;
+    }
+    
+    .admin-dashboard__actions-grid {
+        justify-content: center;
+    }
+}
+
+/* Mobile landscape and below (768px) */
+@media (max-width: 768px) {
+    .admin-dashboard {
+        padding: 20px;
+        gap: 20px;
+    }
+    
+    .admin-dashboard__title {
+        font-size: 28px;
+        line-height: 36px;
+    }
+    
+    .admin-dashboard__section-title {
+        font-size: 20px;
+        line-height: 28px;
+    }
+    
+    .admin-dashboard__stat-card {
+        height: auto;
+        padding: 20px;
+    }
+    
+    .admin-dashboard__stat-label {
+        font-size: 16px;
+        line-height: 24px;
+    }
+    
+    .admin-dashboard__stat-value {
+        font-size: 24px;
+        line-height: 32px;
+    }
+    
+    .admin-dashboard__action-card {
+        width: 160px;
+        height: 160px;
+        padding: 20px;
+    }
+    
+    .admin-dashboard__action-icon {
+        width: 56px;
+        height: 56px;
+    }
+    
+    .admin-dashboard__activity-list {
+        padding: 12px;
+    }
+}
+
+/* Mobile portrait (480px) */
+@media (max-width: 480px) {
+    .admin-dashboard {
+        padding: 16px;
+        gap: 16px;
+    }
+    
+    .admin-dashboard__title {
+        font-size: 24px;
+        line-height: 32px;
+    }
+    
+    .admin-dashboard__actions-grid {
+        gap: 16px;
+    }
+    
+    .admin-dashboard__action-card {
+        width: 100%;
+        max-width: 200px;
+        margin: 0 auto;
+    }
+}
+

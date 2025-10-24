@@ -1,1 +1,179 @@
-@* TODO: Offer an oversight dashboard consuming admin service summaries. *@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<link rel="stylesheet" href="~/css/views/admin-dashboard.css" asp-append-version="true" />
+
+<div class="admin-dashboard">
+    <!-- Header Section -->
+    <div class="admin-dashboard__header-section">
+        <h1 class="admin-dashboard__title">Admin Dashboard</h1>
+
+        <!-- Stats Cards -->
+        <div class="admin-dashboard__stats">
+            <div class="admin-dashboard__stat-card">
+                <div class="admin-dashboard__stat-content">
+                    <h3 class="admin-dashboard__stat-label">Stories Pending</h3>
+                    <p class="admin-dashboard__stat-value">12</p>
+                </div>
+                <div class="admin-dashboard__stat-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="24" viewBox="0 0 18 24" fill="none">
+                        <path d="M5 2h8a2 2 0 012 2v16a2 2 0 01-2 2H5a2 2 0 01-2-2V4a2 2 0 012-2z" stroke="#2F1648" stroke-width="2" fill="none"/>
+                        <line x1="7" y1="8" x2="11" y2="8" stroke="#2F1648" stroke-width="2"/>
+                        <line x1="7" y1="12" x2="11" y2="12" stroke="#2F1648" stroke-width="2"/>
+                        <line x1="7" y1="16" x2="11" y2="16" stroke="#2F1648" stroke-width="2"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="admin-dashboard__stat-card">
+                <div class="admin-dashboard__stat-content">
+                    <h3 class="admin-dashboard__stat-label">Events this Month</h3>
+                    <p class="admin-dashboard__stat-value">8</p>
+                </div>
+                <div class="admin-dashboard__stat-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="24" viewBox="0 0 21 24" fill="none">
+                        <rect x="3" y="4" width="15" height="16" rx="2" stroke="#2F1648" stroke-width="2" fill="none"/>
+                        <line x1="3" y1="9" x2="18" y2="9" stroke="#2F1648" stroke-width="2"/>
+                        <line x1="7" y1="2" x2="7" y2="6" stroke="#2F1648" stroke-width="2"/>
+                        <line x1="14" y1="2" x2="14" y2="6" stroke="#2F1648" stroke-width="2"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="admin-dashboard__stat-card">
+                <div class="admin-dashboard__stat-content">
+                    <h3 class="admin-dashboard__stat-label">Hours Awaiting Approval</h3>
+                    <p class="admin-dashboard__stat-value">47</p>
+                </div>
+                <div class="admin-dashboard__stat-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="10" stroke="#2F1648" stroke-width="2" fill="none"/>
+                        <path d="M12 6v6l4 2" stroke="#2F1648" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions Section -->
+    <section class="admin-dashboard__quick-actions">
+        <h2 class="admin-dashboard__section-title">Quick Actions</h2>
+
+        <div class="admin-dashboard__actions-grid">
+            <a href="@Url.Action("ManageStories", "Admin")" class="admin-dashboard__action-card">
+                <div class="admin-dashboard__action-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="27" height="24" viewBox="0 0 27 24" fill="none">
+                        <path d="M5 2h8a2 2 0 012 2v16a2 2 0 01-2 2H5a2 2 0 01-2-2V4a2 2 0 012-2z" stroke="#2F1648" stroke-width="2" fill="none"/>
+                        <line x1="7" y1="8" x2="11" y2="8" stroke="#2F1648" stroke-width="2"/>
+                        <line x1="7" y1="12" x2="11" y2="12" stroke="#2F1648" stroke-width="2"/>
+                    </svg>
+                </div>
+                <span class="admin-dashboard__action-label">Manage Stories</span>
+            </a>
+
+            <a href="@Url.Action("ManageEvents", "Admin")" class="admin-dashboard__action-card">
+                <div class="admin-dashboard__action-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="24" viewBox="0 0 21 24" fill="none">
+                        <rect x="3" y="4" width="15" height="16" rx="2" stroke="#2F1648" stroke-width="2" fill="none"/>
+                        <line x1="3" y1="9" x2="18" y2="9" stroke="#2F1648" stroke-width="2"/>
+                        <line x1="7" y1="2" x2="7" y2="6" stroke="#2F1648" stroke-width="2"/>
+                        <line x1="14" y1="2" x2="14" y2="6" stroke="#2F1648" stroke-width="2"/>
+                    </svg>
+                </div>
+                <span class="admin-dashboard__action-label">Manage Events</span>
+            </a>
+
+            <a href="@Url.Action("ManageBooks", "Admin")" class="admin-dashboard__action-card">
+                <div class="admin-dashboard__action-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M4 19.5A2.5 2.5 0 016.5 17H20" stroke="#2F1648" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" stroke="#2F1648" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <span class="admin-dashboard__action-label">Manage Books</span>
+            </a>
+
+            <a href="@Url.Action("ApproveVolunteerHours", "Admin")" class="admin-dashboard__action-card">
+                <div class="admin-dashboard__action-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="24" viewBox="0 0 30 24" fill="none">
+                        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke="#2F1648" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="12" cy="7" r="4" stroke="#2F1648" stroke-width="2"/>
+                        <path d="M22 11l2 2 4-4" stroke="#2F1648" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <span class="admin-dashboard__action-label">Approve Hours</span>
+            </a>
+
+            <a href="@Url.Action("Reports", "Admin")" class="admin-dashboard__action-card">
+                <div class="admin-dashboard__action-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <rect x="3" y="3" width="7" height="7" stroke="#2F1648" stroke-width="2" fill="none"/>
+                        <rect x="14" y="3" width="7" height="7" stroke="#2F1648" stroke-width="2" fill="none"/>
+                        <rect x="14" y="14" width="7" height="7" stroke="#2F1648" stroke-width="2" fill="none"/>
+                        <rect x="3" y="14" width="7" height="7" stroke="#2F1648" stroke-width="2" fill="none"/>
+                    </svg>
+                </div>
+                <span class="admin-dashboard__action-label">Reports</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Recent Activity Section -->
+    <div class="admin-dashboard__activity">
+        <div class="admin-dashboard__activity-header">
+            <h2 class="admin-dashboard__activity-title">Recent Activity</h2>
+        </div>
+
+        <div class="admin-dashboard__activity-list">
+            <div class="admin-dashboard__activity-item">
+                <div class="admin-dashboard__activity-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="14" viewBox="0 0 12 14" fill="none">
+                        <path d="M11 13H1L1 5L6 1L11 5V13Z" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div class="admin-dashboard__activity-content">
+                    <p class="admin-dashboard__activity-text">New story submitted by Anonymous</p>
+                    <span class="admin-dashboard__activity-time">2 hours ago</span>
+                </div>
+            </div>
+
+            <div class="admin-dashboard__activity-item">
+                <div class="admin-dashboard__activity-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <circle cx="7" cy="7" r="6" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div class="admin-dashboard__activity-content">
+                    <p class="admin-dashboard__activity-text">Volunteer hours logged by Sarah (3 hrs)</p>
+                    <span class="admin-dashboard__activity-time">4 hours ago</span>
+                </div>
+            </div>
+
+            <div class="admin-dashboard__activity-item">
+                <div class="admin-dashboard__activity-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <rect x="2" y="2" width="10" height="10" rx="1" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div class="admin-dashboard__activity-content">
+                    <p class="admin-dashboard__activity-text">Community event created: Harvest Festival</p>
+                    <span class="admin-dashboard__activity-time">1 day ago</span>
+                </div>
+            </div>
+
+            <div class="admin-dashboard__activity-item">
+                <div class="admin-dashboard__activity-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="14" viewBox="0 0 12 14" fill="none">
+                        <path d="M6 1L10 5H2L6 1Z" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2"/>
+                        <rect x="2" y="5" width="8" height="7" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div class="admin-dashboard__activity-content">
+                    <p class="admin-dashboard__activity-text">Story approved: "Community Garden Success"</p>
+                    <span class="admin-dashboard__activity-time">2 days ago</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

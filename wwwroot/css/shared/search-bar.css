@@ -1,14 +1,10 @@
 /* =========================================================
-   Reusable Search Bar Component
-   Based on Figma Design Specifications
-   Used across: Books, Events, Stories, etc.
+   Search Bar Component
+   Reusable search and filter component
    ========================================================= */
 
-/* Main Search Bar Container (Card) */
+/* Base Search Bar Container */
 .search-bar {
-    /* Positioning */
-    position: relative;
-    
     /* Box Model */
     display: flex;
     flex-direction: row;
@@ -16,99 +12,95 @@
     padding: 32px;
     gap: 8px;
     width: 100%;
-    max-width: 1312px;
-    height: auto;
     min-height: 40px;
     
     /* Visual */
     background: #FFFFFF;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 16px;
-    
-    /* Layout */
-    flex: none;
-    align-self: stretch;
-    flex-grow: 0;
 }
 
-/* Search Input Container (Contains icon + input with absolute positioning) */
-.search-bar__input-container {
-    /* Positioning */
-    position: relative;
-    
-    /* Box Model */
-    box-sizing: border-box;
+/* Search Bar with Navigation Variant */
+.search-bar--with-nav {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+}
+
+/* Navigation Row (for Stories page) */
+.search-bar__nav-row {
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    height: 40px;
-    min-height: 40px;
-    
-    /* Layout */
-    flex: none;
-    align-self: stretch;
-    flex-grow: 1;
-    order: 0;
+    width: 100%;
 }
 
-/* Search Icon - Absolutely positioned inside input */
-.search-bar__icon {
-    /* Positioning */
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1;
-    
+/* Filters Row */
+.search-bar__filters-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+/* Search Input Container */
+.search-bar__input-container {
     /* Box Model */
-    width: 20px;
-    height: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px;
+    gap: 8px;
+    min-height: 40px;
+    flex: 1;
     
     /* Visual */
-    pointer-events: none;
+    background: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
     
-    /* Layout */
+    /* Animation */
+    transition: border-color 0.3s ease;
+}
+
+.search-bar__input-container:focus-within {
+    border-color: #2F1648;
+}
+
+/* Search Icon */
+.search-bar__icon {
+    /* Box Model */
+    width: 24px;
+    height: 24px;
     flex-shrink: 0;
 }
 
-/* Search Input Field */
-.search-bar__input-container .search-bar__input {
+/* Search Input */
+.search-bar__input {
     /* Box Model */
-    box-sizing: border-box;
-    width: 100%;
-    height: 40px;
-    padding: 8px 12px 8px 48px !important;
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
     
     /* Typography */
-    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
     color: #000000;
-    
-    /* Visual */
-    background: #FFFFFF;
-    border: 1px solid #E5E7EB !important;
-    border-radius: 8px !important;
-    outline: none;
-    
-    /* Animation */
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.search-bar__input-container .search-bar__input::placeholder {
+.search-bar__input::placeholder {
     color: #ADAEBC;
 }
 
-.search-bar__input-container .search-bar__input:focus {
-    border-color: #2F1648 !important;
-    box-shadow: 0 0 0 2px rgba(47, 22, 72, 0.1) !important;
-}
-
-/* Dropdown Filter Elements */
+/* Dropdown */
 .search-bar__dropdown {
     /* Box Model */
-    box-sizing: border-box;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -127,29 +119,16 @@
     
     /* Animation */
     cursor: pointer;
-    transition: border-color 0.2s ease;
-    
-    /* Layout */
-    flex: none;
-    align-self: stretch;
-    flex-grow: 0;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 .search-bar__dropdown:hover {
-    border-color: #9CA3AF;
-}
-
-.search-bar__dropdown:focus-within {
     border-color: #2F1648;
-    box-shadow: 0 0 0 2px rgba(47, 22, 72, 0.1);
+    background-color: #F9FAFB;
 }
 
-/* Dropdown Label Text */
+/* Dropdown Label */
 .search-bar__dropdown-label {
-    /* Box Model */
-    margin: 0 auto;
-    height: 24px;
-    
     /* Typography */
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-style: normal;
@@ -158,28 +137,16 @@
     line-height: 24px;
     color: #000000;
     
-    /* Box Model */
-    display: flex;
-    align-items: center;
-    
     /* Layout */
-    flex: none;
-    flex-grow: 0;
-    order: 0;
+    flex: 1;
 }
 
-/* Dropdown Icon (Chevron) */
+/* Dropdown Icon */
 .search-bar__dropdown-icon {
     /* Box Model */
-    margin: 0 auto;
     width: 24px;
     height: 24px;
-    
-    /* Layout */
-    flex: none;
-    flex-grow: 0;
     flex-shrink: 0;
-    order: 1;
 }
 
 /* Search Button */
@@ -188,9 +155,10 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
     padding: 12px;
     gap: 8px;
-    width: 118px;
+    min-width: 118px;
     height: 40px;
     min-height: 40px;
     
@@ -201,13 +169,7 @@
     
     /* Animation */
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-    
-    /* Layout */
-    flex: none;
-    align-self: stretch;
-    flex-grow: 0;
-    order: 6;
+    transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
 .search-bar__button:hover {
@@ -224,29 +186,16 @@
     outline-offset: 2px;
 }
 
-/* Search Button Icon */
+/* Button Icon */
 .search-bar__button-icon {
     /* Box Model */
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    padding: 0px;
     width: 24px;
     height: 24px;
-    
-    /* Layout */
-    flex: none;
-    flex-grow: 0;
     flex-shrink: 0;
-    order: 0;
 }
 
-/* Search Button Label */
+/* Button Label */
 .search-bar__button-label {
-    /* Box Model */
-    height: 24px;
-    
     /* Typography */
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-style: normal;
@@ -255,69 +204,6 @@
     line-height: 24px;
     text-align: center;
     color: #FFFFFF;
-    
-    /* Layout */
-    flex: none;
-    flex-grow: 0;
-    order: 1;
-}
-
-/* ========================================
-   Search Bar with Navigation Variant
-   ======================================== */
-
-/* Search bar with navigation tabs - override default flex-direction */
-.search-bar--with-nav {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    padding: 0;
-    gap: 0;
-    overflow: hidden;
-}
-
-/* Navigation Row (Top) */
-.search-bar__nav-row {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 32px;
-    width: 100%;
-    background: #FFFFFF;
-    border-bottom: 1px solid #E5E7EB;
-    flex-shrink: 0;
-}
-
-/* Filters Row (Bottom) - match original search bar layout */
-.search-bar__filters-row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 24px 32px;
-    gap: 8px;
-    width: 100%;
-    background: #FFFFFF;
-    flex-shrink: 0;
-    flex-wrap: nowrap;
-}
-
-/* Ensure input container grows properly in nav variant */
-.search-bar--with-nav .search-bar__input-container {
-    flex-grow: 1;
-    flex-shrink: 1;
-    min-width: 200px;
-}
-
-/* Ensure dropdowns don't shrink too much */
-.search-bar--with-nav .search-bar__dropdown {
-    flex-shrink: 0;
-}
-
-/* Ensure button stays fixed width */
-.search-bar--with-nav .search-bar__button {
-    flex-shrink: 0;
 }
 
 /* ========================================
@@ -327,61 +213,43 @@
 /* Tablet and below (1024px) */
 @media (max-width: 1024px) {
     .search-bar {
-        max-width: 100%;
         padding: 24px;
+    }
+    
+    .search-bar__filters-row {
+        flex-wrap: wrap;
+    }
+    
+    .search-bar__dropdown {
+        min-width: 140px;
+        width: 140px;
     }
 }
 
 /* Mobile landscape and below (768px) */
 @media (max-width: 768px) {
     .search-bar {
-        flex-wrap: wrap;
         padding: 20px;
-        gap: 12px;
+        gap: 16px;
     }
     
-    .search-bar--with-nav .search-bar__nav-row {
+    .search-bar--with-nav {
+        gap: 20px;
+    }
+    
+    .search-bar__filters-row {
         flex-direction: column;
-        gap: 16px;
-        padding: 16px 20px;
-    }
-    
-    .search-bar--with-nav .search-bar__filters-row {
-        flex-wrap: wrap;
-        padding: 20px;
         gap: 12px;
     }
     
-    .stories__nav-tabs {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 16px;
-    }
-    
-    .search-bar__input-container {
+    .search-bar__input-container,
+    .search-bar__dropdown,
+    .search-bar__button {
         width: 100%;
-        flex-grow: 1;
-        min-width: 100%;
-        order: 0;
     }
     
     .search-bar__dropdown {
-        flex: 1;
-        min-width: calc(50% - 6px);
-    }
-    
-    .search-bar__dropdown:nth-of-type(2) {
-        order: 1;
-    }
-    
-    .search-bar__dropdown:nth-of-type(3) {
-        order: 2;
-    }
-    
-    .search-bar__button {
-        width: 100%;
-        justify-content: center;
-        order: 3;
+        min-width: 100%;
     }
 }
 
@@ -389,33 +257,6 @@
 @media (max-width: 480px) {
     .search-bar {
         padding: 16px;
-        gap: 10px;
-    }
-    
-    .search-bar--with-nav .search-bar__nav-row {
-        padding: 16px;
-    }
-    
-    .search-bar--with-nav .search-bar__filters-row {
-        padding: 16px;
-    }
-    
-    .stories__nav-tabs {
-        gap: 12px;
-    }
-    
-    .stories__nav-tab {
-        font-size: 14px;
-    }
-    
-    .search-bar__dropdown {
-        width: 100%;
-        min-width: 100%;
-    }
-    
-    .search-bar__input,
-    .search-bar__dropdown-label,
-    .search-bar__button-label {
-        font-size: 14px;
     }
 }
+
