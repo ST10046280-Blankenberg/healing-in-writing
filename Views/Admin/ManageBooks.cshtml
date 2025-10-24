@@ -2,23 +2,205 @@
     ViewData["Title"] = "Manage Books";
 }
 
+<link rel="stylesheet" href="~/css/shared/search-bar.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/css/views/manage-books.css" asp-append-version="true" />
 
 <div class="manage-books">
+    <!-- Header Section -->
     <header class="manage-books__header">
-        <h1 class="manage-books__title">Manage Books</h1>
-        <a href="@Url.Action("AddBook", "Admin")" class="manage-books__add-button">
-            <span class="manage-books__add-button-icon">➕</span>
-            <span class="manage-books__add-button-text">Add New Book</span>
-        </a>
+        <div class="manage-books__header-content">
+            <div class="manage-books__header-text">
+                <h1 class="manage-books__title">Manage Books</h1>
+                <p class="manage-books__subtitle">Update inventory, edit book details, and manage visibility.</p>
+            </div>
+            <a href="@Url.Action("AddBook", "Admin")" class="manage-books__add-button">
+                <svg class="manage-books__add-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16" fill="none">
+                    <path d="M7 1v14M1 8h12" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <span class="manage-books__add-button-text">Add New Book</span>
+            </a>
+        </div>
     </header>
 
-    <section class="manage-books__content">
-        <p class="manage-books__placeholder">Book list will be displayed here...</p>
-    </section>
+    <!-- Search Bar -->
+    <div class="search-bar search-bar--manage-books">
+        <!-- Search Input with Icon -->
+        <div class="search-bar__input-container">
+            <svg class="search-bar__icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <input type="text" name="searchTerm" class="search-bar__input" placeholder="Search..." />
+        </div>
 
-    <footer class="manage-books__footer">
-        <a href="@Url.Action("Index", "Admin")" class="manage-books__back-button">← Back to Dashboard</a>
-    </footer>
+        <!-- Any Status Dropdown -->
+        <div class="search-bar__dropdown">
+            <span class="search-bar__dropdown-label">Any Status</span>
+            <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+
+        <!-- Any Tags Dropdown -->
+        <div class="search-bar__dropdown">
+            <span class="search-bar__dropdown-label">Any Tags</span>
+            <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+
+        <!-- Newest Dropdown -->
+        <div class="search-bar__dropdown">
+            <span class="search-bar__dropdown-label">Newest</span>
+            <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+
+        <!-- Search Button -->
+        <button class="search-bar__button" type="button">
+            <svg class="search-bar__button-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="search-bar__button-label">Search</span>
+        </button>
+    </div>
+
+    <!-- Book Inventory Section -->
+    <main class="manage-books__inventory">
+        <div class="manage-books__inventory-container">
+            <div class="manage-books__inventory-header">
+                <h2 class="manage-books__inventory-title">Book Inventory</h2>
+            </div>
+
+            <table class="manage-books__table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Quantity</th>
+                        <th>Condition</th>
+                        <th>Visible</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="manage-books__book-info">
+                                <img src="https://via.placeholder.com/40" alt="The Great Gatsby" class="manage-books__book-cover" />
+                                <span class="manage-books__book-name">The Great Gatsby</span>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="manage-books__category">Fiction</span>
+                        </td>
+                        <td>
+                            <span class="manage-books__quantity">12</span>
+                        </td>
+                        <td>
+                            <span class="manage-books__condition-badge manage-books__condition-badge--good">Good</span>
+                        </td>
+                        <td>
+                            <label class="manage-books__toggle">
+                                <input type="checkbox" checked />
+                                <span class="manage-books__toggle-slider"></span>
+                            </label>
+                        </td>
+                        <td>
+                            <div class="manage-books__actions">
+                                <button class="manage-books__action-btn manage-books__action-btn--edit" title="Edit">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                        <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                                <button class="manage-books__action-btn manage-books__action-btn--delete" title="Delete">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16" fill="none">
+                                        <path d="M1 4h12M4.5 4V2.5A1.5 1.5 0 016 1h2a1.5 1.5 0 011.5 1.5V4m2 0v9.5a1.5 1.5 0 01-1.5 1.5h-7A1.5 1.5 0 012 13.5V4h9.5z" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="manage-books__book-info">
+                                <img src="https://via.placeholder.com/40" alt="Where the Wild Things Are" class="manage-books__book-cover" />
+                                <span class="manage-books__book-name">Where the Wild Things Are</span>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="manage-books__category">Children's</span>
+                        </td>
+                        <td>
+                            <span class="manage-books__quantity">8</span>
+                        </td>
+                        <td>
+                            <span class="manage-books__condition-badge manage-books__condition-badge--new">New</span>
+                        </td>
+                        <td>
+                            <label class="manage-books__toggle">
+                                <input type="checkbox" checked />
+                                <span class="manage-books__toggle-slider"></span>
+                            </label>
+                        </td>
+                        <td>
+                            <div class="manage-books__actions">
+                                <button class="manage-books__action-btn manage-books__action-btn--edit" title="Edit">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                        <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                                <button class="manage-books__action-btn manage-books__action-btn--delete" title="Delete">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16" fill="none">
+                                        <path d="M1 4h12M4.5 4V2.5A1.5 1.5 0 016 1h2a1.5 1.5 0 011.5 1.5V4m2 0v9.5a1.5 1.5 0 01-1.5 1.5h-7A1.5 1.5 0 012 13.5V4h9.5z" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="manage-books__book-info">
+                                <img src="https://via.placeholder.com/40" alt="Calculus: Early Transcendentals" class="manage-books__book-cover" />
+                                <span class="manage-books__book-name">Calculus: Early Transcendentals</span>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="manage-books__category">Education</span>
+                        </td>
+                        <td>
+                            <span class="manage-books__quantity">3</span>
+                        </td>
+                        <td>
+                            <span class="manage-books__condition-badge manage-books__condition-badge--fair">Fair</span>
+                        </td>
+                        <td>
+                            <label class="manage-books__toggle">
+                                <input type="checkbox" />
+                                <span class="manage-books__toggle-slider"></span>
+                            </label>
+                        </td>
+                        <td>
+                            <div class="manage-books__actions">
+                                <button class="manage-books__action-btn manage-books__action-btn--edit" title="Edit">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                        <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                                <button class="manage-books__action-btn manage-books__action-btn--delete" title="Delete">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16" fill="none">
+                                        <path d="M1 4h12M4.5 4V2.5A1.5 1.5 0 016 1h2a1.5 1.5 0 011.5 1.5V4m2 0v9.5a1.5 1.5 0 01-1.5 1.5h-7A1.5 1.5 0 012 13.5V4h9.5z" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
 </div>
 
