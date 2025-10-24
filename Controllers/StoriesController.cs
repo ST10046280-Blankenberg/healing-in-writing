@@ -39,6 +39,11 @@ namespace HealingInWriting.Controllers
         public IActionResult Details(int id)
         {
             // TODO: Replace with actual data retrieval once service is implemented
+            // SECURITY: When implementing, ensure authorisation checks:
+            // - Published stories: anyone can view
+            // - Draft/pending stories: only author and admins can view
+            // - Check story.Status and story.UserId against User.FindFirst(ClaimTypes.NameIdentifier)
+            // - Return 404 (not 403) if unauthorised to prevent enumeration
             var viewModel = new StoryDetailViewModel
             {
                 StoryId = id,
@@ -84,13 +89,23 @@ namespace HealingInWriting.Controllers
             var sanitizedContent = sanitizer.Sanitize(content);
 
             // TODO: Create story entity and save via service
+            // SECURITY: When implementing, ensure:
+            // - Set UserId from User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+            // - Never trust user-provided IDs in the request
+            // - Set CreatedAt server-side, never from client
             // Example:
+            // var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            // if (string.IsNullOrEmpty(userId))
+            //     return Unauthorized();
+            //
             // var story = new Story
             // {
             //     Title = title,
             //     Content = sanitizedContent,
             //     IsAnonymous = anonymous,
-            //     // ... set other properties
+            //     UserId = userId,  // CRITICAL: Always set from authenticated user
+            //     CreatedAt = DateTime.UtcNow,
+            //     Status = StoryStatus.Pending
             // };
             // await _storyService.CreateAsync(story);
 

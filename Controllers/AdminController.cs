@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.RateLimiting;
 
 namespace HealingInWriting.Controllers;
 
+// Restrict entire controller to Admin role to prevent DOR/BOLA attacks
+// Users must be authenticated AND have the Admin role to access any action
+[Authorize(Roles = "Admin")]
 public class AdminController : Controller
 {
     // GET: Admin Dashboard
