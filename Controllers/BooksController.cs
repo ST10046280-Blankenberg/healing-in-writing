@@ -1,5 +1,6 @@
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Books;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HealingInWriting.Controllers
@@ -69,6 +70,36 @@ namespace HealingInWriting.Controllers
 
             // Return a partial view with just the book cards
             return PartialView("_BookCardsPartial", filteredBooks);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> ImportBookByIsbn(string isbn)
+        {
+            if (string.IsNullOrWhiteSpace(isbn))
+                return Json(new { success = false, message = "ISBN required." });
+
+            var book = await _bookService.ImportBookByIsbnAsync(isbn);
+
+            if (book == null)
+                return Json(new { success = false, message = "Book not found for this ISBN." });
+
+            var viewModel = new BookDetailViewModel
+            {
+                BookId = book.BookId,
+                Title = book.Title,
+                Authors = string.Join(", ", book.Authors ?? new List<string>()),
+                PublishedDate = book.PublishedDate,
+                Description = book.Description,
+                Categories = book.Categories ?? new List<string>(),
+                ThumbnailUrl = book.ImageLinks?.Thumbnail ?? book.ImageLinks?.SmallThumbnail ?? "/images/placeholder-book.svg",
+                PageCount = book.PageCount,
+                Language = book.Language,
+                Publisher = book.Publisher,
+                IndustryIdentifiers = book.IndustryIdentifiers?.Select(i => i.Identifier).ToList() ?? new List<string>()
+            };
+
+            return Json(new { success = true, data = viewModel });
         }
     }
 }

@@ -15,4 +15,6 @@ public interface IBookService
     string selectedCategory,
     string selectedTag
 );
+
+    Task<Book?> ImportBookByIsbnAsync(string isbn);
 }

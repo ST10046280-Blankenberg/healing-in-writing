@@ -78,6 +78,12 @@
                     </div>
                     <div style="display: flex; gap: 16px;">
                         <div style="flex: 1;">
+                            <label for="Title" style="font-family: 'Poppins'; font-weight: 500; font-size: 14px; color: #374151;">Title</label>
+                            <input type="text" id="Title" name="Title" class="input" placeholder="Subtext" style="margin-top:8px;" />
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 16px;">
+                        <div style="flex: 1;">
                             <label for="Author" style="font-family: 'Poppins'; font-weight: 500; font-size: 14px; color: #374151;">Author</label>
                             <input type="text" id="Author" name="Author" class="input" placeholder="Subtext" style="margin-top:8px;" />
                         </div>
@@ -151,8 +157,52 @@
                     font-weight:500;
                     font-size:16px;
                     border-radius:8px;
-                ">Add Book</button>
+                ">
+                    Add Book
+                </button>
             </div>
         </form>
     </section>
 </main>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const importBtn = document.querySelector('button[type="button"].btn-primary');
+            importBtn.addEventListener('click', async function () {
+                const isbn = document.getElementById('ISBN').value.trim();
+                if (!isbn) {
+                    alert('Please enter an ISBN.');
+                    return;
+                }
+
+                importBtn.disabled = true;
+                importBtn.textContent = 'Importing...';
+
+                try {
+                    const response = await fetch(`/Books/ImportBookByIsbn?isbn=${encodeURIComponent(isbn)}`);
+                    const result = await response.json();
+
+                    if (result.success && result.data) {
+                        // Populate fields
+                        document.getElementById('Title').value = result.data.title;
+                        document.getElementById('Author').value = result.data.authors;
+                        document.getElementById('Language').value = result.data.language;
+                        document.getElementById('PublishDate').value = result.data.publishedDate;
+                        document.getElementById('PageCount').value = result.data.pageCount;
+                        document.getElementById('Category').value = result.data.categories.join(', ');
+                        document.getElementById('Description').value = result.data.description;
+                        document.getElementById('coverPreview').src = result.data.thumbnailUrl || '/images/placeholder-book.svg';
+                    } else {
+                        alert(result.message || 'Book not found.');
+                    }
+                } catch (err) {
+                    alert('Error importing book details.');
+                } finally {
+                    importBtn.disabled = false;
+                    importBtn.textContent = 'Import Details';
+                }
+            });
+        });
+    </script>
+}

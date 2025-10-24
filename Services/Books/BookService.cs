@@ -99,4 +99,58 @@ public class BookService : IBookService
 
         return books.ToList();
     }
+
+    public async Task<Book?> ImportBookByIsbnAsync(string isbn)
+    {
+        if (string.IsNullOrWhiteSpace(isbn))
+            return null;
+
+        using var httpClient = new HttpClient();
+        var url = $"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}";
+        var response = await httpClient.GetAsync(url);
+
+        if (!response.IsSuccessStatusCode)
+            return null;
+
+        var json = await response.Content.ReadAsStringAsync();
+        var googleResult = System.Text.Json.JsonDocument.Parse(json);
+
+        var item = googleResult.RootElement.GetProperty("items").EnumerateArray().FirstOrDefault();
+        if (item.ValueKind == System.Text.Json.JsonValueKind.Undefined)
+            return null;
+
+        var volumeInfo = item.GetProperty("volumeInfo");
+
+        var book =
+            
+            new Book
+        {
+            Title = volumeInfo.GetProperty("title").GetString() ?? "",
+            Authors = volumeInfo.TryGetProperty("authors", out var authors) ? authors.EnumerateArray().Select(a => a.GetString() ?? "").ToList() : new List<string>(),
+            Publisher = volumeInfo.TryGetProperty("publisher", out var publisher) ? publisher.GetString() ?? "" : "",
+            PublishedDate = volumeInfo.TryGetProperty("publishedDate", out var pubDate) ? pubDate.GetString() ?? "" : "",
+            Description = volumeInfo.TryGetProperty("description", out var desc) ? desc.GetString() ?? "" : "",
+            PageCount = volumeInfo.TryGetProperty("pageCount", out var pageCount) ? pageCount.GetInt32() : 0,
+            Categories = volumeInfo.TryGetProperty("categories", out var cats) ? cats.EnumerateArray().Select(c => c.GetString() ?? "").ToList() : new List<string>(),
+            Language = volumeInfo.TryGetProperty("language", out var lang) ? lang.GetString() ?? "" : "",
+            ImageLinks = volumeInfo.TryGetProperty("imageLinks", out var imgLinks)
+                ? new ImageLinks
+                {
+                    Thumbnail = imgLinks.TryGetProperty("thumbnail", out var thumb) ? thumb.GetString() ?? "" : "",
+                    SmallThumbnail = imgLinks.TryGetProperty("smallThumbnail", out var smallThumb) ? smallThumb.GetString() ?? "" : ""
+                }
+                : new ImageLinks(),
+            IndustryIdentifiers = volumeInfo.TryGetProperty("industryIdentifiers", out var ids)
+                ? ids.EnumerateArray().Select(id =>
+                    new IndustryIdentifier
+                    {
+                        Type = id.TryGetProperty("type", out var type) ? type.GetString() ?? "" : "",
+                        Identifier = id.TryGetProperty("identifier", out var ident) ? ident.GetString() ?? "" : ""
+                    }).ToList()
+                : new List<IndustryIdentifier>()
+        };
+
+
+        return book;
+    }
 }
