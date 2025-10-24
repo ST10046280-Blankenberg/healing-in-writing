@@ -27,6 +27,7 @@ public class AdminController : Controller
 
     // POST: Add Book (placeholder - will be implemented with actual logic later)
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public IActionResult AddBook(string title, string author, string isbn, string description, int? publishedYear)
     {
         // TODO: Implement book creation logic
