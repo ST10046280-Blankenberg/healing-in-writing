@@ -4,6 +4,8 @@
 
 @section Styles {
     <link rel="stylesheet" href="~/css/views/stories.css" asp-append-version="true" />
+    <!-- Quill Editor CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
 }
 
 <main class="story-submit">
@@ -28,36 +30,10 @@
                     <!-- Story Content Field -->
                     <div class="story-submit__field">
                         <label class="story-submit__field-label" for="content">Your Story</label>
-                        <div class="story-submit__textarea-container">
-                            <!-- Toolbar -->
-                            <div class="story-submit__toolbar">
-                                <button type="button" class="story-submit__toolbar-button" title="Bold">
-                                    <svg class="story-submit__toolbar-icon" viewBox="0 0 24 24" fill="none">
-                                        <path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z" fill="currentColor"/>
-                                        <path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z" fill="currentColor"/>
-                                    </svg>
-                                </button>
-                                <button type="button" class="story-submit__toolbar-button" title="Italic">
-                                    <svg class="story-submit__toolbar-icon" viewBox="0 0 24 24" fill="none">
-                                        <line x1="19" y1="4" x2="10" y2="4" stroke="currentColor" stroke-width="2"/>
-                                        <line x1="14" y1="20" x2="5" y2="20" stroke="currentColor" stroke-width="2"/>
-                                        <line x1="15" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="2"/>
-                                    </svg>
-                                </button>
-                                <button type="button" class="story-submit__toolbar-button story-submit__toolbar-button--wide" title="List">
-                                    <svg class="story-submit__toolbar-icon" viewBox="0 0 24 24" fill="none">
-                                        <line x1="8" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2"/>
-                                        <line x1="8" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="2"/>
-                                        <line x1="8" y1="18" x2="21" y2="18" stroke="currentColor" stroke-width="2"/>
-                                        <line x1="3" y1="6" x2="3.01" y2="6" stroke="currentColor" stroke-width="2"/>
-                                        <line x1="3" y1="12" x2="3.01" y2="12" stroke="currentColor" stroke-width="2"/>
-                                        <line x1="3" y1="18" x2="3.01" y2="18" stroke="currentColor" stroke-width="2"/>
-                                    </svg>
-                                </button>
-                            </div>
-                            <!-- Textarea -->
-                            <textarea class="story-submit__textarea" id="content" name="content" placeholder="Share your story here..."></textarea>
-                        </div>
+                        <!-- Rich Text Editor Container -->
+                        <div id="quill-editor" class="story-submit__textarea"></div>
+                        <!-- Hidden field for form submission -->
+                        <input type="hidden" id="content" name="content" />
                     </div>
 
                     <!-- Tags Field -->
@@ -194,8 +170,32 @@
 </main>
 
 @section Scripts {
+    <!-- Quill Editor JS -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
     <script>
-        // TODO: Implement rich text editor functionality
+        document.addEventListener("DOMContentLoaded", function () {
+            // Initialize Quill editor
+            const quill = new Quill('#quill-editor', {
+                theme: 'snow',
+                placeholder: 'Share your story here...',
+                modules: {
+                    toolbar: [
+                        [{ 'header': [1, 2, 3, false] }],
+                        ['bold', 'italic'],
+                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                        ['clean']
+                    ]
+                }
+            });
+
+            // Store HTML in hidden input before submitting
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function () {
+                const content = document.querySelector('input#content');
+                content.value = quill.root.innerHTML;
+            });
+        });
+
         // TODO: Implement tag management
         // TODO: Implement form validation
         // TODO: Implement draft saving functionality

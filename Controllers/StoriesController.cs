@@ -1,6 +1,7 @@
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Stories;
 using Microsoft.AspNetCore.Mvc;
+using Ganss.Xss;
 
 
 namespace HealingInWriting.Controllers
@@ -58,6 +59,42 @@ namespace HealingInWriting.Controllers
         public IActionResult Submit()
         {
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Submit(string title, string content, string tags, bool anonymous, bool consent)
+        {
+            if (!consent)
+            {
+                ModelState.AddModelError("consent", "You must consent to sharing your story for review.");
+                return View();
+            }
+
+            if (string.IsNullOrWhiteSpace(title) || string.IsNullOrWhiteSpace(content))
+            {
+                ModelState.AddModelError("", "Title and content are required.");
+                return View();
+            }
+
+            // Sanitize HTML content to prevent XSS attacks
+            var sanitizer = new HtmlSanitizer();
+            var sanitizedContent = sanitizer.Sanitize(content);
+
+            // TODO: Create story entity and save via service
+            // Example:
+            // var story = new Story
+            // {
+            //     Title = title,
+            //     Content = sanitizedContent,
+            //     IsAnonymous = anonymous,
+            //     // ... set other properties
+            // };
+            // await _storyService.CreateAsync(story);
+
+            // Temporary success redirect
+            TempData["SuccessMessage"] = "Your story has been submitted for review!";
+            return RedirectToAction(nameof(Index));
         }
     }
 }
