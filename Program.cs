@@ -86,6 +86,18 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Security headers to prevent clickjacking attacks
+// X-Frame-Options prevents the site from being embedded in iframes on other domains
+// Content-Security-Policy frame-ancestors provides modern clickjacking protection
+// If you need to embed your own pages in iframes, change DENY to SAMEORIGIN and 'none' to 'self'
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Append("X-Frame-Options", "DENY");
+    context.Response.Headers.Append("Content-Security-Policy", "frame-ancestors 'none'");
+    await next();
+});
+
 app.UseStaticFiles();
 
 app.UseRouting();
