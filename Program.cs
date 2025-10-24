@@ -41,15 +41,47 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 .AddDefaultTokenProviders()
 .AddClaimsPrincipalFactory<ApplicationUserClaimsPrincipalFactory>();
 
-// Configure cookie settings
+// Configure cookie settings for session security
+// Protects against session fixation, session jacking, and CSRF attacks
 builder.Services.ConfigureApplicationCookie(options =>
 {
+    // HttpOnly prevents JavaScript access to cookies (XSS protection)
     options.Cookie.HttpOnly = true;
+
+    // Secure flag ensures cookies only sent over HTTPS (prevents MITM attacks)
+    // Set to true in production once HTTPS is configured
+    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+
+    // SameSite prevents cookies being sent with cross-site requests (CSRF protection)
+    // Lax allows cookies on safe HTTP methods (GET) from external sites
+    // Strict would block all cross-site cookie sending (more secure but may break workflows)
+    options.Cookie.SameSite = SameSiteMode.Lax;
+
+    // Custom cookie name for security through obscurity
+    // Makes it less obvious which technology stack is being used
+    options.Cookie.Name = "HIW.Auth";
+
+    // Mark as essential for GDPR compliance (authentication cookies are necessary)
+    options.Cookie.IsEssential = true;
+
+    // Session timeout and renewal settings
     options.ExpireTimeSpan = TimeSpan.FromHours(24);
+    options.SlidingExpiration = true; // Renews session on activity (prevents fixation)
+
+    // Paths for authentication flows
     options.LoginPath = "/Auth/Login";
     options.LogoutPath = "/Auth/Logout";
     options.AccessDeniedPath = "/Auth/AccessDenied";
-    options.SlidingExpiration = true;
+});
+
+// Configure antiforgery token cookies for CSRF protection
+builder.Services.AddAntiforgery(options =>
+{
+    // Secure CSRF token cookie with same protections as auth cookie
+    options.Cookie.HttpOnly = true;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+    options.Cookie.SameSite = SameSiteMode.Strict; // Strict for CSRF tokens
+    options.Cookie.Name = "HIW.CSRF";
 });
 
 // Add services to the container
