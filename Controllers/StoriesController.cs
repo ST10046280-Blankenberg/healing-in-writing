@@ -1,6 +1,7 @@
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Stories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Ganss.Xss;
 
 
@@ -63,6 +64,7 @@ namespace HealingInWriting.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [EnableRateLimiting("standard")]
         public async Task<IActionResult> Submit(string title, string content, string tags, bool anonymous, bool consent)
         {
             if (!consent)

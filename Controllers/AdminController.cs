@@ -2,6 +2,7 @@ using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Books;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace HealingInWriting.Controllers;
 
@@ -28,6 +29,7 @@ public class AdminController : Controller
     // POST: Add Book (placeholder - will be implemented with actual logic later)
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [EnableRateLimiting("standard")]
     public IActionResult AddBook(string title, string author, string isbn, string description, int? publishedYear)
     {
         // TODO: Implement book creation logic

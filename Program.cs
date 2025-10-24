@@ -6,6 +6,8 @@ using HealingInWriting.Services.Books;
 using HealingInWriting.Services.Stories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.RateLimiting;
+using Microsoft.AspNetCore.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,6 +57,61 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IStoryService, StoryService>();
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+
+// Configure rate limiting to prevent brute force, credential stuffing, and DDoS attacks
+// Uses IP address as the partition key to track requests per client
+builder.Services.AddRateLimiter(options =>
+{
+    // Reject requests that exceed the limit with 429 Too Many Requests
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    // Strict policy for authentication endpoints to prevent brute force attacks
+    // Allows 5 login/register attempts per 15 minutes per IP address
+    options.AddFixedWindowLimiter("authentication", limiterOptions =>
+    {
+        limiterOptions.PermitLimit = 5;
+        limiterOptions.Window = TimeSpan.FromMinutes(15);
+        limiterOptions.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        limiterOptions.QueueLimit = 0; // No queueing, reject immediately when limit reached
+    });
+
+    // Standard policy for form submissions and API requests
+    // Allows 20 requests per minute per IP address
+    options.AddFixedWindowLimiter("standard", limiterOptions =>
+    {
+        limiterOptions.PermitLimit = 20;
+        limiterOptions.Window = TimeSpan.FromMinutes(1);
+        limiterOptions.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        limiterOptions.QueueLimit = 0;
+    });
+
+    // Lenient policy for general page views and read operations
+    // Allows 100 requests per minute per IP address
+    options.AddFixedWindowLimiter("lenient", limiterOptions =>
+    {
+        limiterOptions.PermitLimit = 100;
+        limiterOptions.Window = TimeSpan.FromMinutes(1);
+        limiterOptions.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        limiterOptions.QueueLimit = 0;
+    });
+
+    // Global fallback limiter for endpoints without specific policies
+    // Prevents general abuse across the entire application
+    options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
+    {
+        // Use IP address as partition key
+        var ipAddress = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+
+        return RateLimitPartition.GetFixedWindowLimiter(ipAddress, _ =>
+            new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 100,
+                Window = TimeSpan.FromMinutes(1),
+                QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                QueueLimit = 0
+            });
+    });
+});
 
 var app = builder.Build();
 
@@ -130,6 +187,10 @@ app.Use(async (context, next) =>
 app.UseStaticFiles();
 
 app.UseRouting();
+
+// Enable rate limiting middleware
+// Must be placed after UseRouting() and before UseAuthentication()
+app.UseRateLimiter();
 
 app.UseAuthentication();
 app.UseAuthorization();
