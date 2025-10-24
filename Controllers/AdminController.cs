@@ -53,7 +53,7 @@ namespace HealingInWriting.Controllers
 
         public IActionResult AddBookView()
         {
-            return View(new BookDetailViewModel());
+            return View();
         }
     }
 }
