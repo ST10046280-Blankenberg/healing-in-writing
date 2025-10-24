@@ -87,14 +87,43 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// Security headers to prevent clickjacking attacks
-// X-Frame-Options prevents the site from being embedded in iframes on other domains
-// Content-Security-Policy frame-ancestors provides modern clickjacking protection
-// If you need to embed your own pages in iframes, change DENY to SAMEORIGIN and 'none' to 'self'
+// Security headers to prevent XSS, clickjacking, and other attacks
 app.Use(async (context, next) =>
 {
+    // Prevent clickjacking by blocking iframe embedding
     context.Response.Headers.Append("X-Frame-Options", "DENY");
-    context.Response.Headers.Append("Content-Security-Policy", "frame-ancestors 'none'");
+
+    // Content Security Policy to prevent XSS attacks
+    // Restricts what resources can be loaded and from where
+    // 'self' allows resources from same origin only
+    // Google Fonts domains are explicitly allowed for typography
+    // Inline styles are allowed (used throughout the site) but inline scripts are blocked
+    var csp = string.Join("; ", new[]
+    {
+        "default-src 'self'",
+        "script-src 'self'",
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+        "font-src 'self' https://fonts.gstatic.com",
+        "img-src 'self' data: https:",
+        "connect-src 'self'",
+        "frame-ancestors 'none'",
+        "base-uri 'self'",
+        "form-action 'self'"
+    });
+    context.Response.Headers.Append("Content-Security-Policy", csp);
+
+    // Prevent MIME type sniffing which could lead to XSS
+    // Forces browser to respect declared content types
+    context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
+
+    // Control how much referrer information is shared
+    // Protects user privacy whilst maintaining analytics capability
+    context.Response.Headers.Append("Referrer-Policy", "strict-origin-when-cross-origin");
+
+    // Restrict access to browser features and APIs
+    // Disables potentially dangerous features the site doesn't need
+    context.Response.Headers.Append("Permissions-Policy", "geolocation=(), microphone=(), camera=()");
+
     await next();
 });
 
