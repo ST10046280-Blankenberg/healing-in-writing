@@ -1,3 +1,6 @@
+using HealingInWriting.Interfaces.Services;
+using HealingInWriting.Models.Books;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HealingInWriting.Controllers;
