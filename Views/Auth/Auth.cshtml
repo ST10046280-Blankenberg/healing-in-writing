@@ -181,6 +181,23 @@
                         <span id="confirmPassword-error" class="auth__error-message" data-valmsg-for="ConfirmPassword" data-valmsg-replace="true"></span>
                     </div>
 
+                    <!-- Privacy Consent (POPIA Compliance) -->
+                    <div class="auth__form-group auth__form-group--checkbox">
+                        <input
+                            type="checkbox"
+                            id="acceptTerms"
+                            name="AcceptTerms"
+                            class="auth__checkbox"
+                            value="true"
+                            required
+                            aria-describedby="acceptTerms-error" />
+                        <label for="acceptTerms" class="auth__checkbox-label">
+                            I accept the <a href="/Home/Terms" target="_blank" class="auth__link">Terms of Service</a>
+                            and <a href="/Home/Privacy" target="_blank" class="auth__link">Privacy Policy</a>
+                        </label>
+                        <span id="acceptTerms-error" class="auth__error-message" data-valmsg-for="AcceptTerms" data-valmsg-replace="true"></span>
+                    </div>
+
                     <!-- Submit Button -->
                     <button type="submit" class="auth__button">Create Account</button>
                 </form>
