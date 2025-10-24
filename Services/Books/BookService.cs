@@ -2,12 +2,18 @@ using HealingInWriting.Domain.Books;
 using HealingInWriting.Interfaces.Services;
 
 namespace HealingInWriting.Services.Books;
-
 /// <summary>
 /// Temporary in-memory implementation used until real persistence is introduced.
 /// </summary>
 public class BookService : IBookService
 {
+    private readonly IConfiguration _configuration;
+
+    public BookService(IConfiguration configuration)
+    {
+        _configuration = configuration;
+    }
+
     private static readonly IReadOnlyCollection<Book> FeaturedBooks = new List<Book>
     {
         new()
@@ -105,8 +111,12 @@ public class BookService : IBookService
         if (string.IsNullOrWhiteSpace(isbn))
             return null;
 
+        var apiKey = _configuration["ApiKeys:GoogleBooks"];
+        if (string.IsNullOrWhiteSpace(apiKey))
+            return null;
+
         using var httpClient = new HttpClient();
-        var url = $"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}";
+        var url = $"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}&key={apiKey}";
         var response = await httpClient.GetAsync(url);
 
         if (!response.IsSuccessStatusCode)
@@ -121,9 +131,7 @@ public class BookService : IBookService
 
         var volumeInfo = item.GetProperty("volumeInfo");
 
-        var book =
-            
-            new Book
+        var book = new Book
         {
             Title = volumeInfo.GetProperty("title").GetString() ?? "",
             Authors = volumeInfo.TryGetProperty("authors", out var authors) ? authors.EnumerateArray().Select(a => a.GetString() ?? "").ToList() : new List<string>(),
@@ -149,7 +157,6 @@ public class BookService : IBookService
                     }).ToList()
                 : new List<IndustryIdentifier>()
         };
-
 
         return book;
     }
