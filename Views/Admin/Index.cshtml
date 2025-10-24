@@ -1,1 +1,24 @@
-@* TODO: Offer an oversight dashboard consuming admin service summaries. *@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<link rel="stylesheet" href="~/css/views/admin-dashboard.css" asp-append-version="true" />
+
+<div class="admin-dashboard">
+    <header class="admin-dashboard__header">
+        <h1 class="admin-dashboard__title">Admin Dashboard</h1>
+        <p class="admin-dashboard__subtitle">Quick navigation to manage content</p>
+    </header>
+
+    <section class="admin-dashboard__nav">
+        <a href="@Url.Action("ManageBooks", "Admin")" class="admin-dashboard__button admin-dashboard__button--primary">
+            <span class="admin-dashboard__button-icon">📚</span>
+            <span class="admin-dashboard__button-text">Manage Books</span>
+        </a>
+
+        <a href="@Url.Action("ManageStories", "Admin")" class="admin-dashboard__button admin-dashboard__button--primary">
+            <span class="admin-dashboard__button-icon">📝</span>
+            <span class="admin-dashboard__button-text">Manage Stories</span>
+        </a>
+    </section>
+</div>

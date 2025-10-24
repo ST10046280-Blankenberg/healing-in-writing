@@ -1,0 +1,241 @@
+/* Add Book Styles */
+
+.add-book {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Header */
+.add-book__header {
+    margin-bottom: 2rem;
+}
+
+.add-book__title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+/* Form Container */
+.add-book__form-container {
+    background: #ffffff;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 2rem;
+}
+
+/* Form */
+.add-book__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Form Group */
+.add-book__form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.add-book__label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.add-book__input,
+.add-book__textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 1rem;
+    color: #1f2937;
+    transition: border-color 0.3s ease;
+}
+
+.add-book__input:focus,
+.add-book__textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+}
+
+.add-book__textarea {
+    resize: vertical;
+    font-family: inherit;
+}
+
+/* Form Actions */
+.add-book__form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.add-book__submit-button {
+    flex: 1;
+    padding: 0.875rem 1.5rem;
+    background: #3b82f6;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.add-book__submit-button:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.add-book__cancel-button {
+    flex: 1;
+    padding: 0.875rem 1.5rem;
+    background: #f3f4f6;
+    color: #374151;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.add-book__cancel-button:hover {
+    background: #e5e7eb;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .add-book {
+        padding: 1rem;
+    }
+
+    .add-book__title {
+        font-size: 1.5rem;
+    }
+
+    .add-book__form-container {
+        padding: 1.5rem;
+    }
+
+    .add-book__form-actions {
+        flex-direction: column;
+    }
+}
+/* Manage Books Styles */
+
+.manage-books {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Header */
+.manage-books__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.manage-books__title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+/* Add Button */
+.manage-books__add-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: #10b981;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.manage-books__add-button:hover {
+    background: #059669;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.manage-books__add-button-icon {
+    font-size: 1.25rem;
+}
+
+/* Content Section */
+.manage-books__content {
+    background: #ffffff;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 3rem;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.manage-books__placeholder {
+    font-size: 1.125rem;
+    color: #9ca3af;
+    font-style: italic;
+}
+
+/* Footer */
+.manage-books__footer {
+    margin-top: 2rem;
+}
+
+.manage-books__back-button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.manage-books__back-button:hover {
+    color: #2563eb;
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .manage-books {
+        padding: 1rem;
+    }
+
+    .manage-books__header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .manage-books__title {
+        font-size: 1.5rem;
+    }
+
+    .manage-books__add-button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+

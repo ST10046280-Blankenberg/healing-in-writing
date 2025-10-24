@@ -90,7 +90,7 @@
     flex-direction: column;
     align-items: flex-start;
     padding: 0;
-    gap: 10px;
+    gap: 0;
     width: 100%;
     
     /* Visual */
@@ -176,7 +176,7 @@
 }
 
 .manage-stories__table tbody tr:hover {
-    background: rgba(233, 213, 235, 0.3);
+    background: rgba(233, 213, 235, 0.35);
 }
 
 .manage-stories__table td {
@@ -297,6 +297,7 @@
 
 .manage-stories__review-btn:hover {
     background: #3d1d5a;
+    transform: translateY(-1px);
 }
 
 .manage-stories__review-btn:active {

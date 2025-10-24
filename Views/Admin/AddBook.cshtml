@@ -1,0 +1,46 @@
+@{
+    ViewData["Title"] = "Add New Book";
+}
+
+<link rel="stylesheet" href="~/css/views/add-book.css" asp-append-version="true" />
+
+<div class="add-book">
+    <header class="add-book__header">
+        <h1 class="add-book__title">Add New Book</h1>
+    </header>
+
+    <section class="add-book__form-container">
+        <form class="add-book__form" method="post" asp-action="AddBook">
+            <div class="add-book__form-group">
+                <label for="title" class="add-book__label">Book Title</label>
+                <input type="text" id="title" name="Title" class="add-book__input" placeholder="Enter book title" required />
+            </div>
+
+            <div class="add-book__form-group">
+                <label for="author" class="add-book__label">Author</label>
+                <input type="text" id="author" name="Author" class="add-book__input" placeholder="Enter author name" required />
+            </div>
+
+            <div class="add-book__form-group">
+                <label for="isbn" class="add-book__label">ISBN</label>
+                <input type="text" id="isbn" name="ISBN" class="add-book__input" placeholder="Enter ISBN" />
+            </div>
+
+            <div class="add-book__form-group">
+                <label for="description" class="add-book__label">Description</label>
+                <textarea id="description" name="Description" class="add-book__textarea" rows="5" placeholder="Enter book description"></textarea>
+            </div>
+
+            <div class="add-book__form-group">
+                <label for="publishedYear" class="add-book__label">Published Year</label>
+                <input type="number" id="publishedYear" name="PublishedYear" class="add-book__input" placeholder="e.g., 2024" />
+            </div>
+
+            <div class="add-book__form-actions">
+                <button type="submit" class="add-book__submit-button">Add Book</button>
+                <a href="@Url.Action("ManageBooks", "Admin")" class="add-book__cancel-button">Cancel</a>
+            </div>
+        </form>
+    </section>
+</div>
+

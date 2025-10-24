@@ -1,1 +1,24 @@
-@* TODO: Handle catalogue administration tasks via the admin service. *@
+@{
+    ViewData["Title"] = "Manage Books";
+}
+
+<link rel="stylesheet" href="~/css/views/manage-books.css" asp-append-version="true" />
+
+<div class="manage-books">
+    <header class="manage-books__header">
+        <h1 class="manage-books__title">Manage Books</h1>
+        <a href="@Url.Action("AddBook", "Admin")" class="manage-books__add-button">
+            <span class="manage-books__add-button-icon">➕</span>
+            <span class="manage-books__add-button-text">Add New Book</span>
+        </a>
+    </header>
+
+    <section class="manage-books__content">
+        <p class="manage-books__placeholder">Book list will be displayed here...</p>
+    </section>
+
+    <footer class="manage-books__footer">
+        <a href="@Url.Action("Index", "Admin")" class="manage-books__back-button">← Back to Dashboard</a>
+    </footer>
+</div>
+

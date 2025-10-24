@@ -1,10 +1,58 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace HealingInWriting.Controllers
+namespace HealingInWriting.Controllers;
+
+public class AdminController : Controller
 {
-    // TODO: Inject an admin application service to handle privileged operations.
-    public class AdminController : Controller
+    // GET: Admin Dashboard
+    public IActionResult Index()
     {
-        // TODO: Add actions that defer management tasks to the admin service layer.
+        return View();
+    }
+
+    // GET: Manage Books
+    public IActionResult ManageBooks()
+    {
+        return View();
+    }
+
+    // GET: Add Book Form
+    public IActionResult AddBook()
+    {
+        return View();
+    }
+
+    // POST: Add Book (placeholder - will be implemented with actual logic later)
+    [HttpPost]
+    public IActionResult AddBook(string title, string author, string isbn, string description, int? publishedYear)
+    {
+        // TODO: Implement book creation logic
+        // For now, just redirect back to ManageBooks
+        return RedirectToAction(nameof(ManageBooks));
+    }
+
+    // GET: Manage Stories
+    public IActionResult ManageStories()
+    {
+        return View();
+    }
+
+    // GET: Manage Events (placeholder)
+    public IActionResult ManageEvents()
+    {
+        return View();
+    }
+
+    // GET: Approve Volunteer Hours (placeholder)
+    public IActionResult ApproveVolunteerHours()
+    {
+        return View();
+    }
+
+    // GET: Reports (placeholder)
+    public IActionResult Reports()
+    {
+        return View();
     }
 }
+
