@@ -1,0 +1,376 @@
+/* =========================================================
+   Manage Stories Admin View
+   Component-specific styles for story management table
+   ========================================================= */
+
+/* Page Container */
+.manage-stories {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 32px 64px;
+    gap: 32px;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* Header Section */
+.manage-stories__header {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 8px;
+    width: 100%;
+    max-width: 434px;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+/* Page Title */
+.manage-stories__title {
+    /* Box Model */
+    width: auto;
+    height: auto;
+    
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 40px;
+    color: #2F1648;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+/* Page Subtitle */
+.manage-stories__subtitle {
+    /* Box Model */
+    width: 100%;
+    height: auto;
+    
+    /* Typography */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    color: #4B5563;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+/* Search Bar Overrides for Manage Stories */
+.manage-stories .search-bar {
+    /* Layout */
+    order: 1;
+    width: 100%;
+}
+
+/* Table Container */
+.manage-stories__table-container {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 10px;
+    width: 100%;
+    
+    /* Visual */
+    background: #FFFFFF;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
+    
+    /* Layout */
+    flex: none;
+    order: 2;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* Table */
+.manage-stories__table {
+    /* Box Model */
+    width: 100%;
+    border-collapse: collapse;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+/* Table Header */
+.manage-stories__table thead {
+    /* Box Model */
+    box-sizing: border-box;
+    width: 100%;
+    
+    /* Visual */
+    background: #F9FAFB;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.manage-stories__table thead tr {
+    width: 100%;
+}
+
+.manage-stories__table th {
+    /* Box Model */
+    padding: 16px 24px;
+    text-align: left;
+    
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #374151;
+}
+
+/* Column widths */
+.manage-stories__table th:nth-child(1) { width: 33.5%; }  /* Title */
+.manage-stories__table th:nth-child(2) { width: 19.5%; }  /* Author */
+.manage-stories__table th:nth-child(3) { width: 18.5%; }  /* Submitted Date */
+.manage-stories__table th:nth-child(4) { width: 14.9%; }  /* Status */
+.manage-stories__table th:nth-child(5) { width: 13.6%; }  /* Actions */
+
+/* Table Body */
+.manage-stories__table tbody {
+    width: 100%;
+}
+
+.manage-stories__table tbody tr {
+    /* Box Model */
+    box-sizing: border-box;
+    width: 100%;
+    
+    /* Visual */
+    border-bottom: 1px solid #F3F4F6;
+    
+    /* Animation */
+    transition: background-color 0.2s ease;
+}
+
+.manage-stories__table tbody tr:nth-child(even) {
+    background: rgba(233, 213, 235, 0.2);
+}
+
+.manage-stories__table tbody tr:hover {
+    background: rgba(233, 213, 235, 0.3);
+}
+
+.manage-stories__table td {
+    /* Box Model */
+    padding: 22.5px 24px;
+    vertical-align: middle;
+}
+
+/* Story Title Cell */
+.manage-stories__story-title {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #2F1648;
+    
+    /* Box Model */
+    display: block;
+}
+
+/* Author Cell */
+.manage-stories__author {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #4B5563;
+}
+
+/* Date Cell */
+.manage-stories__date {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #4B5563;
+}
+
+/* Status Badge */
+.manage-stories__status-badge {
+    /* Box Model */
+    display: inline-block;
+    padding: 4px 12px;
+    
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    
+    /* Visual */
+    border-radius: 9999px;
+}
+
+/* Status Badge Variants */
+.manage-stories__status-badge--pending {
+    background: #E9D5EB;
+    color: #2F1648;
+}
+
+.manage-stories__status-badge--approved {
+    background: #DCFCE7;
+    color: #15803D;
+}
+
+.manage-stories__status-badge--published {
+    background: #2F1648;
+    color: #FFFFFF;
+}
+
+.manage-stories__status-badge--rejected {
+    background: #FEE2E2;
+    color: #B91C1C;
+}
+
+.manage-stories__status-badge--submitted {
+    background: #DBEAFE;
+    color: #1E40AF;
+}
+
+/* Review Button */
+.manage-stories__review-btn {
+    /* Box Model */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    min-width: 81px;
+    height: 36px;
+    
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    color: #FFFFFF;
+    text-decoration: none;
+    
+    /* Visual */
+    background: #2F1648;
+    border: none;
+    border-radius: 8px;
+    
+    /* Animation */
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.manage-stories__review-btn:hover {
+    background: #3d1d5a;
+}
+
+.manage-stories__review-btn:active {
+    background: #251038;
+    transform: scale(0.98);
+}
+
+.manage-stories__review-btn:focus {
+    outline: 2px solid #2F1648;
+    outline-offset: 2px;
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
+
+/* Tablet and below (1024px) */
+@media (max-width: 1024px) {
+    .manage-stories {
+        padding: 24px 32px;
+    }
+    
+    .manage-stories__table-container {
+        overflow-x: auto;
+    }
+    
+    .manage-stories__table {
+        min-width: 900px;
+    }
+}
+
+/* Mobile landscape and below (768px) */
+@media (max-width: 768px) {
+    .manage-stories {
+        padding: 20px;
+        gap: 24px;
+    }
+    
+    .manage-stories__title {
+        font-size: 28px;
+        line-height: 36px;
+    }
+    
+    .manage-stories__subtitle {
+        font-size: 16px;
+        line-height: 24px;
+    }
+    
+    .manage-stories__table {
+        min-width: 800px;
+    }
+    
+    .manage-stories__table th,
+    .manage-stories__table td {
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+}
+
+/* Mobile portrait (480px) */
+@media (max-width: 480px) {
+    .manage-stories {
+        padding: 16px;
+        gap: 20px;
+    }
+    
+    .manage-stories__title {
+        font-size: 24px;
+        line-height: 32px;
+    }
+    
+    .manage-stories__subtitle {
+        font-size: 14px;
+        line-height: 22px;
+    }
+}
+

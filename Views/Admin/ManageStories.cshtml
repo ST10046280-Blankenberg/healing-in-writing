@@ -1,1 +1,160 @@
-@* TODO: Manage story approvals and edits through admin service commands. *@
+@{
+    ViewData["Title"] = "Manage Stories";
+}
+
+<link rel="stylesheet" href="~/css/shared/search-bar.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/views/manage-stories.css" asp-append-version="true" />
+
+<div class="manage-stories">
+    <!-- Header Section -->
+    <div class="manage-stories__header">
+        <h1 class="manage-stories__title">Manage Stories</h1>
+        <p class="manage-stories__subtitle">Review and manage community story submissions.</p>
+    </div>
+
+    <!-- Search Bar with Filters -->
+    <div class="search-bar">
+        <!-- Search Input -->
+        <div class="search-bar__input-container">
+            <svg class="search-bar__icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 17C13.4183 17 17 13.4183 17 9C17 4.58172 13.4183 1 9 1C4.58172 1 1 4.58172 1 9C1 13.4183 4.58172 17 9 17Z" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M19 19L14.65 14.65" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <input type="text" class="search-bar__input" placeholder="Search..." />
+        </div>
+
+        <!-- Any Date Dropdown -->
+        <div class="search-bar__dropdown">
+            <span class="search-bar__dropdown-label">Any Date</span>
+            <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 9L12 15L18 9" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+
+        <!-- Any Status Dropdown -->
+        <div class="search-bar__dropdown">
+            <span class="search-bar__dropdown-label">Any Status</span>
+            <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 9L12 15L18 9" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+
+        <!-- Any Tags Dropdown -->
+        <div class="search-bar__dropdown">
+            <span class="search-bar__dropdown-label">Any Tags</span>
+            <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 9L12 15L18 9" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+
+        <!-- Newest Dropdown (Sort) -->
+        <div class="search-bar__dropdown">
+            <span class="search-bar__dropdown-label">Newest</span>
+            <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 9L12 15L18 9" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+
+        <!-- Search Button -->
+        <button type="submit" class="search-bar__button">
+            <svg class="search-bar__button-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 17C13.4183 17 17 13.4183 17 9C17 4.58172 13.4183 1 9 1C4.58172 1 1 4.58172 1 9C1 13.4183 4.58172 17 9 17Z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M19 19L14.65 14.65" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="search-bar__button-label">Search</span>
+        </button>
+    </div>
+
+    <!-- Stories Table -->
+    <div class="manage-stories__table-container">
+        <table class="manage-stories__table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Submitted Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Story 1 -->
+                <tr>
+                    <td>
+                        <span class="manage-stories__story-title">My Journey Through Anxiety</span>
+                    </td>
+                    <td>
+                        <span class="manage-stories__author">Sarah Mitchell</span>
+                    </td>
+                    <td>
+                        <span class="manage-stories__date">Dec 15, 2024</span>
+                    </td>
+                    <td>
+                        <span class="manage-stories__status-badge manage-stories__status-badge--pending">Pending</span>
+                    </td>
+                    <td>
+                        <a href="#" class="manage-stories__review-btn">Review</a>
+                    </td>
+                </tr>
+
+                <!-- Story 2 -->
+                <tr>
+                    <td>
+                        <span class="manage-stories__story-title">Finding Hope in Dark Times</span>
+                    </td>
+                    <td>
+                        <span class="manage-stories__author">Anonymous</span>
+                    </td>
+                    <td>
+                        <span class="manage-stories__date">Dec 14, 2024</span>
+                    </td>
+                    <td>
+                        <span class="manage-stories__status-badge manage-stories__status-badge--approved">Approved</span>
+                    </td>
+                    <td>
+                        <a href="#" class="manage-stories__review-btn">Review</a>
+                    </td>
+                </tr>
+
+                <!-- Story 3 -->
+                <tr>
+                    <td>
+                        <span class="manage-stories__story-title">Overcoming Depression Together</span>
+                    </td>
+                    <td>
+                        <span class="manage-stories__author">Michael Chen</span>
+                    </td>
+                    <td>
+                        <span class="manage-stories__date">Dec 13, 2024</span>
+                    </td>
+                    <td>
+                        <span class="manage-stories__status-badge manage-stories__status-badge--published">Published</span>
+                    </td>
+                    <td>
+                        <a href="#" class="manage-stories__review-btn">Review</a>
+                    </td>
+                </tr>
+
+                <!-- Story 4 -->
+                <tr>
+                    <td>
+                        <span class="manage-stories__story-title">Breaking the Silence</span>
+                    </td>
+                    <td>
+                        <span class="manage-stories__author">Emma Rodriguez</span>
+                    </td>
+                    <td>
+                        <span class="manage-stories__date">Dec 12, 2024</span>
+                    </td>
+                    <td>
+                        <span class="manage-stories__status-badge manage-stories__status-badge--rejected">Rejected</span>
+                    </td>
+                    <td>
+                        <a href="#" class="manage-stories__review-btn">Review</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
