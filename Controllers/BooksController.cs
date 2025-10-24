@@ -1,6 +1,7 @@
 using HealingInWriting.Domain.Books;
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Books;
+using HealingInWriting.Services.Books;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -85,20 +86,7 @@ namespace HealingInWriting.Controllers
             if (book == null)
                 return Json(new { success = false, message = "Book not found for this ISBN." });
 
-            var viewModel = new BookDetailViewModel
-            {
-                BookId = book.BookId,
-                Title = book.Title,
-                Authors = string.Join(", ", book.Authors ?? new List<string>()),
-                PublishedDate = book.PublishedDate,
-                Description = book.Description,
-                Categories = book.Categories ?? new List<string>(),
-                ThumbnailUrl = book.ImageLinks?.Thumbnail ?? book.ImageLinks?.SmallThumbnail ?? "/images/placeholder-book.svg",
-                PageCount = book.PageCount,
-                Language = book.Language,
-                Publisher = book.Publisher,
-                IndustryIdentifiers = book.IndustryIdentifiers?.Select(i => i.Identifier).ToList() ?? new List<string>()
-            };
+            var viewModel = (_bookService as BookService)?.ToBookDetailViewModel(book);
 
             return Json(new { success = true, data = viewModel });
         }

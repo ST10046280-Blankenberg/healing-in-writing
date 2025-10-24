@@ -1,5 +1,6 @@
 using HealingInWriting.Domain.Books;
 using HealingInWriting.Interfaces.Services;
+using HealingInWriting.Models.Books;
 
 namespace HealingInWriting.Services.Books;
 /// <summary>
@@ -159,5 +160,25 @@ public class BookService : IBookService
         };
 
         return book;
+    }
+
+    public BookDetailViewModel ToBookDetailViewModel(Book book)
+    {
+        if (book == null) return null;
+
+        return new BookDetailViewModel
+        {
+            BookId = book.BookId,
+            Title = book.Title,
+            Authors = string.Join(", ", book.Authors ?? new List<string>()),
+            PublishedDate = book.PublishedDate,
+            Description = book.Description,
+            Categories = book.Categories ?? new List<string>(),
+            ThumbnailUrl = book.ImageLinks?.Thumbnail ?? book.ImageLinks?.SmallThumbnail ?? "/images/placeholder-book.svg",
+            PageCount = book.PageCount,
+            Language = book.Language,
+            Publisher = book.Publisher,
+            IndustryIdentifiers = book.IndustryIdentifiers?.Select(i => i.Identifier).ToList() ?? new List<string>()
+        };
     }
 }
