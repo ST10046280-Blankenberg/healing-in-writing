@@ -2,9 +2,13 @@ using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Books;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace HealingInWriting.Controllers;
 
+// Restrict entire controller to Admin role to prevent DOR/BOLA attacks
+// Users must be authenticated AND have the Admin role to access any action
+[Authorize(Roles = "Admin")]
 public class AdminController : Controller
 {
     // GET: Admin Dashboard
@@ -27,6 +31,8 @@ public class AdminController : Controller
 
     // POST: Add Book (placeholder - will be implemented with actual logic later)
     [HttpPost]
+    [ValidateAntiForgeryToken]
+    [EnableRateLimiting("standard")]
     public IActionResult AddBook(string title, string author, string isbn, string description, int? publishedYear)
     {
         // TODO: Implement book creation logic
