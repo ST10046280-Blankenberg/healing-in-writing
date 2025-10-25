@@ -12,13 +12,19 @@ FORM DATA TO SAVE/RETRIEVE:
   * Junction table: event_tags (event_id, tag_id)
 - Description (text) - events.description (rich text content)
 - Address/Location (string) - events.address
-- Start Date & Time (DateTime) - events.start_time
-- End Date & Time (DateTime) - events.end_time
+- Event Date (DateTime/Date) - events.event_date (single date for the event)
+- Start Time (TimeSpan/Time) - events.start_time (event start time)
+- End Time (TimeSpan/Time) - events.end_time (event end time)
 - Cover Image (file upload) - events.cover_image_url or file path
+
+NOTE: Date and times are separate fields:
+- Use ONE date picker for the event date
+- Use TWO time pickers for start and end times
+- Backend should combine date + start_time and date + end_time into DateTime if needed
 
 DATABASE OPERATIONS:
 CREATE EVENT:
-1. INSERT INTO events (title, event_type, description, address, start_time, end_time, cover_image_url)
+1. INSERT INTO events (title, event_type, description, address, event_date, start_time, end_time, cover_image_url)
 2. INSERT INTO event_tags (event_id, tag_id) for each selected tag
 
 EDIT EVENT:
@@ -95,18 +101,28 @@ FORM SUBMISSION:
         <!-- Event Title Input -->
         <div class="event-details__form-group">
             <h4 class="event-details__form-label">Event Title</h4>
-            <input type="text" class="event-details__input" placeholder="Subtext" />
+            <input type="text" class="event-details__input" placeholder="Enter event title..." />
         </div>
 
-        <!-- Date Input -->
-        <div class="event-details__form-group event-details__form-group--date">
-            <label class="event-details__label">Date</label>
-            <div class="event-details__date-input-wrapper">
-                <input type="date" class="event-details__date-input" placeholder="mm/dd/yyyy" />
-                <svg class="event-details__calendar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <rect x="3" y="6" width="18" height="15" rx="2" stroke="#000000" stroke-width="1.5"/>
-                    <path d="M3 10h18M7 3v3M17 3v3" stroke="#000000" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
+        <!-- Address Input -->
+        <div class="event-details__form-group event-details__form-group--full-width">
+            <label class="event-details__label">Address / Location</label>
+            <input type="text" class="event-details__input" placeholder="Enter event location or address..." />
+        </div>
+
+        <!-- Event Date Input -->
+        <div class="event-details__form-group">
+            <label class="event-details__label">Event Date</label>
+            <input type="date" class="event-details__input" placeholder="mm/dd/yyyy" />
+        </div>
+
+        <!-- Start & End Times -->
+        <div class="event-details__form-group event-details__form-group--full-width">
+            <label class="event-details__label">Start & End Times</label>
+            <div class="event-details__times-container">
+                <input type="time" class="event-details__input event-details__input--time" placeholder="Start Time" />
+                <span class="event-details__time-separator">to</span>
+                <input type="time" class="event-details__input event-details__input--time" placeholder="End Time" />
             </div>
         </div>
 
