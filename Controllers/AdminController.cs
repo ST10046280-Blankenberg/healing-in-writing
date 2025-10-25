@@ -2,11 +2,20 @@ using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Books;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HealingInWriting.Controllers;
 
 public class AdminController : Controller
 {
+    private readonly IBookService _bookService;
+
+    public AdminController(IBookService bookService)
+    {
+        _bookService = bookService;
+    }
+
     // GET: Admin Dashboard
     public IActionResult Index()
     {
@@ -14,9 +23,28 @@ public class AdminController : Controller
     }
 
     // GET: Manage Books
-    public IActionResult ManageBooks()
+    public async Task<IActionResult> ManageBooks()
     {
-        return View();
+        var books = (await _bookService.GetFeaturedAsync()).ToList();
+
+        // Map to your inventory view model. Adjust as needed for your actual BookInventoryViewModel.
+        var model = new BookInventoryViewModel
+        {
+            Books = books.Select(book => new BookSummaryViewModel
+            {
+                BookId = book.BookId,
+                Title = book.Title,
+                Authors = book.Authors?.Any() == true ? string.Join(", ", book.Authors) : string.Empty,
+                PublishedDate = book.PublishedDate ?? string.Empty,
+                Publisher = book.Publisher ?? string.Empty,
+                PageCount = book.PageCount,
+                Description = book.Description ?? string.Empty,
+                Categories = book.Categories?.ToList() ?? new List<string>(),
+                ThumbnailUrl = book.ImageLinks?.Thumbnail ?? string.Empty
+            }).ToList()
+        };
+
+        return View(model);
     }
 
     // GET: Add Book Form
