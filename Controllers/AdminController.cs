@@ -11,6 +11,13 @@ namespace HealingInWriting.Controllers;
 [Authorize(Roles = "Admin")]
 public class AdminController : Controller
 {
+    private readonly IBookService _bookService;
+
+    public AdminController(IBookService bookService)
+    {
+        _bookService = bookService;
+    }
+
     // GET: Admin Dashboard
     public IActionResult Index()
     {
@@ -18,9 +25,23 @@ public class AdminController : Controller
     }
 
     // GET: Manage Books
-    public IActionResult ManageBooks()
+    public async Task<IActionResult> ManageBooks()
     {
-        return View();
+        var books = (await _bookService.GetFeaturedAsync()).ToList();
+
+        // Map to your inventory view model. Adjust as needed for your actual BookInventoryViewModel.
+        var model = new BookInventoryViewModel
+        {
+            Books = books.Select(book => new BookInventoryRowViewModel
+            {
+                BookId = book.BookId,
+                Title = book.Title,
+                Categories = book.Categories?.ToList() ?? new List<string>(),
+                ThumbnailUrl = book.ImageLinks?.Thumbnail ?? string.Empty
+            }).ToList()
+        };
+
+        return View(model);
     }
 
     // GET: Add Book Form
