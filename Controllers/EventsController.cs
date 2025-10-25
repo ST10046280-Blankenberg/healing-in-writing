@@ -9,6 +9,13 @@ namespace HealingInWriting.Controllers
         {
             return View();
         }
+        
+        public IActionResult Details(int id)
+        {
+            // TODO: Load event details from service
+            return View();
+        }
+        
         // TODO: Implement thin actions that coordinate event workflows via the service.
     }
 }
