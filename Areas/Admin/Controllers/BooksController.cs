@@ -34,13 +34,13 @@ namespace HealingInWriting.Areas.Admin.Controllers
                 }).ToList()
             };
 
-            return View("~/Views/Admin/ManageBooks.cshtml", model);
+            return View(model);
         }
 
         [HttpGet]
         public IActionResult Add()
         {
-            return View("~/Views/Admin/AddBook.cshtml");
+            return View();
         }
 
         [HttpPost]
