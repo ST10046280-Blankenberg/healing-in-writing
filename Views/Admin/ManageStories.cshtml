@@ -1,3 +1,36 @@
+@*
+========================================
+BACKEND DATA REQUIREMENTS
+========================================
+This page displays a list of all story submissions for admin review.
+
+REQUIRED DATA PER STORY:
+- Story Title (string)
+- Author Name (string) - Can be "Anonymous" if user opted for anonymity
+- Submitted Date (DateTime) - Created_At field from stories table
+- Status (string/enum) - Options: "Pending", "Approved", "Published", "Rejected"
+  * NOTE: Status field may need to be added to database if not present
+
+DATABASE FIELDS NEEDED:
+- stories.id
+- stories.title
+- stories.created_at
+- stories.status (NEW FIELD?) - Consider adding if not present
+- users.username OR users.full_name (join with users table via user_id)
+- stories.is_anonymous (boolean) - Display "Anonymous" if true
+
+ADDITIONAL NOTES:
+- Search/filter functionality will require backend filtering by:
+  * Date range
+  * Status
+  * Tags (if implemented)
+- "Review" button should link to /Admin/Stories/Details/{id}
+- Consider pagination for large datasets
+========================================
+*@
+
+
+
 @{
     ViewData["Title"] = "Manage Stories";
 }

@@ -1,3 +1,52 @@
+@*
+========================================
+BACKEND DATA REQUIREMENTS
+========================================
+This page allows admins to create new events or edit existing ones.
+
+FORM DATA TO SAVE/RETRIEVE:
+- Event ID (int) - If editing existing event (from route parameter)
+- Title (string) - events.title
+- Event Type/Category (string) - events.event_type (e.g., "Community Event", "Workshop")
+- Event Tags (List<int>) - Many-to-many relationship with tags table
+  * Junction table: event_tags (event_id, tag_id)
+- Description (text) - events.description (rich text content)
+- Address/Location (string) - events.address
+- Start Date & Time (DateTime) - events.start_time
+- End Date & Time (DateTime) - events.end_time
+- Cover Image (file upload) - events.cover_image_url or file path
+
+DATABASE OPERATIONS:
+CREATE EVENT:
+1. INSERT INTO events (title, event_type, description, address, start_time, end_time, cover_image_url)
+2. INSERT INTO event_tags (event_id, tag_id) for each selected tag
+
+EDIT EVENT:
+1. GET event WHERE id = @eventId
+2. Populate form with existing data
+3. UPDATE events SET ... WHERE id = @eventId
+4. DELETE FROM event_tags WHERE event_id = @eventId (clear old tags)
+5. INSERT INTO event_tags ... (add new tags)
+
+IMAGE UPLOAD HANDLING:
+- Accept file uploads via <input type="file">
+- Recommended storage: wwwroot/uploads/events/{eventId}_{filename}
+- Save file path in events.cover_image_url
+- Validate: Max size 5MB, allowed types: jpg, jpeg, png
+- Consider cloud storage for production (Azure Blob, AWS S3)
+
+TAG MANAGEMENT:
+- Provide list of available tags from tags table
+- Save selected tag IDs to event_tags junction table
+- Display existing tags when editing (load from event_tags WHERE event_id = @eventId)
+
+FORM SUBMISSION:
+- Create: POST /Admin/Events/Create
+- Edit: POST /Admin/Events/Edit/{id}
+========================================
+*@
+
+
 @{
     ViewData["Title"] = "Manage Event Details";
 }

@@ -1,3 +1,40 @@
+@*
+========================================
+BACKEND DATA REQUIREMENTS
+========================================
+This page displays full story details for admin review/editing.
+
+REQUIRED DATA:
+- Story ID (int) - From route parameter
+- Title (string)
+- Author Name (string) - Display "Anonymous" if user opted for anonymity
+- Created Date (DateTime)
+- Content (string/text) - Full story text
+- Status (string) - Current approval status
+- Tags (List<string>) - All tags associated with this story_id
+- Cover Image URL (string) - Path to uploaded image (if implemented)
+
+DATABASE QUERIES NEEDED:
+1. Get story details: SELECT * FROM stories WHERE id = @storyId
+2. Get author info: JOIN users ON stories.user_id = users.id
+3. Get tags: SELECT tags.name FROM story_tags 
+   JOIN tags ON story_tags.tag_id = tags.id 
+   WHERE story_tags.story_id = @storyId
+4. Get image: stories.cover_image_url (or file path if stored locally)
+
+IMAGE STORAGE CONSIDERATIONS:
+- Option 1: Store in wwwroot/uploads/stories/ and save file path in DB
+- Option 2: Use cloud storage (Azure Blob, AWS S3) and store URL
+- Option 3: Store as Base64 in database (NOT RECOMMENDED for performance)
+
+FORM ACTIONS NEEDED:
+- Approve Story: POST /Admin/Stories/Approve/{id}
+- Reject Story: POST /Admin/Stories/Reject/{id}
+- Publish Story: POST /Admin/Stories/Publish/{id}
+========================================
+*@
+
+
 @model HealingInWriting.Models.Stories.StoryDetailViewModel
 
 @{

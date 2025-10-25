@@ -1,3 +1,43 @@
+@*
+========================================
+BACKEND DATA REQUIREMENTS
+========================================
+This page displays all events (upcoming and past) for admin management.
+
+REQUIRED DATA PER EVENT:
+- Event Title (string)
+- Start DateTime (DateTime) - For display as "Dec 15, 2024 • 7:00 PM"
+- End DateTime (DateTime) - Optional, for duration calculation
+- Location/Address (string) - Full address or venue name
+- RSVP Status (string/bool) - "RSVPs Open" or "RSVPs Closed"
+
+DATABASE FIELDS NEEDED:
+- events.id
+- events.title
+- events.start_time
+- events.end_time (optional)
+- events.address OR events.location_name
+- events.rsvp_deadline (DateTime) - Compare with current time to determine RSVP status
+  * OR events.rsvps_enabled (boolean) - Manual toggle
+
+RSVP STATUS LOGIC:
+- Display "RSVPs Open" if: DateTime.Now < events.rsvp_deadline
+- Display "RSVPs Closed" if: DateTime.Now >= events.rsvp_deadline
+- Alternative: Use boolean flag events.rsvps_enabled
+
+BUTTON ACTIONS NEEDED:
+- Edit: GET /Admin/Events/Edit/{id}
+- Cancel: POST /Admin/Events/Cancel/{id}
+- Export RSVPs: GET /Admin/Events/ExportRsvps/{id} (returns CSV/Excel file)
+
+SEARCH/FILTER REQUIREMENTS:
+- Filter by location (events.address LIKE @location)
+- Filter by date range (events.start_time BETWEEN @startDate AND @endDate)
+- Sort by newest/oldest (ORDER BY events.created_at DESC)
+========================================
+*@
+
+
 @{
     ViewData["Title"] = "Manage Events";
 }
