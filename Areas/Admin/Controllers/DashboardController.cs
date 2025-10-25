@@ -9,7 +9,7 @@ namespace HealingInWriting.Areas.Admin.Controllers
     {
         public IActionResult Index()
         {
-            return View("~/Views/Admin/Index.cshtml");
+            return View();
         }
     }
 }
