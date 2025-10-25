@@ -30,15 +30,10 @@ public class AdminController : Controller
         // Map to your inventory view model. Adjust as needed for your actual BookInventoryViewModel.
         var model = new BookInventoryViewModel
         {
-            Books = books.Select(book => new BookSummaryViewModel
+            Books = books.Select(book => new BookInventoryRowViewModel
             {
                 BookId = book.BookId,
                 Title = book.Title,
-                Authors = book.Authors?.Any() == true ? string.Join(", ", book.Authors) : string.Empty,
-                PublishedDate = book.PublishedDate ?? string.Empty,
-                Publisher = book.Publisher ?? string.Empty,
-                PageCount = book.PageCount,
-                Description = book.Description ?? string.Empty,
                 Categories = book.Categories?.ToList() ?? new List<string>(),
                 ThumbnailUrl = book.ImageLinks?.Thumbnail ?? string.Empty
             }).ToList()

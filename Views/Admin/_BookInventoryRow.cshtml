@@ -1,4 +1,4 @@
-﻿@model List<HealingInWriting.Models.Books.BookSummaryViewModel>
+﻿@model List<HealingInWriting.Models.Books.BookInventoryRowViewModel>
 
 @if (Model?.Any() == true)
 {
@@ -24,14 +24,14 @@
                 </span>
             </td>
             <td>
-                <span class="manage-books__quantity">N/A</span>
+                <span class="manage-books__quantity">@book.Quantity</span>
             </td>
             <td>
-                <span class="manage-books__condition-badge manage-books__condition-badge--good">Good</span>
+                <span class="manage-books__condition-badge manage-books__condition-badge--@book.Condition.ToLowerInvariant()">@book.Condition</span>
             </td>
             <td>
                 <label class="manage-books__toggle">
-                    <input type="checkbox" checked />
+                    <input type="checkbox" @(book.IsVisible ? "checked" : "") />
                     <span class="manage-books__toggle-slider"></span>
                 </label>
             </td>
