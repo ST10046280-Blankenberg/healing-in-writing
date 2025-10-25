@@ -7,6 +7,7 @@
 <div class="add-book">
     <div class="add-book__container">
         <form class="add-book__form" method="post" asp-action="AddBook" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
 
             <!-- Top Section: Cover Image + ISBN + Import Details -->
             <div class="add-book__top-section">

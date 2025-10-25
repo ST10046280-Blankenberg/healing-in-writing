@@ -1,0 +1,1223 @@
+/* =========================================================
+   Admin Manage Events Page Styles
+   Following BEM Naming Convention
+   ========================================================= */
+
+/* =========================================================
+   Main Container
+   ========================================================= */
+
+.admin-manage-events {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 32px 64px;
+    gap: 16px;
+    width: 100%;
+    min-height: 100vh;
+
+    /* Visual */
+    background: linear-gradient(165.21deg, #FDF5ED 20.59%, #E9D5EB 77.36%);
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* =========================================================
+   Header Section
+   ========================================================= */
+
+.admin-manage-events__header {
+    /* Positioning */
+    box-sizing: border-box;
+
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px 32px;
+    gap: 10px;
+    width: 100%;
+
+    /* Visual */
+    background: #FFFFFF;
+    border-bottom: 1px solid #E5E7EB;
+    border-radius: 8px;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.admin-manage-events__header-content {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    gap: 32px;
+    width: 100%;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.admin-manage-events__header-text {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 4px;
+    flex: 1;
+    min-width: 0;
+}
+
+.admin-manage-events__title {
+    /* Box Model */
+    margin: 0;
+    width: 100%;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 36px;
+    color: #2F1648;
+    white-space: normal;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.admin-manage-events__subtitle {
+    /* Box Model */
+    margin: 0;
+    width: 100%;
+
+    /* Typography */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #4B5563;
+    white-space: normal;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.admin-manage-events__create-btn {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 12px 18px;
+    gap: 8px;
+    height: 48px;
+
+    /* Visual */
+    background: #2F1648;
+    border: none;
+    border-radius: 8px;
+
+    /* Animation */
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+.admin-manage-events__create-btn:hover {
+    background: #3d1d5a;
+}
+
+.admin-manage-events__create-btn:active {
+    background: #251038;
+    transform: scale(0.98);
+}
+
+.admin-manage-events__create-icon {
+    /* Box Model */
+    width: 14px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.admin-manage-events__create-text {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+/* =========================================================
+   Events Section
+   ========================================================= */
+
+.admin-manage-events__events {
+    /* Positioning */
+    box-sizing: border-box;
+
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1px;
+    width: 100%;
+
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid #F3F4F6;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.admin-manage-events__events-header {
+    /* Positioning */
+    box-sizing: border-box;
+
+    /* Box Model */
+    padding: 24px 24px;
+    width: 100%;
+
+    /* Visual */
+    border-bottom: 1px solid #F3F4F6;
+}
+
+.admin-manage-events__events-title {
+    /* Box Model */
+    margin: 0;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 28px;
+    color: #2F1648;
+}
+
+.admin-manage-events__events-list {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 1px;
+    width: 100%;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* =========================================================
+   Event Item Component
+   ========================================================= */
+
+.event-item {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+    gap: 10px;
+    width: 100%;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.event-item__content {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    width: 100%;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.event-item__info {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+}
+
+.event-item__title {
+    /* Box Model */
+    margin: 0;
+    width: 100%;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 28px;
+    color: #2F1648;
+    white-space: normal;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.event-item__meta {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 0;
+    gap: 16px;
+    width: 100%;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.event-item__meta-item {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+    gap: 8px;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.event-item__icon {
+    /* Box Model */
+    width: auto;
+    height: 14px;
+    flex-shrink: 0;
+
+    /* Visual */
+    color: #4B5563;
+}
+
+.event-item__meta-text {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #4B5563;
+    white-space: nowrap;
+}
+
+.event-item__badge {
+    /* Box Model */
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 12px;
+    height: 24px;
+
+    /* Visual */
+    border-radius: 9999px;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.event-item__badge--open {
+    background: #DCFCE7;
+    color: #166534;
+}
+
+.event-item__badge--closed {
+    background: #FEF9C3;
+    color: #854D0E;
+}
+
+.event-item__actions {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+    gap: 8px;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+.event-item__btn {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 11px;
+    gap: 10px;
+    height: 36px;
+
+    /* Visual */
+    border-radius: 6px;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    text-align: center;
+
+    /* Animation */
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.1s ease;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+.event-item__btn:hover {
+    opacity: 0.9;
+}
+
+.event-item__btn:active {
+    transform: scale(0.98);
+}
+
+.event-item__btn--edit {
+    background: #2F1648;
+    border: none;
+    color: #FFFFFF;
+}
+
+.event-item__btn--cancel {
+    /* Positioning */
+    box-sizing: border-box;
+
+    /* Visual */
+    background: transparent;
+    border: 1px solid #FCA5A5;
+    color: #DC2626;
+}
+
+.event-item__btn--export {
+    /* Positioning */
+    box-sizing: border-box;
+
+    /* Visual */
+    background: transparent;
+    border: 1px solid #E9D5EB;
+    color: #2F1648;
+
+    /* Typography */
+    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+/* =========================================================
+   Responsive Design
+   ========================================================= */
+
+/* Tablet (768px - 1023px) */
+@media (max-width: 1023px) {
+    .admin-manage-events {
+        padding: 32px 32px;
+    }
+
+    .admin-manage-events__header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .admin-manage-events__create-btn {
+        width: 100%;
+    }
+}
+
+/* Mobile (max-width: 767px) */
+@media (max-width: 767px) {
+    .admin-manage-events {
+        padding: 24px 20px;
+    }
+
+    .admin-manage-events__title {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .admin-manage-events__subtitle {
+        font-size: 14px;
+        line-height: 22px;
+    }
+
+    .event-item__content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .event-item__meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .event-item__actions {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .event-item__btn {
+        width: 100%;
+    }
+}
+
+/* Small Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+    .admin-manage-events {
+        padding: 20px 16px;
+    }
+
+    .admin-manage-events__title {
+        font-size: 22px;
+        line-height: 28px;
+    }
+
+    .event-item__title {
+        font-size: 16px;
+        line-height: 24px;
+    }
+}
+
+/* =========================================================
+   Event Details Page Styles
+   ========================================================= */
+
+.event-details-page {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 64px;
+    gap: 10px;
+    width: 100%;
+    min-height: 100vh;
+
+    /* Visual */
+    background: linear-gradient(165.21deg, #FDF5ED 20.59%, #E9D5EB 77.36%);
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.event-details {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+    gap: 16px;
+    width: 100%;
+    max-width: 1089px;
+
+    /* Visual */
+    background: #FFFFFF;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1), 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+/* Image Upload Section */
+.event-details__image-upload {
+    /* Box Model */
+    width: 100%;
+    max-width: 480px;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+.event-details__image-placeholder {
+    /* Box Model */
+    width: 100%;
+    height: 160px;
+
+    /* Visual */
+    background: 
+        linear-gradient(45deg, #E5E7EB 25%, transparent 25%),
+        linear-gradient(-45deg, #E5E7EB 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #E5E7EB 75%),
+        linear-gradient(-45deg, transparent 75%, #E5E7EB 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    background-color: #F3F4F6;
+    border-radius: 16px;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+/* Category Badge */
+.event-details__category-badge {
+    /* Box Model */
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    height: 32px;
+
+    /* Visual */
+    background: #E9D5EB;
+    border-radius: 9999px;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+.event-details__category-text {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #2F1648;
+}
+
+/* Tags Container */
+.event-details__tags-container {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 0;
+    gap: 8px;
+    width: 100%;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.event-details__tag-search {
+    /* Positioning */
+    box-sizing: border-box;
+
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 16px;
+    gap: 10px;
+    width: 227px;
+    height: 56px;
+
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid #D1D5DB;
+    border-radius: 12px;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+
+    /* Animation */
+    transition: border-color 0.2s ease;
+
+    /* Layout */
+    flex: none;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.event-details__tag-search::placeholder {
+    color: #ADAEBC;
+}
+
+.event-details__tag-search:focus {
+    outline: none;
+    border-color: #2F1648;
+}
+
+.event-details__tag {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    gap: 8px;
+    height: 56px;
+
+    /* Visual */
+    background: #E9D5EB;
+    border-radius: 9999px;
+
+    /* Layout */
+    flex: none;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.event-details__tag-text {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #2F1648;
+    white-space: nowrap;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+.event-details__tag-remove {
+    /* Box Model */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+
+    /* Visual */
+    background: transparent;
+    border: none;
+
+    /* Animation */
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    /* Layout */
+    flex: none;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.event-details__tag-remove:hover {
+    opacity: 0.7;
+}
+
+/* Form Groups */
+.event-details__form-group {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 8px;
+    width: 100%;
+    max-width: 393px;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+.event-details__form-group--date {
+    /* Box Model */
+    width: 100%;
+
+    /* Layout */
+    align-self: stretch;
+}
+
+.event-details__form-label {
+    /* Box Model */
+    margin: 0;
+    width: 100%;
+
+    /* Typography */
+    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 33px;
+    color: #374151;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.event-details__input {
+    /* Positioning */
+    box-sizing: border-box;
+
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 16px;
+    gap: 10px;
+    width: 100%;
+    height: 56px;
+
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid #D1D5DB;
+    border-radius: 12px;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+
+    /* Animation */
+    transition: border-color 0.2s ease;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.event-details__input::placeholder {
+    color: #ADAEBC;
+}
+
+.event-details__input:focus {
+    outline: none;
+    border-color: #2F1648;
+}
+
+/* Date Input */
+.event-details__label {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    color: #374151;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+.event-details__date-input-wrapper {
+    /* Positioning */
+    position: relative;
+    box-sizing: border-box;
+
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 16px;
+    gap: 64px;
+    width: 227px;
+    height: 56px;
+
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid #D1D5DB;
+    border-radius: 12px;
+
+    /* Animation */
+    transition: border-color 0.2s ease;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+.event-details__date-input-wrapper:focus-within {
+    border-color: #2F1648;
+}
+
+.event-details__date-input {
+    /* Box Model */
+    width: 100%;
+    height: 100%;
+    padding: 0;
+
+    /* Visual */
+    background: transparent;
+    border: none;
+
+    /* Typography */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
+    color: #000000;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+.event-details__date-input:focus {
+    outline: none;
+}
+
+.event-details__calendar-icon {
+    /* Positioning */
+    position: absolute;
+    right: 16px;
+
+    /* Box Model */
+    width: 24px;
+    height: 24px;
+    pointer-events: none;
+}
+
+/* Description Section */
+.event-details__description-section {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 8px;
+    width: 100%;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.event-details__description-label {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+.event-details__editor {
+    /* Positioning */
+    box-sizing: border-box;
+
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1px;
+    width: 100%;
+    min-height: 256px;
+
+    /* Visual */
+    border: 1px solid #D1D5DB;
+    border-radius: 12px;
+
+    /* Animation */
+    transition: border-color 0.2s ease;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 1;
+}
+
+.event-details__editor:focus-within {
+    border-color: #2F1648;
+}
+
+.event-details__editor-toolbar {
+    /* Positioning */
+    box-sizing: border-box;
+
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 16px;
+    gap: 8px;
+    width: 100%;
+    height: 56px;
+
+    /* Visual */
+    background: #F9FAFB;
+    border-bottom: 1px solid #D1D5DB;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.event-details__toolbar-btn {
+    /* Box Model */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+
+    /* Visual */
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+
+    /* Animation */
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+.event-details__toolbar-btn:hover {
+    background: #E5E7EB;
+}
+
+.event-details__editor-textarea {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 12px 16px;
+    gap: 10px;
+    width: 100%;
+    min-height: 198px;
+
+    /* Visual */
+    background: #FFFFFF;
+    border: none;
+    border-radius: 0 0 12px 12px;
+    resize: vertical;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 1;
+}
+
+.event-details__editor-textarea:focus {
+    outline: none;
+}
+
+.event-details__editor-textarea::placeholder {
+    color: #ADAEBC;
+}
+
+/* Submit Button */
+.event-details__submit-btn {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 36px;
+    gap: 10px;
+    width: 153px;
+    height: 56px;
+
+    /* Visual */
+    background: #2F1648;
+    border: none;
+    border-radius: 8px;
+
+    /* Animation */
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+.event-details__submit-btn:hover {
+    background: #3d1d5a;
+}
+
+.event-details__submit-btn:active {
+    background: #251038;
+    transform: scale(0.98);
+}
+
+.event-details__submit-text {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #FFFFFF;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+/* =========================================================
+   Event Details Responsive Design
+   ========================================================= */
+
+/* Tablet (768px - 1023px) */
+@media (max-width: 1023px) {
+    .event-details-page {
+        padding: 32px 32px;
+    }
+
+    .event-details {
+        max-width: 100%;
+    }
+
+    .event-details__form-group {
+        max-width: 100%;
+    }
+
+    .event-details__tags-container {
+        flex-wrap: wrap;
+    }
+}
+
+/* Mobile (max-width: 767px) */
+@media (max-width: 767px) {
+    .event-details-page {
+        padding: 24px 20px;
+    }
+
+    .event-details {
+        padding: 20px;
+    }
+
+    .event-details__image-placeholder {
+        height: 120px;
+    }
+
+    .event-details__form-label {
+        font-size: 20px;
+        line-height: 28px;
+    }
+
+    .event-details__tags-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .event-details__tag-search {
+        width: 100%;
+    }
+
+    .event-details__tag {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .event-details__date-input-wrapper {
+        width: 100%;
+    }
+
+    .event-details__submit-btn {
+        width: 100%;
+    }
+}
+
+/* Small Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+    .event-details-page {
+        padding: 20px 16px;
+    }
+
+    .event-details {
+        padding: 16px;
+        gap: 12px;
+    }
+
+    .event-details__form-label {
+        font-size: 18px;
+        line-height: 24px;
+    }
+
+    .event-details__input,
+    .event-details__date-input-wrapper {
+        height: 48px;
+    }
+
+    .event-details__editor-textarea {
+        min-height: 150px;
+    }
+}
+
+

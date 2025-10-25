@@ -210,20 +210,5 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-
-    <script>
-        // Mobile menu toggle
-        document.addEventListener('DOMContentLoaded', function() {
-            const toggle = document.querySelector('.header__mobile-toggle');
-            const nav = document.querySelector('.header__nav');
-
-            if (toggle && nav) {
-                toggle.addEventListener('click', function() {
-                    const isOpen = nav.classList.toggle('header__nav--open');
-                    toggle.setAttribute('aria-expanded', isOpen);
-                });
-            }
-        });
-    </script>
 </body>
 </html>
