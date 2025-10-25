@@ -1,8 +1,5 @@
-using HealingInWriting.Interfaces.Services;
-using HealingInWriting.Models.Books;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.RateLimiting;
 
 namespace HealingInWriting.Controllers;
 
@@ -11,54 +8,11 @@ namespace HealingInWriting.Controllers;
 [Authorize(Roles = "Admin")]
 public class AdminController : Controller
 {
-    private readonly IBookService _bookService;
-
-    public AdminController(IBookService bookService)
-    {
-        _bookService = bookService;
-    }
 
     // GET: Admin Dashboard
     public IActionResult Index()
     {
         return View();
-    }
-
-    // GET: Manage Books
-    public async Task<IActionResult> ManageBooks()
-    {
-        var books = (await _bookService.GetFeaturedAsync()).ToList();
-
-        // Map to your inventory view model. Adjust as needed for your actual BookInventoryViewModel.
-        var model = new BookInventoryViewModel
-        {
-            Books = books.Select(book => new BookInventoryRowViewModel
-            {
-                BookId = book.BookId,
-                Title = book.Title,
-                Categories = book.Categories?.ToList() ?? new List<string>(),
-                ThumbnailUrl = book.ImageLinks?.Thumbnail ?? string.Empty
-            }).ToList()
-        };
-
-        return View(model);
-    }
-
-    // GET: Add Book Form
-    public IActionResult AddBook()
-    {
-        return View();
-    }
-
-    // POST: Add Book (placeholder - will be implemented with actual logic later)
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    [EnableRateLimiting("standard")]
-    public IActionResult AddBook(string title, string author, string isbn, string description, int? publishedYear)
-    {
-        // TODO: Implement book creation logic
-        // For now, just redirect back to ManageBooks
-        return RedirectToAction(nameof(ManageBooks));
     }
 
     // GET: Manage Stories
@@ -91,4 +45,3 @@ public class AdminController : Controller
         return View();
     }
 }
-
