@@ -46,6 +46,12 @@ public class AdminController : Controller
         return View();
     }
 
+    // GET: Manage Event Details (placeholder)
+    public IActionResult ManageEventDetails()
+    {
+        return View();
+    }
+
     // GET: Approve Volunteer Hours (placeholder)
     public IActionResult ApproveVolunteerHours()
     {

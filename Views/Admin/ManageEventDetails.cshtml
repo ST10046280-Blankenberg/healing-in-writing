@@ -1,0 +1,95 @@
+@{
+    ViewData["Title"] = "Manage Event Details";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/views/manage-events.css" asp-append-version="true" />
+}
+
+<main class="event-details-page">
+    <article class="event-details">
+        <!-- Event Cover Image -->
+        <div class="event-details__image-upload">
+            <div class="event-details__image-placeholder">
+                <!-- Placeholder for image upload - checkered pattern background -->
+            </div>
+        </div>
+
+        <!-- Event Category Badge -->
+        <span class="event-details__category-badge">
+            <span class="event-details__category-text">Community Event</span>
+        </span>
+
+        <!-- Tags Section -->
+        <div class="event-details__tags-container">
+            <input type="text" class="event-details__tag-search" placeholder="Search Tags..." />
+            
+            <span class="event-details__tag">
+                <span class="event-details__tag-text">Tag</span>
+                <button class="event-details__tag-remove" type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="10.5" height="14" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6l12 12" stroke="#2F1648" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </span>
+
+            <span class="event-details__tag">
+                <span class="event-details__tag-text">Tag</span>
+                <button class="event-details__tag-remove" type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="10.5" height="14" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6l12 12" stroke="#2F1648" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </span>
+        </div>
+
+        <!-- Event Title Input -->
+        <div class="event-details__form-group">
+            <h4 class="event-details__form-label">Event Title</h4>
+            <input type="text" class="event-details__input" placeholder="Subtext" />
+        </div>
+
+        <!-- Date Input -->
+        <div class="event-details__form-group event-details__form-group--date">
+            <label class="event-details__label">Date</label>
+            <div class="event-details__date-input-wrapper">
+                <input type="date" class="event-details__date-input" placeholder="mm/dd/yyyy" />
+                <svg class="event-details__calendar-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="6" width="18" height="15" rx="2" stroke="#000000" stroke-width="1.5"/>
+                    <path d="M3 10h18M7 3v3M17 3v3" stroke="#000000" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Description Rich Text Editor -->
+        <div class="event-details__description-section">
+            <label class="event-details__description-label">Description</label>
+            <div class="event-details__editor">
+                <div class="event-details__editor-toolbar">
+                    <button class="event-details__toolbar-btn" type="button" title="Bold">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="10.5" height="14" viewBox="0 0 24 24" fill="none">
+                            <path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6zM6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <button class="event-details__toolbar-btn" type="button" title="Italic">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="10.5" height="14" viewBox="0 0 24 24" fill="none">
+                            <path d="M19 4h-9M14 20H5M15 4L9 20" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <button class="event-details__toolbar-btn" type="button" title="List">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none">
+                            <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+                <textarea class="event-details__editor-textarea" placeholder="Enter description here..."></textarea>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button class="event-details__submit-btn" type="submit">
+            <span class="event-details__submit-text">Add Event</span>
+        </button>
+    </article>
+</main>
+
