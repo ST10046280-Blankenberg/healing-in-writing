@@ -158,6 +158,14 @@ using (var scope = app.Services.CreateScope())
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
         await DbInitialiser.InitialiseAsync(context, userManager, roleManager);
+
+        // --- Seed books at startup ---
+        var bookService = services.GetRequiredService<IBookService>() as BookService;
+        if (bookService != null)
+        {
+            await bookService.SeedBooksAsync();
+        }
+        // --- End book seeding ---
     }
     catch (Exception ex)
     {

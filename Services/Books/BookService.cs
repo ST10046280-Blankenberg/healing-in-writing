@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using HealingInWriting.Domain.Books;
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Books;
@@ -10,81 +11,48 @@ public class BookService : IBookService
 {
     private readonly IConfiguration _configuration;
 
+    // 1. List of 10 ISBNs to seed
+    private static readonly List<string> SeedIsbns = new()
+    {
+        "9780765326355", // The Way of Kings
+        "9780399590504", // Educated
+        "9780735211292", // Atomic Habits
+        "9780062316097", // Sapiens
+        "9780143127741", // The Martian
+        "9781501124020", // The Power of Habit
+        "9780062457738", // The Subtle Art of Not Giving a F*ck
+        "9780307271037", // The Road
+        "9780385472579", // Zen and the Art of Motorcycle Maintenance
+        "9780553380163"  // A Short History of Nearly Everything
+    };
+
+    // 2. Backing field for the seeded books
+    private static IReadOnlyCollection<Book> _seededBooks = new List<Book>();
+
     public BookService(IConfiguration configuration)
     {
         _configuration = configuration;
     }
 
-    private static readonly IReadOnlyCollection<Book> FeaturedBooks = new List<Book>
+    // 3. Async method to seed books using ImportBookByIsbnAsync
+    public async Task SeedBooksAsync()
     {
-        new()
+        var books = new List<Book>();
+        foreach (var isbn in SeedIsbns)
         {
-            BookId = 1,
-            Title = "The Way of Kings",
-            Authors = new List<string> { "Brandon Sanderson" },
-            Publisher = "Tor Books",
-            PublishedDate = "2010",
-            Description = "From #1 New York Times bestselling author Brandon Sanderson, The Way of Kings, Book One of the Stormlight Archive begins an incredible new saga of epic proportion. Roshar is a world of stone and storms. Uncanny tempests of incredible power sweep across the rocky terrain...",
-            PageCount = 1007,
-            Categories = new List<string> { "Fantasy", "Epic Fantasy", "Fiction" },
-            Language = "en",
-            ImageLinks = new ImageLinks
+            var book = await ImportBookByIsbnAsync(isbn);
+            if (book != null)
             {
-                SmallThumbnail = "http://books.google.com/books/content?id=X_dJAAAACAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api",
-                Thumbnail = "http://books.google.com/books/content?id=ezeekgAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
-            },
-            IndustryIdentifiers = new List<IndustryIdentifier>
-            {
-                new() { Type = "ISBN_13", Identifier = "9780765326355" }
-            }
-        },
-        new()
-        {
-            BookId = 2,
-            Title = "Educated: A Memoir",
-            Authors = new List<string> { "Tara Westover" },
-            Publisher = "Random House",
-            PublishedDate = "2018",
-            Description = "An unforgettable memoir about a young girl who, kept out of school, leaves her survivalist family and goes on to earn a PhD from Cambridge University. Born to survivalists in the mountains of Idaho, Tara Westover was seventeen the first time she set foot in a classroom...",
-            PageCount = 334,
-            Categories = new List<string> { "Biography & Autobiography", "Personal Memoirs", "Education" },
-            Language = "en",
-            ImageLinks = new ImageLinks
-            {
-                SmallThumbnail = "http://books.google.com/books/content?id=2ObWDgAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
-                Thumbnail = "http://books.google.com/books/content?id=2ObWDgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-            },
-            IndustryIdentifiers = new List<IndustryIdentifier>
-            {
-                new() { Type = "ISBN_13", Identifier = "9780399590504" }
-            }
-        },
-        new()
-        {
-            BookId = 3,
-            Title = "Atomic Habits",
-            Authors = new List<string> { "James Clear" },
-            Publisher = "Avery",
-            PublishedDate = "2018",
-            Description = "The #1 New York Times bestseller. Over 4 million copies sold! Tiny Changes, Remarkable Results. No matter your goals, Atomic Habits offers a proven framework for improving--every day. James Clear, one of the world's leading experts on habit formation, reveals practical strategies...",
-            PageCount = 320,
-            Categories = new List<string> { "Self-Help", "Personal Growth", "Success" },
-            Language = "en",
-            ImageLinks = new ImageLinks
-            {
-                SmallThumbnail = "http://books.google.com/books/content?id=XfFvDwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
-                Thumbnail = "http://books.google.com/books/content?id=XfFvDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-            },
-            IndustryIdentifiers = new List<IndustryIdentifier>
-            {
-                new() { Type = "ISBN_13", Identifier = "9780735211292" }
+                books.Add(book);
             }
         }
-    };
+        _seededBooks = new ReadOnlyCollection<Book>(books);
+    }
 
+    // 4. Return the seeded books
     public Task<IReadOnlyCollection<Book>> GetFeaturedAsync()
     {
-        return Task.FromResult(FeaturedBooks);
+        return Task.FromResult(_seededBooks);
     }
 
     public async Task<IReadOnlyCollection<Book>> GetFeaturedFilteredAsync(string searchTerm, string selectedAuthor, string selectedCategory, string selectedTag)
