@@ -4,7 +4,9 @@
     // TODO: Align layout structure with the eventual design system before launch.
     bool isAdmin = User.Identity.IsAuthenticated && User.IsInRole("Admin");
     var currentController = Context.Request.RouteValues["controller"]?.ToString();
-    bool isAdminTabActive = string.Equals(currentController, "Admin", StringComparison.OrdinalIgnoreCase)
+    var currentArea = Context.Request.RouteValues["area"]?.ToString();
+    bool isAdminTabActive = string.Equals(currentArea, "Admin", StringComparison.OrdinalIgnoreCase)
+        || string.Equals(currentController, "Admin", StringComparison.OrdinalIgnoreCase)
         || (ViewData["IsAdminSection"] as bool? == true);
 }
 
@@ -41,29 +43,29 @@
             <nav class="header__nav" aria-label="Main navigation">
                 <ul class="header__nav-list">
                     <li class="header__nav-item">
-                        <a class="header__nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="header__nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
                     <li class="header__nav-item">
-                        <a class="header__nav-link" asp-controller="Stories" asp-action="Index">Stories</a>
+                        <a class="header__nav-link" asp-area="" asp-controller="Stories" asp-action="Index">Stories</a>
                     </li>
                     <li class="header__nav-item">
-                        <a class="header__nav-link" asp-controller="Events" asp-action="Index">Events</a>
+                        <a class="header__nav-link" asp-area="" asp-controller="Events" asp-action="Index">Events</a>
                     </li>
                     <li class="header__nav-item">
-                        <a class="header__nav-link" asp-controller="Books" asp-action="Index">Books</a>
+                        <a class="header__nav-link" asp-area="" asp-controller="Books" asp-action="Index">Books</a>
                     </li>
                     <li class="header__nav-item">
-                        <a class="header__nav-link" asp-controller="Resources" asp-action="Index">Resources</a>
+                        <a class="header__nav-link" asp-area="" asp-controller="Resources" asp-action="Index">Resources</a>
                     </li>
                     <li class="header__nav-item">
-                        <a class="header__nav-link" asp-controller="Contact" asp-action="Index">Contact</a>
+                        <a class="header__nav-link" asp-area="" asp-controller="Contact" asp-action="Index">Contact</a>
                     </li>
                     @* Admin tab only for admins *@ 
                     @if (isAdmin)
                     {
                         <li class="header__nav-item">
                             <a class="header__nav-link @(isAdminTabActive ? "header__nav-link--active" : "")"
-                               asp-controller="Admin" asp-action="Index">Admin</a>
+                               asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin</a>
                         </li>
                     }
                 </ul>
@@ -122,19 +124,19 @@
                     <h3 class="footer__heading">Quick Links</h3>
                     <ul class="footer__list">
                         <li class="footer__list-item">
-                            <a class="footer__link" asp-controller="Home" asp-action="About">About Us</a>
+                            <a class="footer__link" asp-area="" asp-controller="Home" asp-action="About">About Us</a>
                         </li>
                         <li class="footer__list-item">
-                            <a class="footer__link" asp-controller="Stories" asp-action="Index">Stories</a>
+                            <a class="footer__link" asp-area="" asp-controller="Stories" asp-action="Index">Stories</a>
                         </li>
                         <li class="footer__list-item">
-                            <a class="footer__link" asp-controller="Events" asp-action="Index">Events</a>
+                            <a class="footer__link" asp-area="" asp-controller="Events" asp-action="Index">Events</a>
                         </li>
                         <li class="footer__list-item">
-                            <a class="footer__link" asp-controller="Books" asp-action="Index">Books</a>
+                            <a class="footer__link" asp-area="" asp-controller="Books" asp-action="Index">Books</a>
                         </li>
                         <li class="footer__list-item">
-                            <a class="footer__link" asp-controller="Resources" asp-action="Index">Resources</a>
+                            <a class="footer__link" asp-area="" asp-controller="Resources" asp-action="Index">Resources</a>
                         </li>
                     </ul>
                 </section>
@@ -143,16 +145,16 @@
                     <h3 class="footer__heading">Support</h3>
                     <ul class="footer__list">
                         <li class="footer__list-item">
-                            <a class="footer__link" asp-controller="Volunteer" asp-action="Index">Volunteer</a>
+                            <a class="footer__link" asp-area="" asp-controller="Volunteer" asp-action="Index">Volunteer</a>
                         </li>
                         <li class="footer__list-item">
-                            <a class="footer__link" asp-controller="Donate" asp-action="Index">Donate</a>
+                            <a class="footer__link" asp-area="" asp-controller="Donate" asp-action="Index">Donate</a>
                         </li>
                         <li class="footer__list-item">
-                            <a class="footer__link" asp-controller="Contact" asp-action="Index">Contact</a>
+                            <a class="footer__link" asp-area="" asp-controller="Contact" asp-action="Index">Contact</a>
                         </li>
                         <li class="footer__list-item">
-                            <a class="footer__link" asp-controller="Home" asp-action="Faq">FAQ</a>
+                            <a class="footer__link" asp-area="" asp-controller="Home" asp-action="Faq">FAQ</a>
                         </li>
                     </ul>
                 </section>
@@ -193,13 +195,13 @@
                 </p>
                 <ul class="footer__policies">
                     <li>
-                        <a class="footer__policy-link" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
+                        <a class="footer__policy-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
                     </li>
                     <li>
-                        <a class="footer__policy-link" asp-controller="Home" asp-action="Terms">Terms of Service</a>
+                        <a class="footer__policy-link" asp-area="" asp-controller="Home" asp-action="Terms">Terms of Service</a>
                     </li>
                     <li>
-                        <a class="footer__policy-link" asp-controller="Home" asp-action="Accessibility">Accessibility</a>
+                        <a class="footer__policy-link" asp-area="" asp-controller="Home" asp-action="Accessibility">Accessibility</a>
                     </li>
                 </ul>
             </div>
@@ -210,20 +212,5 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-
-    <script>
-        // Mobile menu toggle
-        document.addEventListener('DOMContentLoaded', function() {
-            const toggle = document.querySelector('.header__mobile-toggle');
-            const nav = document.querySelector('.header__nav');
-
-            if (toggle && nav) {
-                toggle.addEventListener('click', function() {
-                    const isOpen = nav.classList.toggle('header__nav--open');
-                    toggle.setAttribute('aria-expanded', isOpen);
-                });
-            }
-        });
-    </script>
 </body>
 </html>

@@ -21,6 +21,8 @@
             <!-- Form Container -->
             <div class="story-submit__form-container">
                 <form method="post" asp-action="Submit">
+                    @Html.AntiForgeryToken()
+
                     <!-- Story Title Field -->
                     <div class="story-submit__field">
                         <label class="story-submit__field-label" for="title">Story Title</label>

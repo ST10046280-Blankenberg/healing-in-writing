@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using HealingInWriting.Models.Auth;
 using HealingInWriting.Interfaces.Services;
 
@@ -46,6 +47,7 @@ namespace HealingInWriting.Controllers
         /// <param name="model">Registration data including name, email, and password</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [EnableRateLimiting("authentication")]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid)
@@ -83,6 +85,7 @@ namespace HealingInWriting.Controllers
         /// <param name="model">Login credentials including email, password, and remember me</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [EnableRateLimiting("authentication")]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)

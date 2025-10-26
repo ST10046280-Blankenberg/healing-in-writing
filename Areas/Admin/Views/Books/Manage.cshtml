@@ -1,0 +1,93 @@
+@model HealingInWriting.Models.Books.BookInventoryViewModel
+@{
+    ViewData["Title"] = "Manage Books";
+}
+
+<link rel="stylesheet" href="~/css/shared/search-bar.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/views/manage-books.css" asp-append-version="true" />
+
+<div class="manage-books">
+    <!-- Header Section -->
+    <header class="manage-books__header">
+        <div class="manage-books__header-content">
+            <div class="manage-books__header-text">
+                <h1 class="manage-books__title">Manage Books</h1>
+                <p class="manage-books__subtitle">Update inventory, edit book details, and manage visibility.</p>
+            </div>
+            <a href="@Url.Action("Add", "Books", new { area = "Admin" })" class="manage-books__add-button">
+                <svg class="manage-books__add-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16" fill="none">
+                    <path d="M7 1v14M1 8h12" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                <span class="manage-books__add-button-text">Add New Book</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Search Bar -->
+    <div class="search-bar search-bar--manage-books">
+        <!-- Search Input with Icon -->
+        <div class="search-bar__input-container">
+            <svg class="search-bar__icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <input type="text" name="searchTerm" class="search-bar__input" placeholder="Search..." />
+        </div>
+
+        <!-- Any Status Dropdown -->
+        <div class="search-bar__dropdown">
+            <span class="search-bar__dropdown-label">Any Status</span>
+            <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </div>
+
+        <!-- Any Tags Dropdown -->
+        <div class="search-bar__dropdown">
+            <span class="search-bar__dropdown-label">Any Tags</span>
+            <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </div>
+
+        <!-- Newest Dropdown -->
+        <div class="search-bar__dropdown">
+            <span class="search-bar__dropdown-label">Newest</span>
+            <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </div>
+
+        <!-- Search Button -->
+        <button class="search-bar__button" type="button">
+            <svg class="search-bar__button-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="search-bar__button-label">Search</span>
+        </button>
+    </div>
+
+    <!-- Book Inventory Section -->
+    <main class="manage-books__inventory">
+        <div class="manage-books__inventory-container">
+            <div class="manage-books__inventory-header">
+                <h2 class="manage-books__inventory-title">Book Inventory</h2>
+            </div>
+
+            <table class="manage-books__table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Quantity</th>
+                        <th>Condition</th>
+                        <th>Visible</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @Html.Partial("_BookInventoryRow", Model.Books)
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
