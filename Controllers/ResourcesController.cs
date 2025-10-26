@@ -6,5 +6,9 @@ namespace HealingInWriting.Controllers
     public class ResourcesController : Controller
     {
         // TODO: Keep resource endpoints slim by routing through the service.
+        public IActionResult Index()
+        {
+            return View();
+        }
     }
 }

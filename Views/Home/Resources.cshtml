@@ -1,1 +1,112 @@
-@* TODO: Curate static resource listings once the content inventory is final. *@
+@{
+    ViewData["Title"] = "Resources";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/views/resources.css" asp-append-version="true" />
+}
+
+<div class="resources">
+    <!-- Hero Section -->
+    <section class="resources-hero">
+        <div class="resources-hero__container">
+            <h1 class="resources-hero__title">Resources</h1>
+            <p class="resources-hero__description">
+                Find trusted support services, crisis assistance, and helpful resources in your area. 
+                We've carefully curated these resources to help you access the support you need.
+            </p>
+            
+            <!-- Category Tabs -->
+            <div class="resources-tabs">
+                <button class="resources-tabs__btn resources-tabs__btn--active" data-category="crisis">Crisis Lines</button>
+                <button class="resources-tabs__btn" data-category="trauma">Trauma Centers</button>
+                <button class="resources-tabs__btn" data-category="legal">Legal Help</button>
+                <button class="resources-tabs__btn" data-category="other">Other</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resource Cards Section -->
+    <section class="resources-cards">
+        <div class="resources-cards__container">
+            <!-- National Crisis Line Card -->
+            <div class="resources-card">
+                <div class="resources-card__header">
+                    <h3 class="resources-card__title">National Crisis Line</h3>
+                    <i class="fas fa-phone resources-card__icon"></i>
+                </div>
+                <p class="resources-card__description">
+                    24/7 confidential support for those in emotional distress
+                </p>
+                <div class="resources-card__contact">
+                    <div class="resources-card__phone">
+                        <i class="fas fa-phone resources-card__phone-icon"></i>
+                        <span class="resources-card__phone-number">988</span>
+                    </div>
+                    <p class="resources-card__availability">Available 24/7</p>
+                </div>
+            </div>
+
+            <!-- Domestic Violence Hotline Card -->
+            <div class="resources-card">
+                <div class="resources-card__header">
+                    <h3 class="resources-card__title">Domestic Violence Hotline</h3>
+                    <i class="fas fa-heart resources-card__icon"></i>
+                </div>
+                <p class="resources-card__description">
+                    Confidential support for domestic violence survivors
+                </p>
+                <div class="resources-card__contact">
+                    <div class="resources-card__phone">
+                        <i class="fas fa-phone resources-card__phone-icon"></i>
+                        <span class="resources-card__phone-number">1-800-799-7233</span>
+                    </div>
+                    <div class="resources-card__website">
+                        <i class="fas fa-external-link-alt resources-card__link-icon"></i>
+                        <a href="https://www.thehotline.org" target="_blank" rel="noopener noreferrer" class="resources-card__link">thehotline.org</a>
+                    </div>
+                    <p class="resources-card__availability">Available 24/7</p>
+                </div>
+            </div>
+
+            <!-- RAINN Hotline Card -->
+            <div class="resources-card">
+                <div class="resources-card__header">
+                    <h3 class="resources-card__title">RAINN Hotline</h3>
+                    <i class="fas fa-hands-helping resources-card__icon"></i>
+                </div>
+                <p class="resources-card__description">
+                    Sexual assault support and resources
+                </p>
+                <div class="resources-card__contact">
+                    <div class="resources-card__phone">
+                        <i class="fas fa-phone resources-card__phone-icon"></i>
+                        <span class="resources-card__phone-number">1-800-656-4673</span>
+                    </div>
+                    <div class="resources-card__website">
+                        <i class="fas fa-external-link-alt resources-card__link-icon"></i>
+                        <a href="https://www.rainn.org" target="_blank" rel="noopener noreferrer" class="resources-card__link">rainn.org</a>
+                    </div>
+                    <p class="resources-card__availability">Available 24/7</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Important Notice Section -->
+    <section class="resources-notice">
+        <div class="resources-notice__container">
+            <i class="fas fa-info-circle resources-notice__icon"></i>
+            <div class="resources-notice__content">
+                <h4 class="resources-notice__title">Important Notice</h4>
+                <p class="resources-notice__text">
+                    External links lead to third-party resources. While we carefully vet these organizations, 
+                    we cannot guarantee the availability or quality of their services. In case of immediate danger, 
+                    please call 911 or your local emergency services.
+                </p>
+            </div>
+            <i class="fas fa-external-link-alt resources-notice__link-icon"></i>
+        </div>
+    </section>
+</div>
+

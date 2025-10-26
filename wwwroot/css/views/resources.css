@@ -1,0 +1,436 @@
+/* Import Global Variables */
+@import url('../base/_variables.css');
+
+/* =========================================================
+   Resources Page - Main Container
+   ========================================================= */
+
+.resources {
+    /* Box model */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 4rem;
+    gap: 2rem;
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+/* =========================================================
+   Resources Page - Hero Section
+   ========================================================= */
+
+.resources-hero {
+    /* Box model */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.resources-hero__container {
+    /* Box model */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 13.375rem;
+    gap: 1.25rem;
+    width: 100%;
+    max-width: 1312px;
+}
+
+.resources-hero__title {
+    /* Typography */
+    font-family: var(--font-family-heading);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 3rem;
+    line-height: 3rem;
+    text-align: center;
+    color: #2F1648;
+    
+    /* Box model */
+    margin: 0;
+}
+
+.resources-hero__description {
+    /* Typography */
+    font-family: var(--font-family-base);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.125rem;
+    line-height: 1.875rem;
+    text-align: center;
+    color: #4B5563;
+    
+    /* Box model */
+    max-width: 703px;
+    margin: 0;
+}
+
+/* =========================================================
+   Resources Page - Category Tabs
+   ========================================================= */
+
+.resources-tabs {
+    /* Box model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.5rem;
+    gap: 1rem;
+    
+    /* Visual */
+    background: #FFFFFF;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 10px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 9999px;
+}
+
+.resources-tabs__btn {
+    /* Box model */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.875rem 1.5rem;
+    height: 2.75rem;
+    
+    /* Typography */
+    font-family: var(--font-family-base);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.0625rem;
+    text-align: center;
+    color: #4B5563;
+    
+    /* Visual */
+    background: transparent;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.resources-tabs__btn--active {
+    /* Typography */
+    color: #FFFFFF;
+    
+    /* Visual */
+    background: #2F1648;
+}
+
+.resources-tabs__btn:hover:not(.resources-tabs__btn--active) {
+    /* Visual */
+    background: rgba(47, 22, 72, 0.05);
+}
+
+/* =========================================================
+   Resources Page - Cards Section
+   ========================================================= */
+
+.resources-cards {
+    /* Box model */
+    width: 100%;
+}
+
+.resources-cards__container {
+    /* Box model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+    max-width: 1312px;
+    margin: 0 auto;
+}
+
+/* =========================================================
+   Resources Page - Resource Card
+   ========================================================= */
+
+.resources-card {
+    /* Box model */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2rem;
+    gap: 1.25rem;
+    width: 100%;
+    flex: 1;
+    
+    /* Visual */
+    background: #FFFFFF;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 1rem;
+}
+
+.resources-card__header {
+    /* Box model */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.resources-card__title {
+    /* Typography */
+    font-family: var(--font-family-heading);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    color: #2F1648;
+    
+    /* Box model */
+    margin: 0;
+}
+
+.resources-card__icon {
+    /* Typography */
+    font-size: 1.125rem;
+    color: #CA9F9D;
+}
+
+.resources-card__description {
+    /* Typography */
+    font-family: var(--font-family-base);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.1875rem;
+    color: #4B5563;
+    
+    /* Box model */
+    margin: 0;
+}
+
+.resources-card__contact {
+    /* Box model */
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.resources-card__phone {
+    /* Box model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.resources-card__phone-icon {
+    /* Typography */
+    font-size: 1rem;
+    color: #2F1648;
+}
+
+.resources-card__phone-number {
+    /* Typography */
+    font-family: var(--font-family-heading);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    color: #2F1648;
+}
+
+.resources-card__website {
+    /* Box model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.resources-card__link-icon {
+    /* Typography */
+    font-size: 0.875rem;
+    color: #CA9F9D;
+}
+
+.resources-card__link {
+    /* Typography */
+    font-family: var(--font-family-heading);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: #CA9F9D;
+    text-decoration: none;
+    
+    /* Visual */
+    transition: color 0.3s ease;
+}
+
+.resources-card__link:hover {
+    color: #2F1648;
+    text-decoration: underline;
+}
+
+.resources-card__availability {
+    /* Typography */
+    font-family: var(--font-family-heading);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: #6B7280;
+    
+    /* Box model */
+    margin: 0;
+}
+
+/* =========================================================
+   Resources Page - Important Notice Section
+   ========================================================= */
+
+.resources-notice {
+    /* Box model */
+    width: 100%;
+}
+
+.resources-notice__container {
+    /* Box model */
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 2rem;
+    gap: 1rem;
+    width: 100%;
+    max-width: 1312px;
+    margin: 0 auto;
+    
+    /* Visual */
+    background: #F9FAFB;
+    border-radius: 1rem;
+}
+
+.resources-notice__icon {
+    /* Typography */
+    font-size: 1.125rem;
+    color: #CA9F9D;
+    
+    /* Box model */
+    margin-top: 0.25rem;
+    flex-shrink: 0;
+}
+
+.resources-notice__content {
+    /* Box model */
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+}
+
+.resources-notice__title {
+    /* Typography */
+    font-family: var(--font-family-base);
+    font-style: normal;
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    color: #1F2937;
+    
+    /* Box model */
+    margin: 0;
+}
+
+.resources-notice__text {
+    /* Typography */
+    font-family: var(--font-family-heading);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 1.4375rem;
+    color: #4B5563;
+    
+    /* Box model */
+    margin: 0;
+}
+
+.resources-notice__link-icon {
+    /* Typography */
+    font-size: 0.875rem;
+    color: #CA9F9D;
+    
+    /* Box model */
+    flex-shrink: 0;
+}
+
+/* =========================================================
+   Responsive Design
+   ========================================================= */
+
+/* Tablet and below */
+@media (max-width: 1024px) {
+    .resources {
+        padding: 2rem;
+    }
+    
+    .resources-hero__container {
+        padding: 0 2rem;
+    }
+    
+    .resources-cards__container {
+        flex-direction: column;
+    }
+    
+    .resources-tabs {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .resources {
+        padding: 1.5rem 1rem;
+        gap: 1.5rem;
+    }
+    
+    .resources-hero__container {
+        padding: 0;
+        gap: 1rem;
+    }
+    
+    .resources-hero__title {
+        font-size: 2.5rem;
+        line-height: 2.5rem;
+    }
+    
+    .resources-hero__description {
+        font-size: 1rem;
+        line-height: 1.625rem;
+    }
+    
+    .resources-tabs {
+        width: 100%;
+        flex-direction: column;
+        padding: 0.5rem;
+    }
+    
+    .resources-tabs__btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .resources-card {
+        padding: 1.5rem;
+    }
+    
+    .resources-notice__container {
+        padding: 1.5rem;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .resources-notice__icon {
+        margin-top: 0;
+    }
+}
+
