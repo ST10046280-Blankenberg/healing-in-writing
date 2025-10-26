@@ -20,6 +20,12 @@ namespace HealingInWriting.Controllers
             return View();
         }
 
+        // TODO: Keep about page content static or delegate to service if dynamic content is needed.
+        public IActionResult About()
+        {
+            return View();
+        }
+
         // TODO: Keep privacy content generation inside the service layer.
         public IActionResult Privacy()
         {
