@@ -1,0 +1,646 @@
+/* =========================================================
+   Log Hours Page Styles (Volunteer)
+   BEM Convention: .log-hours__element--modifier
+   ========================================================= */
+
+/* ========================================
+   Page Container
+   ======================================== */
+
+.log-hours {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 32px 64px;
+    gap: 32px;
+    width: 100%;
+    min-height: 100vh;
+    
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+}
+
+/* ========================================
+   Header Section
+   ======================================== */
+
+.log-hours__header {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 1px;
+    width: 100%;
+}
+
+.log-hours__title {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 36px;
+    color: #2F1648;
+    margin: 0;
+}
+
+.log-hours__subtitle {
+    /* Typography */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #4B5563;
+    margin: 0;
+}
+
+/* ========================================
+   Main Content Area
+   ======================================== */
+
+.log-hours__content {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 32px;
+    width: 100%;
+}
+
+/* ========================================
+   Form Card
+   ======================================== */
+
+.log-hours__form-card {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 32px;
+    gap: 32px;
+    flex: 1;
+    
+    /* Visual */
+    background: #FFFFFF;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 10px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+}
+
+.log-hours__form-title {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 30px;
+    color: #2F1648;
+    margin: 0;
+    width: 100%;
+}
+
+/* Form Elements */
+.log-hours__form {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 24px;
+    width: 100%;
+}
+
+.log-hours__form-row {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 16px;
+    width: 100%;
+}
+
+.log-hours__form-group {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 8px;
+    width: 100%;
+}
+
+/* Form groups in a row should flex equally */
+.log-hours__form-row .log-hours__form-group {
+    flex: 1;
+    width: auto;
+}
+
+.log-hours__label {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    color: #374151;
+}
+
+.log-hours__input,
+.log-hours__select,
+.log-hours__textarea {
+    /* Box Model */
+    padding: 16px;
+    width: 100%;
+    
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid #D1D5DB;
+    border-radius: 12px;
+    
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    
+    /* Animation */
+    transition: border-color 0.3s ease;
+}
+
+.log-hours__input:focus,
+.log-hours__select:focus,
+.log-hours__textarea:focus {
+    outline: none;
+    border-color: #2F1648;
+}
+
+.log-hours__input::placeholder,
+.log-hours__textarea::placeholder {
+    color: #ADAEBC;
+}
+
+.log-hours__input[type="date"] {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.log-hours__select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z' fill='%23000000'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 40px;
+}
+
+.log-hours__textarea {
+    min-height: 154px;
+    resize: vertical;
+}
+
+/* File Upload */
+.log-hours__upload {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px;
+    gap: 2px;
+    width: 100%;
+    
+    /* Visual */
+    border: 2px dashed #D1D5DB;
+    border-radius: 12px;
+    
+    /* Animation */
+    cursor: pointer;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.log-hours__upload:hover {
+    border-color: #2F1648;
+    background-color: #F9FAFB;
+}
+
+.log-hours__upload-icon {
+    width: 24px;
+    height: 24px;
+    color: #9CA3AF;
+}
+
+.log-hours__upload-text {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    color: #4B5563;
+}
+
+.log-hours__upload-hint {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: center;
+    color: #6B7280;
+}
+
+/* Submit Button */
+.log-hours__submit {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+    gap: 8px;
+    width: 100%;
+    height: 48px;
+    
+    /* Visual */
+    background: #2F1648;
+    border: none;
+    border-radius: 12px;
+    
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #FFFFFF;
+    
+    /* Animation */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.log-hours__submit:hover {
+    background: #3d1d5a;
+}
+
+.log-hours__submit:active {
+    background: #251038;
+    transform: scale(0.98);
+}
+
+.log-hours__submit-icon {
+    width: 14px;
+    height: 16px;
+}
+
+/* ========================================
+   Recent Entries Card
+   ======================================== */
+
+.log-hours__entries-card {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 32px;
+    gap: 24px;
+    flex: 1;
+    min-height: 810px;
+    
+    /* Visual */
+    background: #FFFFFF;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 10px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+}
+
+.log-hours__entries-header {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 30px;
+    color: #2F1648;
+    margin: 0;
+    width: 100%;
+}
+
+.log-hours__entries-list {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 16px;
+    width: 100%;
+    flex: 1;
+}
+
+/* Entry Card */
+.entry-card {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 17px;
+    gap: 8px;
+    width: 100%;
+    
+    /* Visual */
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+}
+
+.entry-card__header {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.entry-card__info {
+    flex: 1;
+}
+
+.entry-card__title {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #111827;
+    margin: 0;
+}
+
+.entry-card__date {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #4B5563;
+    margin: 0;
+}
+
+.entry-card__status {
+    /* Box Model */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px 12px;
+    border-radius: 9999px;
+    
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.entry-card__status--validated {
+    background: #DCFCE7;
+    color: #166534;
+}
+
+.entry-card__status--pending {
+    background: #FEF9C3;
+    color: #854D0E;
+}
+
+.entry-card__status--needs-info {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+.entry-card__hours,
+.entry-card__description {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #4B5563;
+    margin: 0;
+    width: 100%;
+}
+
+.entry-card__description {
+    color: #374151;
+}
+
+/* View All Button */
+.log-hours__view-all {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 14px;
+    width: 100%;
+    height: 52px;
+    
+    /* Visual */
+    background: transparent;
+    border: 2px solid #2F1648;
+    border-radius: 12px;
+    
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #2F1648;
+    
+    /* Animation */
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.log-hours__view-all:hover {
+    background: #2F1648;
+    color: #FFFFFF;
+}
+
+/* ========================================
+   Summary Section
+   ======================================== */
+
+.log-hours__summary {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 32px;
+    gap: 24px;
+    width: 100%;
+    
+    /* Visual */
+    background: #FFFFFF;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 10px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+}
+
+.log-hours__summary-title {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 30px;
+    color: #2F1648;
+    margin: 0;
+}
+
+.log-hours__summary-grid {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px;
+    gap: 24px;
+    width: 100%;
+}
+
+/* Summary Card */
+.summary-card {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    flex: 1;
+    min-height: 112px;
+    
+    /* Visual */
+    border-radius: 12px;
+}
+
+.summary-card--total {
+    background: #E9D5EB;
+}
+
+.summary-card--validated {
+    background: #F0FDF4;
+}
+
+.summary-card--pending {
+    background: #FEFCE8;
+}
+
+.summary-card--needs-info {
+    background: #FEF2F2;
+}
+
+.summary-card__value {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 45px;
+    text-align: center;
+    margin: 0;
+}
+
+.summary-card--total .summary-card__value {
+    color: #2F1648;
+}
+
+.summary-card--validated .summary-card__value {
+    color: #16A34A;
+}
+
+.summary-card--pending .summary-card__value {
+    color: #CA8A04;
+}
+
+.summary-card--needs-info .summary-card__value {
+    color: #DC2626;
+}
+
+.summary-card__label {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    text-align: center;
+    color: #374151;
+    margin: 0;
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
+
+/* Tablet and below (1024px) */
+@media (max-width: 1024px) {
+    .log-hours {
+        padding: 24px 32px;
+        gap: 24px;
+    }
+    
+    .log-hours__content {
+        flex-direction: column;
+    }
+    
+    .log-hours__summary-grid {
+        flex-wrap: wrap;
+    }
+}
+
+/* Mobile landscape and below (768px) */
+@media (max-width: 768px) {
+    .log-hours {
+        padding: 20px;
+        gap: 20px;
+    }
+    
+    .log-hours__title {
+        font-size: 24px;
+        line-height: 32px;
+    }
+    
+    .log-hours__form-row {
+        flex-direction: column;
+    }
+    
+    .log-hours__summary-grid {
+        flex-direction: column;
+    }
+}
+
+/* Mobile portrait (480px) */
+@media (max-width: 480px) {
+    .log-hours {
+        padding: 16px;
+    }
+    
+    .log-hours__form-card,
+    .log-hours__entries-card,
+    .log-hours__summary {
+        padding: 20px;
+    }
+}
+
