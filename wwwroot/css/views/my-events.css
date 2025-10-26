@@ -1,0 +1,412 @@
+/* =========================================================
+   My Events Page Styles
+   BEM Convention: .my-events__element--modifier
+   ========================================================= */
+
+/* ========================================
+   Page Container
+   ======================================== */
+
+.my-events {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 32px 64px;
+    gap: 32px;
+    width: 100%;
+    min-height: 100vh;
+    
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+}
+
+/* ========================================
+   Header Section
+   ======================================== */
+
+.my-events__header {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 1px;
+    width: 100%;
+}
+
+.my-events__title {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 36px;
+    color: #2F1648;
+    margin: 0;
+}
+
+.my-events__subtitle {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #4B5563;
+    margin: 0;
+}
+
+/* ========================================
+   Navigation Tabs
+   ======================================== */
+
+.my-events__nav {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 28px;
+    margin-top: 24px;
+}
+
+.my-events__nav-button {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 12px 4px;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    color: #6B7280;
+    
+    /* Animation */
+    cursor: pointer;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.my-events__nav-button:hover {
+    color: #2F1648;
+}
+
+.my-events__nav-button--active {
+    color: #2F1648;
+    border-bottom-color: #2F1648;
+}
+
+.my-events__nav-icon {
+    /* Box Model */
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+.my-events__nav-button--active .my-events__nav-icon {
+    color: #2F1648;
+}
+
+/* ========================================
+   Events Grid
+   ======================================== */
+
+.my-events__grid {
+    /* Box Model */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    width: 100%;
+}
+
+/* ========================================
+   Event Card
+   ======================================== */
+
+.event-card {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 25px;
+    gap: 16px;
+    
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid #F3F4F6;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    
+    /* Animation */
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.event-card:hover {
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Card Content */
+.event-card__content {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    width: 100%;
+}
+
+/* Card Info */
+.event-card__info {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.event-card__title {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 28px;
+    color: #111827;
+    margin: 0;
+}
+
+.event-card__detail {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+}
+
+.event-card__icon {
+    /* Box Model */
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    color: #4B5563;
+}
+
+.event-card__text {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #4B5563;
+    margin: 0;
+}
+
+/* Status Badge */
+.event-card__status {
+    /* Box Model */
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 4px 12px;
+    gap: 4px;
+    border-radius: 9999px;
+    
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.event-card__status-icon {
+    width: 12px;
+    height: 12px;
+}
+
+/* Status Variants */
+.event-card__status--accepted {
+    background: #DCFCE7;
+    color: #166534;
+}
+
+.event-card__status--pending {
+    background: #FEF9C3;
+    color: #854D0E;
+}
+
+.event-card__status--declined {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+/* Card Actions */
+.event-card__actions {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.event-card__links {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+}
+
+.event-card__link {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    color: #2F1648;
+    text-decoration: none;
+    
+    /* Animation */
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.event-card__link:hover {
+    opacity: 0.7;
+}
+
+.event-card__link-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.event-card__action-button {
+    /* Box Model */
+    padding: 0;
+    background: transparent;
+    border: none;
+    
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    
+    /* Animation */
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.event-card__action-button:hover {
+    opacity: 0.7;
+}
+
+.event-card__action-button--cancel {
+    color: #DC2626;
+}
+
+.event-card__action-button--accept {
+    color: #16A34A;
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
+
+/* Tablet and below (1024px) */
+@media (max-width: 1024px) {
+    .my-events {
+        padding: 24px 32px;
+        gap: 24px;
+    }
+    
+    .my-events__grid {
+        gap: 24px;
+    }
+}
+
+/* Mobile landscape and below (768px) */
+@media (max-width: 768px) {
+    .my-events {
+        padding: 20px;
+        gap: 20px;
+    }
+    
+    .my-events__title {
+        font-size: 24px;
+        line-height: 32px;
+    }
+    
+    .my-events__subtitle {
+        font-size: 14px;
+        line-height: 20px;
+    }
+    
+    .my-events__grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .my-events__nav {
+        gap: 16px;
+        overflow-x: auto;
+        width: 100%;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .my-events__nav-button {
+        white-space: nowrap;
+    }
+}
+
+/* Mobile portrait (480px) */
+@media (max-width: 480px) {
+    .my-events {
+        padding: 16px;
+    }
+    
+    .event-card {
+        padding: 20px;
+    }
+    
+    .event-card__content {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .event-card__actions {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    
+    .event-card__links {
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+    }
+}
+
