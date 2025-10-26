@@ -23,6 +23,12 @@ namespace HealingInWriting.Controllers
             return View();
         }
         
+        // GET: /Volunteer/MyStories
+        public IActionResult MyStories()
+        {
+            return View();
+        }
+        
         // TODO: Expose volunteer endpoints that just orchestrate calls to the service.
     }
 }
