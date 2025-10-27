@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using HealingInWriting.Domain.Books;
 using HealingInWriting.Interfaces.Repository;
 using HealingInWriting.Interfaces.Services;
@@ -6,7 +5,7 @@ using HealingInWriting.Models.Books;
 
 namespace HealingInWriting.Services.Books;
 /// <summary>
-/// Temporary in-memory implementation used until real persistence is introduced.
+/// Book service with persistent storage integration.
 /// </summary>
 public class BookService : IBookService
 {
@@ -28,31 +27,36 @@ public class BookService : IBookService
         "9780553380163"  // A Short History of Nearly Everything
     };
 
-    // 2. Backing field for the seeded books
-    private static IReadOnlyCollection<Book> _seededBooks = new List<Book>();
-
     public BookService(IBookRepository bookRepository, IConfiguration configuration)
     {
         _bookRepository = bookRepository;
         _configuration = configuration;
     }
 
-    // 3. Async method to seed books using ImportBookByIsbnAsync
+    // Seed books into the database if not already present
     public async Task SeedBooksAsync()
     {
-        var books = new List<Book>();
+        var existingBooks = (await _bookRepository.GetAllAsync()).ToList();
+        var existingIsbns = existingBooks
+            .SelectMany(b => b.IndustryIdentifiers ?? new List<IndustryIdentifier>())
+            .Select(id => id.Identifier)
+            .ToHashSet();
+
         foreach (var isbn in SeedIsbns)
         {
+            if (existingIsbns.Contains(isbn))
+            {
+                continue;
+            }
+
             var book = await ImportBookByIsbnAsync(isbn);
             if (book != null)
             {
-                books.Add(book);
+                await _bookRepository.AddAsync(book);
             }
         }
-        _seededBooks = new ReadOnlyCollection<Book>(books);
     }
 
-    // 4. Return the seeded books
     public async Task<IReadOnlyCollection<Book>> GetFeaturedAsync()
     {
         var books = await _bookRepository.GetAllAsync();
@@ -152,5 +156,45 @@ public class BookService : IBookService
             Publisher = book.Publisher,
             IndustryIdentifiers = book.IndustryIdentifiers?.Select(i => i.Identifier).ToList() ?? new List<string>()
         };
+    }
+
+    public async Task<(bool Success, string? ErrorMessage)> AddBookFromFormAsync(IFormCollection form)
+    {
+        try
+        {
+            var isbns = new List<string>();
+            if (!string.IsNullOrWhiteSpace(form["IsbnPrimary"])) isbns.Add(form["IsbnPrimary"]);
+            if (!string.IsNullOrWhiteSpace(form["IsbnSecondary"])) isbns.Add(form["IsbnSecondary"]);
+
+            var book = new Book
+            {
+                Title = form["Title"],
+                Authors = form["Author"].ToString().Split(',').Select(a => a.Trim()).ToList(),
+                Publisher = form["Publisher"],
+                PublishedDate = form["PublishDate"],
+                Description = form["Description"],
+                PageCount = int.TryParse(form["PageCount"], out var pc) ? pc : 0,
+                Categories = form["Categories"].ToString().Split(',').Select(c => c.Trim()).Where(c => !string.IsNullOrWhiteSpace(c)).ToList(),
+                Language = form["Language"],
+                IndustryIdentifiers = isbns.Select(isbn => new IndustryIdentifier
+                {
+                    Type = isbn.Length == 13 ? "ISBN_13" : "ISBN_10",
+                    Identifier = isbn.Trim()
+                }).ToList(),
+                ImageLinks = new ImageLinks
+                {
+                    Thumbnail = form["ThumbnailUrl"],
+                    SmallThumbnail = form["SmallThumbnailUrl"]
+                },
+            };
+
+            await _bookRepository.AddAsync(book);
+            return (true, null);
+        }
+        catch (Exception ex)
+        {
+            // Log exception as needed
+            return (false, ex.Message);
+        }
     }
 }
