@@ -1,1 +1,307 @@
-@* TODO: Present upcoming volunteer events sourced by the volunteer service. *@
+@{
+    ViewData["Title"] = "My Events";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/shared/search-bar.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/views/volunteer-my-events.css" asp-append-version="true" />
+}
+
+<div class="my-events">
+    <!-- Header Section -->
+    <section class="my-events__header">
+        <h1 class="my-events__title">My Events</h1>
+        <p class="my-events__subtitle">Manage your event RSVPs and stay up to date with your community activities</p>
+    </section>
+    
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <div class="search-bar__filters-row">
+            <!-- Search Input -->
+            <div class="search-bar__input-container">
+                <svg class="search-bar__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <circle cx="11" cy="11" r="8" stroke="#9CA3AF" stroke-width="2"/>
+                    <path d="M21 21l-4.35-4.35" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <input type="text" class="search-bar__input" placeholder="Search..." />
+            </div>
+            
+            <!-- Location Dropdown -->
+            <div class="search-bar__dropdown">
+                <span class="search-bar__dropdown-label">Any Location</span>
+                <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7 10l5 5 5-5z"/>
+                </svg>
+            </div>
+            
+            <!-- Date Dropdown -->
+            <div class="search-bar__dropdown">
+                <span class="search-bar__dropdown-label">Any Date</span>
+                <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7 10l5 5 5-5z"/>
+                </svg>
+            </div>
+            
+            <!-- Status Dropdown -->
+            <div class="search-bar__dropdown">
+                <span class="search-bar__dropdown-label">Any Status</span>
+                <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7 10l5 5 5-5z"/>
+                </svg>
+            </div>
+            
+            <!-- Sort Dropdown -->
+            <div class="search-bar__dropdown">
+                <span class="search-bar__dropdown-label">Newest</span>
+                <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7 10l5 5 5-5z"/>
+                </svg>
+            </div>
+            
+            <!-- Search Button -->
+            <button class="search-bar__button">
+                <svg class="search-bar__button-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <circle cx="11" cy="11" r="8" fill="white"/>
+                    <path d="M21 21l-4.35-4.35" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <span class="search-bar__button-label">Search</span>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Navigation Tabs -->
+    <nav class="my-events__nav">
+        <button class="my-events__nav-button my-events__nav-button--active">
+            <svg class="my-events__nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <circle cx="12" cy="12" r="10"/>
+            </svg>
+            Upcoming (4)
+        </button>
+        
+        <button class="my-events__nav-button">
+            <svg class="my-events__nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            Past (12)
+        </button>
+        
+        <button class="my-events__nav-button">
+            <svg class="my-events__nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+            </svg>
+            Attended (8)
+        </button>
+        
+        <button class="my-events__nav-button">
+            <svg class="my-events__nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+            </svg>
+            Pending Approval (2)
+        </button>
+    </nav>
+    
+    <!-- Events Grid -->
+    <div class="my-events__grid">
+        <!-- Event Card 1: Community Garden Workshop -->
+        <article class="event-card">
+            <div class="event-card__content">
+                <div class="event-card__info">
+                    <h2 class="event-card__title">Community Garden Workshop</h2>
+                    
+                    <div class="event-card__detail">
+                        <svg class="event-card__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z"/>
+                        </svg>
+                        <p class="event-card__text">Saturday, March 15, 2024</p>
+                    </div>
+                    
+                    <div class="event-card__detail">
+                        <svg class="event-card__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                        </svg>
+                        <p class="event-card__text">2:00 PM - 5:00 PM</p>
+                    </div>
+                </div>
+                
+                <div class="event-card__status event-card__status--accepted">
+                    <svg class="event-card__status-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                    </svg>
+                    Accepted
+                </div>
+            </div>
+            
+            <div class="event-card__actions">
+                <div class="event-card__links">
+                    <a href="#" class="event-card__link">
+                        <svg class="event-card__link-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                        </svg>
+                        View Details
+                    </a>
+                    
+                    <button class="event-card__link">
+                        <svg class="event-card__link-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z"/>
+                        </svg>
+                        Add to Calendar
+                    </button>
+                </div>
+                
+                <button class="event-card__action-button event-card__action-button--cancel">
+                    Cancel RSVP
+                </button>
+            </div>
+        </article>
+        
+        <!-- Event Card 2: Neighborhood Book Club -->
+        <article class="event-card">
+            <div class="event-card__content">
+                <div class="event-card__info">
+                    <h2 class="event-card__title">Neighborhood Book Club</h2>
+                    
+                    <div class="event-card__detail">
+                        <svg class="event-card__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z"/>
+                        </svg>
+                        <p class="event-card__text">Tuesday, March 19, 2024</p>
+                    </div>
+                    
+                    <div class="event-card__detail">
+                        <svg class="event-card__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                        </svg>
+                        <p class="event-card__text">7:00 PM - 8:30 PM</p>
+                    </div>
+                </div>
+                
+                <div class="event-card__status event-card__status--pending">
+                    <svg class="event-card__status-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                    </svg>
+                    Pending
+                </div>
+            </div>
+            
+            <div class="event-card__actions">
+                <div class="event-card__links">
+                    <a href="#" class="event-card__link">
+                        <svg class="event-card__link-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                        </svg>
+                        View Details
+                    </a>
+                    
+                    <button class="event-card__link">
+                        <svg class="event-card__link-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z"/>
+                        </svg>
+                        Add to Calendar
+                    </button>
+                </div>
+                
+                <button class="event-card__action-button event-card__action-button--cancel">
+                    Cancel RSVP
+                </button>
+            </div>
+        </article>
+        
+        <!-- Event Card 3: Local Art Exhibition Opening -->
+        <article class="event-card">
+            <div class="event-card__content">
+                <div class="event-card__info">
+                    <h2 class="event-card__title">Local Art Exhibition Opening</h2>
+                    
+                    <div class="event-card__detail">
+                        <svg class="event-card__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z"/>
+                        </svg>
+                        <p class="event-card__text">Friday, March 22, 2024</p>
+                    </div>
+                    
+                    <div class="event-card__detail">
+                        <svg class="event-card__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                        </svg>
+                        <p class="event-card__text">6:00 PM - 9:00 PM</p>
+                    </div>
+                </div>
+                
+                <div class="event-card__status event-card__status--accepted">
+                    <svg class="event-card__status-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                    </svg>
+                    Accepted
+                </div>
+            </div>
+            
+            <div class="event-card__actions">
+                <div class="event-card__links">
+                    <a href="#" class="event-card__link">
+                        <svg class="event-card__link-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                        </svg>
+                        View Details
+                    </a>
+                    
+                    <button class="event-card__link">
+                        <svg class="event-card__link-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z"/>
+                        </svg>
+                        Add to Calendar
+                    </button>
+                </div>
+                
+                <button class="event-card__action-button event-card__action-button--cancel">
+                    Cancel RSVP
+                </button>
+            </div>
+        </article>
+        
+        <!-- Event Card 4: Community Cleanup Day -->
+        <article class="event-card">
+            <div class="event-card__content">
+                <div class="event-card__info">
+                    <h2 class="event-card__title">Community Cleanup Day</h2>
+                    
+                    <div class="event-card__detail">
+                        <svg class="event-card__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z"/>
+                        </svg>
+                        <p class="event-card__text">Sunday, March 24, 2024</p>
+                    </div>
+                    
+                    <div class="event-card__detail">
+                        <svg class="event-card__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                        </svg>
+                        <p class="event-card__text">9:00 AM - 12:00 PM</p>
+                    </div>
+                </div>
+                
+                <div class="event-card__status event-card__status--declined">
+                    <svg class="event-card__status-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                    Declined
+                </div>
+            </div>
+            
+            <div class="event-card__actions">
+                <div class="event-card__links">
+                    <a href="#" class="event-card__link">
+                        <svg class="event-card__link-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                        </svg>
+                        View Details
+                    </a>
+                </div>
+                
+                <button class="event-card__action-button event-card__action-button--accept">
+                    Accept RSVP
+                </button>
+            </div>
+        </article>
+    </div>
+</div>
+

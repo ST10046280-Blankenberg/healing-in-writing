@@ -1,0 +1,820 @@
+/* Import Global Variables */
+@import url('../base/_variables.css');
+
+/* =========================================================
+   About Page - Main Container
+   ========================================================= */
+
+.about {
+    /* Box model */
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* =========================================================
+   About Page - Hero Section
+   ========================================================= */
+
+.about-hero {
+    /* Box model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 5rem 9rem;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    
+    /* Visual */
+    border-radius: 0;
+}
+
+.about-hero__container {
+    /* Box model */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1152px;
+    margin: 0 auto;
+}
+
+.about-hero__title {
+    /* Typography */
+    font-family: var(--font-family-heading);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 3rem;
+    line-height: 3rem;
+    text-align: center;
+    color: #2F1648;
+    
+    /* Box model */
+    margin: 0 0 1.5rem 0;
+}
+
+.about-hero__description {
+    /* Typography */
+    font-family: var(--font-family-heading);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.25rem;
+    line-height: 2.0625rem;
+    text-align: center;
+    color: #4B5563;
+    
+    /* Box model */
+    max-width: 767px;
+    margin: 0;
+}
+
+/* =========================================================
+   About Page - Who We Are Section
+   ========================================================= */
+
+.about-who-we-are {
+    /* Box model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 5rem 9rem;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    
+    /* Visual */
+    background: #FFFFFF;
+    border-radius: 0;
+}
+
+.about-who-we-are__container {
+    /* Box model */
+    display: flex;
+    width: 100%;
+    max-width: 1152px;
+    margin: 0 auto;
+}
+
+.about-who-we-are__content {
+    /* Box model */
+    display: flex;
+    justify-content: space-between;
+    gap: 4rem;
+    width: 100%;
+    max-width: 1088px;
+    margin: 0 auto;
+}
+
+.about-who-we-are__text {
+    /* Box model */
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 512px;
+}
+
+.about-who-we-are__title {
+    /* Typography */
+    font-family: var(--font-family-heading);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    color: #2F1648;
+    
+    /* Box model */
+    margin: 0 0 1.5rem 0;
+}
+
+.about-who-we-are__description {
+    /* Typography */
+    font-family: var(--font-family-heading);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.125rem;
+    line-height: 1.875rem;
+    color: #4B5563;
+    
+    /* Box model */
+    margin: 0 0 2rem 0;
+}
+
+.about-who-we-are__mission {
+    /* Typography */
+    font-family: var(--font-family-heading);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.125rem;
+    line-height: 1.875rem;
+    color: #4B5563;
+    
+    /* Box model */
+    margin: 0;
+}
+
+.about-who-we-are__image {
+    /* Box model */
+    display: flex;
+    width: 100%;
+    max-width: 512px;
+    height: 320px;
+}
+
+.about-who-we-are__img {
+    /* Box model */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    
+    /* Visual */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 10px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 1rem;
+}
+
+/* =========================================================
+   About Page - Our Core Values Section
+   ========================================================= */
+
+.about-core-values {
+    /* Box model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 5rem 9rem;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    
+    /* Visual */
+    border-radius: 0;
+}
+
+.about-core-values__container {
+    /* Box model */
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1152px;
+    margin: 0 auto;
+}
+
+.about-core-values__title {
+    /* Typography */
+    font-family: var(--font-family-heading);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    text-align: center;
+    color: #2F1648;
+    
+    /* Box model */
+    margin: 0 0 3.75rem 0;
+    width: 100%;
+}
+
+.about-core-values__cards {
+    /* Box model */
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 1088px;
+    margin: 0 auto;
+}
+
+.about-core-values__card {
+    /* Box model */
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    width: 100%;
+    max-width: 341.33px;
+    box-sizing: border-box;
+    
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid rgba(233, 213, 235, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border-radius: 1rem;
+}
+
+.about-core-values__icon {
+    /* Box model */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    margin-bottom: 1.5rem;
+    
+    /* Typography */
+    font-size: 1.875rem;
+    
+    /* Visual */
+    border-radius: 1rem;
+}
+
+.about-core-values__icon--purple {
+    background: rgba(47, 22, 72, 0.1);
+    color: #2F1648;
+}
+
+.about-core-values__icon--rose {
+    background: rgba(202, 159, 157, 0.2);
+    color: #CA9F9D;
+}
+
+.about-core-values__icon--lavender {
+    background: rgba(233, 213, 235, 0.4);
+    color: #2F1648;
+}
+
+.about-core-values__card-title {
+    /* Typography */
+    font-family: var(--font-family-heading);
+    font-style: normal;
+    font-weight: 600;
+    font-size: 1.25rem;
+    line-height: 1.875rem;
+    color: #2F1648;
+    
+    /* Box model */
+    margin: 0 0 1.5rem 0;
+}
+
+.about-core-values__card-text {
+    /* Typography */
+    font-family: var(--font-family-heading);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    color: #4B5563;
+    
+    /* Box model */
+    margin: 0;
+}
+
+/* =========================================================
+   About Page - Our Impact Section
+   ========================================================= */
+
+.about-impact {
+    /* Box model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 5rem 9rem;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    
+    /* Visual */
+    background: #FFFFFF;
+    border-radius: 0;
+}
+
+.about-impact__container {
+    /* Box model */
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1152px;
+    margin: 0 auto;
+}
+
+.about-impact__title {
+    /* Typography */
+    font-family: var(--font-family-heading);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    text-align: center;
+    color: #2F1648;
+    
+    /* Box model */
+    margin: 0 0 3.75rem 0;
+    width: 100%;
+}
+
+.about-impact__stats {
+    /* Box model */
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    width: 100%;
+    max-width: 1088px;
+    margin: 0 auto 5rem auto;
+}
+
+.about-impact__stat {
+    /* Box model */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    width: 100%;
+    max-width: 248px;
+    
+    /* Visual */
+    background: #FDF5ED;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 10px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 1rem;
+}
+
+.about-impact__stat-number {
+    /* Typography */
+    font-family: var(--font-family-heading);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 2.25rem;
+    line-height: 3.375rem;
+    text-align: center;
+    
+    /* Box model */
+    margin: 0 0 1rem 0;
+}
+
+.about-impact__stat-number--purple {
+    color: #2F1648;
+}
+
+.about-impact__stat-number--rose {
+    color: #CA9F9D;
+}
+
+.about-impact__stat-label {
+    /* Typography */
+    font-family: var(--font-family-heading);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    text-align: center;
+    color: #4B5563;
+    
+    /* Box model */
+    margin: 0;
+}
+
+.about-impact__testimonials {
+    /* Box model */
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    width: 100%;
+    max-width: 1088px;
+    margin: 0 auto;
+}
+
+.about-impact__testimonial {
+    /* Box model */
+    display: flex;
+    gap: 1rem;
+    padding: 2rem;
+    width: 100%;
+    max-width: 528px;
+    
+    /* Visual */
+    background: #FDF5ED;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 10px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 1rem;
+}
+
+.about-impact__testimonial-avatar {
+    /* Box model */
+    width: 3rem;
+    height: 3rem;
+    flex-shrink: 0;
+    
+    /* Visual */
+    border-radius: 9999px;
+    object-fit: cover;
+}
+
+.about-impact__testimonial-content {
+    /* Box model */
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.about-impact__testimonial-quote {
+    /* Typography */
+    font-family: var(--font-family-heading);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    color: #4B5563;
+    
+    /* Box model */
+    margin: 0 0 1.5rem 0;
+}
+
+.about-impact__testimonial-author {
+    /* Typography */
+    font-family: var(--font-family-heading);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    color: #2F1648;
+    
+    /* Box model */
+    margin: 0 0 0.25rem 0;
+}
+
+.about-impact__testimonial-role {
+    /* Typography */
+    font-family: var(--font-family-heading);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 1.3125rem;
+    color: #6B7280;
+    
+    /* Box model */
+    margin: 0;
+}
+
+/* =========================================================
+   About Page - Our Partners Section
+   ========================================================= */
+
+.about-partners {
+    /* Box model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 5rem 9rem;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    
+    /* Visual */
+    border-radius: 0;
+}
+
+.about-partners__container {
+    /* Box model */
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1152px;
+    margin: 0 auto;
+}
+
+.about-partners__title {
+    /* Typography */
+    font-family: var(--font-family-heading);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    text-align: center;
+    color: #2F1648;
+    
+    /* Box model */
+    margin: 0 0 3.75rem 0;
+    width: 100%;
+}
+
+.about-partners__logos {
+    /* Box model */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+    width: 100%;
+    max-width: 1088px;
+    margin: 0 auto;
+    
+    /* Visual */
+    opacity: 0.6;
+}
+
+.about-partners__logo {
+    /* Typography */
+    font-family: var(--font-family-heading);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 2.25rem;
+    text-align: center;
+    color: #9CA3AF;
+    
+    /* Box model */
+    white-space: nowrap;
+}
+
+/* =========================================================
+   About Page - CTA Section
+   ========================================================= */
+
+.about-cta {
+    /* Box model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 5rem 17rem;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    
+    /* Visual */
+    background: linear-gradient(90deg, #2F1648 0%, rgba(47, 22, 72, 0.9) 100%);
+    border-radius: 0;
+}
+
+.about-cta__container {
+    /* Box model */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 896px;
+    margin: 0 auto;
+}
+
+.about-cta__title {
+    /* Typography */
+    font-family: var(--font-family-heading);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    text-align: center;
+    color: #FFFFFF;
+    
+    /* Box model */
+    margin: 0 0 1.5rem 0;
+    width: 100%;
+}
+
+.about-cta__description {
+    /* Typography */
+    font-family: var(--font-family-heading);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.25rem;
+    line-height: 2.0625rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.9);
+    
+    /* Box model */
+    margin: 0 0 2.5rem 0;
+    max-width: 771px;
+}
+
+.about-cta__actions {
+    /* Box model */
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.about-cta__btn {
+    /* Box model */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.125rem 2rem;
+    height: 3.75rem;
+    box-sizing: border-box;
+    
+    /* Typography */
+    font-family: var(--font-family-heading);
+    font-style: normal;
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    text-align: center;
+    text-decoration: none;
+    
+    /* Visual */
+    border-radius: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.about-cta__btn--primary {
+    /* Visual */
+    background: #FFFFFF;
+    color: #2F1648;
+    border: none;
+}
+
+.about-cta__btn--primary:hover {
+    /* Visual */
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
+}
+
+.about-cta__btn--secondary {
+    /* Visual */
+    background: transparent;
+    color: #FFFFFF;
+    border: 2px solid #FFFFFF;
+}
+
+.about-cta__btn--secondary:hover {
+    /* Visual */
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+/* =========================================================
+   Responsive Design
+   ========================================================= */
+
+/* Tablet and below */
+@media (max-width: 1024px) {
+    .about-hero,
+    .about-who-we-are,
+    .about-core-values,
+    .about-impact,
+    .about-partners {
+        padding: 4rem 3rem;
+    }
+    
+    .about-cta {
+        padding: 4rem 3rem;
+    }
+    
+    .about-who-we-are__content {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .about-who-we-are__text,
+    .about-who-we-are__image {
+        max-width: 100%;
+    }
+    
+    .about-core-values__cards {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .about-core-values__card {
+        max-width: 100%;
+    }
+    
+    .about-impact__stats {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.5rem;
+    }
+    
+    .about-impact__stat {
+        max-width: calc(50% - 0.75rem);
+        min-width: 200px;
+    }
+    
+    .about-impact__testimonials {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .about-impact__testimonial {
+        max-width: 100%;
+    }
+    
+    .about-partners__logos {
+        flex-wrap: wrap;
+        gap: 2rem;
+        justify-content: center;
+    }
+    
+    .about-cta__actions {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+    
+    .about-cta__btn {
+        width: 100%;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .about-hero,
+    .about-who-we-are,
+    .about-core-values,
+    .about-impact,
+    .about-partners {
+        padding: 3rem 1.5rem;
+    }
+    
+    .about-cta {
+        padding: 3rem 1.5rem;
+    }
+    
+    .about-hero__title {
+        font-size: 2.5rem;
+        line-height: 2.5rem;
+    }
+    
+    .about-hero__description {
+        font-size: 1.125rem;
+        line-height: 1.875rem;
+    }
+    
+    .about-who-we-are__title,
+    .about-core-values__title,
+    .about-impact__title,
+    .about-partners__title,
+    .about-cta__title {
+        font-size: 1.5rem;
+        line-height: 1.875rem;
+    }
+    
+    .about-who-we-are__description,
+    .about-who-we-are__mission {
+        font-size: 1rem;
+        line-height: 1.625rem;
+    }
+    
+    .about-impact__stats {
+        flex-direction: column;
+    }
+    
+    .about-impact__stat {
+        max-width: 100%;
+    }
+    
+    .about-impact__stat-number {
+        font-size: 2rem;
+        line-height: 3rem;
+    }
+    
+    .about-core-values__title,
+    .about-impact__title,
+    .about-partners__title {
+        margin-bottom: 2rem;
+    }
+    
+    .about-impact__stats {
+        margin-bottom: 2rem;
+    }
+    
+    .about-partners__logos {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .about-partners__logo {
+        font-size: 1.25rem;
+    }
+    
+    .about-cta__description {
+        font-size: 1.125rem;
+        line-height: 1.875rem;
+    }
+}
+

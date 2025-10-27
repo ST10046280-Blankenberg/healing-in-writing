@@ -1,1 +1,172 @@
-@* TODO: Supply static copy introducing Healing In Writing to visitors. *@
+@{
+    ViewData["Title"] = "About Us";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/views/about.css" asp-append-version="true" />
+}
+
+<div class="about">
+    <!-- Hero Section -->
+    <section class="about-hero">
+        <div class="about-hero__container">
+            <h1 class="about-hero__title">About Us</h1>
+            <p class="about-hero__description">
+                We're a passionate community dedicated to empowering healing through the written word. 
+                Together, we support mental health awareness and recovery through storytelling and shared experiences.
+            </p>
+        </div>
+    </section>
+
+    <!-- Who We Are Section -->
+    <section class="about-who-we-are">
+        <div class="about-who-we-are__container">
+            <div class="about-who-we-are__content">
+                <div class="about-who-we-are__text">
+                    <h2 class="about-who-we-are__title">Who We Are</h2>
+                    <p class="about-who-we-are__description">
+                        Founded in 2018, Healing In Writing started as a small group of trauma survivors who 
+                        believed in the therapeutic power of storytelling. Today, we've grown into a thriving 
+                        community of writers, supporters, and mental health advocates working together to break 
+                        the silence around trauma and mental health.
+                    </p>
+                    <p class="about-who-we-are__mission">
+                        Our mission is simple: to create safe, inclusive spaces where trauma survivors can share 
+                        their stories, find support, and discover healing through creative expression and community 
+                        connection.
+                    </p>
+                </div>
+                <div class="about-who-we-are__image">
+                    <img src="~/images/about-who-we-are.png" alt="Our community working together" class="about-who-we-are__img" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Core Values Section -->
+    <section class="about-core-values">
+        <div class="about-core-values__container">
+            <h2 class="about-core-values__title">Our Core Values</h2>
+            <div class="about-core-values__cards">
+                <!-- Card 1: Safe Space -->
+                <div class="about-core-values__card">
+                    <div class="about-core-values__icon about-core-values__icon--purple">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="about-core-values__card-title">Safe Space</h3>
+                    <p class="about-core-values__card-text">
+                        We create safe, judgment-free environments where survivors can share their stories 
+                        and experiences without fear, fostering trust and genuine connection.
+                    </p>
+                </div>
+
+                <!-- Card 2: Empowerment -->
+                <div class="about-core-values__card">
+                    <div class="about-core-values__icon about-core-values__icon--rose">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 class="about-core-values__card-title">Empowerment</h3>
+                    <p class="about-core-values__card-text">
+                        We believe in the power of storytelling to transform pain into purpose, helping 
+                        individuals reclaim their narratives and find strength in vulnerability.
+                    </p>
+                </div>
+
+                <!-- Card 3: Community Support -->
+                <div class="about-core-values__card">
+                    <div class="about-core-values__icon about-core-values__icon--lavender">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h3 class="about-core-values__card-title">Community Support</h3>
+                    <p class="about-core-values__card-text">
+                        We foster a supportive community where members encourage one another, share resources, 
+                        and celebrate progress together on the healing journey.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Impact Section -->
+    <section class="about-impact">
+        <div class="about-impact__container">
+            <h2 class="about-impact__title">Our Impact</h2>
+            
+            <!-- Stats Grid -->
+            <div class="about-impact__stats">
+                <div class="about-impact__stat">
+                    <div class="about-impact__stat-number about-impact__stat-number--purple">1,200+</div>
+                    <div class="about-impact__stat-label">Stories Shared</div>
+                </div>
+                <div class="about-impact__stat">
+                    <div class="about-impact__stat-number about-impact__stat-number--rose">85+</div>
+                    <div class="about-impact__stat-label">Healing Workshops</div>
+                </div>
+                <div class="about-impact__stat">
+                    <div class="about-impact__stat-number about-impact__stat-number--purple">500+</div>
+                    <div class="about-impact__stat-label">Active Members</div>
+                </div>
+                <div class="about-impact__stat">
+                    <div class="about-impact__stat-number about-impact__stat-number--rose">15</div>
+                    <div class="about-impact__stat-label">Support Groups</div>
+                </div>
+            </div>
+
+            <!-- Testimonials -->
+            <div class="about-impact__testimonials">
+                <div class="about-impact__testimonial">
+                    <img src="~/images/testimonial-sarah.jpg" alt="Sarah Martinez" class="about-impact__testimonial-avatar" />
+                    <div class="about-impact__testimonial-content">
+                        <p class="about-impact__testimonial-quote">
+                            "Sharing my story here helped me find my voice again. The supportive community gave 
+                            me the courage to heal and helped me realize I wasn't alone in my journey."
+                        </p>
+                        <div class="about-impact__testimonial-author">Sarah Martinez</div>
+                        <div class="about-impact__testimonial-role">Trauma Survivor & Advocate</div>
+                    </div>
+                </div>
+
+                <div class="about-impact__testimonial">
+                    <img src="~/images/testimonial-david.jpg" alt="David Kim" class="about-impact__testimonial-avatar" />
+                    <div class="about-impact__testimonial-content">
+                        <p class="about-impact__testimonial-quote">
+                            "The writing workshops helped me process my trauma in ways therapy alone couldn't. 
+                            This community saved my life and gave me hope for the future."
+                        </p>
+                        <div class="about-impact__testimonial-author">David Kim</div>
+                        <div class="about-impact__testimonial-role">Community Member</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Partners Section -->
+    <section class="about-partners">
+        <div class="about-partners__container">
+            <h2 class="about-partners__title">Our Partners</h2>
+            <div class="about-partners__logos">
+                <div class="about-partners__logo">MENTAL HEALTH SA</div>
+                <div class="about-partners__logo">TRAUMA CENTRE</div>
+                <div class="about-partners__logo">WELLNESS HUB</div>
+                <div class="about-partners__logo">HOPE FOUNDATION</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="about-cta">
+        <div class="about-cta__container">
+            <h2 class="about-cta__title">Ready to Begin Your Healing Journey?</h2>
+            <p class="about-cta__description">
+                Join our supportive community of trauma survivors and advocates. Share your story, find 
+                healing resources, and connect with others who understand your journey.
+            </p>
+            <div class="about-cta__actions">
+                <a href="@Url.Action("Auth", "Auth", new { mode = "register" })" class="about-cta__btn about-cta__btn--primary">Join Our Community</a>
+                <a href="@Url.Action("Index", "Stories")" class="about-cta__btn about-cta__btn--secondary">Read Stories</a>
+            </div>
+        </div>
+    </section>
+</div>
+

@@ -1,0 +1,66 @@
+@{
+    ViewData["Title"] = "Email Verified";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Healing In Writing</title>
+    <link rel="stylesheet" href="~/css/base/_variables.css" />
+    <link rel="stylesheet" href="~/css/views/auth.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+<body>
+    <main class="auth auth--message">
+        <!-- Image Panel -->
+        <aside class="auth__image-panel" aria-label="Community background">
+            <div class="auth__overlay"></div>
+            <img
+                src="~/images/auth-bg-img.webp"
+                class="auth__image"
+                alt="Healing In Writing community gathering"
+                loading="lazy" />
+            <div class="auth__content">
+                <h2 class="auth__content-title">Welcome to the Community</h2>
+                <p class="auth__content-text">
+                    Your account is now active. Begin your healing journey through the
+                    transformative power of writing.
+                </p>
+            </div>
+        </aside>
+
+        <!-- Message Panel -->
+        <section class="auth__form-panel">
+            <div class="auth__form-wrapper">
+                <header class="auth__header">
+                    <h1 class="auth__title">Email Verified Successfully!</h1>
+                    <p class="auth__subtitle">Your account is now active</p>
+                </header>
+
+                <div class="auth__message-content">
+                    <span class="material-symbols-outlined auth__message-icon auth__message-icon--success" aria-hidden="true">check_circle</span>
+
+                    <p class="auth__message-text">
+                        Your email address has been verified successfully. You can now sign in to your account
+                        and start your healing journey.
+                    </p>
+
+                    <a href="@Url.Action("Auth", "Auth", new { mode = "login" })" class="auth__button">
+                        Sign In to Your Account
+                    </a>
+                </div>
+
+                <!-- Additional Help -->
+                <div class="auth__toggle">
+                    <span class="auth__toggle-text">
+                        Need help? <a href="@Url.Action("Index", "Home")" class="auth__toggle-link">Visit our homepage</a>
+                    </span>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

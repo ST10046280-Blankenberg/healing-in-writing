@@ -1,0 +1,148 @@
+@{
+    ViewData["Title"] = "Contact Us";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/views/contact.css" asp-append-version="true" />
+}
+
+<div class="contact">
+    <!-- Hero Section -->
+    <section class="contact-hero">
+        <h1 class="contact-hero__title">Contact Us</h1>
+        <p class="contact-hero__description">
+            We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+        </p>
+    </section>
+
+    <!-- Main Content Grid -->
+    <div class="contact-grid">
+        <!-- Left Column -->
+        <div class="contact-column">
+            <!-- Contact Form Card -->
+            <div class="contact-card contact-card--form">
+                <h2 class="contact-card__title">Send us a message</h2>
+                <form class="contact-form">
+                    <div class="contact-form__field">
+                        <label for="fullName" class="contact-form__label">Full Name</label>
+                        <input 
+                            type="text" 
+                            id="fullName" 
+                            class="contact-form__input" 
+                            placeholder="Enter your full name"
+                            required
+                        />
+                    </div>
+
+                    <div class="contact-form__field">
+                        <label for="email" class="contact-form__label">Email Address</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            class="contact-form__input" 
+                            placeholder="Enter your email address"
+                            required
+                        />
+                    </div>
+
+                    <div class="contact-form__field">
+                        <label for="message" class="contact-form__label">Message</label>
+                        <textarea 
+                            id="message" 
+                            class="contact-form__textarea" 
+                            placeholder="Tell us how we can help you..."
+                            rows="6"
+                            required
+                        ></textarea>
+                    </div>
+
+                    <button type="submit" class="contact-form__submit">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>Send Message</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Get in Touch Card -->
+            <div class="contact-card">
+                <h3 class="contact-card__heading">Get in Touch</h3>
+                <div class="contact-info">
+                    <div class="contact-info__item">
+                        <i class="fas fa-envelope contact-info__icon"></i>
+                        <span class="contact-info__text">hello@community.com</span>
+                    </div>
+                    <div class="contact-info__item">
+                        <i class="fas fa-phone contact-info__icon"></i>
+                        <span class="contact-info__text">+1 (555) 123-4567</span>
+                    </div>
+                    <div class="contact-info__item">
+                        <i class="fab fa-twitter contact-info__icon"></i>
+                        <span class="contact-info__text">@@community</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="contact-column">
+            <!-- Visit Us Card -->
+            <div class="contact-card">
+                <div class="contact-card__icon-header">
+                    <div class="contact-card__icon-wrapper">
+                        <i class="fas fa-map-marker-alt contact-card__icon"></i>
+                    </div>
+                    <h3 class="contact-card__heading">Visit Us</h3>
+                </div>
+                <div class="contact-address">
+                    <p class="contact-address__line contact-address__line--bold">Community Center</p>
+                    <p class="contact-address__line">123 Main Street, Suite 400</p>
+                    <p class="contact-address__line">San Francisco, CA 94102</p>
+                    <p class="contact-address__line">United States</p>
+                </div>
+            </div>
+
+            <!-- Location Card -->
+            <div class="contact-card contact-card--location">
+                <div class="contact-card__icon-header">
+                    <div class="contact-card__icon-wrapper">
+                        <i class="fas fa-map contact-card__icon"></i>
+                    </div>
+                    <h3 class="contact-card__heading">Location</h3>
+                </div>
+                <div class="contact-map">
+                    <img src="~/images/map-placeholder.jpg" alt="Map location" class="contact-map__image" />
+                    <div class="contact-map__overlay"></div>
+                </div>
+                <button class="contact-map__button">
+                    <i class="fas fa-directions"></i>
+                    <span>Get Directions</span>
+                </button>
+            </div>
+
+            <!-- Opening Hours Card -->
+            <div class="contact-card">
+                <div class="contact-card__icon-header">
+                    <div class="contact-card__icon-wrapper">
+                        <i class="fas fa-clock contact-card__icon"></i>
+                    </div>
+                    <h3 class="contact-card__heading">Opening Hours</h3>
+                </div>
+                <div class="contact-hours">
+                    <div class="contact-hours__row">
+                        <span class="contact-hours__day">Monday - Friday</span>
+                        <span class="contact-hours__time">9:00 AM - 6:00 PM</span>
+                    </div>
+                    <div class="contact-hours__row">
+                        <span class="contact-hours__day">Saturday</span>
+                        <span class="contact-hours__time">10:00 AM - 4:00 PM</span>
+                    </div>
+                    <div class="contact-hours__row">
+                        <span class="contact-hours__day">Sunday</span>
+                        <span class="contact-hours__time contact-hours__time--closed">Closed</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

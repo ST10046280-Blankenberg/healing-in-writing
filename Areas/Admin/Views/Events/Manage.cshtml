@@ -1,0 +1,212 @@
+@*
+========================================
+BACKEND DATA REQUIREMENTS
+========================================
+This page displays all events (upcoming and past) for admin management.
+
+REQUIRED DATA PER EVENT:
+- Event Title (string)
+- Start DateTime (DateTime) - For display as "Dec 15, 2024 • 7:00 PM"
+- End DateTime (DateTime) - Optional, for duration calculation
+- Location/Address (string) - Full address or venue name
+- RSVP Status (string/bool) - "RSVPs Open" or "RSVPs Closed"
+
+DATABASE FIELDS NEEDED:
+- events.id
+- events.title
+- events.start_time
+- events.end_time (optional)
+- events.address OR events.location_name
+- events.rsvp_deadline (DateTime) - Compare with current time to determine RSVP status
+  * OR events.rsvps_enabled (boolean) - Manual toggle
+
+RSVP STATUS LOGIC:
+- Display "RSVPs Open" if: DateTime.Now < events.rsvp_deadline
+- Display "RSVPs Closed" if: DateTime.Now >= events.rsvp_deadline
+- Alternative: Use boolean flag events.rsvps_enabled
+
+BUTTON ACTIONS NEEDED:
+- Edit: GET /Admin/Events/Edit/{id}
+- Cancel: POST /Admin/Events/Cancel/{id}
+- Export RSVPs: GET /Admin/Events/ExportRsvps/{id} (returns CSV/Excel file)
+
+SEARCH/FILTER REQUIREMENTS:
+- Filter by location (events.address LIKE @location)
+- Filter by date range (events.start_time BETWEEN @startDate AND @endDate)
+- Sort by newest/oldest (ORDER BY events.created_at DESC)
+========================================
+*@
+
+
+@{
+    ViewData["Title"] = "Manage Events";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/shared/search-bar.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/views/manage-events.css" asp-append-version="true" />
+}
+
+<main class="admin-manage-events">
+    <!-- Header Section -->
+    <header class="admin-manage-events__header">
+        <div class="admin-manage-events__header-content">
+            <div class="admin-manage-events__header-text">
+                <h1 class="admin-manage-events__title">Manage Events</h1>
+                <p class="admin-manage-events__subtitle">View, edit, and manage upcoming and past events</p>
+            </div>
+            <button class="admin-manage-events__create-btn">
+                <svg class="admin-manage-events__create-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 5v14M5 12h14" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="admin-manage-events__create-text">Create Event</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <!-- Search Input with Icon -->
+        <div class="search-bar__input-container">
+            <svg class="search-bar__icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <input type="text" class="search-bar__input" placeholder="Search..." />
+        </div>
+
+        <!-- Any Location Dropdown -->
+        <div class="search-bar__dropdown">
+            <span class="search-bar__dropdown-label">Any Location</span>
+            <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+
+        <!-- Any Date Dropdown -->
+        <div class="search-bar__dropdown">
+            <span class="search-bar__dropdown-label">Any Date</span>
+            <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+
+        <!-- Newest Dropdown -->
+        <div class="search-bar__dropdown">
+            <span class="search-bar__dropdown-label">Newest</span>
+            <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+
+        <!-- Search Button -->
+        <button class="search-bar__button" type="button">
+            <svg class="search-bar__button-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="search-bar__button-label">Search</span>
+        </button>
+    </div>
+
+    <!-- Events List Container -->
+    <section class="admin-manage-events__events">
+        <div class="admin-manage-events__events-header">
+            <h2 class="admin-manage-events__events-title">Events</h2>
+        </div>
+
+        <div class="admin-manage-events__events-list">
+            <!-- Event Item 1 -->
+            <article class="event-item">
+                <div class="event-item__content">
+                    <div class="event-item__info">
+                        <h3 class="event-item__title">Community Networking Night</h3>
+                        <div class="event-item__meta">
+                            <div class="event-item__meta-item">
+                                <svg class="event-item__icon" xmlns="http://www.w3.org/2000/svg" width="12.25" height="14" viewBox="0 0 24 24" fill="none">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" stroke="#4B5563" stroke-width="2"/>
+                                    <path d="M16 2v4M8 2v4M3 10h18" stroke="#4B5563" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                                <span class="event-item__meta-text">Dec 15, 2024 • 7:00 PM</span>
+                            </div>
+                            <div class="event-item__meta-item">
+                                <svg class="event-item__icon" xmlns="http://www.w3.org/2000/svg" width="10.5" height="14" viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="#4B5563" stroke-width="2"/>
+                                    <circle cx="12" cy="9" r="2.5" stroke="#4B5563" stroke-width="2"/>
+                                </svg>
+                                <span class="event-item__meta-text">Downtown Community Center</span>
+                            </div>
+                            <span class="event-item__badge event-item__badge--open">RSVPs Open</span>
+                        </div>
+                    </div>
+                    <div class="event-item__actions">
+                        <button class="event-item__btn event-item__btn--edit">Edit</button>
+                        <button class="event-item__btn event-item__btn--cancel">Cancel</button>
+                        <button class="event-item__btn event-item__btn--export">Export RSVPs</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Event Item 2 -->
+            <article class="event-item">
+                <div class="event-item__content">
+                    <div class="event-item__info">
+                        <h3 class="event-item__title">Holiday Celebration</h3>
+                        <div class="event-item__meta">
+                            <div class="event-item__meta-item">
+                                <svg class="event-item__icon" xmlns="http://www.w3.org/2000/svg" width="12.25" height="14" viewBox="0 0 24 24" fill="none">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" stroke="#4B5563" stroke-width="2"/>
+                                    <path d="M16 2v4M8 2v4M3 10h18" stroke="#4B5563" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                                <span class="event-item__meta-text">Dec 22, 2024 • 6:30 PM</span>
+                            </div>
+                            <div class="event-item__meta-item">
+                                <svg class="event-item__icon" xmlns="http://www.w3.org/2000/svg" width="10.5" height="14" viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="#4B5563" stroke-width="2"/>
+                                    <circle cx="12" cy="9" r="2.5" stroke="#4B5563" stroke-width="2"/>
+                                </svg>
+                                <span class="event-item__meta-text">Community Hall</span>
+                            </div>
+                            <span class="event-item__badge event-item__badge--open">RSVPs Open</span>
+                        </div>
+                    </div>
+                    <div class="event-item__actions">
+                        <button class="event-item__btn event-item__btn--edit">Edit</button>
+                        <button class="event-item__btn event-item__btn--cancel">Cancel</button>
+                        <button class="event-item__btn event-item__btn--export">Export RSVPs</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Event Item 3 -->
+            <article class="event-item">
+                <div class="event-item__content">
+                    <div class="event-item__info">
+                        <h3 class="event-item__title">New Year Planning Workshop</h3>
+                        <div class="event-item__meta">
+                            <div class="event-item__meta-item">
+                                <svg class="event-item__icon" xmlns="http://www.w3.org/2000/svg" width="12.25" height="14" viewBox="0 0 24 24" fill="none">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" stroke="#4B5563" stroke-width="2"/>
+                                    <path d="M16 2v4M8 2v4M3 10h18" stroke="#4B5563" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                                <span class="event-item__meta-text">Jan 5, 2025 • 2:00 PM</span>
+                            </div>
+                            <div class="event-item__meta-item">
+                                <svg class="event-item__icon" xmlns="http://www.w3.org/2000/svg" width="10.5" height="14" viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="#4B5563" stroke-width="2"/>
+                                    <circle cx="12" cy="9" r="2.5" stroke="#4B5563" stroke-width="2"/>
+                                </svg>
+                                <span class="event-item__meta-text">Conference Room A</span>
+                            </div>
+                            <span class="event-item__badge event-item__badge--closed">RSVPs Closed</span>
+                        </div>
+                    </div>
+                    <div class="event-item__actions">
+                        <button class="event-item__btn event-item__btn--edit">Edit</button>
+                        <button class="event-item__btn event-item__btn--cancel">Cancel</button>
+                        <button class="event-item__btn event-item__btn--export">Export RSVPs</button>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</main>
+

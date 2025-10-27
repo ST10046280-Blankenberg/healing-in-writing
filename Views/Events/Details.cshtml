@@ -1,1 +1,50 @@
-@* TODO: Show event specifics and registration actions via service data. *@
+@{
+    ViewData["Title"] = "Event Details";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/views/events.css" asp-append-version="true" />
+}
+
+<main class="event-details">
+    <div class="event-details__body">
+        <article class="event-details__container">
+            <!-- Event Image -->
+            <div class="event-details__image">
+                <!-- Placeholder image -->
+            </div>
+
+            <!-- Event Badge -->
+            <span class="event-details__badge">
+                <span class="event-details__badge-text">Community Event</span>
+            </span>
+
+            <!-- Tags Section -->
+            <div class="event-details__tags">
+                <span class="event-details__tag">
+                    <span class="event-details__tag-text">Tag</span>
+                </span>
+                <span class="event-details__tag">
+                    <span class="event-details__tag-text">Tag</span>
+                </span>
+            </div>
+
+            <!-- Event Title -->
+            <h1 class="event-details__title">Event Title</h1>
+
+            <!-- Event Date -->
+            <p class="event-details__date">March 10, 2024</p>
+
+            <!-- Event Description -->
+            <p class="event-details__description">
+                Article Description
+            </p>
+
+            <!-- Join Event Button -->
+            <button class="event-details__button">
+                <span class="event-details__button-text">Join Event</span>
+            </button>
+        </article>
+    </div>
+</main>
+

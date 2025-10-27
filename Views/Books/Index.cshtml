@@ -1,1 +1,85 @@
-@* TODO: Render the book catalogue using view models from the books service. *@
+@model HealingInWriting.Models.Books.BookListViewModel
+
+@{
+    ViewData["Title"] = "Books for the Community";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/shared/page-hero.css" />
+    <link rel="stylesheet" href="~/css/shared/search-bar.css" />
+    <link rel="stylesheet" href="~/css/views/books.css" />
+}
+
+<main class="books">
+    <!-- Hero Section with Title and Search -->
+    <section class="page-hero">
+        <div class="page-hero__content">
+            <h1 class="page-hero__title">Books for the Community</h1>
+            <p class="page-hero__subtitle">Browse and share books available in the community. Find what you need or give a book a new home.</p>
+        </div>
+
+        <!-- Search Bar with AJAX Filter -->
+        <form id="book-filter-form" class="search-bar">
+            <!-- Search Input with Icon -->
+            <div class="search-bar__input-container">
+                <svg class="search-bar__icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <input type="text" name="searchTerm" class="search-bar__input" placeholder="Search..." value="@Model.SelectedCategory" />
+            </div>
+
+            <!-- Category Filter Dropdown -->
+            <select name="selectedCategory" class="search-bar__dropdown">
+                <option value="">Any Category</option>
+                @foreach (var category in Model.AvailableCategories)
+                {
+                    <option value="@category" selected=@(category == Model.SelectedCategory ? "selected" : null)>@category</option>
+                }
+            </select>
+
+            <!-- Author Filter Dropdown -->
+            <select name="selectedAuthor" class="search-bar__dropdown">
+                <option value="">Any Author</option>
+                @foreach (var author in Model.AvailableAuthors)
+                {
+                    <option value="@author" selected=@(author == Model.SelectedAuthor ? "selected" : null)>@author</option>
+                }
+            </select>
+
+            <!-- Search Button -->
+            <button class="search-bar__button" type="submit">
+                <svg class="search-bar__button-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <span class="search-bar__button-label">Search</span>
+            </button>
+        </form>
+    </section>
+
+    <!-- Books List Section -->
+    <section class="books__list-section">
+        <div class="books__list-container" id="books-list-container">
+            @Html.Partial("_BookCardsPartial", Model.Books)
+        </div>
+    </section>
+
+    <!-- Load More Button -->
+    <div class="books__load-more">
+        <button class="books__load-more-button">Load More Books</button>
+    </div>
+</main>
+
+@section Scripts {
+    <script>
+        document.getElementById('book-filter-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const form = e.target;
+            const params = new URLSearchParams(new FormData(form)).toString();
+            fetch('/Books/Filter?' + params)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('books-list-container').innerHTML = html;
+                });
+        });
+    </script>
+}

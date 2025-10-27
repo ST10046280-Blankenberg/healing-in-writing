@@ -1,0 +1,655 @@
+/* =========================================================
+   Manage Books Admin View
+   Component-specific styles for book inventory management
+   ========================================================= */
+
+/* Page Container */
+.manage-books {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 32px 64px;
+    gap: 16px;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* Header Section */
+.manage-books__header {
+    /* Box Model */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 24px 32px;
+    width: 100%;
+    
+    /* Visual */
+    background: #FFFFFF;
+    border-bottom: 1px solid #F3F4F6;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.manage-books__header-content {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    gap: 32px;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 1;
+}
+
+/* Header Text Section */
+.manage-books__header-text {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 1px;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.manage-books__title {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 36px;
+    color: #2F1648;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.manage-books__subtitle {
+    /* Typography */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #4B5563;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* Add New Book Button */
+.manage-books__add-button {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 12px 18px;
+    gap: 8px;
+    height: 48px;
+    
+    /* Visual */
+    background: #2F1648;
+    border: none;
+    border-radius: 8px;
+    
+    /* Typography */
+    text-decoration: none;
+    cursor: pointer;
+    
+    /* Animation */
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+.manage-books__add-button:hover {
+    background: #3d1d5a;
+    transform: translateY(-1px);
+}
+
+.manage-books__add-button:active {
+    background: #251038;
+    transform: scale(0.98);
+}
+
+.manage-books__add-icon {
+    /* Box Model */
+    width: 14px;
+    height: 16px;
+    flex-shrink: 0;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.manage-books__add-button-text {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #FFFFFF;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+/* Search Bar Adjustments for Manage Books */
+.search-bar--manage-books {
+    /* Layout */
+    order: 1;
+    width: 100%;
+}
+
+/* Inventory Section */
+.manage-books__inventory {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 0;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 2;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.manage-books__inventory-container {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    width: 100%;
+    
+    /* Visual */
+    background: #FFFFFF;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 10px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* Inventory Header */
+.manage-books__inventory-header {
+    /* Box Model */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 16px 24px;
+    gap: 10px;
+    width: 100%;
+    
+    /* Visual */
+    border-bottom: 1px solid #F3F4F6;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.manage-books__inventory-title {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 28px;
+    color: #2F1648;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+/* Table */
+.manage-books__table {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* Table Header */
+.manage-books__table thead {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 10px;
+    width: 100%;
+    
+    /* Visual */
+    background: #F9FAFB;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 1;
+}
+
+.manage-books__table thead tr {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.manage-books__table th {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 16px 24px;
+    
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 21px;
+    color: #374151;
+    text-align: left;
+    
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+/* Column Widths */
+.manage-books__table th:nth-child(1) { width: 42.7%; order: 0; }  /* Name */
+.manage-books__table th:nth-child(2) { width: 11.3%; order: 1; }  /* Category */
+.manage-books__table th:nth-child(3) { width: 12.3%; order: 2; }  /* Quantity */
+.manage-books__table th:nth-child(4) { width: 11.8%; order: 3; }  /* Condition */
+.manage-books__table th:nth-child(5) { width: 9.5%; order: 4; }   /* Visible */
+.manage-books__table th:nth-child(6) { 
+    width: 9.9%; 
+    order: 5; 
+    justify-content: center;
+}   /* Actions */
+
+/* Table Body */
+.manage-books__table tbody {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.manage-books__table tbody tr {
+    /* Box Model */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+    width: 100%;
+    
+    /* Visual */
+    border-bottom: 1px solid #F3F4F6;
+    
+    /* Animation */
+    transition: background-color 0.2s ease;
+    
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.manage-books__table tbody tr:hover {
+    background: rgba(249, 250, 251, 0.5);
+}
+
+.manage-books__table td {
+    /* Box Model */
+    display: flex;
+    align-items: center;
+    padding: 16px 24px;
+    
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+/* Column Widths for td */
+.manage-books__table td:nth-child(1) { width: 42.7%; order: 0; }  /* Name */
+.manage-books__table td:nth-child(2) { width: 11.3%; order: 1; }  /* Category */
+.manage-books__table td:nth-child(3) { width: 12.3%; order: 2; }  /* Quantity */
+.manage-books__table td:nth-child(4) { width: 11.8%; order: 3; }  /* Condition */
+.manage-books__table td:nth-child(5) { width: 9.5%; order: 4; }   /* Visible */
+.manage-books__table td:nth-child(6) { width: 9.9%; order: 5; }   /* Actions */
+
+/* Book Info Cell */
+.manage-books__book-info {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
+
+.manage-books__book-cover {
+    /* Box Model */
+    width: 40px;
+    height: 40px;
+    
+    /* Visual */
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.manage-books__book-name {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #111827;
+}
+
+/* Category Cell */
+.manage-books__category {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #374151;
+}
+
+/* Quantity Cell */
+.manage-books__quantity {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #374151;
+}
+
+/* Condition Badge */
+.manage-books__condition-badge {
+    /* Box Model */
+    display: inline-block;
+    padding: 4px 12px;
+    
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    
+    /* Visual */
+    border-radius: 9999px;
+}
+
+/* Condition Badge Variants */
+.manage-books__condition-badge--good {
+    background: #DCFCE7;
+    color: #166534;
+}
+
+.manage-books__condition-badge--new {
+    background: #DBEAFE;
+    color: #1E40AF;
+}
+
+.manage-books__condition-badge--fair {
+    background: #FEF9C3;
+    color: #854D0E;
+}
+
+.manage-books__condition-badge--poor {
+    background: #FEE2E2;
+    color: #B91C1C;
+}
+
+/* Toggle Switch */
+.manage-books__toggle {
+    /* Box Model */
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.manage-books__toggle input {
+    /* Hide default checkbox */
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.manage-books__toggle-slider {
+    /* Position */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    
+    /* Visual */
+    background: #E5E7EB;
+    border-radius: 9999px;
+    
+    /* Animation */
+    transition: background-color 0.2s ease;
+}
+
+.manage-books__toggle-slider::after {
+    /* Position */
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 2px;
+    top: 2px;
+    
+    /* Visual */
+    background: #FFFFFF;
+    border-radius: 9999px;
+    
+    /* Animation */
+    transition: transform 0.2s ease;
+}
+
+.manage-books__toggle input:checked + .manage-books__toggle-slider {
+    background: #2F1648;
+}
+
+.manage-books__toggle input:checked + .manage-books__toggle-slider::after {
+    transform: translateX(20px);
+}
+
+/* Action Buttons */
+.manage-books__actions {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+}
+
+.manage-books__action-btn {
+    /* Box Model */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 40px;
+    padding: 8px;
+    
+    /* Visual */
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    
+    /* Animation */
+    transition: background-color 0.2s ease;
+}
+
+.manage-books__action-btn:hover {
+    background: #F3F4F6;
+}
+
+.manage-books__action-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
+
+/* Tablet and below (1024px) */
+@media (max-width: 1024px) {
+    .manage-books {
+        padding: 24px 32px;
+    }
+    
+    .manage-books__inventory-container {
+        overflow-x: auto;
+    }
+    
+    .manage-books__table {
+        min-width: 900px;
+    }
+}
+
+/* Mobile landscape and below (768px) */
+@media (max-width: 768px) {
+    .manage-books {
+        padding: 20px;
+        gap: 12px;
+    }
+    
+    .manage-books__header {
+        padding: 20px;
+    }
+    
+    .manage-books__header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+    
+    .manage-books__title {
+        font-size: 24px;
+        line-height: 32px;
+    }
+    
+    .manage-books__subtitle {
+        font-size: 14px;
+        line-height: 20px;
+    }
+    
+    .manage-books__add-button {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .manage-books__table {
+        min-width: 800px;
+    }
+}
+
+/* Mobile portrait (480px) */
+@media (max-width: 480px) {
+    .manage-books {
+        padding: 16px;
+    }
+    
+    .manage-books__header {
+        padding: 16px;
+    }
+    
+    .manage-books__title {
+        font-size: 20px;
+        line-height: 28px;
+    }
+}

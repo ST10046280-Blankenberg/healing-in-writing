@@ -1,0 +1,433 @@
+/* =========================================================
+   My Stories Page Styles (Volunteer)
+   BEM Convention: .my-stories__element--modifier
+   ========================================================= */
+
+/* ========================================
+   Page Container
+   ======================================== */
+
+.my-stories {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 32px 64px;
+    gap: 32px;
+    width: 100%;
+    min-height: 100vh;
+    
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+}
+
+/* ========================================
+   Header Section
+   ======================================== */
+
+.my-stories__header {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 0px;
+    width: 100%;
+}
+
+.my-stories__title {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 40px;
+    color: #2F1648;
+    margin: 0;
+}
+
+.my-stories__subtitle {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    color: #4B5563;
+    margin: 0;
+}
+
+/* ========================================
+   Navigation Tabs
+   ======================================== */
+
+.my-stories__nav {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 28px;
+    margin-top: 24px;
+}
+
+.my-stories__nav-button {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    gap: 16px;
+    min-width: 120px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    
+    /* Animation */
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.my-stories__nav-button:hover {
+    border-bottom-color: #2F1648;
+}
+
+.my-stories__nav-button--active {
+    border-bottom-color: #2F1648;
+}
+
+.my-stories__nav-label {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    text-align: center;
+    color: #6B7280;
+}
+
+.my-stories__nav-button--active .my-stories__nav-label {
+    color: #2F1648;
+}
+
+.my-stories__nav-badge {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 5px;
+    min-width: 24px;
+    height: 24px;
+    
+    /* Visual */
+    background: #E5E7EB;
+    border-radius: 9999px;
+    
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+    text-align: center;
+    color: #4B5563;
+}
+
+/* ========================================
+   Stories List
+   ======================================== */
+
+.my-stories__list {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 16px;
+    width: 100%;
+}
+
+/* ========================================
+   Story Card
+   ======================================== */
+
+.story-card {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 32px 24px;
+    gap: 10px;
+    width: 100%;
+    
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid #F3F4F6;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    
+    /* Animation */
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.story-card:hover {
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Card Content */
+.story-card__content {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 10px;
+    flex: 1;
+}
+
+/* Card Header */
+.story-card__header {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+}
+
+.story-card__title {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 28px;
+    color: #2F1648;
+    margin: 0;
+}
+
+/* Status Badge */
+.story-card__status {
+    /* Box Model */
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 12px;
+    height: 28px;
+    border-radius: 9999px;
+    
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+}
+
+/* Status Variants */
+.story-card__status--pending {
+    background: #E9D5EB;
+    color: #2F1648;
+}
+
+.story-card__status--published {
+    background: #DCFCE7;
+    color: #166534;
+}
+
+.story-card__status--draft {
+    background: #FEF9C3;
+    color: #854D0E;
+}
+
+/* Card Description */
+.story-card__description {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #4B5563;
+    margin: 0;
+    width: 100%;
+}
+
+/* Card Meta */
+.story-card__meta {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.story-card__icon {
+    /* Box Model */
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    color: #6B7280;
+}
+
+.story-card__meta-text {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #6B7280;
+    margin: 0;
+}
+
+/* Card Actions */
+.story-card__actions {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 10px;
+}
+
+.story-card__button {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 17px;
+    gap: 8px;
+    min-width: 98px;
+    height: 42px;
+    
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid #D1D5DB;
+    border-radius: 8px;
+    
+    /* Animation */
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.story-card__button:hover {
+    background: #F9FAFB;
+    border-color: #2F1648;
+}
+
+.story-card__button-icon {
+    width: 18px;
+    height: 16px;
+    color: #374151;
+}
+
+.story-card__button-text {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #374151;
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
+
+/* Tablet and below (1024px) */
+@media (max-width: 1024px) {
+    .my-stories {
+        padding: 24px 32px;
+        gap: 24px;
+    }
+    
+    .my-stories__title {
+        font-size: 30px;
+        line-height: 36px;
+    }
+}
+
+/* Mobile landscape and below (768px) */
+@media (max-width: 768px) {
+    .my-stories {
+        padding: 20px;
+        gap: 20px;
+    }
+    
+    .my-stories__title {
+        font-size: 24px;
+        line-height: 32px;
+    }
+    
+    .my-stories__subtitle {
+        font-size: 16px;
+        line-height: 24px;
+    }
+    
+    .my-stories__nav {
+        gap: 16px;
+        overflow-x: auto;
+        width: 100%;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .my-stories__nav-button {
+        white-space: nowrap;
+        min-width: 100px;
+    }
+    
+    .story-card {
+        flex-direction: column;
+        padding: 24px;
+        gap: 16px;
+    }
+    
+    .story-card__actions {
+        width: 100%;
+    }
+    
+    .story-card__button {
+        width: 100%;
+    }
+}
+
+/* Mobile portrait (480px) */
+@media (max-width: 480px) {
+    .my-stories {
+        padding: 16px;
+    }
+    
+    .my-stories__title {
+        font-size: 20px;
+        line-height: 28px;
+    }
+    
+    .my-stories__subtitle {
+        font-size: 14px;
+        line-height: 20px;
+    }
+    
+    .story-card {
+        padding: 20px;
+    }
+    
+    .story-card__header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}
+

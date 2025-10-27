@@ -1,0 +1,19 @@
+@model HealingInWriting.Models.Stories.StorySummaryViewModel
+
+<article class="story-card story-card--small">
+    <div class="story-card__header">
+        <h2 class="story-card__title">@Model.Title</h2>
+        <time class="story-card__date">@Model.CreatedAt.ToString("MMMM dd, yyyy")</time>
+        <p class="story-card__author">@(!string.IsNullOrWhiteSpace(Model.AuthorName) ? Model.AuthorName : "Anonymous")</p>
+    </div>
+    <div class="story-card__tags">
+        @foreach (var tag in Model.Tags)
+        {
+            <span class="story-card__tag story-card__tag--small">
+                <span class="story-card__tag-text">@tag</span>
+            </span>
+        }
+    </div>
+    <p class="story-card__excerpt">@Model.Summary</p>
+    <a href="@Url.Action("Details", "Stories", new { id = Model.StoryId })" class="story-card__button">Read More</a>
+</article>

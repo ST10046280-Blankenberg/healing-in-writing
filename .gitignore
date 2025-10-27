@@ -59,9 +59,6 @@ packages/
 *.nuget.cache
 artifacts/
 
-## Entity Framework Core
-[Mm]igrations/
-
 ## Coverage and profiling
 *.coverage
 *.coveragexml
@@ -77,6 +74,10 @@ artifacts/
 *.mdf
 *.ldf
 *.ndf
+# SQLite database files
+*.db
+*.db-shm
+*.db-wal
 
 ## OS generated files
 [Tt]humbs.db
@@ -139,3 +140,5 @@ build/
 *.7z
 *.rar
 /config/local/
+
+

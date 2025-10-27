@@ -1,0 +1,75 @@
+using HealingInWriting.Domain.Users;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+
+namespace HealingInWriting.Data;
+
+/// <summary>
+/// Database context for the Healing In Writing application.
+/// Inherits from IdentityDbContext to provide ASP.NET Core Identity tables
+/// and user management functionality.
+/// </summary>
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+{
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        : base(options)
+    {
+    }
+
+    // TODO [Future]: Add DbSet properties for other domain entities when needed
+    // public DbSet<UserProfile> UserProfiles { get; set; }
+    // public DbSet<Story> Stories { get; set; }
+    // public DbSet<Event> Events { get; set; }
+    // public DbSet<Donation> Donations { get; set; }
+    // public DbSet<Volunteer> Volunteers { get; set; }
+    // public DbSet<Book> Books { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+
+        // Customize Identity table names (optional - remove if you prefer default names)
+        builder.Entity<ApplicationUser>(entity =>
+        {
+            entity.ToTable("Users");
+        });
+
+        builder.Entity<IdentityRole>(entity =>
+        {
+            entity.ToTable("Roles");
+        });
+
+        builder.Entity<IdentityUserRole<string>>(entity =>
+        {
+            entity.ToTable("UserRoles");
+        });
+
+        builder.Entity<IdentityUserClaim<string>>(entity =>
+        {
+            entity.ToTable("UserClaims");
+        });
+
+        builder.Entity<IdentityUserLogin<string>>(entity =>
+        {
+            entity.ToTable("UserLogins");
+        });
+
+        builder.Entity<IdentityUserToken<string>>(entity =>
+        {
+            entity.ToTable("UserTokens");
+        });
+
+        builder.Entity<IdentityRoleClaim<string>>(entity =>
+        {
+            entity.ToTable("RoleClaims");
+        });
+
+        // TODO [Future]: Add model configurations for other entities here
+        // Example:
+        // builder.Entity<Story>()
+        //     .HasOne(s => s.User)
+        //     .WithMany(u => u.Stories)
+        //     .HasForeignKey(s => s.UserId);
+    }
+}
