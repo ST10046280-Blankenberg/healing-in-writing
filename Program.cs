@@ -158,9 +158,9 @@ using (var scope = app.Services.CreateScope())
     {
         var context = services.GetRequiredService<ApplicationDbContext>();
         //TODO: Remove the following two lines in production
-        // --- Drop and recreate the database (for dev/testing only) ---
+        // --- Apply migrations and recreate database (for dev/testing only) ---
         context.Database.EnsureDeleted();
-        context.Database.EnsureCreated();
+        context.Database.Migrate();
         // --- End drop/recreate ---
 
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
