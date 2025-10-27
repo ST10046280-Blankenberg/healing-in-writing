@@ -140,5 +140,5 @@ build/
 *.7z
 *.rar
 /config/local/
-COPILOT_INSTRUCTIONS.md
-/.github/
+
+
