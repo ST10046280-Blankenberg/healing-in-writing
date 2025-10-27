@@ -1161,6 +1161,40 @@
     font-style: normal;
 }
 
+/* Draft Status Indicator */
+.draft-status-indicator {
+    position: absolute;
+    bottom: -30px;
+    right: 0;
+    padding: 6px 12px;
+    background: #10B981;
+    color: #FFFFFF;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 6px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+.draft-status-indicator--visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.draft-status-indicator--info {
+    background: #3B82F6;
+}
+
+/* Ensure parent has relative positioning */
+.story-submit__field {
+    position: relative;
+}
+
 /* Tags Section */
 .story-submit__tags-label {
     display: flex;
