@@ -158,6 +158,33 @@ public class BookService : IBookService
         };
     }
 
+    public Book ToBookFromDetailViewModel(BookDetailViewModel model)
+    {
+        return new Book
+        {
+            BookId = model.BookId,
+            Title = model.Title,
+            Authors = model.Authors.Split(',').Select(a => a.Trim()).ToList(),
+            Publisher = model.Publisher,
+            PublishedDate = model.PublishedDate,
+            Description = model.Description,
+            PageCount = model.PageCount,
+            Categories = model.Categories ?? new List<string>(),
+            Language = model.Language,
+            IndustryIdentifiers = (model.IndustryIdentifiers ?? new List<string>())
+                .Select(isbn => new IndustryIdentifier
+                {
+                    Type = isbn.Length == 13 ? "ISBN_13" : "ISBN_10",
+                    Identifier = isbn
+                }).ToList(),
+            ImageLinks = new ImageLinks
+            {
+                Thumbnail = model.ThumbnailUrl,
+                SmallThumbnail = model.ThumbnailUrl
+            }
+        };
+    }
+
     public async Task<(bool Success, string? ErrorMessage)> AddBookFromFormAsync(IFormCollection form)
     {
         try
@@ -206,5 +233,16 @@ public class BookService : IBookService
 
         await _bookRepository.DeleteAsync(id);
         return true;
+    }
+
+    public async Task UpdateBookAsync(Book book)
+    {
+        await _bookRepository.UpdateAsync(book);
+    }
+
+    public Task<Book> GetBookByIdAsync(int id)
+    {
+        var book = _bookRepository.GetByIdAsync(id);
+        return book;
     }
 }

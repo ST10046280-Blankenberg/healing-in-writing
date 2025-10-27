@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+
     document.querySelectorAll('.manage-books__action-btn--delete').forEach(function (btn) {
         btn.addEventListener('click', function () {
             const bookId = btn.getAttribute('data-book-id');
@@ -17,6 +18,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                     });
             }
+        });
+    });
+
+    document.querySelectorAll('.manage-books__action-btn--edit').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const bookId = btn.getAttribute('data-book-id');
+            window.location.href = `/Admin/Books/EditBook/${bookId}`;
         });
     });
 });

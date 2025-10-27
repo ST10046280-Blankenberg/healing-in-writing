@@ -61,6 +61,16 @@ namespace HealingInWriting.Areas.Admin.Controllers
             return RedirectToAction("Manage");
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _bookService.DeleteBookAsync(id);
+            if (!result)
+                return BadRequest();
+            return Ok();
+        }
+
         [HttpGet]
         public async Task<IActionResult> ImportBookByIsbn(string isbn)
         {
@@ -77,14 +87,28 @@ namespace HealingInWriting.Areas.Admin.Controllers
             return Json(new { success = true, data = viewModel });
         }
 
+        [HttpGet]
+        public async Task<IActionResult> EditBook(int id)
+        {
+            var book = await _bookService.GetBookByIdAsync(id);
+            if (book == null)
+                return NotFound();
+
+            var viewModel = _bookService.ToBookDetailViewModel(book);
+            return View(viewModel);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> EditBook(BookDetailViewModel model)
         {
-            var result = await _bookService.DeleteBookAsync(id);
-            if (!result)
-                return BadRequest();
-            return Ok();
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var book = _bookService.ToBookFromDetailViewModel(model);
+
+            await _bookService.UpdateBookAsync(book);
+            return RedirectToAction("Index");
         }
     }
 }
