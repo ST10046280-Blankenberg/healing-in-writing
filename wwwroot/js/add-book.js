@@ -31,7 +31,7 @@
         importBtn.disabled = true;
         importBtn.textContent = 'Importing...';
         try {
-            const response = await fetch(`/Books/ImportBookByIsbn?isbn=${encodeURIComponent(isbn)}`);
+            const response = await fetch(`/Admin/Books/ImportBookByIsbn?isbn=${encodeURIComponent(isbn)}`);
             const result = await response.json();
             if (result.success && result.data) {
                 // ISBNs
