@@ -157,6 +157,12 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<ApplicationDbContext>();
+        //TODO: Remove the following two lines in production
+        // --- Drop and recreate the database (for dev/testing only) ---
+        context.Database.EnsureDeleted();
+        context.Database.EnsureCreated();
+        // --- End drop/recreate ---
+
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
