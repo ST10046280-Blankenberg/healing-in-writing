@@ -73,38 +73,5 @@ namespace HealingInWriting.Controllers
             // Return a partial view with just the book cards
             return PartialView("_BookCardsPartial", filteredBooks);
         }
-
-        [Authorize(Roles = "Admin")]
-        [HttpGet]
-        public async Task<IActionResult> ImportBookByIsbn(string isbn)
-        {
-            if (string.IsNullOrWhiteSpace(isbn))
-                return Json(new { success = false, message = "ISBN required." });
-
-            var book = await _bookService.ImportBookByIsbnAsync(isbn);
-
-            if (book == null)
-                return Json(new { success = false, message = "Book not found for this ISBN." });
-
-            var viewModel = (_bookService as BookService)?.ToBookDetailViewModel(book);
-
-            return Json(new { success = true, data = viewModel });
-        }
-
-        [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddBook(IFormCollection form)
-        {
-            // Move all parsing and creation logic to the service
-            var result = await _bookService.AddBookFromFormAsync(form);
-
-            if (!result.Success)
-            {
-                TempData["Error"] = result.ErrorMessage ?? "Failed to add book.";
-                return RedirectToAction("ManageBooks");
-            }
-
-            return RedirectToAction("ManageBooks");
-        }
     }
 }

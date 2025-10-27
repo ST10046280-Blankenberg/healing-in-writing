@@ -1,5 +1,6 @@
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Books;
+using HealingInWriting.Services.Books;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
@@ -46,9 +47,34 @@ namespace HealingInWriting.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [EnableRateLimiting("standard")]
-        public IActionResult Add(string title, string author, string isbn, string description, int? publishedYear)
+        public async Task<IActionResult> Add(IFormCollection form)
         {
-            return RedirectToAction(nameof(Manage));
+            // Move all parsing and creation logic to the service
+            var result = await _bookService.AddBookFromFormAsync(form);
+
+            if (!result.Success)
+            {
+                TempData["Error"] = result.ErrorMessage ?? "Failed to add book.";
+                return RedirectToAction("Manage");
+            }
+
+            return RedirectToAction("Manage");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ImportBookByIsbn(string isbn)
+        {
+            if (string.IsNullOrWhiteSpace(isbn))
+                return Json(new { success = false, message = "ISBN required." });
+
+            var book = await _bookService.ImportBookByIsbnAsync(isbn);
+
+            if (book == null)
+                return Json(new { success = false, message = "Book not found for this ISBN." });
+
+            var viewModel = (_bookService as BookService)?.ToBookDetailViewModel(book);
+
+            return Json(new { success = true, data = viewModel });
         }
     }
 }
