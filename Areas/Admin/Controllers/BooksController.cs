@@ -39,7 +39,7 @@ namespace HealingInWriting.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public IActionResult AddBook()
         {
             return View();
         }
@@ -47,7 +47,7 @@ namespace HealingInWriting.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [EnableRateLimiting("standard")]
-        public async Task<IActionResult> Add(IFormCollection form)
+        public async Task<IActionResult> AddBook(IFormCollection form)
         {
             // Move all parsing and creation logic to the service
             var result = await _bookService.AddBookFromFormAsync(form);
