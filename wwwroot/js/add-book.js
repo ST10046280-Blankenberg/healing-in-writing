@@ -7,6 +7,7 @@
     const isbnSecondaryLabel = document.getElementById('IsbnSecondaryLabel');
     const isbnSecondaryContainer = document.getElementById('IsbnSecondaryContainer');
     const importBtn = document.querySelector('.add-book__import-btn');
+    const publishDateInput = document.getElementById('PublishDate');
 
     function updateIsbnLabel() {
         const val = isbnPrimary.value.trim();
@@ -21,6 +22,20 @@
         }
     }
     isbnPrimary.addEventListener('input', updateIsbnLabel);
+
+    // Validate publish date on blur
+    if (publishDateInput) {
+        publishDateInput.addEventListener('blur', function () {
+            const val = publishDateInput.value.trim();
+            // Accept yyyy, yyyy-mm, or yyyy-mm-dd
+            const regex = /^\d{4}(-\d{2}){0,2}$/;
+            if (val && !regex.test(val)) {
+                publishDateInput.setCustomValidity('Date must be in yyyy, yyyy-mm, or yyyy-mm-dd format.');
+            } else {
+                publishDateInput.setCustomValidity('');
+            }
+        });
+    }
 
     importBtn.addEventListener('click', async function () {
         const isbn = isbnPrimary.value.trim();
@@ -57,7 +72,7 @@
                 document.getElementById('PageCount').value = result.data.pageCount;
                 categoryTagInput.setTags(result.data.categories || []);
                 document.getElementById('Description').value = result.data.description;
-                setCoverImage(result.data.thumbnailUrl);
+                setCoverImage(result.data.thumbnailUrl, result.data.smallThumbnailUrl || result.data.thumbnailUrl);
             } else {
                 alert(result.message || 'Book not found.');
             }
@@ -127,7 +142,9 @@
     });
 
     // When importing from API, also hide the placeholder
-    function setCoverImage(url) {
+    function setCoverImage(url, smallUrl) {
+        document.getElementById('ThumbnailUrl').value = url || '';
+        document.getElementById('SmallThumbnailUrl').value = smallUrl || '';
         if (url) {
             coverPreview.src = url;
             coverPreview.style.display = 'block';

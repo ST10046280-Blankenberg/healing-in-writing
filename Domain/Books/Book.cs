@@ -36,7 +36,7 @@ public class Book
     /// Publication date in 'yyyy' or 'yyyy-MM-dd' format.
     /// </summary>
     [Required]
-    [RegularExpression(@"^\d{4}(-\d{2}-\d{2})?$", ErrorMessage = "PublishedDate must be a valid year or date.")]
+    [RegularExpression(@"^\d{4}(-\d{2}){0,2}$", ErrorMessage = "PublishedDate must be a valid year, year-month, or year-month-day.")]
     public string PublishedDate { get; set; }
 
     /// <summary>
@@ -105,13 +105,13 @@ public class ImageLinks
     /// URL to a small thumbnail image of the book cover.
     /// </summary>
     [Url]
-    public string SmallThumbnail { get; set; }
+    public string? SmallThumbnail { get; set; }
 
     /// <summary>
     /// URL to a standard thumbnail image of the book cover.
     /// </summary>
     [Url]
-    public string Thumbnail { get; set; }
+    public string? Thumbnail { get; set; }
 }
 
 //Info fetched from Google Books API

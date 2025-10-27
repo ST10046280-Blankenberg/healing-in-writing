@@ -183,9 +183,9 @@ public class BookService : IBookService
                 }).ToList(),
                 ImageLinks = new ImageLinks
                 {
-                    Thumbnail = form["ThumbnailUrl"],
-                    SmallThumbnail = form["SmallThumbnailUrl"]
-                },
+                    Thumbnail = string.IsNullOrWhiteSpace(form["ThumbnailUrl"].ToString()) ? string.Empty : form["ThumbnailUrl"].ToString(),
+                    SmallThumbnail = string.IsNullOrWhiteSpace(form["SmallThumbnailUrl"].ToString()) ? string.Empty : form["SmallThumbnailUrl"].ToString()
+                }
             };
 
             await _bookRepository.AddAsync(book);

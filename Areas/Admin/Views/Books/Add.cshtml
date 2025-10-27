@@ -39,8 +39,8 @@
                             <div style="display: flex; flex-direction: row; gap: 16px; align-items: flex-start;">
                                 <!-- Primary ISBN -->
                                 <div class="add-book__isbn-field" style="display: flex; flex-direction: column; gap: 8px;">
-                                    <label id="IsbnLabel" for="IsbnPrimary" class="add-book__label">ISBN</label>
-                                    <input type="text" id="IsbnPrimary" name="IsbnPrimary" class="add-book__input" placeholder="Enter ISBN 10 or 13" />
+                                    <label id="IsbnLabel" for="IsbnPrimary" class="add-book__label">ISBN <span style="color:red">*</span></label>
+                                    <input type="text" id="IsbnPrimary" name="IsbnPrimary" class="add-book__input" placeholder="Enter ISBN 10 or 13" required />
                                 </div>
                                 <input type="hidden" id="IsbnSecondary" name="IsbnSecondary" />
                                 <!-- Secondary ISBN (shown only when present) -->
@@ -54,31 +54,37 @@
                     </div>
                     <!-- Title Field -->
                     <div class="add-book__form-group">
-                        <label for="Title" class="add-book__label">Title</label>
-                        <input type="text" id="Title" name="Title" class="add-book__input" placeholder="Book Title" />
+                        <label for="Title" class="add-book__label">Title <span style="color:red">*</span></label>
+                        <input type="text" id="Title" name="Title" class="add-book__input" placeholder="Book Title" required maxlength="200" />
                     </div>
                     <!-- Author and Language Row -->
                     <div class="add-book__row">
                         <div class="add-book__form-group">
-                            <label for="Author" class="add-book__label">Author</label>
-                            <input type="text" id="Author" name="Author" class="add-book__input" placeholder="Subtext" required />
+                            <label for="Author" class="add-book__label">Author(s) <span style="color:red">*</span></label>
+                            <input type="text" id="Author" name="Author" class="add-book__input" placeholder="Comma separated" required />
                         </div>
                         <div class="add-book__form-group">
-                            <label for="Language" class="add-book__label">Language</label>
-                            <input type="text" id="Language" name="Language" class="add-book__input" placeholder="Subtext" />
+                            <label for="Language" class="add-book__label">Language <span style="color:red">*</span></label>
+                            <input type="text" id="Language" name="Language" class="add-book__input" placeholder="e.g. en" required maxlength="10" />
                         </div>
                     </div>
 
                     <!-- Publish Date and Page Count Row -->
                     <div class="add-book__row">
                         <div class="add-book__form-group">
-                            <label for="PublishDate" class="add-book__label">Publish Date</label>
-                            <input type="text" id="PublishDate" name="PublishDate" class="add-book__input" placeholder="Subtext" />
+                            <label for="PublishDate" class="add-book__label">Publish Date <span style="color:red">*</span></label>
+                            <input type="text" id="PublishDate" name="PublishDate" class="add-book__input" placeholder="yyyy, yyyy-MM, or yyyy-MM-dd" required pattern="^\d{4}(-\d{2}){0,2}$" title="Date must be in yyyy, yyyy-MM, or yyyy-MM-dd format." />
                         </div>
                         <div class="add-book__form-group">
-                            <label for="PageCount" class="add-book__label">Page Count</label>
-                            <input type="number" id="PageCount" name="PageCount" class="add-book__input" placeholder="Subtext" />
+                            <label for="PageCount" class="add-book__label">Page Count <span style="color:red">*</span></label>
+                            <input type="number" id="PageCount" name="PageCount" class="add-book__input" placeholder="e.g. 300" min="1" required />
                         </div>
+                    </div>
+
+                    <!-- Publisher Field -->
+                    <div class="add-book__form-group">
+                        <label for="Publisher" class="add-book__label">Publisher <span style="color:red">*</span></label>
+                        <input type="text" id="Publisher" name="Publisher" class="add-book__input" placeholder="Publisher" required maxlength="100" />
                     </div>
 
                     <!-- Category Field (Tag Input) -->
@@ -134,7 +140,7 @@
                             </svg>
                         </button>
                     </div>
-                    <textarea id="Description" name="Description" class="add-book__editor-textarea" placeholder="Enter description here..."></textarea>
+                    <textarea id="Description" name="Description" class="add-book__editor-textarea" placeholder="Enter description here..." maxlength="2000"></textarea>
                 </div>
             </div>
 
@@ -142,6 +148,9 @@
             <div class="add-book__bottom-section">
                 <button type="submit" class="add-book__submit-btn">Add Book</button>
             </div>
+
+            <input type="hidden" id="ThumbnailUrl" name="ThumbnailUrl" />
+            <input type="hidden" id="SmallThumbnailUrl" name="SmallThumbnailUrl" />
         </form>
     </div>
 </div>
