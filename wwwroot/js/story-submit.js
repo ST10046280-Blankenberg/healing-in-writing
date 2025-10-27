@@ -150,8 +150,38 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Word and character counter
+    function updateWordCounter() {
+        const text = quill.getText().trim();
+
+        // Count words (split by whitespace and filter empty strings)
+        const words = text.length > 0 ? text.split(/\s+/).filter(word => word.length > 0) : [];
+        const wordCount = words.length;
+
+        // Count characters (excluding whitespace at start/end)
+        const charCount = text.length;
+
+        // Update display
+        const wordCountElement = document.querySelector('.story-submit__word-count');
+        const charCountElement = document.querySelector('.story-submit__char-count');
+
+        if (wordCountElement) {
+            wordCountElement.textContent = `${wordCount.toLocaleString()} ${wordCount === 1 ? 'word' : 'words'}`;
+        }
+
+        if (charCountElement) {
+            charCountElement.textContent = `${charCount.toLocaleString()} ${charCount === 1 ? 'character' : 'characters'}`;
+        }
+    }
+
+    // Update word counter on text changes
+    quill.on('text-change', updateWordCounter);
+
     // Load draft when page loads
     loadDraft();
+
+    // Update word counter after loading draft
+    updateWordCounter();
 
     // TODO: Implement tag management
     // TODO: Implement form validation
