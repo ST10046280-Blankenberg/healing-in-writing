@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using HealingInWriting.Domain.Books;
+using HealingInWriting.Interfaces.Repository;
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Books;
 
@@ -10,6 +11,7 @@ namespace HealingInWriting.Services.Books;
 public class BookService : IBookService
 {
     private readonly IConfiguration _configuration;
+    private readonly IBookRepository _bookRepository;
 
     // 1. List of 10 ISBNs to seed
     private static readonly List<string> SeedIsbns = new()
@@ -29,8 +31,9 @@ public class BookService : IBookService
     // 2. Backing field for the seeded books
     private static IReadOnlyCollection<Book> _seededBooks = new List<Book>();
 
-    public BookService(IConfiguration configuration)
+    public BookService(IBookRepository bookRepository, IConfiguration configuration)
     {
+        _bookRepository = bookRepository;
         _configuration = configuration;
     }
 
@@ -50,9 +53,10 @@ public class BookService : IBookService
     }
 
     // 4. Return the seeded books
-    public Task<IReadOnlyCollection<Book>> GetFeaturedAsync()
+    public async Task<IReadOnlyCollection<Book>> GetFeaturedAsync()
     {
-        return Task.FromResult(_seededBooks);
+        var books = await _bookRepository.GetAllAsync();
+        return books.ToList();
     }
 
     public async Task<IReadOnlyCollection<Book>> GetFeaturedFilteredAsync(string searchTerm, string selectedAuthor, string selectedCategory, string selectedTag)

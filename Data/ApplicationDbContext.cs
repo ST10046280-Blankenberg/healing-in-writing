@@ -1,4 +1,5 @@
 using HealingInWriting.Domain.Users;
+using HealingInWriting.Domain.Books;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +24,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     // public DbSet<Event> Events { get; set; }
     // public DbSet<Donation> Donations { get; set; }
     // public DbSet<Volunteer> Volunteers { get; set; }
-    // public DbSet<Book> Books { get; set; }
+    public DbSet<Book> Books { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -71,5 +72,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         //     .HasOne(s => s.User)
         //     .WithMany(u => u.Stories)
         //     .HasForeignKey(s => s.UserId);
+
+        // Configure ImageLinks as an owned type of Book
+        builder.Entity<Book>().OwnsOne(b => b.ImageLinks);
+        builder.Entity<Book>().OwnsOne(b => b.IndustryIdentifiers);
+
     }
 }
