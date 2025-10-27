@@ -1221,6 +1221,52 @@
     color: #6B7280;
 }
 
+/* Form Validation Errors */
+.story-submit__error-message {
+    display: block;
+    margin-top: 6px;
+    padding: 8px 12px;
+    background: #FEE2E2;
+    border-left: 3px solid #DC2626;
+    color: #991B1B;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 4px;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Error state for input fields */
+.story-submit__input.story-submit__field--error {
+    border-color: #DC2626;
+    background: #FEF2F2;
+}
+
+.story-submit__input.story-submit__field--error:focus {
+    border-color: #DC2626;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+/* Error state for Quill editor */
+#quill-editor.story-submit__field--error {
+    border-color: #DC2626;
+}
+
+#quill-editor.story-submit__field--error .ql-container {
+    background: #FEF2F2;
+}
+
 /* Tags Section */
 .story-submit__tags-label {
     display: flex;

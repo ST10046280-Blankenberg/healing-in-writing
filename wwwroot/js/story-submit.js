@@ -129,15 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
     tagsInput.addEventListener('input', debouncedSave);
     anonymousCheckbox.addEventListener('change', debouncedSave);
 
-    // Store HTML in hidden input before submitting
-    form.addEventListener('submit', function(e) {
-        const content = document.querySelector('input#content');
-        content.value = quill.root.innerHTML;
-
-        // Clear draft on successful submission
-        // Wait a bit to ensure form submission completes
-        setTimeout(clearDraft, 1000);
-    });
+    // Form submission handler moved to validation section below
 
     // Manual save button (if we add one later)
     const saveDraftButton = document.querySelector('.story-submit__button--secondary');
@@ -183,6 +175,157 @@ document.addEventListener('DOMContentLoaded', function() {
     // Update word counter after loading draft
     updateWordCounter();
 
+    // Validation configuration
+    const VALIDATION_RULES = {
+        title: {
+            minLength: 3,
+            maxLength: 200,
+            required: true
+        },
+        content: {
+            minWords: 10,
+            maxWords: 10000,
+            required: true
+        }
+    };
+
+    // Validation functions
+    function validateTitle() {
+        const title = titleInput.value.trim();
+        const errors = [];
+
+        if (VALIDATION_RULES.title.required && title.length === 0) {
+            errors.push('Title is required');
+        } else if (title.length < VALIDATION_RULES.title.minLength) {
+            errors.push(`Title must be at least ${VALIDATION_RULES.title.minLength} characters`);
+        } else if (title.length > VALIDATION_RULES.title.maxLength) {
+            errors.push(`Title must not exceed ${VALIDATION_RULES.title.maxLength} characters`);
+        }
+
+        return errors;
+    }
+
+    function validateContent() {
+        const text = quill.getText().trim();
+        const words = text.length > 0 ? text.split(/\s+/).filter(word => word.length > 0) : [];
+        const wordCount = words.length;
+        const errors = [];
+
+        if (VALIDATION_RULES.content.required && wordCount === 0) {
+            errors.push('Story content is required');
+        } else if (wordCount < VALIDATION_RULES.content.minWords) {
+            errors.push(`Story must be at least ${VALIDATION_RULES.content.minWords} words (currently ${wordCount})`);
+        } else if (wordCount > VALIDATION_RULES.content.maxWords) {
+            errors.push(`Story must not exceed ${VALIDATION_RULES.content.maxWords} words (currently ${wordCount})`);
+        }
+
+        return errors;
+    }
+
+    function showFieldError(fieldName, errors) {
+        // Remove existing error
+        clearFieldError(fieldName);
+
+        if (errors.length === 0) return;
+
+        // Find the field
+        const field = document.querySelector(`input#${fieldName}, #quill-editor`);
+        if (!field) return;
+
+        const fieldContainer = field.closest('.story-submit__field');
+        if (!fieldContainer) return;
+
+        // Add error class to field
+        field.classList.add('story-submit__field--error');
+
+        // Create error message element
+        const errorElement = document.createElement('div');
+        errorElement.className = 'story-submit__error-message';
+        errorElement.textContent = errors[0]; // Show first error
+        errorElement.dataset.field = fieldName;
+
+        // Insert error message after the field
+        if (fieldName === 'content') {
+            // For Quill editor, insert after the word counter
+            const wordCounter = fieldContainer.querySelector('.story-submit__word-counter');
+            if (wordCounter) {
+                wordCounter.after(errorElement);
+            } else {
+                field.after(errorElement);
+            }
+        } else {
+            field.after(errorElement);
+        }
+    }
+
+    function clearFieldError(fieldName) {
+        const field = document.querySelector(`input#${fieldName}, #quill-editor`);
+        if (field) {
+            field.classList.remove('story-submit__field--error');
+        }
+
+        // Remove error message
+        const errorElement = document.querySelector(`.story-submit__error-message[data-field="${fieldName}"]`);
+        if (errorElement) {
+            errorElement.remove();
+        }
+    }
+
+    function validateForm() {
+        const titleErrors = validateTitle();
+        const contentErrors = validateContent();
+
+        showFieldError('title', titleErrors);
+        showFieldError('content', contentErrors);
+
+        return titleErrors.length === 0 && contentErrors.length === 0;
+    }
+
+    // Real-time validation
+    titleInput.addEventListener('blur', function() {
+        const errors = validateTitle();
+        showFieldError('title', errors);
+    });
+
+    titleInput.addEventListener('input', function() {
+        // Clear error when user starts typing
+        if (titleInput.value.trim().length >= VALIDATION_RULES.title.minLength) {
+            clearFieldError('title');
+        }
+    });
+
+    quill.on('text-change', function() {
+        // Clear error when content meets minimum
+        const text = quill.getText().trim();
+        const words = text.length > 0 ? text.split(/\s+/).filter(word => word.length > 0) : [];
+        if (words.length >= VALIDATION_RULES.content.minWords) {
+            clearFieldError('content');
+        }
+    });
+
+    // Validate and submit form
+    form.addEventListener('submit', function(e) {
+        // First, validate the form
+        if (!validateForm()) {
+            e.preventDefault();
+
+            // Scroll to first error
+            const firstError = document.querySelector('.story-submit__error-message');
+            if (firstError) {
+                firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
+            return false;
+        }
+
+        // If validation passes, store HTML in hidden input
+        const content = document.querySelector('input#content');
+        content.value = quill.root.innerHTML;
+
+        // Clear draft on successful submission
+        // Wait a bit to ensure form submission completes
+        setTimeout(clearDraft, 1000);
+    });
+
     // TODO: Implement tag management
-    // TODO: Implement form validation
 });
