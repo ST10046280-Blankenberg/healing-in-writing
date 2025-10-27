@@ -74,17 +74,6 @@ public class Book
     /// </summary>
     public ImageLinks ImageLinks { get; set; }
 
-    ///// <summary>
-    ///// URL to a preview of the book, if available.
-    ///// </summary>
-    //[Url]
-    //public string? PreviewLink { get; set; }
-
-    ///// <summary>
-    ///// URL to more information about the book.
-    ///// </summary>
-    //[Url]
-    //public string? InfoLink { get; set; }
 }
 
 /// <summary>
