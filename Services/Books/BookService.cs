@@ -197,4 +197,14 @@ public class BookService : IBookService
             return (false, ex.Message);
         }
     }
+
+    public async Task<bool> DeleteBookAsync(int id)
+    {
+        var book = await _bookRepository.GetByIdAsync(id);
+        if (book == null)
+            return false;
+
+        await _bookRepository.DeleteAsync(id);
+        return true;
+    }
 }

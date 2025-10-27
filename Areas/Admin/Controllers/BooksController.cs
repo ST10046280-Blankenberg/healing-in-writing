@@ -76,5 +76,15 @@ namespace HealingInWriting.Areas.Admin.Controllers
 
             return Json(new { success = true, data = viewModel });
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _bookService.DeleteBookAsync(id);
+            if (!result)
+                return BadRequest();
+            return Ok();
+        }
     }
 }
