@@ -22,7 +22,7 @@ public interface IBookService
     Task<(bool Success, string? ErrorMessage)> AddBookFromFormAsync(IFormCollection form);
     Task<bool> DeleteBookAsync(int id);
     Task UpdateBookAsync(Book book);
-    Task<Book> GetBookByIdAsync(int id);
+    Task<Book?> GetBookByIdAsync(int id);
     BookDetailViewModel ToBookDetailViewModel(Book book);
     Book ToBookFromDetailViewModel(BookDetailViewModel model);
 }

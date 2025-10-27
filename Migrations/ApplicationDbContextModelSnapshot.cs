@@ -295,17 +295,33 @@ namespace HealingInWriting.Migrations
                                 .HasForeignKey("BookId");
                         });
 
-                    b.OwnsOne("System.Collections.Generic.List<HealingInWriting.Domain.Books.IndustryIdentifier>", "IndustryIdentifiers", b1 =>
+                    // Keep the owned collection mapping mirrored here so snapshots stay in sync with the fluent configuration.
+                    b.OwnsMany("HealingInWriting.Domain.Books.IndustryIdentifier", "IndustryIdentifiers", b1 =>
                         {
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<string>("Identifier")
+                                .IsRequired()
+                                .HasMaxLength(13)
+                                .HasColumnType("TEXT")
+                                .HasColumnName("Identifier");
+
                             b1.Property<int>("BookId")
                                 .HasColumnType("INTEGER");
 
-                            b1.Property<int>("Capacity")
-                                .HasColumnType("INTEGER");
+                            b1.Property<string>("Type")
+                                .IsRequired()
+                                .HasMaxLength(20)
+                                .HasColumnType("TEXT")
+                                .HasColumnName("Type");
 
-                            b1.HasKey("BookId");
+                            b1.HasKey("Id");
 
-                            b1.ToTable("Books");
+                            b1.HasIndex("BookId");
+
+                            b1.ToTable("BookIndustryIdentifiers");
 
                             b1.WithOwner()
                                 .HasForeignKey("BookId");

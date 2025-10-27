@@ -32,12 +32,20 @@ namespace HealingInWriting.Repositories.Books
 
         public async Task<IEnumerable<Book>> GetAllAsync()
         {
-            return await _context.Books.ToListAsync();
+            // Pull identifiers and image links in one go so admin screens do not trigger extra queries.
+            return await _context.Books
+                .Include(b => b.IndustryIdentifiers)
+                .Include(b => b.ImageLinks)
+                .ToListAsync();
         }
 
         public async Task<Book?> GetByIdAsync(int bookId)
         {
-            return await _context.Books.FindAsync(bookId);
+            // Same include set as the list query to keep detail pages consistent.
+            return await _context.Books
+                .Include(b => b.IndustryIdentifiers)
+                .Include(b => b.ImageLinks)
+                .FirstOrDefaultAsync(b => b.BookId == bookId);
         }
 
         public async Task UpdateAsync(Book book)

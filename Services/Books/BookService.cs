@@ -37,6 +37,7 @@ public class BookService : IBookService
     public async Task SeedBooksAsync()
     {
         var existingBooks = (await _bookRepository.GetAllAsync()).ToList();
+        // Pull every stored ISBN so we avoid hitting Google Books for titles that already exist locally.
         var existingIsbns = existingBooks
             .SelectMany(b => b.IndustryIdentifiers ?? new List<IndustryIdentifier>())
             .Select(id => id.Identifier)
@@ -150,6 +151,7 @@ public class BookService : IBookService
             PublishedDate = book.PublishedDate,
             Description = book.Description,
             Categories = book.Categories ?? new List<string>(),
+            // Use the thumbnail when we have it, otherwise fall back to the placeholder so the UI keeps its layout.
             ThumbnailUrl = book.ImageLinks?.Thumbnail ?? book.ImageLinks?.SmallThumbnail ?? "/images/placeholder-book.svg",
             PageCount = book.PageCount,
             Language = book.Language,
@@ -240,9 +242,8 @@ public class BookService : IBookService
         await _bookRepository.UpdateAsync(book);
     }
 
-    public Task<Book> GetBookByIdAsync(int id)
+    public Task<Book?> GetBookByIdAsync(int id)
     {
-        var book = _bookRepository.GetByIdAsync(id);
-        return book;
+        return _bookRepository.GetByIdAsync(id);
     }
 }

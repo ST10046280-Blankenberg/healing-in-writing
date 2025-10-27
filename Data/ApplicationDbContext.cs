@@ -75,7 +75,18 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
         // Configure ImageLinks as an owned type of Book
         builder.Entity<Book>().OwnsOne(b => b.ImageLinks);
-        builder.Entity<Book>().OwnsOne(b => b.IndustryIdentifiers);
+
+        // Persist each ISBN entry properly instead of the single-capacity blob EF creates by default.
+        builder.Entity<Book>().OwnsMany(b => b.IndustryIdentifiers, ii =>
+        {
+            ii.WithOwner().HasForeignKey("BookId");
+            ii.Property<int>("Id").ValueGeneratedOnAdd();
+            ii.HasKey("Id");
+            ii.HasIndex("BookId");
+            ii.Property(i => i.Type).HasColumnName("Type");
+            ii.Property(i => i.Identifier).HasColumnName("Identifier");
+            ii.ToTable("BookIndustryIdentifiers");
+        });
 
     }
 }
