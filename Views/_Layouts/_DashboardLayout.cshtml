@@ -1,0 +1,37 @@
+@model string
+
+@{
+    var currentAction = Model ?? string.Empty;
+    bool isVolunteer = User.IsInRole("Volunteer");
+    var navItems = new List<dynamic>
+    {
+        new { Action = "Index", Label = "Dashboard" },
+        new { Action = "MyStories", Label = "My Stories" },
+        new { Action = "MyEvents", Label = "My Events" }
+    };
+
+    // Only add Log Hours for users with Volunteer role
+    if (isVolunteer)
+    {
+        navItems.Add(new { Action = "LogHours", Label = "Log Hours" });
+    }
+}
+
+<nav class="dashboard-navbar" aria-label="Dashboard sub-navigation">
+    <div class="dashboard-navbar__container">
+        <ul class="dashboard-navbar__list">
+            @foreach (var item in navItems)
+            {
+                var isActive = string.Equals(currentAction, item.Action, System.StringComparison.OrdinalIgnoreCase);
+                <li class="dashboard-navbar__item">
+                    <a class="dashboard-navbar__link@(isActive ? " dashboard-navbar__link--active" : string.Empty)"
+                       asp-controller="Dashboard"
+                       asp-action="@item.Action"
+                       aria-current="@(isActive ? "page" : null)">
+                        <span class="dashboard-navbar__label">@item.Label</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</nav>
