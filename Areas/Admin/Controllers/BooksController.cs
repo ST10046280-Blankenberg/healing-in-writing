@@ -108,7 +108,7 @@ namespace HealingInWriting.Areas.Admin.Controllers
             var book = _bookService.ToBookFromDetailViewModel(model);
 
             await _bookService.UpdateBookAsync(book);
-            return RedirectToAction("Index");
+            return RedirectToAction("Manage");
         }
     }
 }
