@@ -6,11 +6,33 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HealingInWriting.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class ResetingDatabaseForChangesToBook : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Books",
+                columns: table => new
+                {
+                    BookId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
+                    Authors = table.Column<string>(type: "TEXT", nullable: false),
+                    Publisher = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    PublishedDate = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", maxLength: 2000, nullable: false),
+                    PageCount = table.Column<int>(type: "INTEGER", nullable: false),
+                    Categories = table.Column<string>(type: "TEXT", nullable: false),
+                    Language = table.Column<string>(type: "TEXT", maxLength: 10, nullable: false),
+                    ImageLinks_SmallThumbnail = table.Column<string>(type: "TEXT", nullable: true),
+                    ImageLinks_Thumbnail = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Books", x => x.BookId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
@@ -53,6 +75,27 @@ namespace HealingInWriting.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BookIndustryIdentifiers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Type = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
+                    Identifier = table.Column<string>(type: "TEXT", maxLength: 13, nullable: false),
+                    BookId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookIndustryIdentifiers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BookIndustryIdentifiers_Books_BookId",
+                        column: x => x.BookId,
+                        principalTable: "Books",
+                        principalColumn: "BookId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -162,6 +205,11 @@ namespace HealingInWriting.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_BookIndustryIdentifiers_BookId",
+                table: "BookIndustryIdentifiers",
+                column: "BookId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RoleClaims_RoleId",
                 table: "RoleClaims",
                 column: "RoleId");
@@ -203,6 +251,9 @@ namespace HealingInWriting.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "BookIndustryIdentifiers");
+
+            migrationBuilder.DropTable(
                 name: "RoleClaims");
 
             migrationBuilder.DropTable(
@@ -216,6 +267,9 @@ namespace HealingInWriting.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Books");
 
             migrationBuilder.DropTable(
                 name: "Roles");

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealingInWriting.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251027093556_BookRepositoryRemovedPreviewLinkAndInfoLink")]
-    partial class BookRepositoryRemovedPreviewLinkAndInfoLink
+    [Migration("20251028085318_ResetingDatabaseForChangesToBook")]
+    partial class ResetingDatabaseForChangesToBook
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -285,11 +285,9 @@ namespace HealingInWriting.Migrations
                                 .HasColumnType("INTEGER");
 
                             b1.Property<string>("SmallThumbnail")
-                                .IsRequired()
                                 .HasColumnType("TEXT");
 
                             b1.Property<string>("Thumbnail")
-                                .IsRequired()
                                 .HasColumnType("TEXT");
 
                             b1.HasKey("BookId");
@@ -300,17 +298,32 @@ namespace HealingInWriting.Migrations
                                 .HasForeignKey("BookId");
                         });
 
-                    b.OwnsOne("System.Collections.Generic.List<HealingInWriting.Domain.Books.IndustryIdentifier>", "IndustryIdentifiers", b1 =>
+                    b.OwnsMany("HealingInWriting.Domain.Books.IndustryIdentifier", "IndustryIdentifiers", b1 =>
                         {
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("INTEGER");
+
                             b1.Property<int>("BookId")
                                 .HasColumnType("INTEGER");
 
-                            b1.Property<int>("Capacity")
-                                .HasColumnType("INTEGER");
+                            b1.Property<string>("Identifier")
+                                .IsRequired()
+                                .HasMaxLength(13)
+                                .HasColumnType("TEXT")
+                                .HasColumnName("Identifier");
 
-                            b1.HasKey("BookId");
+                            b1.Property<string>("Type")
+                                .IsRequired()
+                                .HasMaxLength(20)
+                                .HasColumnType("TEXT")
+                                .HasColumnName("Type");
 
-                            b1.ToTable("Books");
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("BookId");
+
+                            b1.ToTable("BookIndustryIdentifiers", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("BookId");
@@ -319,8 +332,7 @@ namespace HealingInWriting.Migrations
                     b.Navigation("ImageLinks")
                         .IsRequired();
 
-                    b.Navigation("IndustryIdentifiers")
-                        .IsRequired();
+                    b.Navigation("IndustryIdentifiers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

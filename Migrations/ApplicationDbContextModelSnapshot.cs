@@ -295,11 +295,13 @@ namespace HealingInWriting.Migrations
                                 .HasForeignKey("BookId");
                         });
 
-                    // Keep the owned collection mapping mirrored here so snapshots stay in sync with the fluent configuration.
                     b.OwnsMany("HealingInWriting.Domain.Books.IndustryIdentifier", "IndustryIdentifiers", b1 =>
                         {
                             b1.Property<int>("Id")
                                 .ValueGeneratedOnAdd()
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<int>("BookId")
                                 .HasColumnType("INTEGER");
 
                             b1.Property<string>("Identifier")
@@ -307,9 +309,6 @@ namespace HealingInWriting.Migrations
                                 .HasMaxLength(13)
                                 .HasColumnType("TEXT")
                                 .HasColumnName("Identifier");
-
-                            b1.Property<int>("BookId")
-                                .HasColumnType("INTEGER");
 
                             b1.Property<string>("Type")
                                 .IsRequired()
@@ -321,7 +320,7 @@ namespace HealingInWriting.Migrations
 
                             b1.HasIndex("BookId");
 
-                            b1.ToTable("BookIndustryIdentifiers");
+                            b1.ToTable("BookIndustryIdentifiers", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("BookId");
@@ -330,8 +329,7 @@ namespace HealingInWriting.Migrations
                     b.Navigation("ImageLinks")
                         .IsRequired();
 
-                    b.Navigation("IndustryIdentifiers")
-                        .IsRequired();
+                    b.Navigation("IndustryIdentifiers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
