@@ -5,6 +5,8 @@ namespace HealingInWriting.Models.Events;
 
 public class CreateEventViewModel
 {
+    public int Id { get; set; } // Add this property
+
     [Required]
     [StringLength(200)]
     public string Title { get; set; } = string.Empty;

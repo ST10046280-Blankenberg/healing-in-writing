@@ -39,12 +39,40 @@ namespace HealingInWriting.Areas.Admin.Controllers
         {
             var model = new CreateEventViewModel
             {
+                Id = id ?? 0,
                 AvailableTags = await _context.Tags.ToListAsync()
             };
 
-            // TODO: If id has value, load existing event for editing
+            if (id.HasValue)
+            {
+                var existingEvent = await _eventService.GetEventByIdAsync(id.Value);
+                if (existingEvent != null)
+                {
+                    model.Title = existingEvent.Title;
+                    model.Description = existingEvent.Description;
+                    model.EventType = existingEvent.EventType;
+                    model.EventDate = existingEvent.StartDateTime.Date;
+                    model.StartTime = existingEvent.StartDateTime.TimeOfDay;
+                    model.EndTime = existingEvent.EndDateTime.TimeOfDay;
+                    model.Capacity = existingEvent.Capacity;
+                    model.SelectedTagIds = existingEvent.EventTags.Select(t => t.TagId).ToList();
+            
+                    if (existingEvent.Address != null)
+                    {
+                        model.StreetAddress = existingEvent.Address.StreetAddress;
+                        model.Suburb = existingEvent.Address.Suburb;
+                        model.City = existingEvent.Address.City;
+                        model.Province = existingEvent.Address.Province;
+                        model.PostalCode = existingEvent.Address.PostalCode;
+                        model.Latitude = existingEvent.Address.Latitude;
+                        model.Longitude = existingEvent.Address.Longitude;
+                    }
+                }
+            }
+
             return View(model);
         }
+
         
         [HttpPost]
         [ValidateAntiForgeryToken]

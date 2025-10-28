@@ -52,9 +52,10 @@ FORM SUBMISSION:
 ========================================
 *@
 
+@model HealingInWriting.Models.Events.CreateEventViewModel
 
 @{
-    ViewData["Title"] = "Manage Event Details";
+    ViewData["Title"] = Model.Id == 0 ? "Create Event" : "Edit Event";
 }
 
 @section Styles {
@@ -62,68 +63,117 @@ FORM SUBMISSION:
 }
 
 <main class="event-details-page">
-    <article class="event-details">
+    <form asp-area="Admin" asp-controller="Events" asp-action="Details" method="post" enctype="multipart/form-data" class="event-details">
+        <input type="hidden" asp-for="Id" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
         <!-- Event Cover Image -->
         <div class="event-details__image-upload">
             <div class="event-details__image-placeholder">
-                <!-- Placeholder for image upload - checkered pattern background -->
+                <!-- TODO: Implement image upload functionality -->
             </div>
         </div>
 
         <!-- Event Category Badge -->
-        <span class="event-details__category-badge">
-            <span class="event-details__category-text">Community Event</span>
-        </span>
+        <div class="event-details__form-group">
+            <label class="event-details__label">Event Type</label>
+            <select asp-for="EventType" class="event-details__input">
+                <option value="">Select Event Type</option>
+                @foreach (var eventType in Enum.GetValues(typeof(HealingInWriting.Domain.Events.EventType)))
+                {
+                    <option value="@eventType">@eventType</option>
+                }
+            </select>
+            <span asp-validation-for="EventType" class="text-danger"></span>
+        </div>
 
         <!-- Tags Section -->
         <div class="event-details__tags-container">
-            <input type="text" class="event-details__tag-search" placeholder="Search Tags..." />
-            
-            <span class="event-details__tag">
-                <span class="event-details__tag-text">Tag</span>
-                <button class="event-details__tag-remove" type="button">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="10.5" height="14" viewBox="0 0 24 24" fill="none">
-                        <path d="M18 6L6 18M6 6l12 12" stroke="#2F1648" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-            </span>
+            <input type="text" class="event-details__tag-search" placeholder="Search Tags..." id="tagSearch"/>
 
-            <span class="event-details__tag">
-                <span class="event-details__tag-text">Tag</span>
-                <button class="event-details__tag-remove" type="button">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="10.5" height="14" viewBox="0 0 24 24" fill="none">
-                        <path d="M18 6L6 18M6 6l12 12" stroke="#2F1648" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-            </span>
+            @if (Model.AvailableTags?.Any() == true)
+            {
+                @foreach (var tag in Model.AvailableTags)
+                {
+                    <label class="event-details__tag">
+                        <input type="checkbox" 
+                               asp-for="SelectedTagIds" 
+                               value="@tag.TagId" 
+                               style="display: none;"
+                               @(Model.SelectedTagIds.Contains(tag.TagId) ? "checked" : "") />
+                        <span class="event-details__tag-text">@tag.Name</span>
+                        <button class="event-details__tag-remove" type="button" onclick="this.parentElement.querySelector('input').checked = false; this.parentElement.style.display = 'none';">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="10.5" height="14" viewBox="0 0 24 24" fill="none">
+                                <path d="M18 6L6 18M6 6l12 12" stroke="#2F1648" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </label>
+                }
+            }
         </div>
 
         <!-- Event Title Input -->
         <div class="event-details__form-group">
             <h4 class="event-details__form-label">Event Title</h4>
-            <input type="text" class="event-details__input" placeholder="Enter event title..." />
+            <input asp-for="Title" type="text" class="event-details__input" placeholder="Enter event title..."/>
+            <span asp-validation-for="Title" class="text-danger"></span>
         </div>
 
-        <!-- Address Input -->
+        <!-- Capacity Input -->
+        <div class="event-details__form-group">
+            <label class="event-details__label">Event Capacity</label>
+            <input asp-for="Capacity" type="number" class="event-details__input" placeholder="Enter capacity..." min="1"/>
+            <span asp-validation-for="Capacity" class="text-danger"></span>
+        </div>
+
+        <!-- Address Inputs -->
         <div class="event-details__form-group event-details__form-group--full-width">
-            <label class="event-details__label">Address / Location</label>
-            <input type="text" class="event-details__input" placeholder="Enter event location or address..." />
+            <label class="event-details__label">Street Address</label>
+            <input asp-for="StreetAddress" type="text" class="event-details__input" placeholder="Enter street address..."/>
+            <span asp-validation-for="StreetAddress" class="text-danger"></span>
+        </div>
+
+        <div class="event-details__form-group">
+            <label class="event-details__label">Suburb</label>
+            <input asp-for="Suburb" type="text" class="event-details__input" placeholder="Enter suburb..."/>
+            <span asp-validation-for="Suburb" class="text-danger"></span>
+        </div>
+
+        <div class="event-details__form-group">
+            <label class="event-details__label">City</label>
+            <input asp-for="City" type="text" class="event-details__input" placeholder="Enter city..."/>
+            <span asp-validation-for="City" class="text-danger"></span>
+        </div>
+
+        <div class="event-details__form-group">
+            <label class="event-details__label">Province</label>
+            <input asp-for="Province" type="text" class="event-details__input" placeholder="Enter province..."/>
+            <span asp-validation-for="Province" class="text-danger"></span>
+        </div>
+
+        <div class="event-details__form-group">
+            <label class="event-details__label">Postal Code</label>
+            <input asp-for="PostalCode" type="text" class="event-details__input" placeholder="0000" maxlength="4"/>
+            <span asp-validation-for="PostalCode" class="text-danger"></span>
         </div>
 
         <!-- Event Date Input -->
         <div class="event-details__form-group">
             <label class="event-details__label">Event Date</label>
-            <input type="date" class="event-details__input" placeholder="mm/dd/yyyy" />
+            <input asp-for="EventDate" type="date" class="event-details__input" placeholder="mm/dd/yyyy"/>
+            <span asp-validation-for="EventDate" class="text-danger"></span>
         </div>
 
         <!-- Start & End Times -->
         <div class="event-details__form-group event-details__form-group--full-width">
             <label class="event-details__label">Start & End Times</label>
             <div class="event-details__times-container">
-                <input type="time" class="event-details__input event-details__input--time" placeholder="Start Time" />
+                <input asp-for="StartTime" type="time" class="event-details__input event-details__input--time" placeholder="Start Time"/>
                 <span class="event-details__time-separator">to</span>
-                <input type="time" class="event-details__input event-details__input--time" placeholder="End Time" />
+                <input asp-for="EndTime" type="time" class="event-details__input event-details__input--time" placeholder="End Time"/>
             </div>
+            <span asp-validation-for="StartTime" class="text-danger"></span>
+            <span asp-validation-for="EndTime" class="text-danger"></span>
         </div>
 
         <!-- Description Rich Text Editor -->
@@ -147,14 +197,18 @@ FORM SUBMISSION:
                         </svg>
                     </button>
                 </div>
-                <textarea class="event-details__editor-textarea" placeholder="Enter description here..."></textarea>
+                <textarea asp-for="Description" class="event-details__editor-textarea" placeholder="Enter description here..."></textarea>
             </div>
+            <span asp-validation-for="Description" class="text-danger"></span>
         </div>
 
         <!-- Submit Button -->
         <button class="event-details__submit-btn" type="submit">
-            <span class="event-details__submit-text">Add Event</span>
+            <span class="event-details__submit-text">@(Model.Id == 0 ? "Create Event" : "Update Event")</span>
         </button>
-    </article>
+    </form>
 </main>
 
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+}

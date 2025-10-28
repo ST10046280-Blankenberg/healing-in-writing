@@ -1,3 +1,5 @@
+using HealingInWriting.Domain.Events;
+
 namespace HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Events;
 
@@ -8,4 +10,6 @@ public interface IEventService
     public double CalculateDistanceKm(double lat1, double lon1, double lat2, double lon2);
 
     Task<int> CreateEventAsync(CreateEventViewModel model, string userId);
+    
+    Task<Event?> GetEventByIdAsync(int eventId);
 }

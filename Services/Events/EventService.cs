@@ -66,4 +66,9 @@ public class EventService : IEventService
     {
         throw new NotImplementedException();
     }
+    
+    public async Task<Event?> GetEventByIdAsync(int eventId)
+    {
+        return await _eventRepository.GetByIdAsync(eventId);
+    }
 }
