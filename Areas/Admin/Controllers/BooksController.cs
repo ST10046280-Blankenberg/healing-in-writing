@@ -1,5 +1,6 @@
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Books;
+using HealingInWriting.Services.Books;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
@@ -38,7 +39,7 @@ namespace HealingInWriting.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public IActionResult AddBook()
         {
             return View();
         }
@@ -46,9 +47,68 @@ namespace HealingInWriting.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [EnableRateLimiting("standard")]
-        public IActionResult Add(string title, string author, string isbn, string description, int? publishedYear)
+        public async Task<IActionResult> AddBook(IFormCollection form)
         {
-            return RedirectToAction(nameof(Manage));
+            // Move all parsing and creation logic to the service
+            var result = await _bookService.AddBookFromFormAsync(form);
+
+            if (!result.Success)
+            {
+                TempData["Error"] = result.ErrorMessage ?? "Failed to add book.";
+                return RedirectToAction("Manage");
+            }
+
+            return RedirectToAction("Manage");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _bookService.DeleteBookAsync(id);
+            if (!result)
+                return BadRequest();
+            return Ok();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ImportBookByIsbn(string isbn)
+        {
+            if (string.IsNullOrWhiteSpace(isbn))
+                return Json(new { success = false, message = "ISBN required." });
+
+            var book = await _bookService.ImportBookByIsbnAsync(isbn);
+
+            if (book == null)
+                return Json(new { success = false, message = "Book not found for this ISBN." });
+
+            var viewModel = (_bookService as BookService)?.ToBookDetailViewModel(book);
+
+            return Json(new { success = true, data = viewModel });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditBook(int id)
+        {
+            var book = await _bookService.GetBookByIdAsync(id);
+            if (book == null)
+                return NotFound();
+
+            var viewModel = _bookService.ToBookDetailViewModel(book);
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditBook(BookDetailViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var book = _bookService.ToBookFromDetailViewModel(model);
+
+            await _bookService.UpdateBookAsync(book);
+            return RedirectToAction("Manage");
         }
     }
 }

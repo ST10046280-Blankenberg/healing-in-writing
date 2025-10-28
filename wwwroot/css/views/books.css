@@ -175,6 +175,21 @@
     white-space: nowrap;
 }
 
+.book-card__tag-remove {
+    border: none;
+    background: none;
+    color: #c00;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 0 0 8px;
+    transition: opacity 0.2s ease;
+}
+
+.book-card__tag-remove:hover {
+    opacity: 0.7;
+}
+
 /* Book Description */
 .book-card__description {
     display: flex;

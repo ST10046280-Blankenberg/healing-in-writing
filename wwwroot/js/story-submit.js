@@ -6,9 +6,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Get form elements
     const titleInput = document.querySelector('input#title');
-    const tagsInput = document.querySelector('input#tags');
     const anonymousCheckbox = document.querySelector('input#anonymous');
     const form = document.querySelector('form');
+
+    // Initialise tag manager
+    const tagManager = new TagManager({
+        inputId: 'tagsInput',
+        tagsDisplayId: 'storyTags',
+        hiddenInputId: 'tags',
+        tagClass: 'story-submit__tag',
+        tagTextClass: 'story-submit__tag-text',
+        removeButtonClass: 'story-submit__tag-remove'
+    });
 
     // Initialize Quill editor
     const quill = new Quill('#quill-editor', {
@@ -35,7 +44,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Restore form values
                 if (draft.title) titleInput.value = draft.title;
                 if (draft.content) quill.root.innerHTML = draft.content;
-                if (draft.tags) tagsInput.value = draft.tags;
+                if (draft.tags && Array.isArray(draft.tags)) {
+                    tagManager.setTags(draft.tags);
+                }
                 if (draft.anonymous !== undefined) anonymousCheckbox.checked = draft.anonymous;
 
                 // Show restoration message
@@ -54,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const draft = {
                 title: titleInput.value.trim(),
                 content: quill.root.innerHTML,
-                tags: tagsInput.value.trim(),
+                tags: tagManager.getTags(),
                 anonymous: anonymousCheckbox.checked,
                 savedAt: new Date().toISOString()
             };
@@ -126,8 +137,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Save on content changes
     quill.on('text-change', debouncedSave);
     titleInput.addEventListener('input', debouncedSave);
-    tagsInput.addEventListener('input', debouncedSave);
     anonymousCheckbox.addEventListener('change', debouncedSave);
+
+    // Save when tags change (listen to the tags display container for any changes)
+    document.getElementById('storyTags').addEventListener('DOMSubtreeModified', debouncedSave);
 
     // Form submission handler moved to validation section below
 
@@ -326,6 +339,4 @@ document.addEventListener('DOMContentLoaded', function() {
         // Wait a bit to ensure form submission completes
         setTimeout(clearDraft, 1000);
     });
-
-    // TODO: Implement tag management
 });

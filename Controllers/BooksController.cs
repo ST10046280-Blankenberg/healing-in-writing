@@ -73,53 +73,5 @@ namespace HealingInWriting.Controllers
             // Return a partial view with just the book cards
             return PartialView("_BookCardsPartial", filteredBooks);
         }
-
-        [Authorize(Roles = "Admin")]
-        [HttpGet]
-        public async Task<IActionResult> ImportBookByIsbn(string isbn)
-        {
-            if (string.IsNullOrWhiteSpace(isbn))
-                return Json(new { success = false, message = "ISBN required." });
-
-            var book = await _bookService.ImportBookByIsbnAsync(isbn);
-
-            if (book == null)
-                return Json(new { success = false, message = "Book not found for this ISBN." });
-
-            var viewModel = (_bookService as BookService)?.ToBookDetailViewModel(book);
-
-            return Json(new { success = true, data = viewModel });
-        }
-
-        //    [HttpPost]
-        //    [Authorize(Roles = "Admin")]
-        //    public async Task<IActionResult> AddBook(IFormCollection form)
-        //    {
-        //        var isbns = new List<string>();
-        //        if (!string.IsNullOrWhiteSpace(form["IsbnPrimary"])) isbns.Add(form["IsbnPrimary"]);
-        //        if (!string.IsNullOrWhiteSpace(form["IsbnSecondary"])) isbns.Add(form["IsbnSecondary"]);
-
-        //        var book = new Book
-        //        {
-        //            Title = form["Title"],
-        //            Authors = form["Author"].ToString().Split(',').Select(a => a.Trim()).ToList(),
-        //            Publisher = form["Publisher"],
-        //            PublishedDate = form["PublishDate"],
-        //            Description = form["Description"],
-        //            PageCount = int.TryParse(form["PageCount"], out var pc) ? pc : 0,
-        //            Categories = form["Categories"].ToString().Split(',').Select(c => c.Trim()).Where(c => !string.IsNullOrWhiteSpace(c)).ToList(),
-        //            Language = form["Language"],
-        //            IndustryIdentifiers = isbns.Select(isbn => new IndustryIdentifier
-        //            {
-        //                Type = isbn.Length == 13 ? "ISBN_13" : "ISBN_10",
-        //                Identifier = isbn.Trim()
-        //            }).ToList(),
-        //            // TODO: Handle ImageLinks, PreviewLink, InfoLink as needed
-        //        };
-
-        //        // TODO: Save book to database or in-memory collection
-
-        //        return RedirectToAction("ManageBooks");
-        //    }
     }
 }

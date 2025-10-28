@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.RateLimiting;
+using HealingInWriting.Interfaces.Repository;
+using HealingInWriting.Repositories.Books;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -89,6 +91,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IStoryService, StoryService>();
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IBookRepository, BookRepository>();
 
 // Configure rate limiting to prevent brute force, credential stuffing, and DDoS attacks
 // Uses IP address as the partition key to track requests per client
@@ -154,6 +157,12 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<ApplicationDbContext>();
+        //TODO: Remove the following two lines in production
+        //// --- Apply migrations and recreate database (for dev/testing only) ---
+        //context.Database.EnsureDeleted();
+        //context.Database.Migrate();
+        //// --- End drop/recreate ---
+
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 

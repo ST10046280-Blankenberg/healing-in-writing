@@ -7,6 +7,7 @@
     const isbnSecondaryLabel = document.getElementById('IsbnSecondaryLabel');
     const isbnSecondaryContainer = document.getElementById('IsbnSecondaryContainer');
     const importBtn = document.querySelector('.add-book__import-btn');
+    const publishDateInput = document.getElementById('PublishDate');
 
     function updateIsbnLabel() {
         const val = isbnPrimary.value.trim();
@@ -22,6 +23,20 @@
     }
     isbnPrimary.addEventListener('input', updateIsbnLabel);
 
+    // Validate publish date on blur
+    if (publishDateInput) {
+        publishDateInput.addEventListener('blur', function () {
+            const val = publishDateInput.value.trim();
+            // Accept yyyy, yyyy-mm, or yyyy-mm-dd
+            const regex = /^\d{4}(-\d{2}){0,2}$/;
+            if (val && !regex.test(val)) {
+                publishDateInput.setCustomValidity('Date must be in yyyy, yyyy-mm, or yyyy-mm-dd format.');
+            } else {
+                publishDateInput.setCustomValidity('');
+            }
+        });
+    }
+
     importBtn.addEventListener('click', async function () {
         const isbn = isbnPrimary.value.trim();
         if (!isbn) {
@@ -31,7 +46,7 @@
         importBtn.disabled = true;
         importBtn.textContent = 'Importing...';
         try {
-            const response = await fetch(`/Books/ImportBookByIsbn?isbn=${encodeURIComponent(isbn)}`);
+            const response = await fetch(`/Admin/Books/ImportBookByIsbn?isbn=${encodeURIComponent(isbn)}`);
             const result = await response.json();
             if (result.success && result.data) {
                 // ISBNs
@@ -55,9 +70,9 @@
                 document.getElementById('Language').value = result.data.language;
                 document.getElementById('PublishDate').value = result.data.publishedDate;
                 document.getElementById('PageCount').value = result.data.pageCount;
-                categoryTagInput.setTags(result.data.categories || []);
+                categoryTagManager.setTags(result.data.categories || []);
                 document.getElementById('Description').value = result.data.description;
-                setCoverImage(result.data.thumbnailUrl);
+                setCoverImage(result.data.thumbnailUrl, result.data.smallThumbnailUrl || result.data.thumbnailUrl);
             } else {
                 alert(result.message || 'Book not found.');
             }
@@ -70,39 +85,15 @@
         }
     });
 
-    // Category tags logic
-    let categoryTags = [];
-    const categoryTagInput = {
-        input: document.getElementById('CategoriesInput'),
-        tagsDiv: document.getElementById('CategoryTags'),
-        hidden: document.getElementById('Categories'),
-        setTags: function (tags) {
-            categoryTags = tags;
-            this.render();
-        },
-        render: function () {
-            this.tagsDiv.innerHTML = '';
-            categoryTags.forEach((tag, idx) => {
-                const span = document.createElement('span');
-                span.className = 'book-card__tag';
-                span.innerHTML = `<span class="book-card__tag-text">${tag}</span> <button type="button" style="border:none;background:none;color:#c00;font-size:14px;cursor:pointer;" onclick="removeCategoryTag(${idx})">&times;</button>`;
-                this.tagsDiv.appendChild(span);
-            });
-            this.hidden.value = categoryTags.join(',');
-        }
-    };
-    categoryTagInput.input.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' && this.value.trim()) {
-            e.preventDefault();
-            categoryTags.push(this.value.trim());
-            categoryTagInput.input.value = '';
-            categoryTagInput.render();
-        }
+    // Category tags logic - using TagManager
+    const categoryTagManager = new TagManager({
+        inputId: 'CategoriesInput',
+        tagsDisplayId: 'CategoryTags',
+        hiddenInputId: 'Categories',
+        tagClass: 'book-card__tag',
+        tagTextClass: 'book-card__tag-text',
+        removeButtonClass: 'book-card__tag-remove'
     });
-    window.removeCategoryTag = function (idx) {
-        categoryTags.splice(idx, 1);
-        categoryTagInput.render();
-    };
 
     // Cover image logic
     const coverInput = document.getElementById('coverImage');
@@ -127,7 +118,9 @@
     });
 
     // When importing from API, also hide the placeholder
-    function setCoverImage(url) {
+    function setCoverImage(url, smallUrl) {
+        document.getElementById('ThumbnailUrl').value = url || '';
+        document.getElementById('SmallThumbnailUrl').value = smallUrl || '';
         if (url) {
             coverPreview.src = url;
             coverPreview.style.display = 'block';

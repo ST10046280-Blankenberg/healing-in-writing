@@ -1,15 +1,16 @@
-using System.Collections.ObjectModel;
 using HealingInWriting.Domain.Books;
+using HealingInWriting.Interfaces.Repository;
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Books;
 
 namespace HealingInWriting.Services.Books;
 /// <summary>
-/// Temporary in-memory implementation used until real persistence is introduced.
+/// Book service with persistent storage integration.
 /// </summary>
 public class BookService : IBookService
 {
     private readonly IConfiguration _configuration;
+    private readonly IBookRepository _bookRepository;
 
     // 1. List of 10 ISBNs to seed
     private static readonly List<string> SeedIsbns = new()
@@ -26,33 +27,41 @@ public class BookService : IBookService
         "9780553380163"  // A Short History of Nearly Everything
     };
 
-    // 2. Backing field for the seeded books
-    private static IReadOnlyCollection<Book> _seededBooks = new List<Book>();
-
-    public BookService(IConfiguration configuration)
+    public BookService(IBookRepository bookRepository, IConfiguration configuration)
     {
+        _bookRepository = bookRepository;
         _configuration = configuration;
     }
 
-    // 3. Async method to seed books using ImportBookByIsbnAsync
+    // Seed books into the database if not already present
     public async Task SeedBooksAsync()
     {
-        var books = new List<Book>();
+        var existingBooks = (await _bookRepository.GetAllAsync()).ToList();
+        // Pull every stored ISBN so we avoid hitting Google Books for titles that already exist locally.
+        var existingIsbns = existingBooks
+            .SelectMany(b => b.IndustryIdentifiers ?? new List<IndustryIdentifier>())
+            .Select(id => id.Identifier)
+            .ToHashSet();
+
         foreach (var isbn in SeedIsbns)
         {
+            if (existingIsbns.Contains(isbn))
+            {
+                continue;
+            }
+
             var book = await ImportBookByIsbnAsync(isbn);
             if (book != null)
             {
-                books.Add(book);
+                await _bookRepository.AddAsync(book);
             }
         }
-        _seededBooks = new ReadOnlyCollection<Book>(books);
     }
 
-    // 4. Return the seeded books
-    public Task<IReadOnlyCollection<Book>> GetFeaturedAsync()
+    public async Task<IReadOnlyCollection<Book>> GetFeaturedAsync()
     {
-        return Task.FromResult(_seededBooks);
+        var books = await _bookRepository.GetAllAsync();
+        return books.ToList();
     }
 
     public async Task<IReadOnlyCollection<Book>> GetFeaturedFilteredAsync(string searchTerm, string selectedAuthor, string selectedCategory, string selectedTag)
@@ -142,11 +151,99 @@ public class BookService : IBookService
             PublishedDate = book.PublishedDate,
             Description = book.Description,
             Categories = book.Categories ?? new List<string>(),
+            // Use the thumbnail when we have it, otherwise fall back to the placeholder so the UI keeps its layout.
             ThumbnailUrl = book.ImageLinks?.Thumbnail ?? book.ImageLinks?.SmallThumbnail ?? "/images/placeholder-book.svg",
             PageCount = book.PageCount,
             Language = book.Language,
             Publisher = book.Publisher,
             IndustryIdentifiers = book.IndustryIdentifiers?.Select(i => i.Identifier).ToList() ?? new List<string>()
         };
+    }
+
+    public Book ToBookFromDetailViewModel(BookDetailViewModel model)
+    {
+        return new Book
+        {
+            BookId = model.BookId,
+            Title = model.Title,
+            Authors = model.Authors.Split(',').Select(a => a.Trim()).ToList(),
+            Publisher = model.Publisher,
+            PublishedDate = model.PublishedDate,
+            Description = model.Description,
+            PageCount = model.PageCount,
+            Categories = model.Categories ?? new List<string>(),
+            Language = model.Language,
+            IndustryIdentifiers = (model.IndustryIdentifiers ?? new List<string>())
+                .Select(isbn => new IndustryIdentifier
+                {
+                    Type = isbn.Length == 13 ? "ISBN_13" : "ISBN_10",
+                    Identifier = isbn
+                }).ToList(),
+            ImageLinks = new ImageLinks
+            {
+                Thumbnail = model.ThumbnailUrl,
+                SmallThumbnail = model.ThumbnailUrl
+            }
+        };
+    }
+
+    public async Task<(bool Success, string? ErrorMessage)> AddBookFromFormAsync(IFormCollection form)
+    {
+        try
+        {
+            var isbns = new List<string>();
+            if (!string.IsNullOrWhiteSpace(form["IsbnPrimary"])) isbns.Add(form["IsbnPrimary"]);
+            if (!string.IsNullOrWhiteSpace(form["IsbnSecondary"])) isbns.Add(form["IsbnSecondary"]);
+
+            var book = new Book
+            {
+                Title = form["Title"],
+                Authors = form["Author"].ToString().Split(',').Select(a => a.Trim()).ToList(),
+                Publisher = form["Publisher"],
+                PublishedDate = form["PublishDate"],
+                Description = form["Description"],
+                PageCount = int.TryParse(form["PageCount"], out var pc) ? pc : 0,
+                Categories = form["Categories"].ToString().Split(',').Select(c => c.Trim()).Where(c => !string.IsNullOrWhiteSpace(c)).ToList(),
+                Language = form["Language"],
+                IndustryIdentifiers = isbns.Select(isbn => new IndustryIdentifier
+                {
+                    Type = isbn.Length == 13 ? "ISBN_13" : "ISBN_10",
+                    Identifier = isbn.Trim()
+                }).ToList(),
+                ImageLinks = new ImageLinks
+                {
+                    Thumbnail = string.IsNullOrWhiteSpace(form["ThumbnailUrl"].ToString()) ? string.Empty : form["ThumbnailUrl"].ToString(),
+                    SmallThumbnail = string.IsNullOrWhiteSpace(form["SmallThumbnailUrl"].ToString()) ? string.Empty : form["SmallThumbnailUrl"].ToString()
+                }
+            };
+
+            await _bookRepository.AddAsync(book);
+            return (true, null);
+        }
+        catch (Exception ex)
+        {
+            // Log exception as needed
+            return (false, ex.Message);
+        }
+    }
+
+    public async Task<bool> DeleteBookAsync(int id)
+    {
+        var book = await _bookRepository.GetByIdAsync(id);
+        if (book == null)
+            return false;
+
+        await _bookRepository.DeleteAsync(id);
+        return true;
+    }
+
+    public async Task UpdateBookAsync(Book book)
+    {
+        await _bookRepository.UpdateAsync(book);
+    }
+
+    public Task<Book?> GetBookByIdAsync(int id)
+    {
+        return _bookRepository.GetByIdAsync(id);
     }
 }

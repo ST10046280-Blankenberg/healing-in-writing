@@ -17,6 +17,52 @@ namespace HealingInWriting.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
 
+            modelBuilder.Entity("HealingInWriting.Domain.Books.Book", b =>
+                {
+                    b.Property<int>("BookId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Authors")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Categories")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Language")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("PageCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("PublishedDate")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Publisher")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("BookId");
+
+                    b.ToTable("Books");
+                });
+
             modelBuilder.Entity("HealingInWriting.Domain.Users.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -226,6 +272,64 @@ namespace HealingInWriting.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("UserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("HealingInWriting.Domain.Books.Book", b =>
+                {
+                    b.OwnsOne("HealingInWriting.Domain.Books.ImageLinks", "ImageLinks", b1 =>
+                        {
+                            b1.Property<int>("BookId")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<string>("SmallThumbnail")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("Thumbnail")
+                                .HasColumnType("TEXT");
+
+                            b1.HasKey("BookId");
+
+                            b1.ToTable("Books");
+
+                            b1.WithOwner()
+                                .HasForeignKey("BookId");
+                        });
+
+                    b.OwnsMany("HealingInWriting.Domain.Books.IndustryIdentifier", "IndustryIdentifiers", b1 =>
+                        {
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<int>("BookId")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<string>("Identifier")
+                                .IsRequired()
+                                .HasMaxLength(13)
+                                .HasColumnType("TEXT")
+                                .HasColumnName("Identifier");
+
+                            b1.Property<string>("Type")
+                                .IsRequired()
+                                .HasMaxLength(20)
+                                .HasColumnType("TEXT")
+                                .HasColumnName("Type");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("BookId");
+
+                            b1.ToTable("BookIndustryIdentifiers", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("BookId");
+                        });
+
+                    b.Navigation("ImageLinks")
+                        .IsRequired();
+
+                    b.Navigation("IndustryIdentifiers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
