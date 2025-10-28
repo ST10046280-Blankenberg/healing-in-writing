@@ -36,6 +36,11 @@
                         <div id="quill-editor" class="story-submit__textarea"></div>
                         <!-- Hidden field for form submission -->
                         <input type="hidden" id="content" name="content" />
+                        <!-- Word Counter -->
+                        <div class="story-submit__word-counter">
+                            <span class="story-submit__word-count">0 words</span>
+                            <span class="story-submit__char-count">0 characters</span>
+                        </div>
                     </div>
 
                     <!-- Tags Field -->
@@ -174,33 +179,6 @@
 @section Scripts {
     <!-- Quill Editor JS -->
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Initialize Quill editor
-            const quill = new Quill('#quill-editor', {
-                theme: 'snow',
-                placeholder: 'Share your story here...',
-                modules: {
-                    toolbar: [
-                        [{ 'header': [1, 2, 3, false] }],
-                        ['bold', 'italic'],
-                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                        ['clean']
-                    ]
-                }
-            });
-
-            // Store HTML in hidden input before submitting
-            const form = document.querySelector('form');
-            form.addEventListener('submit', function () {
-                const content = document.querySelector('input#content');
-                content.value = quill.root.innerHTML;
-            });
-        });
-
-        // TODO: Implement tag management
-        // TODO: Implement form validation
-        // TODO: Implement draft saving functionality
-    </script>
+    <script src="~/js/story-submit.js" asp-append-version="true"></script>
 }
 

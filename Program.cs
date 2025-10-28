@@ -203,12 +203,13 @@ app.Use(async (context, next) =>
     // Restricts what resources can be loaded and from where
     // 'self' allows resources from same origin only
     // Google Fonts domains are explicitly allowed for typography
+    // jsDelivr CDN is allowed for Quill rich text editor
     // Inline styles are allowed (used throughout the site) but inline scripts are blocked
     var csp = string.Join("; ", new[]
     {
         "default-src 'self'",
-        "script-src 'self'",
-        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+        "script-src 'self' https://cdn.jsdelivr.net",
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net",
         "font-src 'self' https://fonts.gstatic.com",
         "img-src 'self' data: https:",
         "connect-src 'self'",
