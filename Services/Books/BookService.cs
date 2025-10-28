@@ -2,6 +2,8 @@ using HealingInWriting.Domain.Books;
 using HealingInWriting.Interfaces.Repository;
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Books;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace HealingInWriting.Services.Books;
 /// <summary>
@@ -11,6 +13,8 @@ public class BookService : IBookService
 {
     private readonly IConfiguration _configuration;
     private readonly IBookRepository _bookRepository;
+    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly ILogger<BookService> _logger;
 
     // 1. List of 10 ISBNs to seed
     private static readonly List<string> SeedIsbns = new()
@@ -27,10 +31,16 @@ public class BookService : IBookService
         "9780553380163"  // A Short History of Nearly Everything
     };
 
-    public BookService(IBookRepository bookRepository, IConfiguration configuration)
+    public BookService(
+        IBookRepository bookRepository,
+        IConfiguration configuration,
+        IHttpClientFactory httpClientFactory,
+        ILogger<BookService> logger)
     {
         _bookRepository = bookRepository;
         _configuration = configuration;
+        _httpClientFactory = httpClientFactory;
+        _logger = logger;
     }
 
     // Seed books into the database if not already present
@@ -69,7 +79,7 @@ public class BookService : IBookService
         var books = await GetFeaturedAsync();
 
         if (!string.IsNullOrWhiteSpace(selectedAuthor))
-            books = books.Where(b => b.Authors.Contains(selectedAuthor)).ToList();
+            books = books?.Where(b => b.Authors?.Contains(selectedAuthor) == true).ToList() ?? new List<Book>();
 
         if (!string.IsNullOrWhiteSpace(selectedCategory))
             books = books.Where(b => b.Categories.Contains(selectedCategory)).ToList();
@@ -93,7 +103,7 @@ public class BookService : IBookService
         if (string.IsNullOrWhiteSpace(apiKey))
             return null;
 
-        using var httpClient = new HttpClient();
+        var httpClient = _httpClientFactory.CreateClient();
         var url = $"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}&key={apiKey}";
         var response = await httpClient.GetAsync(url);
 
@@ -151,7 +161,6 @@ public class BookService : IBookService
             PublishedDate = book.PublishedDate,
             Description = book.Description,
             Categories = book.Categories ?? new List<string>(),
-            // Use the thumbnail when we have it, otherwise fall back to the placeholder so the UI keeps its layout.
             ThumbnailUrl = book.ImageLinks?.Thumbnail ?? book.ImageLinks?.SmallThumbnail ?? "/images/placeholder-book.svg",
             PageCount = book.PageCount,
             Language = book.Language,
@@ -198,7 +207,7 @@ public class BookService : IBookService
             var book = new Book
             {
                 Title = form["Title"],
-                Authors = form["Author"].ToString().Split(',').Select(a => a.Trim()).ToList(),
+                Authors = form["Author"].ToString().Split(',').Select(a => a.Trim()).Where(a => !string.IsNullOrWhiteSpace(a)).ToList(),
                 Publisher = form["Publisher"],
                 PublishedDate = form["PublishDate"],
                 Description = form["Description"],
@@ -223,6 +232,7 @@ public class BookService : IBookService
         catch (Exception ex)
         {
             // Log exception as needed
+            _logger.LogError(ex, "Error adding book from form");
             return (false, ex.Message);
         }
     }
