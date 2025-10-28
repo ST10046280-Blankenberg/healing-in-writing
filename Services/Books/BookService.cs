@@ -199,12 +199,21 @@ public class BookService : IBookService
         if (string.IsNullOrWhiteSpace(isbn))
             return null;
 
+        // Normalize ISBN: remove dashes, spaces, and other non-digit/non-X characters
+        string normalizedIsbn = new string(isbn
+            .Where(c => char.IsDigit(c) || c == 'X' || c == 'x')
+            .ToArray())
+            .ToUpperInvariant();
+
+        if (string.IsNullOrWhiteSpace(normalizedIsbn))
+            return null;
+
         var apiKey = _configuration["ApiKeys:GoogleBooks"];
         if (string.IsNullOrWhiteSpace(apiKey))
             return null;
 
         var httpClient = _httpClientFactory.CreateClient();
-        var url = $"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}&key={apiKey}";
+        var url = $"https://www.googleapis.com/books/v1/volumes?q=isbn:{normalizedIsbn}&key={apiKey}";
         var response = await httpClient.GetAsync(url);
 
         if (!response.IsSuccessStatusCode)
