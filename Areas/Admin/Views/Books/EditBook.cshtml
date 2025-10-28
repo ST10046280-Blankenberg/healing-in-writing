@@ -4,11 +4,6 @@
     ViewData["Title"] = "Edit Book";
 }
 
-<!-- DEBUG: Display the whole model as JSON -->
-<pre style="background:#f8f8f8; color:#333; padding:12px; border-radius:6px; font-size:13px; margin-bottom:16px;">
-@Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model, new System.Text.Json.JsonSerializerOptions { WriteIndented = true }))
-</pre>
-
 <link rel="stylesheet" href="~/css/views/add-book.css" asp-append-version="true" />
 <script src="~/js/edit-book.js" asp-append-version="true"></script>
 
