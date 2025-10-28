@@ -4,7 +4,7 @@
 {
     foreach (var book in Model)
     {
-        <article class="book-card">
+        <a class="book-card" asp-action="Details" asp-controller="Books" asp-route-BookId="@book.BookId">
             <div class="book-card__content">
                 <div class="book-card__cover">
                     @if (!string.IsNullOrEmpty(book.ThumbnailUrl))
@@ -59,7 +59,7 @@
                     }
                 </div>
             </div>
-        </article>
+        </a>
     }
 }
 else

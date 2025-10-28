@@ -9,13 +9,19 @@
     const importBtn = document.querySelector('.add-book__import-btn');
     const publishDateInput = document.getElementById('PublishDate');
 
+    function normalizeIsbn(isbn) {
+        // Remove all non-digit and non-X/x characters
+        return isbn.replace(/[^0-9Xx]/g, '').toUpperCase();
+    }
+
     function updateIsbnLabel() {
         const val = isbnPrimary.value.trim();
-        if (val.length === 0) {
+        const normalized = normalizeIsbn(val);
+        if (normalized.length === 0) {
             isbnLabel.textContent = 'ISBN:';
-        } else if (val.length === 13) {
+        } else if (normalized.length === 13) {
             isbnLabel.textContent = 'ISBN: 13';
-        } else if (val.length === 10) {
+        } else if (normalized.length === 10) {
             isbnLabel.textContent = 'ISBN: 10';
         } else {
             isbnLabel.textContent = 'ISBN: Invalid';
@@ -39,26 +45,27 @@
 
     importBtn.addEventListener('click', async function () {
         const isbn = isbnPrimary.value.trim();
-        if (!isbn) {
+        const normalized = normalizeIsbn(isbn);
+        if (!normalized) {
             alert('Please enter an ISBN.');
             return;
         }
         importBtn.disabled = true;
         importBtn.textContent = 'Importing...';
         try {
-            const response = await fetch(`/Admin/Books/ImportBookByIsbn?isbn=${encodeURIComponent(isbn)}`);
+            const response = await fetch(`/Admin/Books/ImportBookByIsbn?isbn=${encodeURIComponent(normalized)}`);
             const result = await response.json();
             if (result.success && result.data) {
                 // ISBNs
                 const isbns = result.data.industryIdentifiers;
                 if (isbns.length > 0) {
                     isbnPrimary.value = isbns[0];
-                    isbnLabel.textContent = isbns[0].length === 13 ? 'ISBN: 13' : 'ISBN: 10';
+                    isbnLabel.textContent = normalizeIsbn(isbns[0]).length === 13 ? 'ISBN: 13' : 'ISBN: 10';
                 }
                 if (isbns.length > 1) {
                     isbnSecondary.value = isbns[1];
                     isbnSecondaryDisplay.value = isbns[1];
-                    isbnSecondaryLabel.textContent = isbns[1].length === 13 ? 'ISBN: 13' : 'ISBN: 10';
+                    isbnSecondaryLabel.textContent = normalizeIsbn(isbns[1]).length === 13 ? 'ISBN: 13' : 'ISBN: 10';
                     isbnSecondaryContainer.style.display = 'flex';
                 } else {
                     isbnSecondary.value = '';

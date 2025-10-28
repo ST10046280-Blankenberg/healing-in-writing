@@ -77,9 +77,10 @@
                     </div>
                     <!-- Author and Language Row -->
                     <div class="add-book__row">
+                        <!-- Author(s) Field -->
                         <div class="add-book__form-group">
-                            <label for="Author" class="add-book__label">Author(s) <span style="color:red">*</span></label>
-                            <input type="text" id="Author" name="Author" class="add-book__input" placeholder="Comma separated" required value="@Model.Authors" />
+                            <label for="Authors" class="add-book__label">Author(s) <span style="color:red">*</span></label>
+                            <input type="text" id="Authors" name="Authors" class="add-book__input" placeholder="Comma separated" required value="@Model.Authors" />
                         </div>
                         <div class="add-book__form-group">
                             <label for="Language" class="add-book__label">Language <span style="color:red">*</span></label>
@@ -89,9 +90,10 @@
 
                     <!-- Publish Date and Page Count Row -->
                     <div class="add-book__row">
+                        <!-- Publish Date Field -->
                         <div class="add-book__form-group">
-                            <label for="PublishDate" class="add-book__label">Publish Date <span style="color:red">*</span></label>
-                            <input type="text" id="PublishDate" name="PublishDate" class="add-book__input" placeholder="yyyy, yyyy-MM, or yyyy-MM-dd" required pattern="^\d{4}(-\d{2}){0,2}$" title="Date must be in yyyy, yyyy-MM, or yyyy-MM-dd format." value="@Model.PublishedDate" />
+                            <label for="PublishedDate" class="add-book__label">Publish Date <span style="color:red">*</span></label>
+                            <input type="text" id="PublishedDate" name="PublishedDate" class="add-book__input" placeholder="yyyy, yyyy-MM, or yyyy-MM-dd" required pattern="^\d{4}(-\d{2}){0,2}$" title="Date must be in yyyy, yyyy-MM, or yyyy-MM-dd format." value="@Model.PublishedDate" />
                         </div>
                         <div class="add-book__form-group">
                             <label for="PageCount" class="add-book__label">Page Count <span style="color:red">*</span></label>
@@ -165,7 +167,7 @@
             <!-- Bottom Section: Submit Button -->
             <div class="add-book__bottom-section">
                 <button type="submit" class="add-book__submit-btn">Save Changes</button>
-                <button type="button" href="@Url.Action("Index", "Books", new { area = "Admin" })" class="add-book__discard-btn">Discard</button>
+                <a type="button" href="@Url.Action("Manage", "Books", new { area = "Admin" })" class="add-book__discard-btn">Discard</a>
             </div>
 
             <input type="hidden" id="ThumbnailUrl" name="ThumbnailUrl" value="@Model.ThumbnailUrl" />

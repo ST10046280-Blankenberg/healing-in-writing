@@ -24,7 +24,7 @@
 
         // Inventory-specific fields
         //TODO: add required fields to book domain model.
-        public int Quantity { get; set; } = 0;
+        public int Quantity { get; set; } = 1;
         public string Condition { get; set; } = "Good"; // e.g., "New", "Good", "Fair", etc.
         public bool IsVisible { get; set; } = true;
     }
