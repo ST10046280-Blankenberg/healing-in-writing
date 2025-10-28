@@ -1,1 +1,22 @@
-@* TODO: Show event specifics and registration actions via service data. *@
+@model HealingInWriting.Models.Books.BookDetailViewModel
+
+<h1>Book Details</h1>
+
+@if (Model != null)
+{
+    <ul>
+        <li><strong>BookId:</strong> @Model.BookId</li>
+        <li><strong>Title:</strong> @Model.Title</li>
+        <li><strong>Authors:</strong> @Model.Authors</li>
+        <li><strong>Published Date:</strong> @Model.PublishedDate</li>
+        <li><strong>Publisher:</strong> @Model.Publisher</li>
+        <li><strong>Page Count:</strong> @Model.PageCount</li>
+        <li><strong>Description:</strong> @Model.Description</li>
+        <li><strong>Categories:</strong> @(Model.Categories != null ? string.Join(", ", Model.Categories) : "")</li>
+        <li><strong>ThumbnailUrl:</strong> @Model.ThumbnailUrl</li>
+    </ul>
+}
+else
+{
+    <p>No book details available.</p>
+}

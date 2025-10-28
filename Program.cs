@@ -90,6 +90,7 @@ builder.Services.AddAntiforgery(options =>
 
 // Add services to the container
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpClient();
 builder.Services.AddScoped<IStoryService, StoryService>();
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
