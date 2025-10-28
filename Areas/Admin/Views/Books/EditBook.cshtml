@@ -9,7 +9,7 @@
 
 <div class="add-book">
     <div class="add-book__container">
-        @using (Html.BeginForm("EditBook", "Books", FormMethod.Post, new { enctype = "multipart/form-data", area = "Admin" }))
+        @using (Html.BeginForm("EditBook", "Books", FormMethod.Post, new { enctype = "multipart/form-data", area = "Admin", @class = "add-book__form" }))
         {
             @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.BookId)
