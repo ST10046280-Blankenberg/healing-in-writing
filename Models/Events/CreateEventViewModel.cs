@@ -49,15 +49,7 @@ public class CreateEventViewModel
     [RegularExpression(@"^\d{4}$")]
     public string PostalCode { get; set; } = string.Empty;
 
-    [Required]
+    // Coordinates (optional for now, can be populated via geocoding)
     public double Latitude { get; set; }
-
-    [Required]
     public double Longitude { get; set; }
-
-    // Tags
-    public List<int> SelectedTagIds { get; set; } = new();
-
-    // Available options for dropdowns
-    public List<Domain.Shared.Tag> AvailableTags { get; set; } = new();
 }

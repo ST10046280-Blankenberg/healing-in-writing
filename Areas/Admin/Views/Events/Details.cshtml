@@ -58,19 +58,47 @@ FORM SUBMISSION:
     ViewData["Title"] = Model.Id == 0 ? "Create Event" : "Edit Event";
 }
 
-@section Styles {
-    <link rel="stylesheet" href="~/css/views/manage-events.css" asp-append-version="true" />
-}
+<link rel="stylesheet" href="~/css/views/manage-events.css" asp-append-version="true" />
+<script src="~/js/add-event.js" asp-append-version="true"></script>
+
+@* <link rel="stylesheet" href="~/css/views/add-book.css" asp-append-version="true" /> *@
+@* <script src="~/js/shared/tag-manager.js" asp-append-version="true"></script> *@
+@* <script src="~/js/add-book.js" asp-append-version="true"></script> *@
+
+@* @section Scripts { *@
+@*     <partial name="_ValidationScriptsPartial"/> *@
+@*     <script src="~/js/add-event.js" asp-append-version="true"></script> *@
+@* } *@
 
 <main class="event-details-page">
     <form asp-area="Admin" asp-controller="Events" asp-action="Details" method="post" enctype="multipart/form-data" class="event-details">
+        @Html.AntiForgeryToken()
         <input type="hidden" asp-for="Id" />
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Latitude" />
+        <input type="hidden" asp-for="Longitude" />
+        
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div style="padding: 1rem; margin: 1rem 0; background-color: #f8d7da; border: 1px solid #f5c6cb; border-radius: 0.25rem; color: #721c24;">
+                <strong>Validation Errors:</strong>
+                <ul style="margin: 0.5rem 0;">
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                </ul>
+            </div>
+        }
+        
+        <div asp-validation-summary="All" class="text-danger"></div>
 
         <!-- Event Cover Image -->
         <div class="event-details__image-upload">
             <div class="event-details__image-placeholder">
-                <!-- TODO: Implement image upload functionality -->
+                <label for="coverImage" style="cursor: pointer; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                    <span>Click to upload cover image</span>
+                </label>
+                <input type="file" id="coverImage" name="CoverImage" accept="image/*" style="display: none;" />
             </div>
         </div>
 
@@ -85,31 +113,6 @@ FORM SUBMISSION:
                 }
             </select>
             <span asp-validation-for="EventType" class="text-danger"></span>
-        </div>
-
-        <!-- Tags Section -->
-        <div class="event-details__tags-container">
-            <input type="text" class="event-details__tag-search" placeholder="Search Tags..." id="tagSearch"/>
-
-            @if (Model.AvailableTags?.Any() == true)
-            {
-                @foreach (var tag in Model.AvailableTags)
-                {
-                    <label class="event-details__tag">
-                        <input type="checkbox" 
-                               asp-for="SelectedTagIds" 
-                               value="@tag.TagId" 
-                               style="display: none;"
-                               @(Model.SelectedTagIds.Contains(tag.TagId) ? "checked" : "") />
-                        <span class="event-details__tag-text">@tag.Name</span>
-                        <button class="event-details__tag-remove" type="button" onclick="this.parentElement.querySelector('input').checked = false; this.parentElement.style.display = 'none';">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="10.5" height="14" viewBox="0 0 24 24" fill="none">
-                                <path d="M18 6L6 18M6 6l12 12" stroke="#2F1648" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </button>
-                    </label>
-                }
-            }
         </div>
 
         <!-- Event Title Input -->
@@ -203,12 +206,11 @@ FORM SUBMISSION:
         </div>
 
         <!-- Submit Button -->
-        <button class="event-details__submit-btn" type="submit">
-            <span class="event-details__submit-text">@(Model.Id == 0 ? "Create Event" : "Update Event")</span>
-        </button>
+        <div class="event-details__bottom-section">
+            <button type="submit" class="event-details__submit-btn">@(Model.Id == 0 ? "Create Event" : "Update Event")</button>
+        </div>
+
     </form>
 </main>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial"/>
-}
+

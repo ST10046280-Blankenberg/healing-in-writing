@@ -21,12 +21,28 @@ public class EventService : IEventService
 
     public async Task<int> CreateEventAsync(CreateEventViewModel model, string userId)
     {
-        // Get UserProfile
+        // Get or create UserProfile
         var userProfile = await _context.UserProfiles
             .FirstOrDefaultAsync(up => up.UserId == userId);
 
         if (userProfile == null)
-            throw new InvalidOperationException("User profile not found");
+        {
+            // Create a basic UserProfile for the admin user if it doesn't exist
+            var applicationUser = await _context.Users.FindAsync(userId);
+            if (applicationUser == null)
+                throw new InvalidOperationException("User not found");
+
+            userProfile = new Domain.Users.UserProfile
+            {
+                UserId = userId,
+                Bio = string.Empty,
+                City = string.Empty,
+                User = applicationUser
+            };
+            
+            _context.UserProfiles.Add(userProfile);
+            await _context.SaveChangesAsync();
+        }
 
         // Create Address
         var address = new Address
@@ -53,10 +69,7 @@ public class EventService : IEventService
             EventStatus = EventStatus.Draft,
             UserId = userProfile.ProfileId,
             User = userProfile,
-            Address = address,
-            EventTags = await _context.Tags
-                .Where(t => model.SelectedTagIds.Contains(t.TagId))
-                .ToListAsync()
+            Address = address
         };
 
         await _eventRepository.AddAsync(newEvent);

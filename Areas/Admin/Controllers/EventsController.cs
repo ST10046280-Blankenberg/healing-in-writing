@@ -39,8 +39,7 @@ namespace HealingInWriting.Areas.Admin.Controllers
         {
             var model = new CreateEventViewModel
             {
-                Id = id ?? 0,
-                AvailableTags = await _context.Tags.ToListAsync()
+                Id = id ?? 0
             };
 
             if (id.HasValue)
@@ -55,7 +54,6 @@ namespace HealingInWriting.Areas.Admin.Controllers
                     model.StartTime = existingEvent.StartDateTime.TimeOfDay;
                     model.EndTime = existingEvent.EndDateTime.TimeOfDay;
                     model.Capacity = existingEvent.Capacity;
-                    model.SelectedTagIds = existingEvent.EventTags.Select(t => t.TagId).ToList();
             
                     if (existingEvent.Address != null)
                     {
@@ -80,13 +78,18 @@ namespace HealingInWriting.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                model.AvailableTags = await _context.Tags.ToListAsync();
                 return View(model);
             }
 
             try
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(userId))
+                {
+                    ModelState.AddModelError("", "User not authenticated");
+                    return View(model);
+                }
+
                 var eventId = await _eventService.CreateEventAsync(model, userId);
 
                 TempData["SuccessMessage"] = "Event created successfully!";
@@ -95,7 +98,6 @@ namespace HealingInWriting.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError("", $"Error creating event: {ex.Message}");
-                model.AvailableTags = await _context.Tags.ToListAsync();
                 return View(model);
             }
         }
