@@ -2,10 +2,14 @@ using HealingInWriting.Domain.Books;
 using HealingInWriting.Interfaces.Repository;
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Books;
+using HealingInWriting.Mapping;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http;
+using System.Text.Json;
 
 namespace HealingInWriting.Services.Books;
+
 /// <summary>
 /// Book service with persistent storage integration.
 /// </summary>
@@ -111,127 +115,37 @@ public class BookService : IBookService
             return null;
 
         var json = await response.Content.ReadAsStringAsync();
-        var googleResult = System.Text.Json.JsonDocument.Parse(json);
+        var googleResult = JsonDocument.Parse(json);
 
         var item = googleResult.RootElement.GetProperty("items").EnumerateArray().FirstOrDefault();
-        if (item.ValueKind == System.Text.Json.JsonValueKind.Undefined)
+        if (item.ValueKind == JsonValueKind.Undefined)
             return null;
 
         var volumeInfo = item.GetProperty("volumeInfo");
 
-        var book = new Book
-        {
-            Title = volumeInfo.GetProperty("title").GetString() ?? "",
-            Authors = volumeInfo.TryGetProperty("authors", out var authors) ? authors.EnumerateArray().Select(a => a.GetString() ?? "").ToList() : new List<string>(),
-            Publisher = volumeInfo.TryGetProperty("publisher", out var publisher) ? publisher.GetString() ?? "" : "",
-            PublishedDate = volumeInfo.TryGetProperty("publishedDate", out var pubDate) ? pubDate.GetString() ?? "" : "",
-            Description = volumeInfo.TryGetProperty("description", out var desc) ? desc.GetString() ?? "" : "",
-            PageCount = volumeInfo.TryGetProperty("pageCount", out var pageCount) ? pageCount.GetInt32() : 0,
-            Categories = volumeInfo.TryGetProperty("categories", out var cats) ? cats.EnumerateArray().Select(c => c.GetString() ?? "").ToList() : new List<string>(),
-            Language = volumeInfo.TryGetProperty("language", out var lang) ? lang.GetString() ?? "" : "",
-            ImageLinks = volumeInfo.TryGetProperty("imageLinks", out var imgLinks)
-                ? new ImageLinks
-                {
-                    Thumbnail = imgLinks.TryGetProperty("thumbnail", out var thumb) ? thumb.GetString() ?? "" : "",
-                    SmallThumbnail = imgLinks.TryGetProperty("smallThumbnail", out var smallThumb) ? smallThumb.GetString() ?? "" : ""
-                }
-                : new ImageLinks(),
-            IndustryIdentifiers = volumeInfo.TryGetProperty("industryIdentifiers", out var ids)
-                ? ids.EnumerateArray().Select(id =>
-                    new IndustryIdentifier
-                    {
-                        Type = id.TryGetProperty("type", out var type) ? type.GetString() ?? "" : "",
-                        Identifier = id.TryGetProperty("identifier", out var ident) ? ident.GetString() ?? "" : ""
-                    }).ToList()
-                : new List<IndustryIdentifier>()
-        };
+        // Use mapping helper for Google Books JSON to Book
+        var book = ViewModelMappers.ToBookFromGoogleJson(volumeInfo);
 
         return book;
     }
 
     public BookDetailViewModel ToBookDetailViewModel(Book book)
-    {
-        if (book == null) return null;
-
-        return new BookDetailViewModel
-        {
-            BookId = book.BookId,
-            Title = book.Title,
-            Authors = string.Join(", ", book.Authors ?? new List<string>()),
-            PublishedDate = book.PublishedDate,
-            Description = book.Description,
-            Categories = book.Categories ?? new List<string>(),
-            ThumbnailUrl = book.ImageLinks?.Thumbnail ?? book.ImageLinks?.SmallThumbnail ?? "/images/placeholder-book.svg",
-            PageCount = book.PageCount,
-            Language = book.Language,
-            Publisher = book.Publisher,
-            IndustryIdentifiers = book.IndustryIdentifiers?.Select(i => i.Identifier).ToList() ?? new List<string>()
-        };
-    }
+        => book.ToBookDetailViewModel();
 
     public Book ToBookFromDetailViewModel(BookDetailViewModel model)
-    {
-        return new Book
-        {
-            BookId = model.BookId,
-            Title = model.Title,
-            Authors = model.Authors.Split(',').Select(a => a.Trim()).ToList(),
-            Publisher = model.Publisher,
-            PublishedDate = model.PublishedDate,
-            Description = model.Description,
-            PageCount = model.PageCount,
-            Categories = model.Categories ?? new List<string>(),
-            Language = model.Language,
-            IndustryIdentifiers = (model.IndustryIdentifiers ?? new List<string>())
-                .Select(isbn => new IndustryIdentifier
-                {
-                    Type = isbn.Length == 13 ? "ISBN_13" : "ISBN_10",
-                    Identifier = isbn
-                }).ToList(),
-            ImageLinks = new ImageLinks
-            {
-                Thumbnail = model.ThumbnailUrl,
-                SmallThumbnail = model.ThumbnailUrl
-            }
-        };
-    }
+        => model.ToBookFromDetailViewModel();
 
     public async Task<(bool Success, string? ErrorMessage)> AddBookFromFormAsync(IFormCollection form)
     {
         try
         {
-            var isbns = new List<string>();
-            if (!string.IsNullOrWhiteSpace(form["IsbnPrimary"])) isbns.Add(form["IsbnPrimary"]);
-            if (!string.IsNullOrWhiteSpace(form["IsbnSecondary"])) isbns.Add(form["IsbnSecondary"]);
-
-            var book = new Book
-            {
-                Title = form["Title"],
-                Authors = form["Author"].ToString().Split(',').Select(a => a.Trim()).Where(a => !string.IsNullOrWhiteSpace(a)).ToList(),
-                Publisher = form["Publisher"],
-                PublishedDate = form["PublishDate"],
-                Description = form["Description"],
-                PageCount = int.TryParse(form["PageCount"], out var pc) ? pc : 0,
-                Categories = form["Categories"].ToString().Split(',').Select(c => c.Trim()).Where(c => !string.IsNullOrWhiteSpace(c)).ToList(),
-                Language = form["Language"],
-                IndustryIdentifiers = isbns.Select(isbn => new IndustryIdentifier
-                {
-                    Type = isbn.Length == 13 ? "ISBN_13" : "ISBN_10",
-                    Identifier = isbn.Trim()
-                }).ToList(),
-                ImageLinks = new ImageLinks
-                {
-                    Thumbnail = string.IsNullOrWhiteSpace(form["ThumbnailUrl"].ToString()) ? string.Empty : form["ThumbnailUrl"].ToString(),
-                    SmallThumbnail = string.IsNullOrWhiteSpace(form["SmallThumbnailUrl"].ToString()) ? string.Empty : form["SmallThumbnailUrl"].ToString()
-                }
-            };
+            var book = ViewModelMappers.ToBookFromForm(form);
 
             await _bookRepository.AddAsync(book);
             return (true, null);
         }
         catch (Exception ex)
         {
-            // Log exception as needed
             _logger.LogError(ex, "Error adding book from form");
             return (false, ex.Message);
         }
@@ -255,5 +169,27 @@ public class BookService : IBookService
     public Task<Book?> GetBookByIdAsync(int id)
     {
         return _bookRepository.GetByIdAsync(id);
+    }
+
+    // New: Map a list of Book to a list of BookSummaryViewModel
+    public List<BookSummaryViewModel> ToBookSummaryViewModels(IEnumerable<Book> books)
+        => books.Select(ViewModelMappers.ToBookSummaryViewModel).ToList();
+
+    // New: Build a BookListViewModel from a list of books
+    public BookListViewModel ToBookListViewModel(IEnumerable<Book> books)
+    {
+        var summaries = ToBookSummaryViewModels(books);
+        return new BookListViewModel
+        {
+            Books = summaries,
+            AvailableAuthors = books.SelectMany(b => b.Authors ?? Enumerable.Empty<string>())
+                                   .Distinct()
+                                   .OrderBy(a => a)
+                                   .ToList(),
+            AvailableCategories = books.SelectMany(b => b.Categories ?? Enumerable.Empty<string>())
+                                      .Distinct()
+                                      .OrderBy(c => c)
+                                      .ToList()
+        };
     }
 }
