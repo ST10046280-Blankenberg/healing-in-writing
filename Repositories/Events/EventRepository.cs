@@ -67,14 +67,23 @@ public class EventRepository : IEventRepository
         existing.EventStatus = @event.EventStatus;
         existing.Capacity = @event.Capacity;
 
-        // Update address
+        // Update address reference if changed
+        if (existing.AddressId != @event.AddressId)
+        {
+            existing.AddressId = @event.AddressId;
+        }
+
+        // Update address properties if same address
         if (existing.Address != null && @event.Address != null)
         {
             existing.Address.StreetAddress = @event.Address.StreetAddress;
+            existing.Address.Suburb = @event.Address.Suburb;
             existing.Address.City = @event.Address.City;
             existing.Address.Province = @event.Address.Province;
             existing.Address.PostalCode = @event.Address.PostalCode;
             existing.Address.Country = @event.Address.Country;
+            existing.Address.Latitude = @event.Address.Latitude;
+            existing.Address.Longitude = @event.Address.Longitude;
         }
 
         // Update tags
