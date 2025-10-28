@@ -109,20 +109,7 @@
                     <div class="add-book__form-group">
                         <label for="Categories" class="add-book__label">Categories</label>
                         <input type="text" id="CategoriesInput" class="add-book__input" placeholder="Add category and press Enter" />
-                        <div id="CategoryTags" style="margin-top:8px; display:flex; flex-wrap:wrap; gap:8px;">
-                            @if (Model.Categories != null && Model.Categories.Count > 0)
-                            {
-                                var idx = 0;
-                                foreach (var cat in Model.Categories)
-                                {
-                                    <span class="book-card__tag">
-                                        <span class="book-card__tag-text">@cat</span>
-                                        <button type="button" style="border:none;background:none;color:#c00;font-size:14px;cursor:pointer;" onclick="removeCategoryTag(@idx)">&times;</button>
-                                    </span>
-                                    idx++;
-                                }
-                            }
-                        </div>
+                        <div id="CategoryTags" style="margin-top:8px; display:flex; flex-wrap:wrap; gap:8px;"></div>
                         <input type="hidden" id="Categories" name="Categories" value="@(Model.Categories != null ? string.Join(",", Model.Categories) : "")" />
                     </div>
 
