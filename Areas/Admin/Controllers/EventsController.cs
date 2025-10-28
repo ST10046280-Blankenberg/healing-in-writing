@@ -13,6 +13,7 @@ namespace HealingInWriting.Areas.Admin.Controllers
             return View();
         }
 
+        [HttpGet]
         // GET: Admin/Events/Details
         public IActionResult Details()
         {
