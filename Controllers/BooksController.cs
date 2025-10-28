@@ -51,6 +51,22 @@ namespace HealingInWriting.Controllers
             return View(viewModel);
         }
 
+        public async Task<IActionResult> Details(int BookId)
+        {
+            // Retrieve the book by its ID
+            var book = await _bookService.GetBookByIdAsync(BookId);
+
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            // Convert the Book entity to a BookDetailViewModel
+            var viewModel = _bookService.ToBookDetailViewModel(book);
+
+            return View(viewModel);
+        }
+
         // AJAX filter endpoint
         [HttpGet]
         public async Task<IActionResult> Filter(string searchTerm, string selectedAuthor, string selectedCategory)
