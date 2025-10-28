@@ -45,38 +45,20 @@
 
                     <!-- Tags Field -->
                     <div class="story-submit__field">
-                        <label class="story-submit__tags-label" for="tags">
+                        <label class="story-submit__tags-label" for="tagsInput">
                             <svg class="story-submit__tags-icon" viewBox="0 0 24 24" fill="none">
                                 <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" stroke="currentColor" stroke-width="2" fill="none"/>
                                 <line x1="7" y1="7" x2="7.01" y2="7" stroke="currentColor" stroke-width="2"/>
                             </svg>
                             Tags
                         </label>
-                        
-                        <!-- Selected Tags Display -->
-                        <div class="story-submit__selected-tags">
-                            <span class="story-submit__tag">
-                                <span class="story-submit__tag-text">Personal Growth</span>
-                                <button type="button" class="story-submit__tag-remove" title="Remove tag">
-                                    <svg class="story-submit__tag-remove-icon" viewBox="0 0 24 24" fill="none">
-                                        <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2"/>
-                                        <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2"/>
-                                    </svg>
-                                </button>
-                            </span>
-                            <span class="story-submit__tag">
-                                <span class="story-submit__tag-text">Mental Health</span>
-                                <button type="button" class="story-submit__tag-remove" title="Remove tag">
-                                    <svg class="story-submit__tag-remove-icon" viewBox="0 0 24 24" fill="none">
-                                        <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2"/>
-                                        <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2"/>
-                                    </svg>
-                                </button>
-                            </span>
-                        </div>
-                        
+
+                        <!-- Selected Tags Display (populated by JavaScript) -->
+                        <div id="storyTags" class="story-submit__selected-tags"></div>
+
                         <!-- Tag Input -->
-                        <input class="story-submit__input" type="text" id="tags" name="tags" placeholder="Add tags (press Enter)" />
+                        <input class="story-submit__input" type="text" id="tagsInput" placeholder="Add tags (press Enter)" />
+                        <input type="hidden" id="tags" name="tags" />
                     </div>
 
                     <!-- Anonymous Checkbox -->
@@ -179,6 +161,8 @@
 @section Scripts {
     <!-- Quill Editor JS -->
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+    <!-- Tag Manager -->
+    <script src="~/js/shared/tag-manager.js" asp-append-version="true"></script>
     <script src="~/js/story-submit.js" asp-append-version="true"></script>
 }
 
