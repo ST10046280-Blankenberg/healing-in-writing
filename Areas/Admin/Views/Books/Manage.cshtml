@@ -1,4 +1,5 @@
-@model HealingInWriting.Models.Books.BookInventoryViewModel
+@model HealingInWriting.Models.Books.BookInventoryListViewModel
+
 @{
     ViewData["Title"] = "Manage Books";
 }
@@ -6,70 +7,78 @@
 @section Scripts {
     <script src="~/js/admin-books-inventory.js"></script>
 }
+@section Styles {
+    <link rel="stylesheet" href="~/css/shared/search-bar.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/views/manage-books.css" asp-append-version="true" />
+}
 
-<link rel="stylesheet" href="~/css/shared/admin-header.css" asp-append-version="true" />
-<link rel="stylesheet" href="~/css/shared/search-bar.css" asp-append-version="true" />
-<link rel="stylesheet" href="~/css/views/manage-books.css" asp-append-version="true" />
-
-<main class="manage-books">
+<div class="manage-books">
     <!-- Header Section -->
-    <header class="admin-header">
-        <div class="admin-header__content">
-            <div class="admin-header__text">
-                <h1 class="admin-header__title">Manage Books</h1>
-                <p class="admin-header__subtitle">Update inventory, edit book details, and manage visibility.</p>
+    <header class="manage-books__header">
+        <div class="manage-books__header-content">
+            <div class="manage-books__header-text">
+                <h1 class="manage-books__title">Manage Books</h1>
+                <p class="manage-books__subtitle">Update inventory, edit book details, and manage visibility.</p>
             </div>
-            <a href="@Url.Action("AddBook", "Books", new { area = "Admin" })" class="admin-header__action-btn">
-                <svg class="manage-books__add-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16" fill="none">
-                    <path d="M7 1v14M1 8h12" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" />
-                </svg>
-                <span class="admin-header__action-text">Add New Book</span>
-            </a>
-        </div>
+            <div style="display: flex; gap: 12px;">
+                @* TODO: Remove in production. *@
+                <a href="@Url.Action("AddBook", "Books", new { area = "Admin" })" class="manage-books__add-button">
+                    <svg class="manage-books__add-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16" fill="none">
+                        <path d="M7 1v14M1 8h12" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                    <span class="manage-books__add-button-text">Add New Book</span>
+                </a>
+                @* TODO: Remove in production. *@
+                <a href="@Url.Action("SeedSampleData", "Books", new { area = "Admin" })"
+                   class="manage-books__add-button"
+                   style="background:#4B5563;"
+                   onclick="return confirm('Seed sample data? This may take a moment.');">
+                    <svg class="manage-books__add-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16" fill="none">
+                        <rect x="2" y="2" width="10" height="12" rx="2" fill="#fff" stroke="#fff" stroke-width="2" />
+                        <path d="M4 8h6M4 11h6" stroke="#4B5563" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                    <span class="manage-books__add-button-text">Seed Sample Data</span>
+                </a>
+            </div>
+        </div>@* TODO: Remove in production. *@
     </header>
 
-    <!-- Search Bar -->
-    <div class="search-bar search-bar--manage-books">
+    <!-- Search Bar with AJAX Filter -->
+    <form id="book-filter-form" class="search-bar" autocomplete="off">
         <!-- Search Input with Icon -->
         <div class="search-bar__input-container">
             <svg class="search-bar__icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-            <input type="text" name="searchTerm" class="search-bar__input" placeholder="Search..." />
+            <input type="text" name="searchTerm" class="search-bar__input" placeholder="Search..." value="@Model.SelectedCategory" />
         </div>
 
-        <!-- Any Status Dropdown -->
-        <div class="search-bar__dropdown">
-            <span class="search-bar__dropdown-label">Any Status</span>
-            <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-        </div>
+        <!-- Category Filter Dropdown -->
+        <select name="selectedCategory" class="search-bar__dropdown">
+            <option value="">Any Category</option>
+            @foreach (var category in Model.AvailableCategories)
+            {
+                <option value="@category" selected="@(category == Model.SelectedCategory ? "selected" : null)">@category</option>
+            }
+        </select>
 
-        <!-- Any Tags Dropdown -->
-        <div class="search-bar__dropdown">
-            <span class="search-bar__dropdown-label">Any Tags</span>
-            <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-        </div>
-
-        <!-- Newest Dropdown -->
-        <div class="search-bar__dropdown">
-            <span class="search-bar__dropdown-label">Newest</span>
-            <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-        </div>
+        <!-- Author Filter Dropdown -->
+        <select name="selectedAuthor" class="search-bar__dropdown">
+            <option value="">Any Author</option>
+            @foreach (var author in Model.AvailableAuthors)
+            {
+                <option value="@author" selected="@(author == Model.SelectedAuthor ? "selected" : null)">@author</option>
+            }
+        </select>
 
         <!-- Search Button -->
-        <button class="search-bar__button" type="button">
+        <button class="search-bar__button" type="submit">
             <svg class="search-bar__button-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
             <span class="search-bar__button-label">Search</span>
         </button>
-    </div>
+    </form>
 
     <!-- Book Inventory Section -->
     <main class="manage-books__inventory">
@@ -82,6 +91,7 @@
                 <thead>
                     <tr>
                         <th>Name</th>
+                        <th>Author</th>
                         <th>Category</th>
                         <th>Quantity</th>
                         <th>Condition</th>
@@ -89,10 +99,18 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="books-list-container">
                     @Html.Partial("_BookInventoryRow", Model.Books)
                 </tbody>
             </table>
         </div>
+        <!-- Pagination Controls -->
+        <div id="books-pagination"
+             data-total-count="@ViewBag.TotalCount"
+             data-page-size="@ViewBag.PageSize">
+            <button class="pagination__btn" data-page="prev">Prev</button>
+            <span id="pagination-current">1</span> / <span id="pagination-total">1</span>
+            <button class="pagination__btn" data-page="next">Next</button>
+        </div>
     </main>
-</main>
+</div>

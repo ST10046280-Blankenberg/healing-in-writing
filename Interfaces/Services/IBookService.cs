@@ -1,6 +1,5 @@
 using HealingInWriting.Domain.Books;
 using HealingInWriting.Models.Books;
-using Microsoft.AspNetCore.Http;
 
 namespace HealingInWriting.Interfaces.Services;
 
@@ -12,47 +11,26 @@ public interface IBookService
     #region Book Retrieval
 
     /// <summary>
-    /// Retrieves all books to display on the catalogue landing page.
-    /// </summary>
-    /// <returns>A read-only collection of <see cref="Book"/> entities.</returns>
-    Task<IReadOnlyCollection<Book>> GetFeaturedAsync();
-
-    /// <summary>
-    /// Retrieves books filtered by search term, author, category, and tag.
-    /// </summary>
-    /// <param name="searchTerm">A search string to match against book titles and descriptions.</param>
-    /// <param name="selectedAuthor">The author to filter by.</param>
-    /// <param name="selectedCategory">The category to filter by.</param>
-    /// <param name="selectedTag">The tag to filter by.</param>
-    /// <returns>A read-only collection of filtered <see cref="Book"/> entities.</returns>
-    Task<IReadOnlyCollection<Book>> GetFeaturedFilteredAsync(
-        string searchTerm,
-        string selectedAuthor,
-        string selectedCategory,
-        string selectedTag
-    );
-
-    /// <summary>
-    /// Retrieves a book by its unique identifier.
-    /// </summary>
-    /// <param name="id">The unique identifier of the book.</param>
-    /// <returns>The <see cref="Book"/> if found; otherwise, <c>null</c>.</returns>
-    Task<Book?> GetBookByIdAsync(int id);
-
-    #endregion
-
-    #region Book Import
-
-    /// <summary>
     /// Imports a book from an external source (e.g., Google Books API) using its ISBN.
     /// </summary>
     /// <param name="isbn">The ISBN to import.</param>
-    /// <returns>The imported <see cref="Book"/> if found; otherwise, <c>null</c>.</returns>
-    Task<Book?> ImportBookByIsbnAsync(string isbn);
+    /// <returns>An <see cref="ImportResult"/> containing the imported book, rate limit status, and message.</returns>
+    Task<ImportResult> ImportBookByIsbnAsync(string isbn);
 
-    #endregion
+    /// <summary>
+    /// Seeds books into the repository from a predefined list of ISBNs.
+    /// </summary>
+    /// <returns>
+    /// A message string if the operation was interrupted (e.g., due to rate limiting); otherwise, <c>null</c>.
+    /// </returns>
+    Task<string?> SeedBooksAsync();
 
-    #region Book CRUD
+    /// <summary>
+    /// Retrieves a single book by its unique identifier.
+    /// </summary>
+    /// <param name="id">The unique identifier of the book to retrieve.</param>
+    /// <returns>The matching <see cref="Book"/>, or <c>null</c> if not found.</returns>
+    Task<Book?> GetBookByIdAsync(int id);
 
     /// <summary>
     /// Adds a new book to the repository from form data.
@@ -106,5 +84,47 @@ public interface IBookService
     /// <returns>A <see cref="BookListViewModel"/> for use in views.</returns>
     BookListViewModel ToBookListViewModel(IEnumerable<Book> books);
 
+    List<BookInventoryRowViewModel> ToBookInventoryRowViewModel(IEnumerable<Book> books);
+
+    BookInventoryListViewModel ToBookInventoryViewModel(IEnumerable<Book> books);
+
     #endregion
+
+    #region Query Helpers
+
+    /// <summary>
+    /// Retrieves a paged, filterable list of books for admin (all books, regardless of visibility).
+    /// </summary>
+    Task<IReadOnlyCollection<Book>> GetPagedForAdminAsync(
+        string? searchTerm, string? selectedAuthor, string? selectedCategory, string? selectedTag, int skip, int take);
+
+    /// <summary>
+    /// Retrieves a paged, filterable list of books for users (only visible books).
+    /// </summary>
+    Task<IReadOnlyCollection<Book>> GetPagedForUserAsync(
+        string? searchTerm, string? selectedAuthor, string? selectedCategory, string? selectedTag, int skip, int take);
+
+    Task<List<string>> GetAllAuthorsAsync(bool onlyVisible);
+    Task<List<string>> GetAllCategoriesAsync(bool onlyVisible);
+    Task<int> GetCountForAdminAsync(
+            string? searchTerm,
+            string? selectedAuthor,
+            string? selectedCategory,
+            string? selectedTag);
+    Task<int> GetCountForUserAsync(
+        string? searchTerm, 
+        string? selectedAuthor, 
+        string? selectedCategory, 
+        string? selectedTag);
+
+    #endregion
+}
+/// <summary>
+/// Represents the result of an import operation, including the imported book, rate limit status, and a message.
+/// </summary>
+public class ImportResult
+{
+    public Book? Book { get; set; }
+    public bool RateLimited { get; set; }
+    public string? Message { get; set; }
 }
