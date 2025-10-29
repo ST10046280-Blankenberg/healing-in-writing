@@ -16,18 +16,17 @@ namespace HealingInWriting.Controllers
             _bookService = bookService;
         }
 
-        // For regular users: only visible books
+        // For regular users: only visible books, paged
         public async Task<IActionResult> Index()
         {
-            // Only fetch visible books for users
-            var books = (await _bookService.GetFeaturedFilteredAsync(
+            // Fetch first page of visible books for users
+            var books = await _bookService.GetPagedForUserAsync(
                     searchTerm: null,
                     selectedAuthor: null,
                     selectedCategory: null,
-                    selectedTag: null))
-                .OrderByDescending(b => b.PublishedDate)
-                .Take(10)
-                .ToList();
+                    selectedTag: null,
+                    skip: 0,
+                    take: 10);
 
             var viewModel = _bookService.ToBookListViewModel(books);
 
@@ -47,11 +46,33 @@ namespace HealingInWriting.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Filter(string searchTerm, string selectedAuthor, string selectedCategory)
+        public async Task<IActionResult> Filter(string searchTerm, string selectedAuthor, string selectedCategory, int skip = 0, int take = 10)
         {
-            // Only fetch visible books for users
-            var books = await _bookService.GetFeaturedFilteredAsync(
-                searchTerm, selectedAuthor, selectedCategory, null);
+            // Use paged method for filtering
+            var books = await _bookService.GetPagedForUserAsync(
+                searchTerm,
+                selectedAuthor,
+                selectedCategory,
+                null,
+                skip,
+                take);
+
+            var filteredBooks = _bookService.ToBookSummaryViewModels(books);
+
+            return PartialView("_BookCardsPartial", filteredBooks);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ListPaged(
+            string? searchTerm, string? selectedAuthor, string? selectedCategory, int skip = 0, int take = 10)
+        {
+            var books = await _bookService.GetPagedForUserAsync(
+                searchTerm,
+                selectedAuthor,
+                selectedCategory,
+                null,
+                skip,
+                take);
 
             var filteredBooks = _bookService.ToBookSummaryViewModels(books);
 

@@ -175,26 +175,6 @@ public class BookService : IBookService
         return null;
     }
 
-    public async Task<IReadOnlyCollection<Book>> GetFeaturedAsync()
-    {
-        // For admin: all books
-        var books = await _bookRepository.GetAllAsync();
-        return books.ToList();
-    }
-
-    public async Task<IReadOnlyCollection<Book>> GetFeaturedFilteredAsync(
-    string searchTerm,
-    string selectedAuthor,
-    string selectedCategory,
-    string selectedTag)
-    {
-        // For users: only visible books, with filters
-        var books = await _bookRepository.GetVisibleFilteredAsync(
-            searchTerm, selectedAuthor, selectedCategory, selectedTag);
-
-        return books.ToList();
-    }
-
     public async Task<ImportResult> ImportBookByIsbnAsync(string isbn)
     {
         var backoff = await _backoffStateRepository.GetAsync() ?? new BackoffState();
@@ -323,11 +303,9 @@ public class BookService : IBookService
         return _bookRepository.GetByIdAsync(id);
     }
 
-    // New: Map a list of Book to a list of BookSummaryViewModel
     public List<BookSummaryViewModel> ToBookSummaryViewModels(IEnumerable<Book> books)
         => books.Select(ViewModelMappers.ToBookSummaryViewModel).ToList();
 
-    // New: Build a BookListViewModel from a list of books
     public BookListViewModel ToBookListViewModel(IEnumerable<Book> books)
     {
         var summaries = ToBookSummaryViewModels(books);
@@ -345,7 +323,38 @@ public class BookService : IBookService
         };
     }
 
-    // New: Map a list of Book to a list of BookInventoryRowViewModel
     public List<BookInventoryRowViewModel> ToBookInventoryRowViewModels(IEnumerable<Book> books)
         => books.Select(ViewModelMappers.ToBookInventoryRowViewModel).ToList();
+
+    /// <summary>
+    /// Retrieves a paged, filterable list of books for admin (all books, regardless of visibility).
+    /// </summary>
+    public async Task<IReadOnlyCollection<Book>> GetPagedForAdminAsync(
+        string? searchTerm,
+        string? selectedAuthor,
+        string? selectedCategory,
+        string? selectedTag,
+        int skip,
+        int take)
+    {
+        var books = await _bookRepository.GetFilteredPagedAsync(
+            searchTerm, selectedAuthor, selectedCategory, selectedTag, skip, take, onlyVisible: false);
+        return books.ToList();
+    }
+
+    /// <summary>
+    /// Retrieves a paged, filterable list of books for users (only visible books).
+    /// </summary>
+    public async Task<IReadOnlyCollection<Book>> GetPagedForUserAsync(
+        string? searchTerm,
+        string? selectedAuthor,
+        string? selectedCategory,
+        string? selectedTag,
+        int skip,
+        int take)
+    {
+        var books = await _bookRepository.GetFilteredPagedAsync(
+            searchTerm, selectedAuthor, selectedCategory, selectedTag, skip, take, onlyVisible: true);
+        return books.ToList();
+    }
 }

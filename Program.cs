@@ -175,7 +175,13 @@ using (var scope = app.Services.CreateScope())
         var bookService = services.GetRequiredService<IBookService>() as BookService;
         if (bookService != null)
         {
-            var existingBooks = await bookService.GetFeaturedAsync();
+            var existingBooks = await bookService.GetPagedForAdminAsync(
+                searchTerm: null,
+                selectedAuthor: null,
+                selectedCategory: null,
+                selectedTag: null,
+                skip: 0,
+                take: 20);
             if (!existingBooks.Any())
             {
                 logger.LogInformation("Database is empty. Seeding books...");

@@ -53,16 +53,22 @@ namespace HealingInWriting.Repositories.Books
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Book>> GetVisibleFilteredAsync(
+        public async Task<IEnumerable<Book>> GetFilteredPagedAsync(
             string? searchTerm,
             string? selectedAuthor,
             string? selectedCategory,
-            string? selectedTag)
+            string? selectedTag,
+            int skip,
+            int take,
+            bool onlyVisible)
         {
             var query = _context.Books
                 .Include(b => b.IndustryIdentifiers)
                 .Include(b => b.ImageLinks)
-                .Where(b => b.IsVisible);
+                .AsQueryable();
+
+            if (onlyVisible)
+                query = query.Where(b => b.IsVisible);
 
             if (!string.IsNullOrWhiteSpace(selectedAuthor))
                 query = query.Where(b => b.Authors.Contains(selectedAuthor));
@@ -78,7 +84,11 @@ namespace HealingInWriting.Repositories.Books
                     b.Title.Contains(searchTerm) ||
                     b.Description.Contains(searchTerm));
 
-            return await query.ToListAsync();
+            return await query
+                .OrderBy(b => b.Title)
+                .Skip(skip)
+                .Take(take)
+                .ToListAsync();
         }
     }
 }

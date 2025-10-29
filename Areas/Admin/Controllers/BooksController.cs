@@ -41,7 +41,13 @@ namespace HealingInWriting.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Manage()
         {
-            var books = await _bookService.GetFeaturedAsync();
+            var books = await _bookService.GetPagedForAdminAsync(
+                searchTerm: null,
+                selectedAuthor: null,
+                selectedCategory: null,
+                selectedTag: null,
+                skip: 0,
+                take: 20);
             var model = new BookInventoryViewModel
             {
                 Books = (_bookService as BookService)?.ToBookInventoryRowViewModels(books)
@@ -230,6 +236,26 @@ namespace HealingInWriting.Areas.Admin.Controllers
         {
             public int BookId { get; set; }
             public bool IsVisible { get; set; }
+        }
+
+        /// <summary>
+        /// Lists books in a paginated format for admin view.
+        /// </summary>
+        /// <param name="skip">The number of records to skip for pagination.</param>
+        /// <param name="take">The number of records to take for pagination.</param>
+        /// <returns>A partial view with the paginated list of books.</returns>
+        [HttpGet]
+        public async Task<IActionResult> ListPaged(
+            string? searchTerm, string? selectedAuthor, string? selectedCategory, int skip = 0, int take = 10)
+        {
+            var books = await _bookService.GetPagedForAdminAsync(
+                searchTerm, selectedAuthor, selectedCategory, null, skip, take);
+            var model = new BookInventoryViewModel
+            {
+                Books = (_bookService as BookService)?.ToBookInventoryRowViewModels(books)
+                    ?? new List<BookInventoryRowViewModel>()
+            };
+            return PartialView("_BookInventoryRowsPartial", model.Books);
         }
 
         #endregion

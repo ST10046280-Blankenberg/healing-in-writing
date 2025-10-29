@@ -33,12 +33,15 @@ namespace HealingInWriting.Interfaces.Repository
         Task DeleteAsync(int bookId);
 
         /// <summary>
-        /// Retrieves visible books with applied filters: search term, author, category, and tag.
+        /// Retrieves a paged list of books with filters (admin).
         /// </summary>
-        Task<IEnumerable<Book>> GetVisibleFilteredAsync(
+        Task<IEnumerable<Book>> GetFilteredPagedAsync(
             string? searchTerm,
             string? selectedAuthor,
             string? selectedCategory,
-            string? selectedTag); // For users: only visible books, with filters
+            string? selectedTag,
+            int skip,
+            int take,
+            bool onlyVisible);
     }
 }
