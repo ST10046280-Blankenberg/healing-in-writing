@@ -42,10 +42,9 @@
                         <img src="~/images/placeholder-book.png" alt="No image available" />
                     }
                 </div>
-                
+
                 <div class="book-detail__metadata">
                     <div class="book-detail__metadata-labels">
-                        <p class="book-detail__metadata-label">Format:</p>
                         <p class="book-detail__metadata-label">Page count:</p>
                         <p class="book-detail__metadata-label">Publisher:</p>
                         <p class="book-detail__metadata-label">Publication date:</p>
@@ -53,7 +52,6 @@
                         <p class="book-detail__metadata-label">Price:</p>
                     </div>
                     <div class="book-detail__metadata-values">
-                        <p class="book-detail__metadata-value">Paperback</p>
                         <p class="book-detail__metadata-value">@Model.PageCount</p>
                         <p class="book-detail__metadata-value">@(string.IsNullOrEmpty(Model.Publisher) ? "N/A" : Model.Publisher)</p>
                         <p class="book-detail__metadata-value">@(string.IsNullOrEmpty(Model.PublishedDate) ? "N/A" : Model.PublishedDate)</p>
@@ -62,7 +60,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Right Column: Details -->
             <div class="book-detail__right">
                 <!-- Header -->
@@ -70,7 +68,7 @@
                     <h1 class="book-detail__title">@Model.Title</h1>
                     <p class="book-detail__subtitle">By @Model.Authors @(string.IsNullOrEmpty(Model.PublishedDate) ? "" : Model.PublishedDate)</p>
                 </div>
-                
+
                 <!-- Tags -->
                 @if (Model.Categories.Any())
                 {
@@ -83,7 +81,7 @@
                         }
                     </div>
                 }
-                
+
                 <!-- Description -->
                 <div class="book-detail__description-container">
                     <div class="book-detail__description">
