@@ -156,7 +156,7 @@
     
     /* Dynamic width calculation based on --attendance-value */
     /* Max value is 225, so we calculate percentage */
-    width: calc((var(--attendance-value, 0) / 225) * 100%);
+    /*width: calc((var(--attendance-value, 0) / 225) * 100%);*/
     max-width: 100%;
     min-width: 2%;
     
@@ -470,25 +470,6 @@
 .admin-reports__table-body,
 .admin-reports__inventory-body {
     display: table-row-group;
-}
-
-/* Custom Scrollbar Styling */
-.admin-reports__table-wrapper--scrollable::-webkit-scrollbar {
-    width: 8px;
-}
-
-.admin-reports__table-wrapper--scrollable::-webkit-scrollbar-track {
-    background: #F3F4F6;
-    border-radius: 4px;
-}
-
-.admin-reports__table-wrapper--scrollable::-webkit-scrollbar-thumb {
-    background: #C99F9C;
-    border-radius: 4px;
-}
-
-.admin-reports__table-wrapper--scrollable::-webkit-scrollbar-thumb:hover {
-    background: #B88F8C;
 }
 
 /* Table Row Hover in Scrollable Container */
