@@ -328,6 +328,7 @@ public class BookService : IBookService
 
     public BookInventoryListViewModel ToBookInventoryViewModel(IEnumerable<Book> books)
     {
+        var InventoryRow = ToBookInventoryRowViewModel(books);
         return new BookInventoryListViewModel
         {
             AvailableAuthors = books.SelectMany(b => b.Authors ?? Enumerable.Empty<string>())
