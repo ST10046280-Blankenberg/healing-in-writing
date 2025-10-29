@@ -59,6 +59,36 @@ public class EventService : IEventService
             Longitude = model.Longitude ?? 0
         };
 
+        // Process tags from comma-separated string
+        var eventTags = new List<Tag>();
+        if (!string.IsNullOrWhiteSpace(model.Tags))
+        {
+            var tagNames = model.Tags.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(t => t.Trim())
+                .Where(t => !string.IsNullOrEmpty(t))
+                .Distinct()
+                .ToList();
+
+            foreach (var tagName in tagNames)
+            {
+                // Find existing tag or create new one
+                var existingTag = await _context.Tags
+                    .FirstOrDefaultAsync(t => t.Name.ToLower() == tagName.ToLower());
+
+                if (existingTag != null)
+                {
+                    eventTags.Add(existingTag);
+                }
+                else
+                {
+                    var newTag = new Tag { Name = tagName };
+                    _context.Tags.Add(newTag);
+                    await _context.SaveChangesAsync(); // Save to get TagId
+                    eventTags.Add(newTag);
+                }
+            }
+        }
+
         // Create Event
         var newEvent = new Event
         {
@@ -71,7 +101,8 @@ public class EventService : IEventService
             EventStatus = model.EventStatus,
             UserId = userProfile.ProfileId,
             User = userProfile,
-            Address = address
+            Address = address,
+            EventTags = eventTags
         };
 
         await _eventRepository.AddAsync(newEvent);
@@ -106,6 +137,36 @@ public class EventService : IEventService
             existingEvent.Address.PostalCode = model.PostalCode;
             existingEvent.Address.Latitude = model.Latitude ?? 0;
             existingEvent.Address.Longitude = model.Longitude ?? 0;
+        }
+
+        // Update tags
+        existingEvent.EventTags.Clear();
+        if (!string.IsNullOrWhiteSpace(model.Tags))
+        {
+            var tagNames = model.Tags.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(t => t.Trim())
+                .Where(t => !string.IsNullOrEmpty(t))
+                .Distinct()
+                .ToList();
+
+            foreach (var tagName in tagNames)
+            {
+                // Find existing tag or create new one
+                var existingTag = await _context.Tags
+                    .FirstOrDefaultAsync(t => t.Name.ToLower() == tagName.ToLower());
+
+                if (existingTag != null)
+                {
+                    existingEvent.EventTags.Add(existingTag);
+                }
+                else
+                {
+                    var newTag = new Tag { Name = tagName };
+                    _context.Tags.Add(newTag);
+                    await _context.SaveChangesAsync(); // Save to get TagId
+                    existingEvent.EventTags.Add(newTag);
+                }
+            }
         }
 
         await _eventRepository.UpdateAsync(existingEvent);

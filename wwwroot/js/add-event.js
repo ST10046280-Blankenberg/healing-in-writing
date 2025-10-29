@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeRichTextEditor();
     initializeImageUpload();
     initializeFormValidation();
+    initializeTagManager();
 });
 
 /**
@@ -184,3 +185,19 @@ function clearValidationMessages() {
     });
 }
 
+/**
+ * Initialize Tag Manager for event tags
+ */
+function initializeTagManager() {
+    const eventTagManager = new TagManager({
+        inputId: 'EventTagsInput',
+        tagsDisplayId: 'EventTagsDisplay',
+        hiddenInputId: 'Tags',
+        tagClass: 'book-card__tag',
+        tagTextClass: 'book-card__tag-text',
+        removeButtonClass: 'book-card__tag-remove'
+    });
+
+    // Load existing tags if editing an event
+    eventTagManager.loadFromHiddenInput();
+}

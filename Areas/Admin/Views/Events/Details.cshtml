@@ -117,6 +117,14 @@ FORM SUBMISSION:
             <span asp-validation-for="EventStatus" class="text-danger"></span>
         </div>
 
+        <!-- Event Tags -->
+        <div class="event-details__form-group event-details__form-group--full-width">
+            <label class="event-details__label">Event Tags</label>
+            <input type="text" id="EventTagsInput" class="event-details__input" placeholder="Add tag and press Enter" />
+            <div id="EventTagsDisplay" style="margin-top: 8px; display: flex; flex-wrap: wrap; gap: 8px;"></div>
+            <input type="hidden" id="Tags" name="Tags" asp-for="Tags" />
+        </div>
+
         <!-- Event Title Input -->
         <div class="event-details__form-group">
             <h4 class="event-details__form-label">Event Title</h4>
@@ -216,4 +224,5 @@ FORM SUBMISSION:
 </main>
 
 <partial name="_ValidationScriptsPartial" />
+<script src="~/js/shared/tag-manager.js" asp-append-version="true"></script>
 <script src="~/js/add-event.js" asp-append-version="true"></script>

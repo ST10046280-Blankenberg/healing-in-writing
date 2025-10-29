@@ -55,4 +55,7 @@ public class CreateEventViewModel
     // Coordinates (optional for now, can be populated via geocoding)
     public double? Latitude { get; set; }
     public double? Longitude { get; set; }
+
+    // Tags (comma-separated string from tag manager)
+    public string Tags { get; set; } = string.Empty;
 }

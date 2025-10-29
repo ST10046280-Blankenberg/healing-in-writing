@@ -87,7 +87,7 @@ namespace HealingInWriting.Areas.Admin.Controllers
                     model.StartTime = existingEvent.StartDateTime.TimeOfDay;
                     model.EndTime = existingEvent.EndDateTime.TimeOfDay;
                     model.Capacity = existingEvent.Capacity;
-            
+
                     if (existingEvent.Address != null)
                     {
                         model.StreetAddress = existingEvent.Address.StreetAddress;
@@ -97,6 +97,12 @@ namespace HealingInWriting.Areas.Admin.Controllers
                         model.PostalCode = existingEvent.Address.PostalCode;
                         model.Latitude = existingEvent.Address.Latitude;
                         model.Longitude = existingEvent.Address.Longitude;
+                    }
+
+                    // Load existing tags as comma-separated string
+                    if (existingEvent.EventTags != null && existingEvent.EventTags.Any())
+                    {
+                        model.Tags = string.Join(",", existingEvent.EventTags.Select(t => t.Name));
                     }
                 }
             }
