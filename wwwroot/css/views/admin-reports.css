@@ -254,10 +254,17 @@
 /* =========================================================
    Data Table
    ========================================================= */
+.admin-reports__table-wrapper {
+    /* Box Model */
+    width: 100%;
+    align-self: stretch;
+}
+
 .admin-reports__table {
     /* Box Model */
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
 }
 
 /* Table Header */
@@ -277,6 +284,22 @@
     font-size: 14px;
     line-height: 17px;
     color: #374151;
+}
+
+.admin-reports__table-header:nth-child(1) {
+    width: 40%;
+}
+
+.admin-reports__table-header:nth-child(2) {
+    width: 20%;
+}
+
+.admin-reports__table-header:nth-child(3) {
+    width: 20%;
+}
+
+.admin-reports__table-header:nth-child(4) {
+    width: 20%;
 }
 
 /* Table Body */
@@ -358,6 +381,7 @@
     /* Box Model */
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
 }
 
 .admin-reports__inventory-header {
@@ -373,6 +397,18 @@
     font-size: 16px;
     line-height: 24px;
     color: #374151;
+}
+
+.admin-reports__inventory-header:nth-child(1) {
+    width: 40%;
+}
+
+.admin-reports__inventory-header:nth-child(2) {
+    width: 35%;
+}
+
+.admin-reports__inventory-header:nth-child(3) {
+    width: 25%;
 }
 
 .admin-reports__inventory-row {
