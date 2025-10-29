@@ -89,6 +89,9 @@ public interface IBookService
     /// </summary>
     Task<IReadOnlyCollection<Book>> GetPagedForUserAsync(
         string? searchTerm, string? selectedAuthor, string? selectedCategory, string? selectedTag, int skip, int take);
+
+    Task<List<string>> GetAllAuthorsAsync(bool onlyVisible);
+    Task<List<string>> GetAllCategoriesAsync(bool onlyVisible);
 }
 
 /// <summary>

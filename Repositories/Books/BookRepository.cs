@@ -90,5 +90,35 @@ namespace HealingInWriting.Repositories.Books
                 .Take(take)
                 .ToListAsync();
         }
+
+        public async Task<List<string>> GetAllAuthorsAsync(bool onlyVisible)
+        {
+            var query = _context.Books.AsQueryable();
+            if (onlyVisible)
+                query = query.Where(b => b.IsVisible);
+
+            // Load books into memory, then select authors
+            var books = await query.ToListAsync();
+            return books
+                .SelectMany(b => b.Authors ?? new List<string>())
+                .Distinct()
+                .OrderBy(a => a)
+                .ToList();
+        }
+
+        public async Task<List<string>> GetAllCategoriesAsync(bool onlyVisible)
+        {
+            var query = _context.Books.AsQueryable();
+            if (onlyVisible)
+                query = query.Where(b => b.IsVisible);
+
+            // Load books into memory, then select categories
+            var books = await query.ToListAsync();
+            return books
+                .SelectMany(b => b.Categories ?? new List<string>())
+                .Distinct()
+                .OrderBy(c => c)
+                .ToList();
+        }
     }
 }

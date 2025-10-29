@@ -357,4 +357,10 @@ public class BookService : IBookService
             searchTerm, selectedAuthor, selectedCategory, selectedTag, skip, take, onlyVisible: true);
         return books.ToList();
     }
+
+    public Task<List<string>> GetAllAuthorsAsync(bool onlyVisible)
+        => _bookRepository.GetAllAuthorsAsync(onlyVisible);
+
+    public Task<List<string>> GetAllCategoriesAsync(bool onlyVisible)
+        => _bookRepository.GetAllCategoriesAsync(onlyVisible);
 }
