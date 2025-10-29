@@ -1,23 +1,77 @@
 using System.Diagnostics;
+using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models;
+using HealingInWriting.Models.Home;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HealingInWriting.Controllers
 {
-    // TODO: Wire up a dedicated home service so this controller only orchestrates calls.
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IEventService _eventService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IEventService eventService)
         {
             _logger = logger;
+            _eventService = eventService;
         }
 
-        // TODO: Delegate home page data retrieval to the home service once available.
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var events = await _eventService.GetAllEventsAsync();
+
+            // Get published events, ordered by date
+            var publishedEvents = events
+                .Where(e => e.EventStatus == Domain.Events.EventStatus.Published)
+                .OrderBy(e => e.StartDateTime)
+                .ToList();
+
+            // Map to view model
+            var viewModel = new HomeIndexViewModel();
+
+            // First event is featured
+            if (publishedEvents.Any())
+            {
+                var featured = publishedEvents.First();
+                viewModel.FeaturedEvent = new HomeEventViewModel
+                {
+                    Id = featured.EventId,
+                    Title = featured.Title,
+                    Description = featured.Description,
+                    EventType = featured.EventType,
+                    StartDateTime = featured.StartDateTime,
+                    EndDateTime = featured.EndDateTime,
+                    LocationSummary = string.Join(", ", new[]
+                    {
+                        featured.Address?.StreetAddress,
+                        featured.Address?.City,
+                        featured.Address?.Province
+                    }.Where(part => !string.IsNullOrWhiteSpace(part)))
+                };
+
+                // Next 3 events for the grid
+                viewModel.UpcomingEvents = publishedEvents
+                    .Skip(1)
+                    .Take(3)
+                    .Select(e => new HomeEventViewModel
+                    {
+                        Id = e.EventId,
+                        Title = e.Title,
+                        Description = e.Description,
+                        EventType = e.EventType,
+                        StartDateTime = e.StartDateTime,
+                        EndDateTime = e.EndDateTime,
+                        LocationSummary = string.Join(", ", new[]
+                        {
+                            e.Address?.City,
+                            e.Address?.Province
+                        }.Where(part => !string.IsNullOrWhiteSpace(part)))
+                    })
+                    .ToList();
+            }
+
+            return View(viewModel);
         }
 
         // TODO: Keep about page content static or delegate to service if dynamic content is needed.
