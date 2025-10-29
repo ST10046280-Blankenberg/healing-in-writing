@@ -9,6 +9,8 @@ namespace HealingInWriting.Interfaces.Services;
 /// </summary>
 public interface IBookService
 {
+    #region Book Retrieval
+
     /// <summary>
     /// Retrieves all books to display on the catalogue landing page.
     /// </summary>
@@ -31,11 +33,26 @@ public interface IBookService
     );
 
     /// <summary>
+    /// Retrieves a book by its unique identifier.
+    /// </summary>
+    /// <param name="id">The unique identifier of the book.</param>
+    /// <returns>The <see cref="Book"/> if found; otherwise, <c>null</c>.</returns>
+    Task<Book?> GetBookByIdAsync(int id);
+
+    #endregion
+
+    #region Book Import
+
+    /// <summary>
     /// Imports a book from an external source (e.g., Google Books API) using its ISBN.
     /// </summary>
     /// <param name="isbn">The ISBN to import.</param>
     /// <returns>The imported <see cref="Book"/> if found; otherwise, <c>null</c>.</returns>
-        Task<Book?> ImportBookByIsbnAsync(string isbn);
+    Task<Book?> ImportBookByIsbnAsync(string isbn);
+
+    #endregion
+
+    #region Book CRUD
 
     /// <summary>
     /// Adds a new book to the repository from form data.
@@ -57,12 +74,9 @@ public interface IBookService
     /// <param name="book">The <see cref="Book"/> entity to update.</param>
     Task UpdateBookAsync(Book book);
 
-    /// <summary>
-    /// Retrieves a book by its unique identifier.
-    /// </summary>
-    /// <param name="id">The unique identifier of the book.</param>
-    /// <returns>The <see cref="Book"/> if found; otherwise, <c>null</c>.</returns>
-    Task<Book?> GetBookByIdAsync(int id);
+    #endregion
+
+    #region Mapping Methods
 
     /// <summary>
     /// Maps a <see cref="Book"/> entity to a <see cref="BookDetailViewModel"/> for detailed presentation.
@@ -91,4 +105,6 @@ public interface IBookService
     /// <param name="books">The collection of <see cref="Book"/> entities.</param>
     /// <returns>A <see cref="BookListViewModel"/> for use in views.</returns>
     BookListViewModel ToBookListViewModel(IEnumerable<Book> books);
+
+    #endregion
 }
