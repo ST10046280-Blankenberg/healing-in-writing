@@ -286,7 +286,7 @@ namespace HealingInWriting.Areas.Admin.Controllers
 
             var filteredBooks = _bookService.ToBookInventoryRowViewModel(books);
 
-            return PartialView("_BookInventoryRows", filteredBooks);
+            return PartialView("_BookInventoryRow", filteredBooks);
         }
         #endregion
     }
