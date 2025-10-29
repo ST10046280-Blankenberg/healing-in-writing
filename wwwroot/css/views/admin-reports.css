@@ -1,0 +1,455 @@
+/* =========================================================
+   Admin Reports Page
+   Administrative reports with charts and data tables
+   ========================================================= */
+
+/* Base Container */
+.admin-reports {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    padding: 48px 128px;
+    gap: 16px;
+    width: 100%;
+    min-height: 100vh;
+    
+    /* Visual */
+    background: var(--color-bg, #FDF5ED);
+}
+
+/* =========================================================
+   Report Card Container
+   ========================================================= */
+.admin-reports__card {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+    gap: 24px;
+    width: 100%;
+    
+    /* Visual */
+    background: #FFFFFF;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+}
+
+/* Report Card Title */
+.admin-reports__card-title {
+    /* Box Model */
+    width: 100%;
+    
+    /* Typography */
+    font-family: var(--font-family-heading, 'Poppins');
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 30px;
+    color: #2F1648;
+    margin: 0;
+}
+
+/* =========================================================
+   Event Attendance Chart Section
+   ========================================================= */
+.admin-reports__chart-container {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
+}
+
+/* Chart Y-Axis Labels */
+.admin-reports__chart-labels {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px;
+    gap: 8px;
+    width: 100px;
+    min-width: 100px;
+    border-right: 1px solid #4B5563;
+}
+
+.admin-reports__chart-label {
+    /* Box Model */
+    width: 100%;
+    height: 20px;
+    
+    /* Typography */
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    display: flex;
+    align-items: center;
+    text-align: right;
+    color: #000000;
+}
+
+/* Chart Bars Section */
+.admin-reports__chart-bars-wrapper {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    flex: 1;
+}
+
+/* Chart Bars Grid */
+.admin-reports__chart-bars {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 120px;
+}
+
+/* Individual Bar Column */
+.admin-reports__chart-column {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px 0px;
+    gap: 8px;
+    flex: 1;
+    height: 100%;
+    border-right: 1px solid #4B5563;
+}
+
+.admin-reports__chart-column:last-child {
+    border-right: none;
+}
+
+/* Bar Segment */
+.admin-reports__chart-bar {
+    /* Box Model */
+    width: 100%;
+    height: 20px;
+    
+    /* Visual */
+    background: #C99F9C;
+}
+
+/* Chart X-Axis Labels */
+.admin-reports__chart-x-axis {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+.admin-reports__chart-x-label {
+    /* Box Model */
+    flex: 1;
+    height: 13px;
+    
+    /* Typography */
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    color: #666666;
+}
+
+/* =========================================================
+   Story Submissions Section
+   ========================================================= */
+.admin-reports__submissions-header {
+    /* Box Model */
+    width: 100%;
+    
+    /* Typography */
+    font-family: var(--font-family-heading, 'Poppins');
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 28px;
+    color: #111827;
+    margin: 0;
+}
+
+/* Stats Row */
+.admin-reports__stats-row {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+}
+
+/* Stat Card */
+.admin-reports__stat-card {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    flex: 1;
+    
+    /* Visual */
+    border-radius: 8px;
+}
+
+.admin-reports__stat-card--pending {
+    background: #FEFCE8;
+}
+
+.admin-reports__stat-card--published {
+    background: #F0FDF4;
+}
+
+.admin-reports__stat-card--drafts {
+    background: #F9FAFB;
+}
+
+/* Stat Number */
+.admin-reports__stat-number {
+    /* Typography */
+    font-family: var(--font-family-heading, 'Poppins');
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    text-align: center;
+    margin: 0;
+}
+
+.admin-reports__stat-number--pending {
+    color: #CA8A04;
+}
+
+.admin-reports__stat-number--published {
+    color: #16A34A;
+}
+
+.admin-reports__stat-number--drafts {
+    color: #4B5563;
+}
+
+/* Stat Label */
+.admin-reports__stat-label {
+    /* Typography */
+    font-family: var(--font-family-heading, 'Poppins');
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    text-align: center;
+    color: #4B5563;
+    margin: 0;
+}
+
+/* =========================================================
+   Data Table
+   ========================================================= */
+.admin-reports__table {
+    /* Box Model */
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Table Header */
+.admin-reports__table-head {
+    border-bottom: 1px solid #F3F4F6;
+}
+
+.admin-reports__table-header {
+    /* Box Model */
+    padding: 12px 8px;
+    text-align: left;
+    
+    /* Typography */
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    color: #374151;
+}
+
+/* Table Body */
+.admin-reports__table-row {
+    border-bottom: 1px solid #F9FAFB;
+}
+
+.admin-reports__table-cell {
+    /* Box Model */
+    padding: 12px 8px;
+    
+    /* Typography */
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #4B5563;
+}
+
+.admin-reports__table-cell--title {
+    font-weight: 500;
+    color: #111827;
+}
+
+/* Status Badge */
+.admin-reports__status-badge {
+    /* Box Model */
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 3px 8px;
+    border-radius: 9999px;
+    
+    /* Typography */
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    text-align: center;
+}
+
+.admin-reports__status-badge--approved {
+    background: #DCFCE7;
+    color: #166534;
+}
+
+.admin-reports__status-badge--pending {
+    background: #FEF9C3;
+    color: #854D0E;
+}
+
+.admin-reports__status-badge--rejected {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+.admin-reports__status-badge--good {
+    background: #DCFCE7;
+    color: #166534;
+}
+
+.admin-reports__status-badge--low {
+    background: #FEF9C3;
+    color: #854D0E;
+}
+
+.admin-reports__status-badge--critical {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+/* =========================================================
+   Book Inventory Section
+   ========================================================= */
+.admin-reports__inventory-table {
+    /* Box Model */
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-reports__inventory-header {
+    /* Box Model */
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #E5E7EB;
+    
+    /* Typography */
+    font-family: var(--font-family-heading, 'Poppins');
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #374151;
+}
+
+.admin-reports__inventory-row {
+    border-bottom: 1px solid #F3F4F6;
+}
+
+.admin-reports__inventory-cell {
+    /* Box Model */
+    padding: 12px 16px;
+    
+    /* Typography */
+    font-family: var(--font-family-heading, 'Poppins');
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+}
+
+/* =========================================================
+   Responsive Design
+   ========================================================= */
+
+/* Tablet and below (1024px) */
+@media (max-width: 1024px) {
+    .admin-reports {
+        padding: 32px 64px;
+    }
+    
+    .admin-reports__stats-row {
+        flex-wrap: wrap;
+    }
+    
+    .admin-reports__stat-card {
+        min-width: calc(50% - 8px);
+    }
+}
+
+/* Mobile landscape and below (768px) */
+@media (max-width: 768px) {
+    .admin-reports {
+        padding: 24px 32px;
+    }
+    
+    .admin-reports__stats-row {
+        flex-direction: column;
+    }
+    
+    .admin-reports__stat-card {
+        width: 100%;
+        min-width: 100%;
+    }
+    
+    .admin-reports__table-wrapper {
+        overflow-x: auto;
+    }
+    
+    .admin-reports__chart-labels {
+        width: 80px;
+        min-width: 80px;
+    }
+}
+
+/* Mobile portrait (480px) */
+@media (max-width: 480px) {
+    .admin-reports {
+        padding: 16px;
+    }
+    
+    .admin-reports__card {
+        padding: 16px;
+    }
+    
+    .admin-reports__card-title,
+    .admin-reports__submissions-header {
+        font-size: 18px;
+        line-height: 26px;
+    }
+}
+
