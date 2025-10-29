@@ -34,7 +34,10 @@
             </td>
             <td>
                 <label class="manage-books__toggle">
-                    <input type="checkbox" @(book.IsVisible ? "checked" : "") />
+                    <input type="checkbox"
+                           class="manage-books__toggle-checkbox"
+                           data-book-id="@book.BookId"
+                           @(book.IsVisible ? "checked" : "") />
                     <span class="manage-books__toggle-slider"></span>
                 </label>
             </td>

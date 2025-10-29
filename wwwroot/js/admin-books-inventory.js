@@ -27,4 +27,29 @@ document.addEventListener('DOMContentLoaded', function () {
             window.location.href = `/Admin/Books/EditBook/${bookId}`;
         });
     });
+
+    document.querySelectorAll('.manage-books__toggle-checkbox').forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
+            const bookId = checkbox.getAttribute('data-book-id');
+            const isVisible = checkbox.checked;
+
+            fetch(`/Admin/Books/SetVisibility`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: JSON.stringify({
+                    bookId: parseInt(bookId, 10),
+                    isVisible: isVisible
+                })
+            })
+                .then(res => {
+                    if (!res.ok) {
+                        alert('Failed to update visibility.');
+                        checkbox.checked = !isVisible;
+                    }
+                });
+        });
+    });
 });

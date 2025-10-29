@@ -204,6 +204,34 @@ namespace HealingInWriting.Areas.Admin.Controllers
             return Json(new { success = true, data = viewModel });
         }
 
+        /// <summary>
+        /// Sets the visibility of a book.
+        /// </summary>
+        /// <param name="request">The request object containing book ID and visibility status.</param>
+        /// <returns>Ok on success, BadRequest if request is null, NotFound if book doesn't exist.</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SetVisibility([FromBody] SetVisibilityRequest request)
+        {
+            if (request == null)
+                return BadRequest();
+
+            var book = await _bookService.GetBookByIdAsync(request.BookId);
+            if (book == null)
+                return NotFound();
+
+            book.IsVisible = request.IsVisible;
+            await _bookService.UpdateBookAsync(book);
+
+            return Ok();
+        }
+
+        public class SetVisibilityRequest
+        {
+            public int BookId { get; set; }
+            public bool IsVisible { get; set; }
+        }
+
         #endregion
     }
 }
