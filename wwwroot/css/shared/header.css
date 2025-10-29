@@ -127,17 +127,34 @@
     color: var(--brand-600);
 }
 
+.header__auth-link--signin {
+    background: transparent;
+    color: var(--brand-700);
+    border: 1px solid var(--brand-700);
+}
+
+.header__auth-link--signin:hover,
+.header__auth-link--signin:focus {
+    background: var(--brand-700);
+    color: #ffffff;
+    border-color: var(--brand-700);
+    box-shadow: var(--shadow-soft-md);
+}
+
 .header__auth-link--signup {
     background: var(--brand-700);
     color: #ffffff;
+    border: 1px solid var(--brand-700);
 }
 
 .header__auth-link--signup:hover,
 .header__auth-link--signup:focus {
-    background: var(--brand-600);
-    color: #ffffff;
+    background: #ffffff;
+    color: var(--brand-700);
+    border: 1px solid var(--brand-700);
     box-shadow: var(--shadow-soft-md);
 }
+
 
 .header__mobile-toggle {
     display: none;
