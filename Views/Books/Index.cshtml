@@ -14,6 +14,13 @@
     <link rel="stylesheet" href="~/css/views/books.css" />
 }
 
+@{
+    var totalCount = ViewBag.TotalCount ?? 0;
+    var pageSize = ViewBag.PageSize ?? 10;
+    var currentPage = ViewBag.CurrentPage ?? 1;
+    var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+}
+
 <main class="books">
     <!-- Hero Section with Title and Search -->
     <section class="page-hero">
@@ -67,8 +74,12 @@
         </div>
     </section>
 
-    <!-- Load More Button -->
-    <div class="books__load-more">
-        <button class="books__load-more-button">Load More Books</button>
+    <div id="books-pagination"
+         data-total-count="@totalCount"
+         data-page-size="@pageSize"
+         data-current-page="@currentPage">
+        <button class="pagination__btn" data-page="prev">Prev</button>
+        <span id="pagination-current">@currentPage</span> / <span id="pagination-total">@totalPages</span>
+        <button class="pagination__btn" data-page="next">Next</button>
     </div>
 </main>

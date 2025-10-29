@@ -102,6 +102,11 @@ public interface IBookService
             string? selectedAuthor,
             string? selectedCategory,
             string? selectedTag);
+    Task<int> GetCountForUserAsync(
+        string? searchTerm, 
+        string? selectedAuthor, 
+        string? selectedCategory, 
+        string? selectedTag);
 }
 /// <summary>
 /// Represents the result of an import operation, including the imported book, rate limit status, and a message.
