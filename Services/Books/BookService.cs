@@ -128,12 +128,6 @@ public class BookService : IBookService
     "9780307743657"  // The Silent Patient (duplicate allowed for real datasets, but can be replaced)
 };
 
-    private DateTimeOffset? _lastImportAttemptUtc;
-    private TimeSpan _currentBackoff = TimeSpan.Zero;
-    private readonly TimeSpan _initialBackoff = TimeSpan.FromSeconds(10);
-    private readonly TimeSpan _maxBackoff = TimeSpan.FromMinutes(10);
-    private readonly object _backoffLock = new();
-
     public BookService(
         IBookRepository bookRepository,
         IBackoffStateRepository backoffStateRepository,
