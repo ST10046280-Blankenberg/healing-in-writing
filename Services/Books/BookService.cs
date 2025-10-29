@@ -54,7 +54,7 @@ public class BookService : IBookService
     "9780307474278", // The Help
     "9780143110439", // Eat, Pray, Love
     "9780375704024", // Beloved
-    "0747549559", // Harry Potter and the Philosopher�s Stone
+    "0747549559", // Harry Potter and the Philosopherï¿½s Stone
     "9780765376671", // Words of Radiance
     "9780590353427", // Harry Potter and the Chamber of Secrets
     "9780590353403", // Harry Potter and the Prisoner of Azkaban
@@ -261,12 +261,11 @@ public class BookService : IBookService
         return new ImportResult { Book = book };
     }
 
-    public BookDetailViewModel ToBookDetailViewModel(Book book)
-        => book.ToBookDetailViewModel();
+    #endregion
 
-    public Book ToBookFromDetailViewModel(BookDetailViewModel model)
-        => model.ToBookFromDetailViewModel();
+    #region Book CRUD
 
+    /// <inheritdoc />
     public async Task<(bool Success, string? ErrorMessage)> AddBookFromFormAsync(IFormCollection form)
     {
         try
@@ -283,6 +282,7 @@ public class BookService : IBookService
         }
     }
 
+    /// <inheritdoc />
     public async Task<bool> DeleteBookAsync(int id)
     {
         var book = await _bookRepository.GetByIdAsync(id);
@@ -293,15 +293,15 @@ public class BookService : IBookService
         return true;
     }
 
+    /// <inheritdoc />
     public async Task UpdateBookAsync(Book book)
     {
         await _bookRepository.UpdateAsync(book);
     }
 
-    public Task<Book?> GetBookByIdAsync(int id)
-    {
-        return _bookRepository.GetByIdAsync(id);
-    }
+    #endregion
+
+    #region Mapping Methods
 
     public List<BookSummaryViewModel> ToBookSummaryViewModels(IEnumerable<Book> books)
         => books.Select(ViewModelMappers.ToBookSummaryViewModel).ToList();

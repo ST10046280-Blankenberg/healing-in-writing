@@ -8,6 +8,8 @@ namespace HealingInWriting.Interfaces.Services;
 /// </summary>
 public interface IBookService
 {
+    #region Book Retrieval
+
     /// <summary>
     /// Imports a book from an external source (e.g., Google Books API) using its ISBN.
     /// </summary>
@@ -43,12 +45,9 @@ public interface IBookService
     /// <param name="book">The <see cref="Book"/> entity to update.</param>
     Task UpdateBookAsync(Book book);
 
-    /// <summary>
-    /// Retrieves a book by its unique identifier.
-    /// </summary>
-    /// <param name="id">The unique identifier of the book.</param>
-    /// <returns>The <see cref="Book"/> if found; otherwise, <c>null</c>.</returns>
-    Task<Book?> GetBookByIdAsync(int id);
+    #endregion
+
+    #region Mapping Methods
 
     /// <summary>
     /// Maps a <see cref="Book"/> entity to a <see cref="BookDetailViewModel"/> for detailed presentation.
