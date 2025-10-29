@@ -590,6 +590,100 @@
     height: 16px;
 }
 
+
+/* Pagination Controls */
+#books-pagination {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 24px 0;
+    margin-top: 24px;
+    width: 100%;
+
+    /* Layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.pagination__btn {
+    /* Box Model */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    min-width: 80px;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #FFFFFF;
+
+    /* Visual */
+    background: #2F1648;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+
+    /* Animation */
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.pagination__btn:hover {
+    background: #3d1d5a;
+    transform: translateY(-1px);
+}
+
+.pagination__btn:active {
+    background: #251038;
+    transform: scale(0.98);
+}
+
+.pagination__btn:disabled {
+    background: #E5E7EB;
+    color: #9CA3AF;
+    cursor: not-allowed;
+    transform: none;
+}
+
+#pagination-current,
+#pagination-total {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #2F1648;
+}
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+    #books-pagination {
+        gap: 12px;
+        padding: 20px 0;
+    }
+
+    .pagination__btn {
+        padding: 8px 16px;
+        min-width: 70px;
+        font-size: 13px;
+    }
+
+    #pagination-current,
+    #pagination-total {
+        font-size: 14px;
+    }
+}
+
+
 /* ========================================
    Responsive Design
    ======================================== */
