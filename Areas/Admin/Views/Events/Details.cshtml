@@ -105,6 +105,18 @@ FORM SUBMISSION:
             <span asp-validation-for="EventType" class="text-danger"></span>
         </div>
 
+        <!-- Event Status -->
+        <div class="event-details__form-group">
+            <label class="event-details__label">Event Status</label>
+            <select asp-for="EventStatus" class="event-details__input">
+                @foreach (var status in Enum.GetValues(typeof(HealingInWriting.Domain.Events.EventStatus)))
+                {
+                    <option value="@status">@status</option>
+                }
+            </select>
+            <span asp-validation-for="EventStatus" class="text-danger"></span>
+        </div>
+
         <!-- Event Title Input -->
         <div class="event-details__form-group">
             <h4 class="event-details__form-label">Event Title</h4>

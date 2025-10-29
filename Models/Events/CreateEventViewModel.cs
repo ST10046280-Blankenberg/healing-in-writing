@@ -19,6 +19,9 @@ public class CreateEventViewModel
     public EventType EventType { get; set; }
 
     [Required]
+    public EventStatus EventStatus { get; set; } = EventStatus.Draft;
+
+    [Required]
     public DateTime EventDate { get; set; }
 
     [Required]

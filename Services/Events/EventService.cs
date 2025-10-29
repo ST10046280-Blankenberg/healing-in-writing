@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using HealingInWriting.Data;
 using HealingInWriting.Domain.Events;
 using HealingInWriting.Domain.Shared;
@@ -66,7 +68,7 @@ public class EventService : IEventService
             StartDateTime = model.EventDate.Add(model.StartTime),
             EndDateTime = model.EventDate.Add(model.EndTime),
             Capacity = model.Capacity,
-            EventStatus = EventStatus.Draft,
+            EventStatus = model.EventStatus,
             UserId = userProfile.ProfileId,
             User = userProfile,
             Address = address
@@ -75,7 +77,41 @@ public class EventService : IEventService
         await _eventRepository.AddAsync(newEvent);
         return newEvent.EventId;
     }
-    public double CalculateDistanceKm(double lat1, double lon1, double lat2, double lon2)     
+
+    public async Task UpdateEventAsync(CreateEventViewModel model, string userId)
+    {
+        // Get the existing event
+        var existingEvent = await _eventRepository.GetByIdAsync(model.Id);
+        if (existingEvent == null)
+        {
+            throw new InvalidOperationException($"Event with ID {model.Id} not found");
+        }
+
+        // Update event properties
+        existingEvent.Title = model.Title;
+        existingEvent.Description = model.Description;
+        existingEvent.EventType = model.EventType;
+        existingEvent.EventStatus = model.EventStatus;
+        existingEvent.StartDateTime = model.EventDate.Add(model.StartTime);
+        existingEvent.EndDateTime = model.EventDate.Add(model.EndTime);
+        existingEvent.Capacity = model.Capacity;
+
+        // Update address properties
+        if (existingEvent.Address != null)
+        {
+            existingEvent.Address.StreetAddress = model.StreetAddress;
+            existingEvent.Address.Suburb = model.Suburb;
+            existingEvent.Address.City = model.City;
+            existingEvent.Address.Province = model.Province;
+            existingEvent.Address.PostalCode = model.PostalCode;
+            existingEvent.Address.Latitude = model.Latitude ?? 0;
+            existingEvent.Address.Longitude = model.Longitude ?? 0;
+        }
+
+        await _eventRepository.UpdateAsync(existingEvent);
+    }
+
+    public double CalculateDistanceKm(double lat1, double lon1, double lat2, double lon2)
     {
         throw new NotImplementedException();
     }
@@ -83,5 +119,13 @@ public class EventService : IEventService
     public async Task<Event?> GetEventByIdAsync(int eventId)
     {
         return await _eventRepository.GetByIdAsync(eventId);
+    }
+
+    public async Task<IReadOnlyCollection<Event>> GetAllEventsAsync()
+    {
+        var events = await _eventRepository.GetAllAsync();
+        return events
+            .OrderByDescending(e => e.StartDateTime)
+            .ToList();
     }
 }

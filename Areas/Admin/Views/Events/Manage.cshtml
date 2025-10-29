@@ -37,6 +37,8 @@ SEARCH/FILTER REQUIREMENTS:
 ========================================
 *@
 
+@model HealingInWriting.Models.Events.AdminManageEventsViewModel
+
 @{
     ViewData["Title"] = "Manage Events";
 }
@@ -68,7 +70,6 @@ SEARCH/FILTER REQUIREMENTS:
                 <h1 class="admin-manage-events__title">Manage Events</h1>
                 <p class="admin-manage-events__subtitle">View, edit, and manage upcoming and past events</p>
             </div>
-            @* Thank you Jamie and Gerard! I got this navigation working finally.*@
             <a href="@Url.Action("Details", "Events", new { area = "Admin"})" class="admin-manage-events__create-btn">
                 <svg class="admin-manage-events__create-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 24 24" fill="none">
                     <path d="M12 5v14M5 12h14" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -80,7 +81,6 @@ SEARCH/FILTER REQUIREMENTS:
 
     <!-- Search Bar -->
     <div class="search-bar">
-        <!-- Search Input with Icon -->
         <div class="search-bar__input-container">
             <svg class="search-bar__icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -88,7 +88,6 @@ SEARCH/FILTER REQUIREMENTS:
             <input type="text" class="search-bar__input" placeholder="Search..." />
         </div>
 
-        <!-- Any Location Dropdown -->
         <div class="search-bar__dropdown">
             <span class="search-bar__dropdown-label">Any Location</span>
             <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -96,7 +95,6 @@ SEARCH/FILTER REQUIREMENTS:
             </svg>
         </div>
 
-        <!-- Any Date Dropdown -->
         <div class="search-bar__dropdown">
             <span class="search-bar__dropdown-label">Any Date</span>
             <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -104,7 +102,6 @@ SEARCH/FILTER REQUIREMENTS:
             </svg>
         </div>
 
-        <!-- Newest Dropdown -->
         <div class="search-bar__dropdown">
             <span class="search-bar__dropdown-label">Newest</span>
             <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -112,7 +109,6 @@ SEARCH/FILTER REQUIREMENTS:
             </svg>
         </div>
 
-        <!-- Search Button -->
         <button class="search-bar__button" type="button">
             <svg class="search-bar__button-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -128,99 +124,60 @@ SEARCH/FILTER REQUIREMENTS:
         </div>
 
         <div class="admin-manage-events__events-list">
-            <!-- Event Item 1 -->
-            <article class="event-item">
-                <div class="event-item__content">
-                    <div class="event-item__info">
-                        <h3 class="event-item__title">Community Networking Night</h3>
-                        <div class="event-item__meta">
-                            <div class="event-item__meta-item">
-                                <svg class="event-item__icon" xmlns="http://www.w3.org/2000/svg" width="12.25" height="14" viewBox="0 0 24 24" fill="none">
-                                    <rect x="3" y="4" width="18" height="18" rx="2" stroke="#4B5563" stroke-width="2"/>
-                                    <path d="M16 2v4M8 2v4M3 10h18" stroke="#4B5563" stroke-width="2" stroke-linecap="round"/>
-                                </svg>
-                                <span class="event-item__meta-text">Dec 15, 2024 • 7:00 PM</span>
-                            </div>
-                            <div class="event-item__meta-item">
-                                <svg class="event-item__icon" xmlns="http://www.w3.org/2000/svg" width="10.5" height="14" viewBox="0 0 24 24" fill="none">
-                                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="#4B5563" stroke-width="2"/>
-                                    <circle cx="12" cy="9" r="2.5" stroke="#4B5563" stroke-width="2"/>
-                                </svg>
-                                <span class="event-item__meta-text">Downtown Community Center</span>
-                            </div>
-                            <span class="event-item__badge event-item__badge--open">RSVPs Open</span>
-                        </div>
+            @if (!Model.Events.Any())
+            {
+                <article class="event-item event-item--empty">
+                    <div class="event-item__content" style="justify-content: center; text-align: center; padding: 2rem;">
+                        <h3 class="event-item__title">No events yet</h3>
+                        <p class="event-item__meta-text">Create your first event to see it listed here.</p>
                     </div>
-                    <div class="event-item__actions">
-                        <button class="event-item__btn event-item__btn--edit">Edit</button>
-                        <button class="event-item__btn event-item__btn--cancel">Cancel</button>
-                        <button class="event-item__btn event-item__btn--export">Export RSVPs</button>
-                    </div>
-                </div>
-            </article>
+                </article>
+            }
+            else
+            {
+                foreach (var eventItem in Model.Events)
+                {
+                    var badgeClass = eventItem.IsRsvpOpen ? "event-item__badge--open" : "event-item__badge--closed";
+                    var badgeLabel = eventItem.IsRsvpOpen ? "RSVPs Open" : "RSVPs Closed";
+                    var schedule = eventItem.StartDateTime.ToString("dd MMM yyyy • HH:mm");
+                    var endTime = eventItem.EndDateTime > eventItem.StartDateTime
+                        ? $" - {eventItem.EndDateTime:HH:mm}"
+                        : string.Empty;
+                    var location = string.IsNullOrWhiteSpace(eventItem.LocationSummary)
+                        ? "Location to be confirmed"
+                        : eventItem.LocationSummary;
 
-            <!-- Event Item 2 -->
-            <article class="event-item">
-                <div class="event-item__content">
-                    <div class="event-item__info">
-                        <h3 class="event-item__title">Holiday Celebration</h3>
-                        <div class="event-item__meta">
-                            <div class="event-item__meta-item">
-                                <svg class="event-item__icon" xmlns="http://www.w3.org/2000/svg" width="12.25" height="14" viewBox="0 0 24 24" fill="none">
-                                    <rect x="3" y="4" width="18" height="18" rx="2" stroke="#4B5563" stroke-width="2"/>
-                                    <path d="M16 2v4M8 2v4M3 10h18" stroke="#4B5563" stroke-width="2" stroke-linecap="round"/>
-                                </svg>
-                                <span class="event-item__meta-text">Dec 22, 2024 • 6:30 PM</span>
+                    <article class="event-item">
+                        <div class="event-item__content">
+                            <div class="event-item__info">
+                                <h3 class="event-item__title">@eventItem.Title</h3>
+                                <div class="event-item__meta">
+                                    <div class="event-item__meta-item">
+                                        <svg class="event-item__icon" xmlns="http://www.w3.org/2000/svg" width="12.25" height="14" viewBox="0 0 24 24" fill="none">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" stroke="#4B5563" stroke-width="2"/>
+                                            <path d="M16 2v4M8 2v4M3 10h18" stroke="#4B5563" stroke-width="2" stroke-linecap="round"/>
+                                        </svg>
+                                        <span class="event-item__meta-text">@schedule@endTime</span>
+                                    </div>
+                                    <div class="event-item__meta-item">
+                                        <svg class="event-item__icon" xmlns="http://www.w3.org/2000/svg" width="10.5" height="14" viewBox="0 0 24 24" fill="none">
+                                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="#4B5563" stroke-width="2"/>
+                                            <circle cx="12" cy="9" r="2.5" stroke="#4B5563" stroke-width="2"/>
+                                        </svg>
+                                        <span class="event-item__meta-text">@location</span>
+                                    </div>
+                                    <span class="event-item__badge @badgeClass">@badgeLabel</span>
+                                </div>
                             </div>
-                            <div class="event-item__meta-item">
-                                <svg class="event-item__icon" xmlns="http://www.w3.org/2000/svg" width="10.5" height="14" viewBox="0 0 24 24" fill="none">
-                                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="#4B5563" stroke-width="2"/>
-                                    <circle cx="12" cy="9" r="2.5" stroke="#4B5563" stroke-width="2"/>
-                                </svg>
-                                <span class="event-item__meta-text">Community Hall</span>
+                            <div class="event-item__actions">
+                                <a class="event-item__btn event-item__btn--edit" asp-area="Admin" asp-controller="Events" asp-action="Details" asp-route-id="@eventItem.Id">Edit</a>
+                                <button class="event-item__btn event-item__btn--cancel" type="button" disabled>Cancel</button>
+                                <button class="event-item__btn event-item__btn--export" type="button" disabled>Export RSVPs</button>
                             </div>
-                            <span class="event-item__badge event-item__badge--open">RSVPs Open</span>
                         </div>
-                    </div>
-                    <div class="event-item__actions">
-                        <button class="event-item__btn event-item__btn--edit">Edit</button>
-                        <button class="event-item__btn event-item__btn--cancel">Cancel</button>
-                        <button class="event-item__btn event-item__btn--export">Export RSVPs</button>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Event Item 3 -->
-            <article class="event-item">
-                <div class="event-item__content">
-                    <div class="event-item__info">
-                        <h3 class="event-item__title">New Year Planning Workshop</h3>
-                        <div class="event-item__meta">
-                            <div class="event-item__meta-item">
-                                <svg class="event-item__icon" xmlns="http://www.w3.org/2000/svg" width="12.25" height="14" viewBox="0 0 24 24" fill="none">
-                                    <rect x="3" y="4" width="18" height="18" rx="2" stroke="#4B5563" stroke-width="2"/>
-                                    <path d="M16 2v4M8 2v4M3 10h18" stroke="#4B5563" stroke-width="2" stroke-linecap="round"/>
-                                </svg>
-                                <span class="event-item__meta-text">Jan 5, 2025 • 2:00 PM</span>
-                            </div>
-                            <div class="event-item__meta-item">
-                                <svg class="event-item__icon" xmlns="http://www.w3.org/2000/svg" width="10.5" height="14" viewBox="0 0 24 24" fill="none">
-                                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="#4B5563" stroke-width="2"/>
-                                    <circle cx="12" cy="9" r="2.5" stroke="#4B5563" stroke-width="2"/>
-                                </svg>
-                                <span class="event-item__meta-text">Conference Room A</span>
-                            </div>
-                            <span class="event-item__badge event-item__badge--closed">RSVPs Closed</span>
-                        </div>
-                    </div>
-                    <div class="event-item__actions">
-                        <button class="event-item__btn event-item__btn--edit">Edit</button>
-                        <button class="event-item__btn event-item__btn--cancel">Cancel</button>
-                        <button class="event-item__btn event-item__btn--export">Export RSVPs</button>
-                    </div>
-                </div>
-            </article>
+                    </article>
+                }
+            }
         </div>
     </section>
 </main>
-

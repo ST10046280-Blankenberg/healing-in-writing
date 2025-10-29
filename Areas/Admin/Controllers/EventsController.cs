@@ -1,9 +1,9 @@
-using HealingInWriting.Data;
+using HealingInWriting.Domain.Events;
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Events;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Security.Claims;
 
 namespace HealingInWriting.Areas.Admin.Controllers
@@ -14,17 +14,46 @@ namespace HealingInWriting.Areas.Admin.Controllers
     {
         
         private readonly IEventService _eventService;
-        private readonly ApplicationDbContext _context;
 
-        public EventsController(IEventService eventService, ApplicationDbContext context)
+        public EventsController(IEventService eventService)
         {
             _eventService = eventService;
-            _context = context;
         }
         // GET: Admin/Events/Manage
-        public IActionResult Manage()
+        public async Task<IActionResult> Manage()
         {
-            return View();
+            var events = await _eventService.GetAllEventsAsync();
+
+            var model = new AdminManageEventsViewModel
+            {
+                Events = events.Select(@event =>
+                {
+                    var locationParts = new[]
+                        {
+                            @event.Address?.StreetAddress,
+                            @event.Address?.City,
+                            @event.Address?.Province
+                        }
+                        .Where(part => !string.IsNullOrWhiteSpace(part));
+
+                    var isRsvpOpen = @event.EventStatus == EventStatus.Published
+                                     && @event.StartDateTime > DateTime.UtcNow;
+
+                    return new AdminEventSummaryViewModel
+                    {
+                        Id = @event.EventId,
+                        Title = @event.Title,
+                        EventType = @event.EventType,
+                        Status = @event.EventStatus,
+                        StartDateTime = @event.StartDateTime,
+                        EndDateTime = @event.EndDateTime,
+                        LocationSummary = string.Join(", ", locationParts),
+                        IsRsvpOpen = isRsvpOpen
+                    };
+                }).ToList()
+            };
+
+            return View(model);
         }
 
         // [HttpGet]
@@ -53,6 +82,7 @@ namespace HealingInWriting.Areas.Admin.Controllers
                     model.Title = existingEvent.Title;
                     model.Description = existingEvent.Description;
                     model.EventType = existingEvent.EventType;
+                    model.EventStatus = existingEvent.EventStatus;
                     model.EventDate = existingEvent.StartDateTime.Date;
                     model.StartTime = existingEvent.StartDateTime.TimeOfDay;
                     model.EndTime = existingEvent.EndDateTime.TimeOfDay;
@@ -93,14 +123,25 @@ namespace HealingInWriting.Areas.Admin.Controllers
                     return View(model);
                 }
 
-                var eventId = await _eventService.CreateEventAsync(model, userId);
+                if (model.Id > 0)
+                {
+                    // Update existing event
+                    await _eventService.UpdateEventAsync(model, userId);
+                    TempData["SuccessMessage"] = "Event updated successfully!";
+                }
+                else
+                {
+                    // Create new event
+                    var eventId = await _eventService.CreateEventAsync(model, userId);
+                    TempData["SuccessMessage"] = "Event created successfully!";
+                }
 
-                TempData["SuccessMessage"] = "Event created successfully!";
                 return RedirectToAction(nameof(Manage));
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", $"Error creating event: {ex.Message}");
+                var action = model.Id > 0 ? "updating" : "creating";
+                ModelState.AddModelError("", $"Error {action} event: {ex.Message}");
                 return View(model);
             }
         }
