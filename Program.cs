@@ -157,6 +157,7 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     try
     {
+        var logger = services.GetRequiredService<ILogger<Program>>();
         var context = services.GetRequiredService<ApplicationDbContext>();
         //TODO: Remove the following two lines in production
         //// --- Apply migrations and recreate database (for dev/testing only) ---
@@ -169,11 +170,21 @@ using (var scope = app.Services.CreateScope())
 
         await DbInitialiser.InitialiseAsync(context, userManager, roleManager);
 
-        // --- Seed books at startup ---
+        // --- Seed books at startup (only if database is empty) ---
         var bookService = services.GetRequiredService<IBookService>() as BookService;
         if (bookService != null)
         {
-            await bookService.SeedBooksAsync();
+            var existingBooks = await bookService.GetFeaturedAsync();
+            if (!existingBooks.Any())
+            {
+                logger.LogInformation("Database is empty. Seeding books...");
+                await bookService.SeedBooksAsync();
+                logger.LogInformation("Book seeding completed.");
+            }
+            else
+            {
+                logger.LogInformation("Books already exist in database. Skipping seeding.");
+            }
         }
         // --- End book seeding ---
     }
