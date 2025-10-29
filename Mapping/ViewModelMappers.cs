@@ -155,7 +155,7 @@ public static class ViewModelMappers
             Language = book.Language,
             Publisher = book.Publisher,
             IndustryIdentifiers = IndustryIdentifiersToStrings(book.IndustryIdentifiers),
-            Condition = book.Condition.ToString(), // FIX: Convert enum to string
+            Condition = book.Condition.ToString(),
             Price = book.Price
         };
     }

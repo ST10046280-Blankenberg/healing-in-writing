@@ -1,8 +1,4 @@
-using HealingInWriting.Domain.Books;
 using HealingInWriting.Interfaces.Services;
-using HealingInWriting.Models.Books;
-using HealingInWriting.Services.Books;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HealingInWriting.Controllers
@@ -52,7 +48,6 @@ namespace HealingInWriting.Controllers
         [HttpGet]
         public async Task<IActionResult> Filter(string searchTerm, string selectedAuthor, string selectedCategory, int skip = 0, int take = 10)
         {
-            // Use paged method for filtering
             var books = await _bookService.GetPagedForUserAsync(
                 searchTerm,
                 selectedAuthor,
@@ -65,6 +60,7 @@ namespace HealingInWriting.Controllers
 
             return PartialView("_BookCardsPartial", filteredBooks);
         }
+
 
         [HttpGet]
         public async Task<IActionResult> ListPaged(

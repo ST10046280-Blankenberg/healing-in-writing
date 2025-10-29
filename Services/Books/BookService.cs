@@ -323,9 +323,23 @@ public class BookService : IBookService
         };
     }
 
-    public List<BookInventoryRowViewModel> ToBookInventoryRowViewModels(IEnumerable<Book> books)
+    public List<BookInventoryRowViewModel> ToBookInventoryRowViewModel(IEnumerable<Book> books)
         => books.Select(ViewModelMappers.ToBookInventoryRowViewModel).ToList();
 
+    public BookInventoryListViewModel ToBookInventoryViewModel(IEnumerable<Book> books)
+    {
+        return new BookInventoryListViewModel
+        {
+            AvailableAuthors = books.SelectMany(b => b.Authors ?? Enumerable.Empty<string>())
+                                   .Distinct()
+                                   .OrderBy(a => a)
+                                   .ToList(),
+            AvailableCategories = books.SelectMany(b => b.Categories ?? Enumerable.Empty<string>())
+                                      .Distinct()
+                                      .OrderBy(c => c)
+                                      .ToList()
+        };
+    }
     /// <summary>
     /// Retrieves a paged, filterable list of books for admin (all books, regardless of visibility).
     /// </summary>
@@ -363,4 +377,6 @@ public class BookService : IBookService
 
     public Task<List<string>> GetAllCategoriesAsync(bool onlyVisible)
         => _bookRepository.GetAllCategoriesAsync(onlyVisible);
+
+
 }

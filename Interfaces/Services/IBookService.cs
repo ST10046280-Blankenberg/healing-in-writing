@@ -78,6 +78,11 @@ public interface IBookService
     /// <returns>A <see cref="BookListViewModel"/> for use in views.</returns>
     BookListViewModel ToBookListViewModel(IEnumerable<Book> books);
 
+    List<BookInventoryRowViewModel> ToBookInventoryRowViewModel(IEnumerable<Book> books);
+
+    BookInventoryListViewModel ToBookInventoryViewModel(IEnumerable<Book> books);
+
+
     /// <summary>
     /// Retrieves a paged, filterable list of books for admin (all books, regardless of visibility).
     /// </summary>

@@ -4,8 +4,8 @@ using HealingInWriting.Models.Books;
 using HealingInWriting.Services.Books;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace HealingInWriting.Areas.Admin.Controllers
 {
@@ -48,12 +48,15 @@ namespace HealingInWriting.Areas.Admin.Controllers
                 selectedTag: null,
                 skip: 0,
                 take: 20);
-            var model = new BookInventoryViewModel
-            {
-                Books = (_bookService as BookService)?.ToBookInventoryRowViewModels(books)
-                    ?? new List<BookInventoryRowViewModel>()
-            };
-            return View(model);
+
+            var allAuthors = await _bookService.GetAllAuthorsAsync(onlyVisible: false);
+            var allCategories = await _bookService.GetAllCategoriesAsync(onlyVisible: false);
+
+            var viewModel = _bookService.ToBookInventoryViewModel(books);
+            viewModel.AvailableAuthors = allAuthors;
+            viewModel.AvailableCategories = allCategories;
+
+            return View(viewModel);
         }
 
         /// <summary>
@@ -239,6 +242,31 @@ namespace HealingInWriting.Areas.Admin.Controllers
         }
 
         /// <summary>
+        /// Filters books based on the provided criteria.
+        /// </summary>
+        /// <param name="searchTerm">The search term to filter books.</param>
+        /// <param name="selectedAuthor">The selected author to filter books.</param>
+        /// <param name="selectedCategory">The selected category to filter books.</param>
+        /// <param name="skip">The number of records to skip for pagination.</param>
+        /// <param name="take">The number of records to take for pagination.</param>
+        /// <returns>A partial view with the filtered list of books.</returns>
+        [HttpGet]
+        public async Task<IActionResult> Filter(string searchTerm, string selectedAuthor, string selectedCategory, int skip = 0, int take = 10)
+        {
+            var books = await _bookService.GetPagedForAdminAsync(
+                searchTerm,
+                selectedAuthor,
+                selectedCategory,
+                null,
+                skip,
+                take);
+
+            var filteredBooks = _bookService.ToBookInventoryRowViewModel(books);
+
+            return PartialView("_BookInventoryRow", filteredBooks);
+        }
+
+        /// <summary>
         /// Lists books in a paginated format for admin view.
         /// </summary>
         /// <param name="skip">The number of records to skip for pagination.</param>
@@ -249,14 +277,18 @@ namespace HealingInWriting.Areas.Admin.Controllers
             string? searchTerm, string? selectedAuthor, string? selectedCategory, int skip = 0, int take = 10)
         {
             var books = await _bookService.GetPagedForAdminAsync(
-                searchTerm, selectedAuthor, selectedCategory, null, skip, take);
-            var model = new BookInventoryViewModel
-            {
-                Books = (_bookService as BookService)?.ToBookInventoryRowViewModels(books)
-                    ?? new List<BookInventoryRowViewModel>()
-            };
-            return PartialView("_BookInventoryRowsPartial", model.Books);
+                searchTerm,
+                selectedAuthor,
+                selectedCategory,
+                null,
+                skip,
+                take);
+
+            var filteredBooks = _bookService.ToBookInventoryRowViewModel(books);
+
+            return PartialView("_BookInventoryRows", filteredBooks);
         }
+
 
         #endregion
     }
