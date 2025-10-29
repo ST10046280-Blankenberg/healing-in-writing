@@ -158,7 +158,6 @@ namespace HealingInWriting.Areas.Admin.Controllers
             if (string.IsNullOrWhiteSpace(isbn))
                 return Json(new { success = false, message = "ISBN required." });
 
-            // Use the new ImportResult
             var result = await (_bookService as BookService)?.ImportBookByIsbnAsync(isbn);
 
             if (result == null)

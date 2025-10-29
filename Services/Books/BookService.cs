@@ -19,6 +19,7 @@ public class BookService : IBookService
     private readonly IBookRepository _bookRepository;
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ILogger<BookService> _logger;
+    private readonly IBackoffStateRepository _backoffStateRepository;
 
     //1. List of 100 ISBNs to seed
     private static readonly List<string> SeedIsbns = new()
@@ -127,13 +128,21 @@ public class BookService : IBookService
     "9780307743657"  // The Silent Patient (duplicate allowed for real datasets, but can be replaced)
 };
 
+    private DateTimeOffset? _lastImportAttemptUtc;
+    private TimeSpan _currentBackoff = TimeSpan.Zero;
+    private readonly TimeSpan _initialBackoff = TimeSpan.FromSeconds(10);
+    private readonly TimeSpan _maxBackoff = TimeSpan.FromMinutes(10);
+    private readonly object _backoffLock = new();
+
     public BookService(
         IBookRepository bookRepository,
+        IBackoffStateRepository backoffStateRepository,
         IConfiguration configuration,
         IHttpClientFactory httpClientFactory,
         ILogger<BookService> logger)
     {
         _bookRepository = bookRepository;
+        _backoffStateRepository = backoffStateRepository;
         _configuration = configuration;
         _httpClientFactory = httpClientFactory;
         _logger = logger;
@@ -200,6 +209,26 @@ public class BookService : IBookService
 
     public async Task<ImportResult> ImportBookByIsbnAsync(string isbn)
     {
+        var backoff = await _backoffStateRepository.GetAsync() ?? new BackoffState();
+
+        if (backoff.LastImportAttemptUtc.HasValue && backoff.CurrentBackoffSeconds > 0)
+        {
+            var now = DateTimeOffset.UtcNow;
+            var nextAllowed = backoff.LastImportAttemptUtc.Value.AddSeconds(backoff.CurrentBackoffSeconds);
+            if (now < nextAllowed)
+            {
+                var wait = (int)(nextAllowed - now).TotalSeconds;
+                _logger.LogWarning("Import attempt aborted: rate limit not finished. Time left: {TimeLeft} seconds for ISBN {Isbn}.", wait, isbn);
+                return new ImportResult
+                {
+                    Book = null,
+                    RateLimited = true,
+                    Message = $"Google Books API rate limit in effect. Please wait {wait} seconds before retrying."
+                };
+            }
+        }
+        backoff.LastImportAttemptUtc = DateTimeOffset.UtcNow;
+
         if (string.IsNullOrWhiteSpace(isbn))
             return new ImportResult { Book = null };
 
@@ -222,14 +251,28 @@ public class BookService : IBookService
 
         if (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
         {
-            _logger.LogWarning("Google Books API rate limit exceeded (HTTP 429) while importing ISBN {Isbn}. Aborting import.", isbn);
+            // Increase backoff exponentially, up to max
+            var initial = 10.0;
+            var max = 600.0;
+            backoff.CurrentBackoffSeconds = backoff.CurrentBackoffSeconds == 0
+                ? initial
+                : Math.Min(backoff.CurrentBackoffSeconds * 2, max);
+            backoff.LastImportAttemptUtc = DateTimeOffset.UtcNow;
+            await _backoffStateRepository.SaveAsync(backoff);
+
+            _logger.LogWarning("Google Books API rate limit exceeded (HTTP 429) while importing ISBN {Isbn}. Backoff now {Backoff}.", isbn, backoff.CurrentBackoffSeconds);
             return new ImportResult
             {
                 Book = null,
                 RateLimited = true,
-                Message = "Google Books API rate limit exceeded. Please try again later."
+                Message = $"Google Books API rate limit exceeded. Please wait {backoff.CurrentBackoffSeconds} seconds before retrying."
             };
         }
+
+        // On success, reset backoff
+        backoff.CurrentBackoffSeconds = 0;
+        backoff.LastImportAttemptUtc = null;
+        await _backoffStateRepository.SaveAsync(backoff);
 
         if (!response.IsSuccessStatusCode)
             return new ImportResult { Book = null, Message = "Failed to import book." };
@@ -237,7 +280,6 @@ public class BookService : IBookService
         var json = await response.Content.ReadAsStringAsync();
         var googleResult = JsonDocument.Parse(json);
 
-        // Defensive: Check if "items" property exists
         if (!googleResult.RootElement.TryGetProperty("items", out var items) || items.ValueKind != JsonValueKind.Array)
             return new ImportResult { Book = null };
 
@@ -246,8 +288,6 @@ public class BookService : IBookService
             return new ImportResult { Book = null };
 
         var volumeInfo = item.GetProperty("volumeInfo");
-
-        // Use mapping helper for Google Books JSON to Book
         var book = ViewModelMappers.ToBookFromGoogleJson(volumeInfo);
 
         return new ImportResult { Book = book };

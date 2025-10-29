@@ -17,6 +17,23 @@ namespace HealingInWriting.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
 
+            modelBuilder.Entity("HealingInWriting.Domain.Books.BackoffState", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("CurrentBackoffSeconds")
+                        .HasColumnType("REAL");
+
+                    b.Property<DateTimeOffset?>("LastImportAttemptUtc")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BackoffStates");
+                });
+
             modelBuilder.Entity("HealingInWriting.Domain.Books.Book", b =>
                 {
                     b.Property<int>("BookId")
@@ -31,10 +48,16 @@ namespace HealingInWriting.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("Condition")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsVisible")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Language")
                         .IsRequired()
