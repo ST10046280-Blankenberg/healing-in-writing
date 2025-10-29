@@ -125,7 +125,7 @@
                                     <option value="">Select condition</option>
                                     @foreach (var item in (List<SelectListItem>)ViewBag.BookConditions)
                                     {
-                                        <option value="@item.Value" @(Model.Condition == item.Value ? "selected" : "")>@item.Text</option>
+                                        <option value="@item.Value" selected="@(Model.Condition == item.Value)">@item.Text</option>
                                     }
                                 </select>
                             </div>

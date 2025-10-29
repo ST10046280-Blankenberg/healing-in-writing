@@ -11,12 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealingInWriting.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-<<<<<<<< HEAD:Migrations/20251028145915_InitialCommit.Designer.cs
-    [Migration("20251028145915_InitialCommit")]
-========
-    [Migration("20251029093650_Initial Commit")]
->>>>>>>> main:Migrations/20251029093650_Initial Commit.Designer.cs
-    partial class InitialCommit
+    [Migration("20251029215845_CombinedInitialMigration")]
+    partial class CombinedInitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +20,6 @@ namespace HealingInWriting.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
 
-<<<<<<<< HEAD:Migrations/20251028145915_InitialCommit.Designer.cs
             modelBuilder.Entity("EventTag", b =>
                 {
                     b.Property<int>("EventId")
@@ -38,7 +33,8 @@ namespace HealingInWriting.Migrations
                     b.HasIndex("EventTagsTagId");
 
                     b.ToTable("EventTags", (string)null);
-========
+                });
+
             modelBuilder.Entity("HealingInWriting.Domain.Books.BackoffState", b =>
                 {
                     b.Property<int>("Id")
@@ -54,7 +50,6 @@ namespace HealingInWriting.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BackoffStates");
->>>>>>>> main:Migrations/20251029093650_Initial Commit.Designer.cs
                 });
 
             modelBuilder.Entity("HealingInWriting.Domain.Books.Book", b =>
