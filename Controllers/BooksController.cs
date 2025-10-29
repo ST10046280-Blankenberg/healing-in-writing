@@ -16,9 +16,15 @@ namespace HealingInWriting.Controllers
             _bookService = bookService;
         }
 
+        // For regular users: only visible books
         public async Task<IActionResult> Index()
         {
-            var books = (await _bookService.GetFeaturedAsync())
+            // Only fetch visible books for users
+            var books = (await _bookService.GetFeaturedFilteredAsync(
+                    searchTerm: null,
+                    selectedAuthor: null,
+                    selectedCategory: null,
+                    selectedTag: null))
                 .OrderByDescending(b => b.PublishedDate)
                 .Take(10)
                 .ToList();
@@ -43,7 +49,9 @@ namespace HealingInWriting.Controllers
         [HttpGet]
         public async Task<IActionResult> Filter(string searchTerm, string selectedAuthor, string selectedCategory)
         {
-            var books = await _bookService.GetFeaturedFilteredAsync(searchTerm, selectedAuthor, selectedCategory, null);
+            // Only fetch visible books for users
+            var books = await _bookService.GetFeaturedFilteredAsync(
+                searchTerm, selectedAuthor, selectedCategory, null);
 
             var filteredBooks = _bookService.ToBookSummaryViewModels(books);
 

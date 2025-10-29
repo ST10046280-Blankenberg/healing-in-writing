@@ -177,26 +177,20 @@ public class BookService : IBookService
 
     public async Task<IReadOnlyCollection<Book>> GetFeaturedAsync()
     {
+        // For admin: all books
         var books = await _bookRepository.GetAllAsync();
         return books.ToList();
     }
 
-    public async Task<IReadOnlyCollection<Book>> GetFeaturedFilteredAsync(string searchTerm, string selectedAuthor, string selectedCategory, string selectedTag)
+    public async Task<IReadOnlyCollection<Book>> GetFeaturedFilteredAsync(
+    string searchTerm,
+    string selectedAuthor,
+    string selectedCategory,
+    string selectedTag)
     {
-        var books = await GetFeaturedAsync();
-
-        if (!string.IsNullOrWhiteSpace(selectedAuthor))
-            books = books?.Where(b => b.Authors?.Contains(selectedAuthor) == true).ToList() ?? new List<Book>();
-
-        if (!string.IsNullOrWhiteSpace(selectedCategory))
-            books = books.Where(b => b.Categories.Contains(selectedCategory)).ToList();
-
-        if (!string.IsNullOrWhiteSpace(selectedTag))
-            books = books.Where(b => b.Categories.Contains(selectedTag)).ToList();
-
-        if (!string.IsNullOrWhiteSpace(searchTerm))
-            books = books.Where(b => b.Title.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
-                                     b.Description.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
+        // For users: only visible books, with filters
+        var books = await _bookRepository.GetVisibleFilteredAsync(
+            searchTerm, selectedAuthor, selectedCategory, selectedTag);
 
         return books.ToList();
     }

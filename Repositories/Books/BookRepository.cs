@@ -32,7 +32,6 @@ namespace HealingInWriting.Repositories.Books
 
         public async Task<IEnumerable<Book>> GetAllAsync()
         {
-            // Pull identifiers and image links in one go so admin screens do not trigger extra queries.
             return await _context.Books
                 .Include(b => b.IndustryIdentifiers)
                 .Include(b => b.ImageLinks)
@@ -52,6 +51,34 @@ namespace HealingInWriting.Repositories.Books
         {
             _context.Books.Update(book);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Book>> GetVisibleFilteredAsync(
+            string? searchTerm,
+            string? selectedAuthor,
+            string? selectedCategory,
+            string? selectedTag)
+        {
+            var query = _context.Books
+                .Include(b => b.IndustryIdentifiers)
+                .Include(b => b.ImageLinks)
+                .Where(b => b.IsVisible);
+
+            if (!string.IsNullOrWhiteSpace(selectedAuthor))
+                query = query.Where(b => b.Authors.Contains(selectedAuthor));
+
+            if (!string.IsNullOrWhiteSpace(selectedCategory))
+                query = query.Where(b => b.Categories.Contains(selectedCategory));
+
+            if (!string.IsNullOrWhiteSpace(selectedTag))
+                query = query.Where(b => b.Categories.Contains(selectedTag));
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+                query = query.Where(b =>
+                    b.Title.Contains(searchTerm) ||
+                    b.Description.Contains(searchTerm));
+
+            return await query.ToListAsync();
         }
     }
 }
