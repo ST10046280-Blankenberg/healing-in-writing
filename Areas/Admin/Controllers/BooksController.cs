@@ -14,13 +14,32 @@ namespace HealingInWriting.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class BooksController : Controller
     {
+        #region Fields
+
         private readonly IBookService _bookService;
 
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BooksController"/> class.
+        /// </summary>
+        /// <param name="bookService">The book service dependency.</param>
         public BooksController(IBookService bookService)
         {
             _bookService = bookService;
         }
 
+        #endregion
+
+        #region HTTP GET: Views (Page Initialization)
+
+        /// <summary>
+        /// Displays the book inventory management view.
+        /// </summary>
+        /// <returns>The Manage view with a list of featured books.</returns>
+        [HttpGet]
         public async Task<IActionResult> Manage()
         {
             var books = (await _bookService.GetFeaturedAsync()).ToList();
@@ -38,18 +57,46 @@ namespace HealingInWriting.Areas.Admin.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Returns the view for adding a new book.
+        /// </summary>
+        /// <returns>The AddBook view.</returns>
         [HttpGet]
         public IActionResult AddBook()
         {
             return View();
         }
 
+        /// <summary>
+        /// Returns the view for editing a book.
+        /// </summary>
+        /// <param name="id">The unique identifier of the book to edit.</param>
+        /// <returns>The EditBook view with the book details, or NotFound if not found.</returns>
+        [HttpGet]
+        public async Task<IActionResult> EditBook(int id)
+        {
+            var book = await _bookService.GetBookByIdAsync(id);
+            if (book == null)
+                return NotFound();
+
+            var viewModel = _bookService.ToBookDetailViewModel(book);
+            return View(viewModel);
+        }
+
+        #endregion
+
+        #region HTTP POST: Actions (CRUD)
+
+        /// <summary>
+        /// Handles the POST request to add a new book.
+        /// </summary>
+        /// <param name="form">The form collection containing book data.</param>
+        /// <returns>Redirects to Manage on success or failure, with error in TempData if failed.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [EnableRateLimiting("standard")]
         public async Task<IActionResult> AddBook(IFormCollection form)
         {
-            // Move all parsing and creation logic to the service
             var result = await _bookService.AddBookFromFormAsync(form);
 
             if (!result.Success)
@@ -61,9 +108,32 @@ namespace HealingInWriting.Areas.Admin.Controllers
             return RedirectToAction("Manage");
         }
 
+        /// <summary>
+        /// Handles the POST request to edit a book.
+        /// </summary>
+        /// <param name="model">The book detail view model with updated data.</param>
+        /// <returns>Redirects to Manage on success, or returns the EditBook view if model state is invalid.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> EditBook(BookDetailViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var book = _bookService.ToBookFromDetailViewModel(model);
+
+            await _bookService.UpdateBookAsync(book);
+            return RedirectToAction("Manage");
+        }
+
+        /// <summary>
+        /// Deletes a book by its ID.
+        /// </summary>
+        /// <param name="id">The unique identifier of the book to delete.</param>
+        /// <returns>Returns Ok on success, BadRequest on failure.</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteBook(int id)
         {
             var result = await _bookService.DeleteBookAsync(id);
             if (!result)
@@ -71,6 +141,17 @@ namespace HealingInWriting.Areas.Admin.Controllers
             return Ok();
         }
 
+        #endregion
+
+        #region HTTP GET/POST: Utility Actions
+
+        /// <summary>
+        /// Imports a book by its ISBN from an external source.
+        /// </summary>
+        /// <param name="isbn">The ISBN to import.</param>
+        /// <returns>
+        /// A JSON result with success status and book data if found, or an error message if not.
+        /// </returns>
         [HttpGet]
         public async Task<IActionResult> ImportBookByIsbn(string isbn)
         {
@@ -87,28 +168,6 @@ namespace HealingInWriting.Areas.Admin.Controllers
             return Json(new { success = true, data = viewModel });
         }
 
-        [HttpGet]
-        public async Task<IActionResult> EditBook(int id)
-        {
-            var book = await _bookService.GetBookByIdAsync(id);
-            if (book == null)
-                return NotFound();
-
-            var viewModel = _bookService.ToBookDetailViewModel(book);
-            return View(viewModel);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditBook(BookDetailViewModel model)
-        {
-            if (!ModelState.IsValid)
-                return View(model);
-
-            var book = _bookService.ToBookFromDetailViewModel(model);
-
-            await _bookService.UpdateBookAsync(book);
-            return RedirectToAction("Manage");
-        }
+        #endregion
     }
 }
