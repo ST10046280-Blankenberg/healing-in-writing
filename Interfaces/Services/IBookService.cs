@@ -97,8 +97,12 @@ public interface IBookService
 
     Task<List<string>> GetAllAuthorsAsync(bool onlyVisible);
     Task<List<string>> GetAllCategoriesAsync(bool onlyVisible);
+    Task<int> GetCountForAdminAsync(
+            string? searchTerm,
+            string? selectedAuthor,
+            string? selectedCategory,
+            string? selectedTag);
 }
-
 /// <summary>
 /// Represents the result of an import operation, including the imported book, rate limit status, and a message.
 /// </summary>

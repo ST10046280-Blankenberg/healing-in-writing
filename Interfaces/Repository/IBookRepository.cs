@@ -53,5 +53,15 @@ namespace HealingInWriting.Interfaces.Repository
         /// Gets all unique categories from all books.
         /// </summary>
         Task<List<string>> GetAllCategoriesAsync(bool onlyVisible);
+
+        /// <summary>
+        /// Gets the count of books matching the given filters (admin).
+        /// </summary>
+        Task<int> GetFilteredCountAsync(
+            string? searchTerm,
+            string? selectedAuthor,
+            string? selectedCategory,
+            string? selectedTag,
+            bool onlyVisible);
     }
 }

@@ -107,10 +107,12 @@
             </table>
         </div>
         <!-- Pagination Controls -->
-        <nav class="manage-books__pagination" id="books-pagination" aria-label="Book inventory pagination">
-            <button type="button" class="pagination__btn" data-page="prev" disabled>Previous</button>
-            <span class="pagination__info">Page <span id="pagination-current">1</span></span>
-            <button type="button" class="pagination__btn" data-page="next">Next</button>
-        </nav>
+        <div id="books-pagination"
+             data-total-count="@ViewBag.TotalCount"
+             data-page-size="@ViewBag.PageSize">
+            <button class="pagination__btn" data-page="prev">Prev</button>
+            <span id="pagination-current">1</span> / <span id="pagination-total">1</span>
+            <button class="pagination__btn" data-page="next">Next</button>
+        </div>
     </main>
 </div>

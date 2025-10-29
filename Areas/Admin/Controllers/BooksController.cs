@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.RateLimiting;
+using System.IO;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace HealingInWriting.Areas.Admin.Controllers
 {
@@ -55,6 +58,16 @@ namespace HealingInWriting.Areas.Admin.Controllers
             var viewModel = _bookService.ToBookInventoryViewModel(books);
             viewModel.AvailableAuthors = allAuthors;
             viewModel.AvailableCategories = allCategories;
+
+            // Get the total count for initial pagination
+            var totalCount = await _bookService.GetCountForAdminAsync(
+                searchTerm: null,
+                selectedAuthor: null,
+                selectedCategory: null,
+                selectedTag: null);
+
+            ViewBag.TotalCount = totalCount;
+            ViewBag.PageSize = 20;
 
             return View(viewModel);
         }
@@ -197,7 +210,8 @@ namespace HealingInWriting.Areas.Admin.Controllers
             if (string.IsNullOrWhiteSpace(isbn))
                 return Json(new { success = false, message = "ISBN required." });
 
-            var result = await (_bookService as BookService)?.ImportBookByIsbnAsync(isbn);
+            // Use the interface method directly, not a cast
+            var result = await _bookService.ImportBookByIsbnAsync(isbn);
 
             if (result == null)
                 return Json(new { success = false, message = "Book not found for this ISBN." });
@@ -208,7 +222,7 @@ namespace HealingInWriting.Areas.Admin.Controllers
             if (result.Book == null)
                 return Json(new { success = false, message = result.Message ?? "Book not found for this ISBN." });
 
-            var viewModel = (_bookService as BookService)?.ToBookDetailViewModel(result.Book);
+            var viewModel = _bookService.ToBookDetailViewModel(result.Book);
 
             return Json(new { success = true, data = viewModel });
         }
@@ -286,7 +300,51 @@ namespace HealingInWriting.Areas.Admin.Controllers
 
             var filteredBooks = _bookService.ToBookInventoryRowViewModel(books);
 
-            return PartialView("_BookInventoryRow", filteredBooks);
+            // Get the total count for the current filter
+            var totalCount = await _bookService.GetCountForAdminAsync(
+                searchTerm,
+                selectedAuthor,
+                selectedCategory,
+                null);
+
+            // Use the helper to render the partial view to string
+            var html = await RenderPartialViewToStringAsync("_BookInventoryRow", filteredBooks);
+
+            return Json(new { html, totalCount });
+        }
+
+        /// <summary>
+        /// Helper to render a partial view to string for AJAX responses.
+        /// </summary>
+        private async Task<string> RenderPartialViewToStringAsync(string viewName, object model)
+        {
+            if (string.IsNullOrEmpty(viewName))
+                viewName = ControllerContext.ActionDescriptor.ActionName;
+
+            ViewData.Model = model;
+
+            using (var sw = new StringWriter())
+            {
+                var viewEngine = HttpContext.RequestServices.GetService(typeof(ICompositeViewEngine)) as ICompositeViewEngine;
+                var viewResult = viewEngine.FindView(ControllerContext, viewName, false);
+
+                if (!viewResult.Success)
+                {
+                    throw new InvalidOperationException($"View '{viewName}' not found.");
+                }
+
+                var viewContext = new ViewContext(
+                    ControllerContext,
+                    viewResult.View,
+                    ViewData,
+                    TempData,
+                    sw,
+                    new HtmlHelperOptions()
+                );
+
+                await viewResult.View.RenderAsync(viewContext);
+                return sw.GetStringBuilder().ToString();
+            }
         }
         #endregion
     }

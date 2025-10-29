@@ -3,7 +3,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const filterForm = document.getElementById('book-filter-form');
     const pagination = document.getElementById('books-pagination');
     let currentPage = 1;
-    const pageSize = 20;
+    const pageSize = pagination ? parseInt(pagination.dataset.pageSize, 10) : 20;
+    let totalCount = pagination ? parseInt(pagination.dataset.totalCount, 10) : 0;
+
+    function updatePaginationUI() {
+        const totalPages = Math.max(1, Math.ceil(totalCount / pageSize));
+        document.getElementById('pagination-current').textContent = currentPage;
+        document.getElementById('pagination-total').textContent = totalPages;
+        pagination.querySelector('[data-page="prev"]').disabled = currentPage === 1;
+        pagination.querySelector('[data-page="next"]').disabled = currentPage >= totalPages;
+    }
 
     function loadPage(page) {
         const params = new URLSearchParams(new FormData(filterForm));
@@ -11,16 +20,18 @@ document.addEventListener('DOMContentLoaded', function () {
         params.set('take', pageSize);
 
         fetch('/Admin/Books/ListPaged?' + params.toString())
-            .then(response => response.text())
-            .then(html => {
-                booksListContainer.innerHTML = html;
+            .then(response => response.json())
+            .then(data => {
+                booksListContainer.innerHTML = data.html;
                 currentPage = page;
-                document.getElementById('pagination-current').textContent = currentPage;
-                pagination.querySelector('[data-page="prev"]').disabled = currentPage === 1;
+                totalCount = data.totalCount;
+                updatePaginationUI();
             });
     }
 
     if (pagination) {
+        updatePaginationUI(); // Initialize on page load
+
         pagination.addEventListener('click', function (e) {
             if (e.target.classList.contains('pagination__btn')) {
                 if (e.target.dataset.page === 'prev' && currentPage > 1) {

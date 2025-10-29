@@ -380,5 +380,16 @@ public class BookService : IBookService
     public Task<List<string>> GetAllCategoriesAsync(bool onlyVisible)
         => _bookRepository.GetAllCategoriesAsync(onlyVisible);
 
-
+    /// <summary>
+    /// Gets the count of books for admin with filters (all books, regardless of visibility).
+    /// </summary>
+    public async Task<int> GetCountForAdminAsync(
+        string? searchTerm,
+        string? selectedAuthor,
+        string? selectedCategory,
+        string? selectedTag)
+    {
+        return await _bookRepository.GetFilteredCountAsync(
+            searchTerm, selectedAuthor, selectedCategory, selectedTag, onlyVisible: false);
+    }
 }

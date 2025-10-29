@@ -120,5 +120,34 @@ namespace HealingInWriting.Repositories.Books
                 .OrderBy(c => c)
                 .ToList();
         }
+
+        public async Task<int> GetFilteredCountAsync(
+            string? searchTerm,
+            string? selectedAuthor,
+            string? selectedCategory,
+            string? selectedTag,
+            bool onlyVisible)
+        {
+            var query = _context.Books.AsQueryable();
+
+            if (onlyVisible)
+                query = query.Where(b => b.IsVisible);
+
+            if (!string.IsNullOrWhiteSpace(selectedAuthor))
+                query = query.Where(b => b.Authors.Contains(selectedAuthor));
+
+            if (!string.IsNullOrWhiteSpace(selectedCategory))
+                query = query.Where(b => b.Categories.Contains(selectedCategory));
+
+            if (!string.IsNullOrWhiteSpace(selectedTag))
+                query = query.Where(b => b.Categories.Contains(selectedTag));
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+                query = query.Where(b =>
+                    b.Title.Contains(searchTerm) ||
+                    b.Description.Contains(searchTerm));
+
+            return await query.CountAsync();
+        }
     }
 }
