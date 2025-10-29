@@ -97,9 +97,9 @@
         inputId: 'CategoriesInput',
         tagsDisplayId: 'CategoryTags',
         hiddenInputId: 'Categories',
-        tagClass: 'book-card__tag',
-        tagTextClass: 'book-card__tag-text',
-        removeButtonClass: 'book-card__tag-remove'
+        tagClass: 'tag-input__tag',
+        tagTextClass: 'tag-input__tag-text',
+        removeButtonClass: 'tag-input__tag-remove'
     });
 
     // Cover image logic
