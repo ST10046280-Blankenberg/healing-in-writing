@@ -54,7 +54,7 @@ public class BookService : IBookService
     "9780307474278", // The Help
     "9780143110439", // Eat, Pray, Love
     "9780375704024", // Beloved
-    "0747549559", // Harry Potter and the Philosopher’s Stone
+    "0747549559", // Harry Potter and the Philosopherï¿½s Stone
     "9780765376671", // Words of Radiance
     "9780590353427", // Harry Potter and the Chamber of Secrets
     "9780590353403", // Harry Potter and the Prisoner of Azkaban
@@ -328,9 +328,10 @@ public class BookService : IBookService
 
     public BookInventoryListViewModel ToBookInventoryViewModel(IEnumerable<Book> books)
     {
-        var InventoryRow = ToBookInventoryRowViewModel(books);
+        var inventoryRows = ToBookInventoryRowViewModel(books);
         return new BookInventoryListViewModel
         {
+            Books = inventoryRows,
             AvailableAuthors = books.SelectMany(b => b.Authors ?? Enumerable.Empty<string>())
                                    .Distinct()
                                    .OrderBy(a => a)
