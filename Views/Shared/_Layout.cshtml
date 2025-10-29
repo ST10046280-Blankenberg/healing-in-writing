@@ -5,9 +5,13 @@
     bool isAdmin = User.Identity.IsAuthenticated && User.IsInRole("Admin");
     var currentController = Context.Request.RouteValues["controller"]?.ToString();
     var currentArea = Context.Request.RouteValues["area"]?.ToString();
+    var currentAction = Context.Request.RouteValues["action"]?.ToString();
     bool isAdminTabActive = string.Equals(currentArea, "Admin", StringComparison.OrdinalIgnoreCase)
         || string.Equals(currentController, "Admin", StringComparison.OrdinalIgnoreCase)
         || (ViewData["IsAdminSection"] as bool? == true);
+    bool isDashboardSection = string.Equals(currentController, "Dashboard", StringComparison.OrdinalIgnoreCase)
+        || (ViewData["IsDashboardSection"] as bool? == true);
+    bool isDashboardTabActive = isDashboardSection;
 }
 
 <!DOCTYPE html>
@@ -24,6 +28,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/shared/header.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/shared/footer.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/shared/dashboard-subnav.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/HealingInWriting.styles.css" asp-append-version="true" />
     @await RenderSectionAsync("Styles", required: false)
 </head>
@@ -61,7 +66,15 @@
                     <li class="header__nav-item">
                         <a class="header__nav-link" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
                     </li>
-                    @* Admin tab only for admins *@ 
+                    @* Dashboard tab for authenticated non-admin users *@
+                    @if (User.Identity.IsAuthenticated && !isAdmin)
+                    {
+                        <li class="header__nav-item">
+                            <a class="header__nav-link @(isDashboardTabActive ? "header__nav-link--active" : "")"
+                               asp-area="" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+                        </li>
+                    }
+                    @* Admin tab only for admins *@
                     @if (isAdmin)
                     {
                         <li class="header__nav-item">
@@ -100,6 +113,14 @@
     {
         <div class="admin-subnav">
             @await Html.PartialAsync("~/Views/_Layouts/_AdminLayout.cshtml")
+        </div>
+    }
+
+    @* Dashboard sub-navbar: only for authenticated non-admin users in dashboard section *@
+    @if (isDashboardSection && !isAdmin)
+    {
+        <div class="dashboard-subnav">
+            @await Html.PartialAsync("~/Views/_Layouts/_DashboardLayout.cshtml", currentAction)
         </div>
     }
 
