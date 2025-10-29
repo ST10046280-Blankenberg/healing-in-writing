@@ -1,0 +1,312 @@
+/* =========================================================
+   Gallery Page Styles
+   Based on Figma Design Specifications
+   Following BEM Naming Convention
+   ========================================================= */
+
+/* =========================================================
+   Main Gallery Container
+   ========================================================= */
+
+.gallery {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh;
+
+    /* Visual */
+    background: linear-gradient(165.21deg, #FDF5ED 20.59%, #E9D5EB 77.36%);
+}
+
+/* =========================================================
+   Gallery Grid Section
+   ========================================================= */
+
+.gallery__grid-section {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 10px 64px;
+    gap: 10px;
+    width: 100%;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.gallery__grid-container {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+    padding: 0;
+    gap: 8px;
+    width: 100%;
+
+
+    /* Layout */
+    flex: none;
+    flex-grow: 1;
+}
+
+/* =========================================================
+   Gallery Card
+   ========================================================= */
+
+.gallery-card {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 16px;
+    gap: 10px;
+    width: 322px;
+    height: 483px;
+    position: relative;
+
+    /* Visual */
+    background: url('data:image/svg+xml;utf8,<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"><rect width="8" height="8" fill="%23e5e7eb"/><rect x="8" y="8" width="8" height="8" fill="%23e5e7eb"/><rect x="8" y="0" width="8" height="8" fill="%23f3f4f6"/><rect x="0" y="8" width="8" height="8" fill="%23f3f4f6"/></svg>') repeat;
+    border-radius: 8px;
+    overflow: hidden;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+.gallery-card__image {
+    /* Box Model */
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+
+    /* Visual */
+    border-radius: 8px;
+}
+
+/* =========================================================
+   Gallery Card - Group Variant (Multi-Photo Indicator)
+   ========================================================= */
+
+.gallery-card--group {
+    /* Align indicator to top-right */
+    align-items: flex-end;
+    justify-content: flex-start;
+}
+
+.gallery-card__multi-indicator {
+    /* Box Model */
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 38px;
+    height: 38px;
+    z-index: 10;
+
+    /* Layout */
+    flex: none;
+}
+
+.gallery-card__multi-icon {
+    /* Box Model */
+    width: 38px;
+    height: 38px;
+    
+    /* Visual */
+    filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* =========================================================
+   Load More Section
+   ========================================================= */
+
+.gallery__load-more-section {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 32px 0;
+    width: 100%;
+    max-width: 1440px;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.gallery__load-more-container {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 64px;
+    gap: 32px;
+    width: 100%;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.gallery__load-more-button {
+    /* Box Model */
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    padding: 13px 32px;
+    width: 206.03px;
+    height: 50px;
+
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid #2F1648;
+    border-radius: 8px;
+    cursor: pointer;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #2F1648;
+
+    /* Interaction */
+    transition: all 0.3s ease;
+
+    /* Layout */
+    flex: none;
+}
+
+.gallery__load-more-button:hover {
+    background: #2F1648;
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 12px rgba(47, 22, 72, 0.2);
+}
+
+.gallery__load-more-button:active {
+    transform: translateY(0);
+    box-shadow: 0px 2px 6px rgba(47, 22, 72, 0.15);
+}
+
+/* =========================================================
+   Responsive Design
+   ========================================================= */
+
+/* Large Desktop (1440px+) */
+@media (min-width: 1440px) {
+    .gallery__grid-container {
+        justify-content: center;
+    }
+}
+
+/* Desktop (1024px - 1439px) */
+@media (max-width: 1439px) {
+    .gallery__grid-section {
+        padding: 10px 32px;
+    }
+
+    .gallery__grid-container {
+        gap: 16px;
+        justify-content: center;
+    }
+
+    .gallery-card {
+        width: calc(33.333% - 11px);
+        min-width: 280px;
+    }
+}
+
+/* Tablet (768px - 1023px) */
+@media (max-width: 1023px) {
+    .gallery__grid-section {
+        padding: 10px 24px;
+    }
+
+    .gallery__grid-container {
+        gap: 12px;
+    }
+
+    .gallery-card {
+        width: calc(50% - 6px);
+        min-width: 250px;
+        height: 400px;
+    }
+
+    .gallery__load-more-container {
+        padding: 0 24px;
+    }
+}
+
+/* Mobile (max-width: 767px) */
+@media (max-width: 767px) {
+    .gallery__grid-section {
+        padding: 10px 16px;
+    }
+
+    .gallery__grid-container {
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .gallery-card {
+        width: 100%;
+        max-width: 400px;
+        height: 450px;
+    }
+
+    .gallery__load-more-section {
+        padding: 24px 0;
+    }
+
+    .gallery__load-more-container {
+        padding: 0 16px;
+    }
+
+    .gallery__load-more-button {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+/* Small Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+    .gallery__grid-section {
+        padding: 10px 12px;
+    }
+
+    .gallery-card {
+        height: 400px;
+    }
+
+    .gallery-card__multi-indicator {
+        width: 32px;
+        height: 32px;
+        top: 12px;
+        right: 12px;
+    }
+
+    .gallery-card__multi-icon {
+        width: 32px;
+        height: 32px;
+    }
+}
+

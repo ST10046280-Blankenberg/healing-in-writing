@@ -1,0 +1,105 @@
+@*
+    Gallery Index Page
+    
+    CURRENT STATE: Using static data for demonstration purposes
+    
+    FUTURE DATABASE INTEGRATION:
+    - This page is designed to be easily integrated with a backend service
+    - When implementing the backend, create a GalleryViewModel with properties:
+        * List<GalleryItem> Photos
+        * int TotalCount
+        * int PageSize
+        * int CurrentPage
+    - Each GalleryItem should have:
+        * int Id
+        * string ImageUrl
+        * string AltText
+        * bool IsAlbum (for multi-photo indicator)
+        * int? AlbumPhotoCount (if IsAlbum is true)
+        * DateTime CreatedDate
+    - Update the @model directive to: @model HealingInWriting.Models.Gallery.GalleryViewModel
+    - Replace static cards with @foreach loop over Model.Photos
+    - Implement pagination similar to Books/Index.cshtml
+    - Add optional search/filter functionality if needed
+*@
+@{
+    ViewData["Title"] = "Gallery";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/shared/page-hero.css" />
+    <link rel="stylesheet" href="~/css/views/gallery.css" asp-append-version="true" />
+}
+
+<main class="gallery">
+    <!-- Hero Section -->
+    <section class="page-hero">
+        <div class="page-hero__content">
+            <h1 class="page-hero__title">Gallery</h1>
+            <p class="page-hero__subtitle">Browse and share books available in the community. Find what you need or give a book a new home.</p>
+        </div>
+    </section>
+
+    <!-- Gallery Grid Section -->
+    <section class="gallery__grid-section">
+        <div class="gallery__grid-container">
+            <!-- Single Photo Card 1 -->
+            <article class="gallery-card gallery-card--single">
+                <img src="https://via.placeholder.com/322x483" alt="Gallery Image 1" class="gallery-card__image" />
+            </article>
+
+            <!-- Single Photo Card 2 -->
+            <article class="gallery-card gallery-card--single">
+                <img src="https://via.placeholder.com/322x483" alt="Gallery Image 2" class="gallery-card__image" />
+            </article>
+
+            <!-- Group Photo Card (with multi-photo indicator) -->
+            <article class="gallery-card gallery-card--group">
+                <img src="https://via.placeholder.com/322x483" alt="Gallery Image 3" class="gallery-card__image" />
+                <div class="gallery-card__multi-indicator">
+                    <svg class="gallery-card__multi-icon" xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 38 38" fill="none">
+                        <rect width="38" height="38" rx="4" fill="#F6FAF9"/>
+                        <rect x="0" y="0" width="32" height="32" rx="4" fill="#D9D9D9"/>
+                        <rect x="6" y="6" width="32" height="32" rx="4" fill="#D9D9D9"/>
+                        <rect x="2" y="2" width="32" height="32" rx="4" fill="#D9D9D9" stroke="#000000" stroke-width="2"/>
+                    </svg>
+                </div>
+            </article>
+
+            <!-- Single Photo Card 4 -->
+            <article class="gallery-card gallery-card--single">
+                <img src="https://via.placeholder.com/322x483" alt="Gallery Image 4" class="gallery-card__image" />
+            </article>
+
+            <!-- Single Photo Card 5 -->
+            <article class="gallery-card gallery-card--single">
+                <img src="https://via.placeholder.com/322x483" alt="Gallery Image 5" class="gallery-card__image" />
+            </article>
+
+            <!-- Single Photo Card 6 -->
+            <article class="gallery-card gallery-card--single">
+                <img src="https://via.placeholder.com/322x483" alt="Gallery Image 6" class="gallery-card__image" />
+            </article>
+
+            <!-- Single Photo Card 7 -->
+            <article class="gallery-card gallery-card--single">
+                <img src="https://via.placeholder.com/322x483" alt="Gallery Image 7" class="gallery-card__image" />
+            </article>
+
+            <!-- Single Photo Card 8 -->
+            <article class="gallery-card gallery-card--single">
+                <img src="https://via.placeholder.com/322x483" alt="Gallery Image 8" class="gallery-card__image" />
+            </article>
+        </div>
+    </section>
+
+    <!-- Load More Section -->
+    <section class="gallery__load-more-section">
+        <div class="gallery__load-more-container">
+            <button class="gallery__load-more-button" type="button">
+                Load More Events
+            </button>
+        </div>
+    </section>
+</main>
+
