@@ -1,4 +1,5 @@
 @model HealingInWriting.Models.Books.BookInventoryListViewModel
+
 @{
     ViewData["Title"] = "Manage Books";
 }
@@ -6,9 +7,10 @@
 @section Scripts {
     <script src="~/js/admin-books-inventory.js"></script>
 }
-
-<link rel="stylesheet" href="~/css/shared/search-bar.css" asp-append-version="true" />
-<link rel="stylesheet" href="~/css/views/manage-books.css" asp-append-version="true" />
+@section Styles {
+    <link rel="stylesheet" href="~/css/shared/search-bar.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/views/manage-books.css" asp-append-version="true" />
+}
 
 <div class="manage-books">
     <!-- Header Section -->
@@ -42,7 +44,7 @@
     </header>
 
     <!-- Search Bar with AJAX Filter -->
-    <form id="book-filter-form" class="search-bar">
+    <form id="book-filter-form" class="search-bar" autocomplete="off">
         <!-- Search Input with Icon -->
         <div class="search-bar__input-container">
             <svg class="search-bar__icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -56,7 +58,7 @@
             <option value="">Any Category</option>
             @foreach (var category in Model.AvailableCategories)
             {
-                <option value="@category" selected=@(category == Model.SelectedCategory ? "selected" : null)>@category</option>
+                <option value="@category" selected="@(category == Model.SelectedCategory ? "selected" : null)">@category</option>
             }
         </select>
 
@@ -65,7 +67,7 @@
             <option value="">Any Author</option>
             @foreach (var author in Model.AvailableAuthors)
             {
-                <option value="@author" selected=@(author == Model.SelectedAuthor ? "selected" : null)>@author</option>
+                <option value="@author" selected="@(author == Model.SelectedAuthor ? "selected" : null)">@author</option>
             }
         </select>
 
@@ -97,7 +99,7 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="books-list-container">
                     @Html.Partial("_BookInventoryRow", Model.Books)
                 </tbody>
             </table>
