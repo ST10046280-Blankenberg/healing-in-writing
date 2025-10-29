@@ -180,6 +180,8 @@ public static class ViewModelMappers
 
     public static BookInventoryRowViewModel ToBookInventoryRowViewModel(Book book)
     {
+        if (book == null) return null!;
+
         return new BookInventoryRowViewModel
         {
             BookId = book.BookId,
