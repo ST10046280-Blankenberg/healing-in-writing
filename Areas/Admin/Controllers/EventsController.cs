@@ -176,5 +176,30 @@ namespace HealingInWriting.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(Manage));
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateStatus(int id, EventStatus status)
+        {
+            try
+            {
+                var success = await _eventService.UpdateEventStatusAsync(id, status);
+
+                if (success)
+                {
+                    TempData["SuccessMessage"] = $"Event status updated to {status}.";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Event not found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Error updating event status: {ex.Message}";
+            }
+
+            return RedirectToAction(nameof(Manage));
+        }
     }
 }

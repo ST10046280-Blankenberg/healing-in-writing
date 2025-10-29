@@ -201,4 +201,20 @@ public class EventService : IEventService
         await _eventRepository.DeleteAsync(eventId);
         return true;
     }
+
+    public async Task<bool> UpdateEventStatusAsync(int eventId, EventStatus newStatus)
+    {
+        var existingEvent = await _eventRepository.GetByIdAsync(eventId);
+        if (existingEvent == null)
+        {
+            return false;
+        }
+
+        // Validate status transitions (optional business rules)
+        // For now, allow any transition - can add rules later if needed
+
+        existingEvent.EventStatus = newStatus;
+        await _eventRepository.UpdateAsync(existingEvent);
+        return true;
+    }
 }

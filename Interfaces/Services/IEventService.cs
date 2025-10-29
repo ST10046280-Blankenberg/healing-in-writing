@@ -19,4 +19,6 @@ public interface IEventService
     Task<IReadOnlyCollection<Event>> GetAllEventsAsync();
 
     Task<bool> DeleteEventAsync(int eventId);
+
+    Task<bool> UpdateEventStatusAsync(int eventId, EventStatus newStatus);
 }
