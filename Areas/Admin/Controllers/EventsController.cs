@@ -151,5 +151,30 @@ namespace HealingInWriting.Areas.Admin.Controllers
                 return View(model);
             }
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var success = await _eventService.DeleteEventAsync(id);
+
+                if (success)
+                {
+                    TempData["SuccessMessage"] = "Event deleted successfully!";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Event not found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Error deleting event: {ex.Message}";
+            }
+
+            return RedirectToAction(nameof(Manage));
+        }
     }
 }

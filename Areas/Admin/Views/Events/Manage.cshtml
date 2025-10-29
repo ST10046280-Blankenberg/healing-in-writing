@@ -173,6 +173,10 @@ SEARCH/FILTER REQUIREMENTS:
                                 <a class="event-item__btn event-item__btn--edit" asp-area="Admin" asp-controller="Events" asp-action="Details" asp-route-id="@eventItem.Id">Edit</a>
                                 <button class="event-item__btn event-item__btn--cancel" type="button" disabled>Cancel</button>
                                 <button class="event-item__btn event-item__btn--export" type="button" disabled>Export RSVPs</button>
+                                <form asp-area="Admin" asp-controller="Events" asp-action="Delete" asp-route-id="@eventItem.Id" method="post" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this event? This action cannot be undone.');">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="event-item__btn event-item__btn--delete" style="background-color: #dc2626; color: white;">Delete</button>
+                                </form>
                             </div>
                         </div>
                     </article>

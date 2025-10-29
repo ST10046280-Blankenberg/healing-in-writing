@@ -189,4 +189,16 @@ public class EventService : IEventService
             .OrderByDescending(e => e.StartDateTime)
             .ToList();
     }
+
+    public async Task<bool> DeleteEventAsync(int eventId)
+    {
+        var existingEvent = await _eventRepository.GetByIdAsync(eventId);
+        if (existingEvent == null)
+        {
+            return false;
+        }
+
+        await _eventRepository.DeleteAsync(eventId);
+        return true;
+    }
 }
