@@ -43,23 +43,23 @@ SEARCH/FILTER REQUIREMENTS:
 }
 
 @section Styles {
+    <link rel="stylesheet" href="~/css/shared/admin-header.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/shared/search-bar.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/views/manage-events.css" asp-append-version="true" />
 }
 
 <main class="admin-manage-events">
     <!-- Header Section -->
-    <header class="admin-manage-events__header">
-        <div class="admin-manage-events__header-content">
-            <div class="admin-manage-events__header-text">
-                <h1 class="admin-manage-events__title">Manage Events</h1>
-                <p class="admin-manage-events__subtitle">View, edit, and manage upcoming and past events</p>
+    <header class="admin-header">
+        <div class="admin-header__content">
+            <div class="admin-header__text">
+                <h1 class="admin-header__title">Manage Events</h1>
+                <p class="admin-header__subtitle">View, edit, and manage upcoming and past events</p>
             </div>
-            <button class="admin-manage-events__create-btn">
-                <svg class="admin-manage-events__create-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 24 24" fill="none">
+            <button class="admin-header__action-btn">
+                <svg class="admin-header__action-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 24 24" fill="none">
                     <path d="M12 5v14M5 12h14" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                <span class="admin-manage-events__create-text">Create Event</span>
             </button>
         </div>
     </header>

@@ -29,13 +29,13 @@
     align-items: flex-start;
     padding: 24px 32px;
     width: 100%;
-    
+
     /* Visual */
     background: #FFFFFF;
     border-bottom: 1px solid #F3F4F6;
     box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
     border-radius: 8px;
-    
+
     /* Layout */
     flex: none;
     order: 0;
@@ -52,7 +52,7 @@
     padding: 0;
     gap: 32px;
     width: 100%;
-    
+
     /* Layout */
     flex: none;
     order: 0;
@@ -68,7 +68,7 @@
     align-items: flex-start;
     padding: 0;
     gap: 1px;
-    
+
     /* Layout */
     flex: none;
     order: 0;
@@ -83,7 +83,7 @@
     font-size: 30px;
     line-height: 36px;
     color: #2F1648;
-    
+
     /* Layout */
     flex: none;
     order: 0;
@@ -99,7 +99,7 @@
     font-size: 16px;
     line-height: 24px;
     color: #4B5563;
-    
+
     /* Layout */
     flex: none;
     order: 1;
@@ -116,19 +116,19 @@
     padding: 12px 18px;
     gap: 8px;
     height: 48px;
-    
+
     /* Visual */
     background: #2F1648;
     border: none;
     border-radius: 8px;
-    
+
     /* Typography */
     text-decoration: none;
     cursor: pointer;
-    
+
     /* Animation */
     transition: background-color 0.2s ease, transform 0.1s ease;
-    
+
     /* Layout */
     flex: none;
     order: 1;

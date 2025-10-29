@@ -2,15 +2,21 @@
     ViewData["Title"] = "Hours Approval";
 }
 
+<link rel="stylesheet" href="~/css/shared/admin-header.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/css/views/hours-approval.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/css/shared/search-bar.css" asp-append-version="true" />
 
-<div class="hours-approval">
-    <header class="hours-approval__header">
-        <h1 class="hours-approval__title">Volunteer Hours Approvals</h1>
-        <p class="hours-approval__subtitle">Review and approve submitted volunteer hours.</p>
-    </header>
+<main class="hours-approval">
+    <header class="admin-header">
+        <div class="admin-header__content">
+            <div class="admin-header__text">
+                <h1 class="admin-header__title">Volunteer Hours Approvals</h1>
+                <p class="admin-header__subtitle">Review and approve submitted volunteer hours.</p>
+            </div>
+        </div>
 
+    </header>
+    
     <!-- Search Bar -->
     <div class="search-bar">
         <div class="search-bar__input-container">
@@ -151,4 +157,4 @@
             </tbody>
         </table>
     </div>
-</div>
+</main>

@@ -8,7 +8,7 @@
     /* Box Model */
     display: flex;
     flex-direction: column;
-    padding: 48px 128px;
+    padding: 32px 64px;
     gap: 16px;
     width: 100%;
     min-height: 100vh;
@@ -19,14 +19,14 @@
 
 /* =========================================================
    Report Card Container
-   ========================================================= */
+/* Report Card Container */
 .admin-reports__card {
     /* Box Model */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     padding: 24px;
-    gap: 24px;
+    gap: 16px;
     width: 100%;
     
     /* Visual */
@@ -339,7 +339,7 @@
 
 .admin-reports__table-header {
     /* Box Model */
-    padding: 12px 8px;
+    padding: 16px 24px;
     text-align: left;
     
     /* Typography */
@@ -374,7 +374,7 @@
 
 .admin-reports__table-cell {
     /* Box Model */
-    padding: 12px 8px;
+    padding: 16px 24px;
     
     /* Typography */
     font-family: 'Inter', sans-serif;
@@ -491,7 +491,7 @@
 
 .admin-reports__inventory-header {
     /* Box Model */
-    padding: 12px 16px;
+    padding: 16px 24px;
     text-align: left;
     border-bottom: 1px solid #E5E7EB;
     
@@ -522,7 +522,7 @@
 
 .admin-reports__inventory-cell {
     /* Box Model */
-    padding: 12px 16px;
+    padding: 16px 24px;
     
     /* Typography */
     font-family: var(--font-family-heading, 'Poppins');
@@ -540,7 +540,7 @@
 /* Tablet and below (1024px) */
 @media (max-width: 1024px) {
     .admin-reports {
-        padding: 32px 64px;
+        padding: 32px 48px;
     }
     
     .admin-reports__stats-row {

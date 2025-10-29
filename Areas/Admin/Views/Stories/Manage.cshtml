@@ -35,14 +35,21 @@ ADDITIONAL NOTES:
     ViewData["Title"] = "Manage Stories";
 }
 
-<link rel="stylesheet" href="~/css/shared/search-bar.css" asp-append-version="true" />
-<link rel="stylesheet" href="~/css/views/manage-stories.css" asp-append-version="true" />
+@section Styles {
+    <link rel="stylesheet" href="~/css/shared/admin-header.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/shared/search-bar.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/views/manage-stories.css" asp-append-version="true"/>
+}
 
-<div class="manage-stories">
+<main class="manage-stories">
     <!-- Header Section -->
-    <header class="manage-stories__header">
-        <h1 class="manage-stories__title">Manage Stories</h1>
-        <p class="manage-stories__subtitle">Review and manage community story submissions.</p>
+    <header class="admin-header">
+        <div class="admin-header__content">
+            <div class="admin-header__text">    
+                <h1 class="admin-header__title">Manage Stories</h1>
+                <p class="admin-header__subtitle">Review and manage community story submissions.</p>
+            </div>
+        </div>
     </header>
 
     <!-- Search Bar -->
@@ -180,5 +187,5 @@ ADDITIONAL NOTES:
             </tbody>
         </table>
     </div>
-</div>
+</main>
 

@@ -23,12 +23,24 @@
    ========================================================= */
 .hours-approval__header {
     /* Box Model */
+    /* Box Model */
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 0;
-    gap: 11px;
+    padding: 24px 32px;
+    gap: 10px;
     width: 100%;
+
+    /* Visual */
+    background: #FFFFFF;
+    border-bottom: 1px solid #E5E7EB;
+    border-radius: 8px;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
 }
 
 .hours-approval__title {
@@ -61,8 +73,8 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 1px;
-    gap: 10px;
+    padding: 24px;
+    gap: 16px;
     width: 100%;
     
     /* Visual */
@@ -92,7 +104,7 @@
 
 .hours-approval__table-header {
     /* Box Model */
-    padding: 18px 24px;
+    padding: 16px 24px;
     text-align: center;
     
     /* Typography */
@@ -106,7 +118,7 @@
 
 .hours-approval__table-header:first-child {
     width: 64px;
-    padding: 17px 24px;
+    padding: 16px 24px;
 }
 
 .hours-approval__table-header:nth-child(2) {
@@ -152,7 +164,7 @@
 
 .hours-approval__table-cell {
     /* Box Model */
-    padding: 27px 24px;
+    padding: 16px 24px;
     text-align: center;
     
     /* Typography */
@@ -165,11 +177,11 @@
 }
 
 .hours-approval__table-cell:first-child {
-    padding: 26px 24px;
+    padding: 16px 24px;
 }
 
 .hours-approval__table-cell:nth-child(2) {
-    padding: 21px 24px;
+    padding: 16px 24px;
     text-align: left;
 }
 
@@ -246,7 +258,7 @@
 
 /* Action Buttons */
 .hours-approval__table-cell:last-child {
-    padding: 17px 24px;
+    padding: 16px 24px;
 }
 
 .hours-approval__table-cell:last-child > div {
