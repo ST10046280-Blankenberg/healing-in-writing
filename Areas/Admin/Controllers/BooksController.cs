@@ -159,6 +159,27 @@ namespace HealingInWriting.Areas.Admin.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Seeds the database with sample book data.
+        /// </summary>
+        /// <returns>Redirects to Manage with success or error message.</returns>
+        //TODO: Remove in production.
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> SeedSampleData()
+        {
+            var message = await _bookService.SeedBooksAsync();
+            if (!string.IsNullOrEmpty(message))
+            {
+                TempData["Error"] = message;
+            }
+            else
+            {
+                TempData["Success"] = "Sample data seeded successfully.";
+            }
+            return RedirectToAction("Manage");
+        }
+
         #endregion
 
         #region HTTP GET/POST: Utility Actions
