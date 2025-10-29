@@ -119,8 +119,8 @@
                 </div>
             </div>
             
-            <!-- Story Table -->
-            <div class="admin-reports__table-wrapper">
+            <!-- Story Table with Scrollable Container -->
+            <div class="admin-reports__table-wrapper admin-reports__table-wrapper--scrollable">
                 <table class="admin-reports__table">
                     <thead class="admin-reports__table-head">
                         <tr>
@@ -130,8 +130,12 @@
                             <th class="admin-reports__table-header">Status</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr class="admin-reports__table-row">
+                    <tbody class="admin-reports__table-body">
+                        <!-- Rows with data attributes for backend integration -->
+                        <tr class="admin-reports__table-row" 
+                            data-story-id="1" 
+                            data-status="approved" 
+                            data-date="2024-03-14">
                             <td class="admin-reports__table-cell admin-reports__table-cell--title">Finding Light in Darkness</td>
                             <td class="admin-reports__table-cell">Sarah M.</td>
                             <td class="admin-reports__table-cell">Mar 14, 2024</td>
@@ -139,7 +143,10 @@
                                 <span class="admin-reports__status-badge admin-reports__status-badge--approved">Approved</span>
                             </td>
                         </tr>
-                        <tr class="admin-reports__table-row">
+                        <tr class="admin-reports__table-row" 
+                            data-story-id="2" 
+                            data-status="pending" 
+                            data-date="2024-03-13">
                             <td class="admin-reports__table-cell admin-reports__table-cell--title">Community Changed My Life</td>
                             <td class="admin-reports__table-cell">Michael R.</td>
                             <td class="admin-reports__table-cell">Mar 13, 2024</td>
@@ -147,7 +154,10 @@
                                 <span class="admin-reports__status-badge admin-reports__status-badge--pending">Pending</span>
                             </td>
                         </tr>
-                        <tr class="admin-reports__table-row">
+                        <tr class="admin-reports__table-row" 
+                            data-story-id="3" 
+                            data-status="approved" 
+                            data-date="2024-03-11">
                             <td class="admin-reports__table-cell admin-reports__table-cell--title">A Second Chance</td>
                             <td class="admin-reports__table-cell">Emma L.</td>
                             <td class="admin-reports__table-cell">Mar 11, 2024</td>
@@ -155,7 +165,10 @@
                                 <span class="admin-reports__status-badge admin-reports__status-badge--approved">Approved</span>
                             </td>
                         </tr>
-                        <tr class="admin-reports__table-row">
+                        <tr class="admin-reports__table-row" 
+                            data-story-id="4" 
+                            data-status="rejected" 
+                            data-date="2024-03-10">
                             <td class="admin-reports__table-cell admin-reports__table-cell--title">Rising Above Challenges</td>
                             <td class="admin-reports__table-cell">David K.</td>
                             <td class="admin-reports__table-cell">Mar 10, 2024</td>
@@ -163,12 +176,49 @@
                                 <span class="admin-reports__status-badge admin-reports__status-badge--rejected">Rejected</span>
                             </td>
                         </tr>
-                        <tr class="admin-reports__table-row">
+                        <tr class="admin-reports__table-row" 
+                            data-story-id="5" 
+                            data-status="pending" 
+                            data-date="2024-03-09">
                             <td class="admin-reports__table-cell admin-reports__table-cell--title">Hope in Hard Times</td>
                             <td class="admin-reports__table-cell">Lisa P.</td>
                             <td class="admin-reports__table-cell">Mar 09, 2024</td>
                             <td class="admin-reports__table-cell">
                                 <span class="admin-reports__status-badge admin-reports__status-badge--pending">Pending</span>
+                            </td>
+                        </tr>
+                        <!-- Additional rows to test scrolling -->
+                        <tr class="admin-reports__table-row" 
+                            data-story-id="6" 
+                            data-status="approved" 
+                            data-date="2024-03-08">
+                            <td class="admin-reports__table-cell admin-reports__table-cell--title">Journey to Healing</td>
+                            <td class="admin-reports__table-cell">Tom H.</td>
+                            <td class="admin-reports__table-cell">Mar 08, 2024</td>
+                            <td class="admin-reports__table-cell">
+                                <span class="admin-reports__status-badge admin-reports__status-badge--approved">Approved</span>
+                            </td>
+                        </tr>
+                        <tr class="admin-reports__table-row" 
+                            data-story-id="7" 
+                            data-status="pending" 
+                            data-date="2024-03-07">
+                            <td class="admin-reports__table-cell admin-reports__table-cell--title">My Recovery Story</td>
+                            <td class="admin-reports__table-cell">Anna S.</td>
+                            <td class="admin-reports__table-cell">Mar 07, 2024</td>
+                            <td class="admin-reports__table-cell">
+                                <span class="admin-reports__status-badge admin-reports__status-badge--pending">Pending</span>
+                            </td>
+                        </tr>
+                        <tr class="admin-reports__table-row" 
+                            data-story-id="8" 
+                            data-status="approved" 
+                            data-date="2024-03-06">
+                            <td class="admin-reports__table-cell admin-reports__table-cell--title">Breaking Free</td>
+                            <td class="admin-reports__table-cell">James W.</td>
+                            <td class="admin-reports__table-cell">Mar 06, 2024</td>
+                            <td class="admin-reports__table-cell">
+                                <span class="admin-reports__status-badge admin-reports__status-badge--approved">Approved</span>
                             </td>
                         </tr>
                     </tbody>
@@ -180,7 +230,7 @@
         <div class="admin-reports__card">
             <h3 class="admin-reports__card-title">Book Inventory Snapshot</h3>
             
-            <div class="admin-reports__table-wrapper">
+            <div class="admin-reports__table-wrapper admin-reports__table-wrapper--scrollable">
                 <table class="admin-reports__inventory-table">
                     <thead>
                         <tr>
@@ -189,38 +239,100 @@
                             <th class="admin-reports__inventory-header">Status</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr class="admin-reports__inventory-row">
+                    <tbody class="admin-reports__inventory-body">
+                        <!-- Stock thresholds: Critical (< 50), Low (50-100), Good (> 100) -->
+                        <tr class="admin-reports__inventory-row" 
+                            data-category-id="1" 
+                            data-stock-count="245" 
+                            data-threshold-critical="50" 
+                            data-threshold-low="100">
                             <td class="admin-reports__inventory-cell">Children's Books</td>
                             <td class="admin-reports__inventory-cell">245</td>
                             <td class="admin-reports__inventory-cell">
-                                    <span class="admin-reports__status-badge admin-reports__status-badge--good">Good</span>
-                                </td>
-                            </tr>
-                            <tr class="admin-reports__inventory-row">
-                                <td class="admin-reports__inventory-cell">Fiction</td>
-                                <td class="admin-reports__inventory-cell">89</td>
-                                <td class="admin-reports__inventory-cell">
-                                    <span class="admin-reports__status-badge admin-reports__status-badge--low">Low</span>
-                                </td>
-                            </tr>
-                            <tr class="admin-reports__inventory-row">
-                                <td class="admin-reports__inventory-cell">Educational</td>
-                                <td class="admin-reports__inventory-cell">156</td>
-                                <td class="admin-reports__inventory-cell">
-                                    <span class="admin-reports__status-badge admin-reports__status-badge--good">Good</span>
-                                </td>
-                            </tr>
-                            <tr class="admin-reports__inventory-row">
-                                <td class="admin-reports__inventory-cell">Reference</td>
-                                <td class="admin-reports__inventory-cell">34</td>
-                                <td class="admin-reports__inventory-cell">
-                                    <span class="admin-reports__status-badge admin-reports__status-badge--critical">Critical</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                                <span class="admin-reports__status-badge admin-reports__status-badge--good">Good</span>
+                            </td>
+                        </tr>
+                        <tr class="admin-reports__inventory-row" 
+                            data-category-id="2" 
+                            data-stock-count="89" 
+                            data-threshold-critical="50" 
+                            data-threshold-low="100">
+                            <td class="admin-reports__inventory-cell">Fiction</td>
+                            <td class="admin-reports__inventory-cell">89</td>
+                            <td class="admin-reports__inventory-cell">
+                                <span class="admin-reports__status-badge admin-reports__status-badge--low">Low</span>
+                            </td>
+                        </tr>
+                        <tr class="admin-reports__inventory-row" 
+                            data-category-id="3" 
+                            data-stock-count="156" 
+                            data-threshold-critical="50" 
+                            data-threshold-low="100">
+                            <td class="admin-reports__inventory-cell">Educational</td>
+                            <td class="admin-reports__inventory-cell">156</td>
+                            <td class="admin-reports__inventory-cell">
+                                <span class="admin-reports__status-badge admin-reports__status-badge--good">Good</span>
+                            </td>
+                        </tr>
+                        <tr class="admin-reports__inventory-row" 
+                            data-category-id="4" 
+                            data-stock-count="34" 
+                            data-threshold-critical="50" 
+                            data-threshold-low="100">
+                            <td class="admin-reports__inventory-cell">Reference</td>
+                            <td class="admin-reports__inventory-cell">34</td>
+                            <td class="admin-reports__inventory-cell">
+                                <span class="admin-reports__status-badge admin-reports__status-badge--critical">Critical</span>
+                            </td>
+                        </tr>
+                        <!-- Additional categories to test scrolling -->
+                        <tr class="admin-reports__inventory-row" 
+                            data-category-id="5" 
+                            data-stock-count="78" 
+                            data-threshold-critical="50" 
+                            data-threshold-low="100">
+                            <td class="admin-reports__inventory-cell">Non-Fiction</td>
+                            <td class="admin-reports__inventory-cell">78</td>
+                            <td class="admin-reports__inventory-cell">
+                                <span class="admin-reports__status-badge admin-reports__status-badge--low">Low</span>
+                            </td>
+                        </tr>
+                        <tr class="admin-reports__inventory-row" 
+                            data-category-id="6" 
+                            data-stock-count="45" 
+                            data-threshold-critical="50" 
+                            data-threshold-low="100">
+                            <td class="admin-reports__inventory-cell">Biography</td>
+                            <td class="admin-reports__inventory-cell">45</td>
+                            <td class="admin-reports__inventory-cell">
+                                <span class="admin-reports__status-badge admin-reports__status-badge--critical">Critical</span>
+                            </td>
+                        </tr>
+                        <tr class="admin-reports__inventory-row" 
+                            data-category-id="7" 
+                            data-stock-count="112" 
+                            data-threshold-critical="50" 
+                            data-threshold-low="100">
+                            <td class="admin-reports__inventory-cell">Self-Help</td>
+                            <td class="admin-reports__inventory-cell">112</td>
+                            <td class="admin-reports__inventory-cell">
+                                <span class="admin-reports__status-badge admin-reports__status-badge--good">Good</span>
+                            </td>
+                        </tr>
+                        <tr class="admin-reports__inventory-row" 
+                            data-category-id="8" 
+                            data-stock-count="28" 
+                            data-threshold-critical="50" 
+                            data-threshold-low="100">
+                            <td class="admin-reports__inventory-cell">Poetry</td>
+                            <td class="admin-reports__inventory-cell">28</td>
+                            <td class="admin-reports__inventory-cell">
+                                <span class="admin-reports__status-badge admin-reports__status-badge--critical">Critical</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
+    </div>
 </main>

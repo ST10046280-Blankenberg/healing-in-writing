@@ -440,6 +440,65 @@
 }
 
 /* =========================================================
+   Scrollable Table Wrappers
+   ========================================================= */
+.admin-reports__table-wrapper--scrollable {
+    /* Positioning */
+    position: relative;
+    
+    /* Box Model */
+    max-height: 400px;
+    overflow-y: auto;
+    
+    /* Visual */
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+}
+
+/* Sticky Table Header */
+.admin-reports__table-head {
+    /* Positioning */
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    
+    /* Visual */
+    background: #F9FAFB;
+}
+
+/* Table Body with Scrollable Content */
+.admin-reports__table-body,
+.admin-reports__inventory-body {
+    display: table-row-group;
+}
+
+/* Custom Scrollbar Styling */
+.admin-reports__table-wrapper--scrollable::-webkit-scrollbar {
+    width: 8px;
+}
+
+.admin-reports__table-wrapper--scrollable::-webkit-scrollbar-track {
+    background: #F3F4F6;
+    border-radius: 4px;
+}
+
+.admin-reports__table-wrapper--scrollable::-webkit-scrollbar-thumb {
+    background: #C99F9C;
+    border-radius: 4px;
+}
+
+.admin-reports__table-wrapper--scrollable::-webkit-scrollbar-thumb:hover {
+    background: #B88F8C;
+}
+
+/* Table Row Hover in Scrollable Container */
+.admin-reports__table-wrapper--scrollable .admin-reports__table-row:hover,
+.admin-reports__table-wrapper--scrollable .admin-reports__inventory-row:hover {
+    background-color: #F9FAFB;
+    cursor: pointer;
+}
+
+/* =========================================================
    Book Inventory Section
    ========================================================= */
 .admin-reports__inventory-table {
@@ -510,6 +569,10 @@
     .admin-reports__stat-card {
         min-width: calc(50% - 8px);
     }
+    
+    .admin-reports__table-wrapper--scrollable {
+        max-height: 350px;
+    }
 }
 
 /* Mobile landscape and below (768px) */
@@ -528,6 +591,11 @@
     }
     
     .admin-reports__table-wrapper {
+        overflow-x: auto;
+    }
+    
+    .admin-reports__table-wrapper--scrollable {
+        max-height: 300px;
         overflow-x: auto;
     }
     
@@ -569,6 +637,10 @@
     .admin-reports__submissions-header {
         font-size: 18px;
         line-height: 26px;
+    }
+    
+    .admin-reports__table-wrapper--scrollable {
+        max-height: 250px;
     }
 }
 
