@@ -26,6 +26,13 @@ public interface IBookService
     Task<string?> SeedBooksAsync();
 
     /// <summary>
+    /// Retrieves a single book by its unique identifier.
+    /// </summary>
+    /// <param name="id">The unique identifier of the book to retrieve.</param>
+    /// <returns>The matching <see cref="Book"/>, or <c>null</c> if not found.</returns>
+    Task<Book?> GetBookByIdAsync(int id);
+
+    /// <summary>
     /// Adds a new book to the repository from form data.
     /// </summary>
     /// <param name="form">The form collection containing book data.</param>
@@ -81,6 +88,9 @@ public interface IBookService
 
     BookInventoryListViewModel ToBookInventoryViewModel(IEnumerable<Book> books);
 
+    #endregion
+
+    #region Query Helpers
 
     /// <summary>
     /// Retrieves a paged, filterable list of books for admin (all books, regardless of visibility).
@@ -106,6 +116,8 @@ public interface IBookService
         string? selectedAuthor, 
         string? selectedCategory, 
         string? selectedTag);
+
+    #endregion
 }
 /// <summary>
 /// Represents the result of an import operation, including the imported book, rate limit status, and a message.

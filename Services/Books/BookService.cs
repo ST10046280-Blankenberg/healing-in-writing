@@ -142,6 +142,8 @@ public class BookService : IBookService
         _logger = logger;
     }
 
+    #region Book Seeding & Import
+
     // Seed books into the database if not already present
     public async Task<string?> SeedBooksAsync()
     {
@@ -263,6 +265,13 @@ public class BookService : IBookService
 
     #endregion
 
+    #region Book Retrieval
+
+    public Task<Book?> GetBookByIdAsync(int id)
+        => _bookRepository.GetByIdAsync(id);
+
+    #endregion
+
     #region Book CRUD
 
     /// <inheritdoc />
@@ -303,6 +312,12 @@ public class BookService : IBookService
 
     #region Mapping Methods
 
+    public BookDetailViewModel ToBookDetailViewModel(Book book)
+        => book.ToBookDetailViewModel();
+
+    public Book ToBookFromDetailViewModel(BookDetailViewModel model)
+        => model.ToBookFromDetailViewModel();
+
     public List<BookSummaryViewModel> ToBookSummaryViewModels(IEnumerable<Book> books)
         => books.Select(ViewModelMappers.ToBookSummaryViewModel).ToList();
 
@@ -342,6 +357,10 @@ public class BookService : IBookService
                                       .ToList()
         };
     }
+
+    #endregion
+
+    #region Query Helpers
     /// <summary>
     /// Retrieves a paged, filterable list of books for admin (all books, regardless of visibility).
     /// </summary>
@@ -405,4 +424,6 @@ public class BookService : IBookService
         return await _bookRepository.GetFilteredCountAsync(
             searchTerm, selectedAuthor, selectedCategory, selectedTag, onlyVisible: true);
     }
+
+    #endregion
 }
