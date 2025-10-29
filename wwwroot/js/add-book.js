@@ -45,6 +45,7 @@
 
     importBtn.addEventListener('click', async function () {
         const isbn = isbnPrimary.value.trim();
+        const normalized = normalizeIsbn(isbn);
         const messageDiv = document.getElementById('import-message');
         messageDiv.style.display = 'none';
         messageDiv.textContent = '';

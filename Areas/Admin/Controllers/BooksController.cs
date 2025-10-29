@@ -1,9 +1,11 @@
+using HealingInWriting.Domain.Books;
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Books;
 using HealingInWriting.Services.Books;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -64,6 +66,14 @@ namespace HealingInWriting.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult AddBook()
         {
+            ViewBag.BookConditions = Enum.GetValues(typeof(BookCondition))
+                .Cast<BookCondition>()
+                .Select(bc => new SelectListItem
+                {
+                    Value = bc.ToString(),
+                    Text = bc.ToString()
+                }).ToList();
+
             return View();
         }
 
