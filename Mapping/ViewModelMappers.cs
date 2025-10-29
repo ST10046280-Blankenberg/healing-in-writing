@@ -187,9 +187,8 @@ public static class ViewModelMappers
             Categories = book.Categories?.ToList() ?? new List<string>(),
             ThumbnailUrl = book.ImageLinks?.Thumbnail ?? string.Empty,
             Condition = book.Condition.ToString(),
-            IsVisible = book.IsVisible
+            IsVisible = book.IsVisible,
+            Authors = AuthorsToString(book.Authors)
         };
     }
-
-    // TODO: Implement mapping extensions for BookInventoryViewModel, BookListViewModel, BookSummaryViewModel as needed.
 }

@@ -22,7 +22,8 @@
         public List<string> Categories { get; set; } = new();
         public string ThumbnailUrl { get; set; } = string.Empty;
         public int Quantity { get; set; } = 1;
-        public string Condition { get; set; } = string.Empty; // e.g., "New", "Good", "Fair", etc.
+        public string Condition { get; set; } = string.Empty;
         public bool IsVisible { get; set; } = true;
+        public string Authors { get; set; } = string.Empty;
     }
 }

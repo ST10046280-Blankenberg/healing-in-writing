@@ -19,6 +19,9 @@
                 </div>
             </td>
             <td>
+                <span class="manage-books__book-authors">@book.Authors</span>
+            </td>
+            <td>
                 <span class="manage-books__category">
                     @(book.Categories != null && book.Categories.Count > 0 ? string.Join(", ", book.Categories) : "Uncategorized")
                 </span>
@@ -56,7 +59,7 @@
 else
 {
     <tr>
-        <td colspan="6">
+        <td colspan="7">
             <div class="books__empty">
                 <p>No books available at the moment. Check back soon!</p>
             </div>
