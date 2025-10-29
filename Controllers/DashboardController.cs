@@ -1,34 +1,35 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HealingInWriting.Controllers
 {
-    // TODO: Inject a volunteer service that governs enrolment and scheduling.
-    public class VolunteerController : Controller
+    [Authorize]
+    public class DashboardController : Controller
     {
-        // GET: /Volunteer/Index
+        // GET: /Dashboard/Index
         public IActionResult Index()
         {
             return View();
         }
-        
-        // GET: /Volunteer/LogHours
+
+        // GET: /Dashboard/LogHours
+        // Only volunteers can log hours
+        [Authorize(Roles = "Volunteer")]
         public IActionResult LogHours()
         {
             return View();
         }
-        
-        // GET: /Volunteer/MyEvents
+
+        // GET: /Dashboard/MyEvents
         public IActionResult MyEvents()
         {
             return View();
         }
-        
-        // GET: /Volunteer/MyStories
+
+        // GET: /Dashboard/MyStories
         public IActionResult MyStories()
         {
             return View();
         }
-        
-        // TODO: Expose volunteer endpoints that just orchestrate calls to the service.
     }
 }
