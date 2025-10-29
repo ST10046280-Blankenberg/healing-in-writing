@@ -164,11 +164,20 @@ using (var scope = app.Services.CreateScope())
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
         var context = services.GetRequiredService<ApplicationDbContext>();
-        //TODO: Remove the following two lines in production
-        //// --- Apply migrations and recreate database (for dev/testing only) ---
-        //context.Database.EnsureDeleted();
-        //context.Database.Migrate();
-        //// --- End drop/recreate ---
+
+        // Automatically apply pending migrations on startup
+        // This ensures database schema stays in sync with code changes
+        // Prevents "table does not exist" errors from unapplied migrations
+        if (context.Database.GetPendingMigrations().Any())
+        {
+            logger.LogInformation("Applying pending migrations...");
+            context.Database.Migrate();
+            logger.LogInformation("Migrations applied successfully.");
+        }
+        else
+        {
+            logger.LogInformation("Database is up to date. No pending migrations.");
+        }
 
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
