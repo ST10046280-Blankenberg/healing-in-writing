@@ -4,295 +4,223 @@
 
 <link rel="stylesheet" href="~/css/views/admin-reports.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/css/shared/search-bar.css" asp-append-version="true" />
-
-<div class="admin-reports">
-    <!-- Search Bar Component -->
-    <div class="search-bar">
-        <div class="search-bar__filters-row">
-            <div class="search-bar__input-container">
-                <svg class="search-bar__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M21 21L16.65 16.65" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <input type="text" class="search-bar__input" placeholder="Search..." />
-            </div>
+<main>
+    <div class="admin-reports">
+        <!-- Search Bar Component -->
+        <div class="search-bar">
+            <div class="search-bar__filters-row">
+                <div class="search-bar__input-container">
+                    <svg class="search-bar__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M21 21L16.65 16.65" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <input type="text" class="search-bar__input" placeholder="Search..." />
+                </div>
             
-            <div class="search-bar__dropdown">
-                <span class="search-bar__dropdown-label">Any Location</span>
-                <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 9L12 15L18 9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </div>
+                <div class="search-bar__dropdown">
+                    <span class="search-bar__dropdown-label">Any Location</span>
+                    <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 9L12 15L18 9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
             
-            <div class="search-bar__dropdown">
-                <span class="search-bar__dropdown-label">Any Date</span>
-                <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 9L12 15L18 9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </div>
+                <div class="search-bar__dropdown">
+                    <span class="search-bar__dropdown-label">Any Date</span>
+                    <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 9L12 15L18 9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
             
-            <div class="search-bar__dropdown">
-                <span class="search-bar__dropdown-label">Any Tags</span>
-                <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 9L12 15L18 9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </div>
+                <div class="search-bar__dropdown">
+                    <span class="search-bar__dropdown-label">Any Tags</span>
+                    <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 9L12 15L18 9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
             
-            <div class="search-bar__dropdown">
-                <span class="search-bar__dropdown-label">Newest</span>
-                <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 9L12 15L18 9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </div>
+                <div class="search-bar__dropdown">
+                    <span class="search-bar__dropdown-label">Newest</span>
+                    <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 9L12 15L18 9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
             
-            <button class="search-bar__button">
-                <svg class="search-bar__button-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M21 21L16.65 16.65" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span class="search-bar__button-label">Search</span>
-            </button>
+                <button class="search-bar__button">
+                    <svg class="search-bar__button-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M21 21L16.65 16.65" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="search-bar__button-label">Search</span>
+                </button>
+            </div>
         </div>
-    </div>
 
-    <!-- Event Attendance Chart -->
-    <div class="admin-reports__card">
-        <h3 class="admin-reports__card-title">Event Attendance</h3>
-        
-        <div class="admin-reports__chart-container">
-            <!-- Y-Axis Labels -->
-            <div class="admin-reports__chart-labels">
-                <div class="admin-reports__chart-label">Book Drive</div>
-                <div class="admin-reports__chart-label">Reading Circle</div>
-                <div class="admin-reports__chart-label">Community Fair</div>
-                <div class="admin-reports__chart-label">Workshop</div>
-            </div>
+        <!-- Event Attendance Chart -->
+        <div class="admin-reports__card">
+            <h3 class="admin-reports__card-title">Event Attendance</h3>
             
-            <!-- Chart Bars -->
-            <div class="admin-reports__chart-bars-wrapper">
-                <div class="admin-reports__chart-bars">
-                    <!-- Column 1 (0) -->
-                    <div class="admin-reports__chart-column">
-                        <div class="admin-reports__chart-bar"></div>
-                        <div class="admin-reports__chart-bar"></div>
-                        <div class="admin-reports__chart-bar"></div>
-                        <div class="admin-reports__chart-bar"></div>
-                    </div>
-                    
-                    <!-- Column 2 (25) -->
-                    <div class="admin-reports__chart-column">
-                        <div class="admin-reports__chart-bar"></div>
-                        <div class="admin-reports__chart-bar" style="width: 74px;"></div>
-                        <div class="admin-reports__chart-bar"></div>
-                        <div class="admin-reports__chart-bar" style="width: 22px;"></div>
-                    </div>
-                    
-                    <!-- Column 3 (50) -->
-                    <div class="admin-reports__chart-column">
-                        <div class="admin-reports__chart-bar"></div>
-                        <div class="admin-reports__chart-bar" style="display: none;"></div>
-                        <div class="admin-reports__chart-bar"></div>
-                        <div class="admin-reports__chart-bar" style="display: none;"></div>
-                    </div>
-                    
-                    <!-- Column 4 (75) -->
-                    <div class="admin-reports__chart-column">
-                        <div class="admin-reports__chart-bar"></div>
-                        <div class="admin-reports__chart-bar" style="display: none;"></div>
-                        <div class="admin-reports__chart-bar"></div>
-                        <div class="admin-reports__chart-bar" style="display: none;"></div>
-                    </div>
-                    
-                    <!-- Column 5 (100) -->
-                    <div class="admin-reports__chart-column">
-                        <div class="admin-reports__chart-bar"></div>
-                        <div class="admin-reports__chart-bar" style="display: none;"></div>
-                        <div class="admin-reports__chart-bar"></div>
-                        <div class="admin-reports__chart-bar" style="display: none;"></div>
-                    </div>
-                    
-                    <!-- Column 6 (125) -->
-                    <div class="admin-reports__chart-column">
-                        <div class="admin-reports__chart-bar" style="display: none;"></div>
-                        <div class="admin-reports__chart-bar" style="display: none;"></div>
-                        <div class="admin-reports__chart-bar"></div>
-                        <div class="admin-reports__chart-bar" style="display: none;"></div>
-                    </div>
-                    
-                    <!-- Column 7 (150) -->
-                    <div class="admin-reports__chart-column">
-                        <div class="admin-reports__chart-bar" style="display: none;"></div>
-                        <div class="admin-reports__chart-bar" style="display: none;"></div>
-                        <div class="admin-reports__chart-bar" style="display: none;"></div>
-                        <div class="admin-reports__chart-bar" style="display: none;"></div>
-                    </div>
-                    
-                    <!-- Column 8 (175) -->
-                    <div class="admin-reports__chart-column">
-                        <div class="admin-reports__chart-bar" style="display: none;"></div>
-                        <div class="admin-reports__chart-bar" style="display: none;"></div>
-                        <div class="admin-reports__chart-bar" style="display: none;"></div>
-                        <div class="admin-reports__chart-bar" style="display: none;"></div>
-                    </div>
-                    
-                    <!-- Column 9 (200) -->
-                    <div class="admin-reports__chart-column">
-                        <div class="admin-reports__chart-bar"></div>
-                        <div class="admin-reports__chart-bar" style="display: none;"></div>
-                        <div class="admin-reports__chart-bar" style="display: none;"></div>
-                        <div class="admin-reports__chart-bar" style="display: none;"></div>
-                    </div>
-                    
-                    <!-- Column 10 (225) -->
-                    <div class="admin-reports__chart-column">
-                        <div class="admin-reports__chart-bar" style="width: 8px;"></div>
-                        <div class="admin-reports__chart-bar" style="display: none;"></div>
-                        <div class="admin-reports__chart-bar" style="display: none;"></div>
-                        <div class="admin-reports__chart-bar" style="display: none;"></div>
-                    </div>
+            <div class="admin-reports__chart">
+                <!-- Y-axis Labels -->
+                <div class="admin-reports__chart-labels">
+                    <span class="admin-reports__chart-label">Book Drive</span>
+                    <span class="admin-reports__chart-label">Reading Circle</span>
+                    <span class="admin-reports__chart-label">Community Fair</span>
+                    <span class="admin-reports__chart-label">Workshop</span>
                 </div>
                 
-                <!-- X-Axis Labels -->
-                <div class="admin-reports__chart-x-axis">
-                    <div class="admin-reports__chart-x-label">0</div>
-                    <div class="admin-reports__chart-x-label">25</div>
-                    <div class="admin-reports__chart-x-label">50</div>
-                    <div class="admin-reports__chart-x-label">75</div>
-                    <div class="admin-reports__chart-x-label">100</div>
-                    <div class="admin-reports__chart-x-label">125</div>
-                    <div class="admin-reports__chart-x-label">150</div>
-                    <div class="admin-reports__chart-x-label">175</div>
-                    <div class="admin-reports__chart-x-label">200</div>
-                    <div class="admin-reports__chart-x-label">225</div>
+                <!-- Chart Area with Data Attributes -->
+                <div class="admin-reports__chart-area">
+                    <!-- Grid Lines -->
+                    <div class="admin-reports__chart-grid">
+                        @for (int i = 0; i <= 10; i++)
+                        {
+                            <div class="admin-reports__chart-grid-line"></div>
+                        }
+                    </div>
+                    
+                    <!-- Bars - Ready for dynamic data -->
+                    <div class="admin-reports__chart-bars">
+                        <div class="admin-reports__chart-bar" style="--attendance-value: 200;" data-value="200" title="Book Drive: 200 attendees"></div>
+                        <div class="admin-reports__chart-bar" style="--attendance-value: 75;" data-value="75" title="Reading Circle: 75 attendees"></div>
+                        <div class="admin-reports__chart-bar" style="--attendance-value: 100;" data-value="100" title="Community Fair: 100 attendees"></div>
+                        <div class="admin-reports__chart-bar" style="--attendance-value: 50;" data-value="50" title="Workshop: 50 attendees"></div>
+                    </div>
+                    
+                    <!-- X-axis Labels -->
+                    <div class="admin-reports__chart-x-axis">
+                        @for (int i = 0; i <= 10; i++)
+                        {
+                            <span class="admin-reports__chart-x-label">@(i * 25)</span>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Story Submissions Section -->
-    <div class="admin-reports__card">
-        <h3 class="admin-reports__submissions-header">Story Submissions</h3>
-        
-        <!-- Stats Row -->
-        <div class="admin-reports__stats-row">
-            <div class="admin-reports__stat-card admin-reports__stat-card--pending">
-                <p class="admin-reports__stat-number admin-reports__stat-number--pending">14</p>
-                <p class="admin-reports__stat-label">Pending</p>
+        <!-- Story Submissions Section -->
+        <div class="admin-reports__card">
+            <h3 class="admin-reports__submissions-header">Story Submissions</h3>
+            
+            <!-- Stats Row -->
+            <div class="admin-reports__stats-row">
+                <div class="admin-reports__stat-card admin-reports__stat-card--pending">
+                    <p class="admin-reports__stat-number admin-reports__stat-number--pending">14</p>
+                    <p class="admin-reports__stat-label">Pending</p>
+                </div>
+                
+                <div class="admin-reports__stat-card admin-reports__stat-card--published">
+                    <p class="admin-reports__stat-number admin-reports__stat-number--published">36</p>
+                    <p class="admin-reports__stat-label">Published</p>
+                </div>
+                
+                <div class="admin-reports__stat-card admin-reports__stat-card--drafts">
+                    <p class="admin-reports__stat-number admin-reports__stat-number--drafts">7</p>
+                    <p class="admin-reports__stat-label">Drafts</p>
+                </div>
             </div>
             
-            <div class="admin-reports__stat-card admin-reports__stat-card--published">
-                <p class="admin-reports__stat-number admin-reports__stat-number--published">36</p>
-                <p class="admin-reports__stat-label">Published</p>
+            <!-- Story Table -->
+            <div class="admin-reports__table-wrapper">
+                <table class="admin-reports__table">
+                    <thead class="admin-reports__table-head">
+                        <tr>
+                            <th class="admin-reports__table-header">Title</th>
+                            <th class="admin-reports__table-header">Author</th>
+                            <th class="admin-reports__table-header">Date</th>
+                            <th class="admin-reports__table-header">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="admin-reports__table-row">
+                            <td class="admin-reports__table-cell admin-reports__table-cell--title">Finding Light in Darkness</td>
+                            <td class="admin-reports__table-cell">Sarah M.</td>
+                            <td class="admin-reports__table-cell">Mar 14, 2024</td>
+                            <td class="admin-reports__table-cell">
+                                <span class="admin-reports__status-badge admin-reports__status-badge--approved">Approved</span>
+                            </td>
+                        </tr>
+                        <tr class="admin-reports__table-row">
+                            <td class="admin-reports__table-cell admin-reports__table-cell--title">Community Changed My Life</td>
+                            <td class="admin-reports__table-cell">Michael R.</td>
+                            <td class="admin-reports__table-cell">Mar 13, 2024</td>
+                            <td class="admin-reports__table-cell">
+                                <span class="admin-reports__status-badge admin-reports__status-badge--pending">Pending</span>
+                            </td>
+                        </tr>
+                        <tr class="admin-reports__table-row">
+                            <td class="admin-reports__table-cell admin-reports__table-cell--title">A Second Chance</td>
+                            <td class="admin-reports__table-cell">Emma L.</td>
+                            <td class="admin-reports__table-cell">Mar 11, 2024</td>
+                            <td class="admin-reports__table-cell">
+                                <span class="admin-reports__status-badge admin-reports__status-badge--approved">Approved</span>
+                            </td>
+                        </tr>
+                        <tr class="admin-reports__table-row">
+                            <td class="admin-reports__table-cell admin-reports__table-cell--title">Rising Above Challenges</td>
+                            <td class="admin-reports__table-cell">David K.</td>
+                            <td class="admin-reports__table-cell">Mar 10, 2024</td>
+                            <td class="admin-reports__table-cell">
+                                <span class="admin-reports__status-badge admin-reports__status-badge--rejected">Rejected</span>
+                            </td>
+                        </tr>
+                        <tr class="admin-reports__table-row">
+                            <td class="admin-reports__table-cell admin-reports__table-cell--title">Hope in Hard Times</td>
+                            <td class="admin-reports__table-cell">Lisa P.</td>
+                            <td class="admin-reports__table-cell">Mar 09, 2024</td>
+                            <td class="admin-reports__table-cell">
+                                <span class="admin-reports__status-badge admin-reports__status-badge--pending">Pending</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
+        </div>
+
+        <!-- Book Inventory Snapshot -->
+        <div class="admin-reports__card">
+            <h3 class="admin-reports__card-title">Book Inventory Snapshot</h3>
             
-            <div class="admin-reports__stat-card admin-reports__stat-card--drafts">
-                <p class="admin-reports__stat-number admin-reports__stat-number--drafts">7</p>
-                <p class="admin-reports__stat-label">Drafts</p>
+            <div class="admin-reports__table-wrapper">
+                <table class="admin-reports__inventory-table">
+                    <thead>
+                        <tr>
+                            <th class="admin-reports__inventory-header">Category</th>
+                            <th class="admin-reports__inventory-header">Current Stock</th>
+                            <th class="admin-reports__inventory-header">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="admin-reports__inventory-row">
+                            <td class="admin-reports__inventory-cell">Children's Books</td>
+                            <td class="admin-reports__inventory-cell">245</td>
+                            <td class="admin-reports__inventory-cell">
+                                    <span class="admin-reports__status-badge admin-reports__status-badge--good">Good</span>
+                                </td>
+                            </tr>
+                            <tr class="admin-reports__inventory-row">
+                                <td class="admin-reports__inventory-cell">Fiction</td>
+                                <td class="admin-reports__inventory-cell">89</td>
+                                <td class="admin-reports__inventory-cell">
+                                    <span class="admin-reports__status-badge admin-reports__status-badge--low">Low</span>
+                                </td>
+                            </tr>
+                            <tr class="admin-reports__inventory-row">
+                                <td class="admin-reports__inventory-cell">Educational</td>
+                                <td class="admin-reports__inventory-cell">156</td>
+                                <td class="admin-reports__inventory-cell">
+                                    <span class="admin-reports__status-badge admin-reports__status-badge--good">Good</span>
+                                </td>
+                            </tr>
+                            <tr class="admin-reports__inventory-row">
+                                <td class="admin-reports__inventory-cell">Reference</td>
+                                <td class="admin-reports__inventory-cell">34</td>
+                                <td class="admin-reports__inventory-cell">
+                                    <span class="admin-reports__status-badge admin-reports__status-badge--critical">Critical</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-        
-        <!-- Story Table -->
-        <div class="admin-reports__table-wrapper">
-            <table class="admin-reports__table">
-                <thead class="admin-reports__table-head">
-                    <tr>
-                        <th class="admin-reports__table-header">Title</th>
-                        <th class="admin-reports__table-header">Author</th>
-                        <th class="admin-reports__table-header">Date</th>
-                        <th class="admin-reports__table-header">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="admin-reports__table-row">
-                        <td class="admin-reports__table-cell admin-reports__table-cell--title">Finding Light in Darkness</td>
-                        <td class="admin-reports__table-cell">Sarah M.</td>
-                        <td class="admin-reports__table-cell">Mar 14, 2024</td>
-                        <td class="admin-reports__table-cell">
-                            <span class="admin-reports__status-badge admin-reports__status-badge--approved">Approved</span>
-                        </td>
-                    </tr>
-                    <tr class="admin-reports__table-row">
-                        <td class="admin-reports__table-cell admin-reports__table-cell--title">Community Changed My Life</td>
-                        <td class="admin-reports__table-cell">Michael R.</td>
-                        <td class="admin-reports__table-cell">Mar 13, 2024</td>
-                        <td class="admin-reports__table-cell">
-                            <span class="admin-reports__status-badge admin-reports__status-badge--pending">Pending</span>
-                        </td>
-                    </tr>
-                    <tr class="admin-reports__table-row">
-                        <td class="admin-reports__table-cell admin-reports__table-cell--title">A Second Chance</td>
-                        <td class="admin-reports__table-cell">Emma L.</td>
-                        <td class="admin-reports__table-cell">Mar 11, 2024</td>
-                        <td class="admin-reports__table-cell">
-                            <span class="admin-reports__status-badge admin-reports__status-badge--approved">Approved</span>
-                        </td>
-                    </tr>
-                    <tr class="admin-reports__table-row">
-                        <td class="admin-reports__table-cell admin-reports__table-cell--title">Rising Above Challenges</td>
-                        <td class="admin-reports__table-cell">David K.</td>
-                        <td class="admin-reports__table-cell">Mar 10, 2024</td>
-                        <td class="admin-reports__table-cell">
-                            <span class="admin-reports__status-badge admin-reports__status-badge--rejected">Rejected</span>
-                        </td>
-                    </tr>
-                    <tr class="admin-reports__table-row">
-                        <td class="admin-reports__table-cell admin-reports__table-cell--title">Hope in Hard Times</td>
-                        <td class="admin-reports__table-cell">Lisa P.</td>
-                        <td class="admin-reports__table-cell">Mar 09, 2024</td>
-                        <td class="admin-reports__table-cell">
-                            <span class="admin-reports__status-badge admin-reports__status-badge--pending">Pending</span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Book Inventory Snapshot -->
-    <div class="admin-reports__card">
-        <h3 class="admin-reports__card-title">Book Inventory Snapshot</h3>
-        
-        <div class="admin-reports__table-wrapper">
-            <table class="admin-reports__inventory-table">
-                <thead>
-                    <tr>
-                        <th class="admin-reports__inventory-header">Category</th>
-                        <th class="admin-reports__inventory-header">Current Stock</th>
-                        <th class="admin-reports__inventory-header">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="admin-reports__inventory-row">
-                        <td class="admin-reports__inventory-cell">Children's Books</td>
-                        <td class="admin-reports__inventory-cell">245</td>
-                        <td class="admin-reports__inventory-cell">
-                            <span class="admin-reports__status-badge admin-reports__status-badge--good">Good</span>
-                        </td>
-                    </tr>
-                    <tr class="admin-reports__inventory-row">
-                        <td class="admin-reports__inventory-cell">Fiction</td>
-                        <td class="admin-reports__inventory-cell">89</td>
-                        <td class="admin-reports__inventory-cell">
-                            <span class="admin-reports__status-badge admin-reports__status-badge--low">Low</span>
-                        </td>
-                    </tr>
-                    <tr class="admin-reports__inventory-row">
-                        <td class="admin-reports__inventory-cell">Educational</td>
-                        <td class="admin-reports__inventory-cell">156</td>
-                        <td class="admin-reports__inventory-cell">
-                            <span class="admin-reports__status-badge admin-reports__status-badge--good">Good</span>
-                        </td>
-                    </tr>
-                    <tr class="admin-reports__inventory-row">
-                        <td class="admin-reports__inventory-cell">Reference</td>
-                        <td class="admin-reports__inventory-cell">34</td>
-                        <td class="admin-reports__inventory-cell">
-                            <span class="admin-reports__status-badge admin-reports__status-badge--critical">Critical</span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
+</main>

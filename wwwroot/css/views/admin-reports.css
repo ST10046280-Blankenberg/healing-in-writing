@@ -53,12 +53,14 @@
 /* =========================================================
    Event Attendance Chart Section
    ========================================================= */
-.admin-reports__chart-container {
+.admin-reports__chart {
     /* Box Model */
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: stretch;
+    gap: 16px;
     width: 100%;
+    min-height: 280px;
 }
 
 /* Chart Y-Axis Labels */
@@ -66,76 +68,135 @@
     /* Box Model */
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    padding: 8px;
+    justify-content: space-around;
+    align-items: flex-end;
+    padding: 40px 12px 40px 0;
     gap: 8px;
-    width: 100px;
-    min-width: 100px;
-    border-right: 1px solid #4B5563;
+    width: 120px;
+    min-width: 120px;
+    border-right: 1px solid #E5E7EB;
 }
 
 .admin-reports__chart-label {
     /* Box Model */
     width: 100%;
-    height: 20px;
     
     /* Typography */
     font-family: 'Inter', sans-serif;
     font-style: normal;
     font-weight: 400;
-    font-size: 11px;
-    line-height: 13px;
-    display: flex;
-    align-items: center;
+    font-size: 12px;
+    line-height: 16px;
     text-align: right;
-    color: #000000;
+    color: #374151;
 }
 
-/* Chart Bars Section */
-.admin-reports__chart-bars-wrapper {
+/* Chart Area Container */
+.admin-reports__chart-area {
+    /* Positioning */
+    position: relative;
+    
     /* Box Model */
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
     flex: 1;
+    padding: 20px 0;
 }
 
-/* Chart Bars Grid */
-.admin-reports__chart-bars {
+/* Chart Grid Lines */
+.admin-reports__chart-grid {
+    /* Positioning */
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    bottom: 40px;
+    
     /* Box Model */
     display: flex;
     flex-direction: row;
-    align-items: center;
-    width: 100%;
-    height: 120px;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 1;
 }
 
-/* Individual Bar Column */
-.admin-reports__chart-column {
+.admin-reports__chart-grid-line {
+    /* Box Model */
+    width: 1px;
+    height: 100%;
+    
+    /* Visual */
+    background-color: #E5E7EB;
+}
+
+/* Chart Bars Container */
+.admin-reports__chart-bars {
+    /* Positioning */
+    position: relative;
+    z-index: 2;
+    
     /* Box Model */
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    padding: 8px 0px;
-    gap: 8px;
+    justify-content: space-around;
+    gap: 16px;
+    padding: 20px 0;
     flex: 1;
-    height: 100%;
-    border-right: 1px solid #4B5563;
 }
 
-.admin-reports__chart-column:last-child {
-    border-right: none;
-}
-
-/* Bar Segment */
+/* Individual Chart Bar - Data-Driven with CSS Variables */
 .admin-reports__chart-bar {
+    /* Positioning */
+    position: relative;
+    
     /* Box Model */
-    width: 100%;
-    height: 20px;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    
+    /* Dynamic width calculation based on --attendance-value */
+    /* Max value is 225, so we calculate percentage */
+    width: calc((var(--attendance-value, 0) / 225) * 100%);
+    max-width: 100%;
+    min-width: 2%;
     
     /* Visual */
-    background: #C99F9C;
+    background-color: #C99F9C;
+    border-radius: 4px;
+    
+    /* Animation */
+    transition: width 0.3s ease, background-color 0.2s ease;
+    cursor: pointer;
+}
+
+.admin-reports__chart-bar:hover {
+    background-color: #B88F8C;
+}
+
+/* Optional: Show value on hover */
+.admin-reports__chart-bar::after {
+    /* Positioning */
+    position: absolute;
+    right: -50px;
+    
+    /* Content */
+    content: attr(data-value);
+    
+    /* Typography */
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #6B7280;
+    
+    /* Visual */
+    opacity: 0;
+    
+    /* Animation */
+    transition: opacity 0.3s ease;
+}
+
+.admin-reports__chart-bar:hover::after {
+    opacity: 1;
 }
 
 /* Chart X-Axis Labels */
@@ -143,22 +204,26 @@
     /* Box Model */
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #E5E7EB;
 }
 
 .admin-reports__chart-x-label {
     /* Box Model */
     flex: 1;
-    height: 13px;
+    text-align: center;
     
     /* Typography */
     font-family: 'Inter', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 11px;
-    line-height: 13px;
-    color: #666666;
+    line-height: 14px;
+    color: #6B7280;
 }
 
 /* =========================================================
@@ -466,9 +531,27 @@
         overflow-x: auto;
     }
     
+    .admin-reports__chart {
+        min-height: 240px;
+    }
+    
     .admin-reports__chart-labels {
-        width: 80px;
-        min-width: 80px;
+        width: 90px;
+        min-width: 90px;
+        padding: 30px 8px 30px 0;
+    }
+    
+    .admin-reports__chart-label {
+        font-size: 11px;
+    }
+    
+    .admin-reports__chart-bar {
+        height: 32px;
+    }
+    
+    .admin-reports__chart-bar::after {
+        right: -45px;
+        font-size: 12px;
     }
 }
 
