@@ -130,7 +130,11 @@ public static class ViewModelMappers
             {
                 Thumbnail = string.IsNullOrWhiteSpace(form["ThumbnailUrl"].ToString()) ? string.Empty : form["ThumbnailUrl"].ToString(),
                 SmallThumbnail = string.IsNullOrWhiteSpace(form["SmallThumbnailUrl"].ToString()) ? string.Empty : form["SmallThumbnailUrl"].ToString()
-            }
+            },
+            // Parse Condition from form, default to Good if not valid or missing
+            Condition = Enum.TryParse<BookCondition>(form["Condition"], out var cond) ? cond : BookCondition.Good,
+            // Parse Price from form, default to 0 if not present or invalid
+            Price = decimal.TryParse(form["Price"], out var price) ? price : 0m
         };
     }
 
@@ -150,7 +154,9 @@ public static class ViewModelMappers
             PageCount = book.PageCount,
             Language = book.Language,
             Publisher = book.Publisher,
-            IndustryIdentifiers = IndustryIdentifiersToStrings(book.IndustryIdentifiers)
+            IndustryIdentifiers = IndustryIdentifiersToStrings(book.IndustryIdentifiers),
+            Condition = book.Condition.ToString(), // FIX: Convert enum to string
+            Price = book.Price
         };
     }
 

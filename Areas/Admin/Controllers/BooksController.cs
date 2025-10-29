@@ -85,7 +85,7 @@ namespace HealingInWriting.Areas.Admin.Controllers
 
         #endregion
 
-        #region HTTP POST: Actions (CRUD)
+        #region HTTP POST: Actions (CUD)
 
         /// <summary>
         /// Handles the POST request to add a new book.

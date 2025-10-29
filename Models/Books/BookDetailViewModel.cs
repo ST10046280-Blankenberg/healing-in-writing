@@ -13,5 +13,7 @@
         public string Language { get; set; } = string.Empty;
         public string Publisher { get; set; } = string.Empty;
         public List<string> IndustryIdentifiers { get; set; } = new();
+        public string Condition { get; set; } = string.Empty;
+        public decimal Price { get; set; } = new();
     }
 }

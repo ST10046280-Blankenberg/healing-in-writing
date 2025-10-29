@@ -84,6 +84,9 @@ public class Book
     /// </summary>
     [Required]
     public BookCondition Condition { get; set; } = BookCondition.Good;
+
+    [Required]
+    public decimal Price { get; set; } = 0m;
 }
 
 /// <summary>
