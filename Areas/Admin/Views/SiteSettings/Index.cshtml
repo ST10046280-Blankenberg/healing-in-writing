@@ -2,6 +2,7 @@
     ViewData["Title"] = "Site Settings";
 }
 
+<link rel="stylesheet" href="~/css/shared/search-bar.css" />
 <link rel="stylesheet" href="~/css/views/admin-site-settings.css" />
 
 <main class="admin-site-settings">
@@ -160,42 +161,44 @@
     <section class="featured-stories">
         <h2 class="featured-stories__title">Featured Stories</h2>
         
-        <div class="featured-stories__search-bar">
-            <div class="featured-stories__search-input-wrapper">
-                <div class="featured-stories__search-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+        <!-- Search Bar Component -->
+        <div class="search-bar">
+            <div class="search-bar__filters-row">
+                <div class="search-bar__input-container">
+                    <svg class="search-bar__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path fill="#9CA3AF" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                    <input type="text" class="search-bar__input" placeholder="Search..." />
+                </div>
+                
+                <div class="search-bar__dropdown">
+                    <span class="search-bar__dropdown-label">Any Date</span>
+                    <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path fill="#000000" d="M7 10l5 5 5-5z"/>
                     </svg>
                 </div>
-                <input type="text" class="featured-stories__search-input" placeholder="Search..." />
+                
+                <div class="search-bar__dropdown">
+                    <span class="search-bar__dropdown-label">Any Tags</span>
+                    <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path fill="#000000" d="M7 10l5 5 5-5z"/>
+                    </svg>
+                </div>
+                
+                <div class="search-bar__dropdown">
+                    <span class="search-bar__dropdown-label">Newest</span>
+                    <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path fill="#000000" d="M7 10l5 5 5-5z"/>
+                    </svg>
+                </div>
+                
+                <button class="search-bar__button">
+                    <svg class="search-bar__button-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path fill="#FFFFFF" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                    <span class="search-bar__button-label">Search</span>
+                </button>
             </div>
-            
-            <select class="featured-stories__filter">
-                <option>Any Date</option>
-                <option>Last 7 Days</option>
-                <option>Last 30 Days</option>
-                <option>Last 90 Days</option>
-            </select>
-            
-            <select class="featured-stories__filter">
-                <option>Any Tags</option>
-                <option>Recovery</option>
-                <option>Hope</option>
-                <option>Transformation</option>
-            </select>
-            
-            <select class="featured-stories__filter">
-                <option>Newest</option>
-                <option>Oldest</option>
-                <option>Most Popular</option>
-            </select>
-            
-            <button class="featured-stories__btn-search">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-                </svg>
-                Search
-            </button>
         </div>
         
         <div class="featured-stories__list">
