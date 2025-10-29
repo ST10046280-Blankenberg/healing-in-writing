@@ -39,7 +39,10 @@ namespace HealingInWriting.Areas.Admin.Controllers
         {
             var model = new CreateEventViewModel
             {
-                Id = id ?? 0
+                Id = id ?? 0,
+                EventDate = DateTime.Today,
+                StartTime = new TimeSpan(9, 0, 0),
+                EndTime = new TimeSpan(10, 0, 0)
             };
 
             if (id.HasValue)
