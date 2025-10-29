@@ -43,5 +43,15 @@ namespace HealingInWriting.Interfaces.Repository
             int skip,
             int take,
             bool onlyVisible);
+
+        /// <summary>
+        /// Gets all unique authors from all books.
+        /// </summary>
+        Task<List<string>> GetAllAuthorsAsync(bool onlyVisible);
+
+        /// <summary>
+        /// Gets all unique categories from all books.
+        /// </summary>
+        Task<List<string>> GetAllCategoriesAsync(bool onlyVisible);
     }
 }

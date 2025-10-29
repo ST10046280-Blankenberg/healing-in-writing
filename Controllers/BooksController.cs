@@ -19,16 +19,20 @@ namespace HealingInWriting.Controllers
         // For regular users: only visible books, paged
         public async Task<IActionResult> Index()
         {
-            // Fetch first page of visible books for users
             var books = await _bookService.GetPagedForUserAsync(
-                    searchTerm: null,
-                    selectedAuthor: null,
-                    selectedCategory: null,
-                    selectedTag: null,
-                    skip: 0,
-                    take: 10);
+                searchTerm: null,
+                selectedAuthor: null,
+                selectedCategory: null,
+                selectedTag: null,
+                skip: 0,
+                take: 10);
+
+            var allAuthors = await _bookService.GetAllAuthorsAsync(onlyVisible: true);
+            var allCategories = await _bookService.GetAllCategoriesAsync(onlyVisible: true);
 
             var viewModel = _bookService.ToBookListViewModel(books);
+            viewModel.AvailableAuthors = allAuthors;
+            viewModel.AvailableCategories = allCategories;
 
             return View(viewModel);
         }
