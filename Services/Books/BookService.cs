@@ -356,4 +356,8 @@ public class BookService : IBookService
                                       .ToList()
         };
     }
+
+    // New: Map a list of Book to a list of BookInventoryRowViewModel
+    public List<BookInventoryRowViewModel> ToBookInventoryRowViewModels(IEnumerable<Book> books)
+        => books.Select(ViewModelMappers.ToBookInventoryRowViewModel).ToList();
 }

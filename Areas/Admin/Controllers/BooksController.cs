@@ -6,9 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HealingInWriting.Areas.Admin.Controllers
 {
@@ -44,19 +41,12 @@ namespace HealingInWriting.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Manage()
         {
-            var books = (await _bookService.GetFeaturedAsync()).ToList();
+            var books = await _bookService.GetFeaturedAsync();
             var model = new BookInventoryViewModel
             {
-                Books = books.Select(book => new BookInventoryRowViewModel
-                {
-                    BookId = book.BookId,
-                    Title = book.Title,
-                    Categories = book.Categories?.ToList() ?? new List<string>(),
-                    ThumbnailUrl = book.ImageLinks?.Thumbnail ?? string.Empty,
-                    Condition = book.Condition.ToString()
-                }).ToList()
+                Books = (_bookService as BookService)?.ToBookInventoryRowViewModels(books)
+                    ?? new List<BookInventoryRowViewModel>()
             };
-
             return View(model);
         }
 

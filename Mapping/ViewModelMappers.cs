@@ -178,5 +178,18 @@ public static class ViewModelMappers
         };
     }
 
+    public static BookInventoryRowViewModel ToBookInventoryRowViewModel(Book book)
+    {
+        return new BookInventoryRowViewModel
+        {
+            BookId = book.BookId,
+            Title = book.Title,
+            Categories = book.Categories?.ToList() ?? new List<string>(),
+            ThumbnailUrl = book.ImageLinks?.Thumbnail ?? string.Empty,
+            Condition = book.Condition.ToString(),
+            IsVisible = book.IsVisible
+        };
+    }
+
     // TODO: Implement mapping extensions for BookInventoryViewModel, BookListViewModel, BookSummaryViewModel as needed.
 }
