@@ -85,6 +85,14 @@ namespace HealingInWriting.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> EditBook(int id)
         {
+            ViewBag.BookConditions = Enum.GetValues(typeof(BookCondition))
+            .Cast<BookCondition>()
+            .Select(bc => new SelectListItem
+            {
+                Value = bc.ToString(),
+                Text = bc.ToString()
+            }).ToList();
+
             var book = await _bookService.GetBookByIdAsync(id);
             if (book == null)
                 return NotFound();
