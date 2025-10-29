@@ -288,8 +288,6 @@ namespace HealingInWriting.Areas.Admin.Controllers
 
             return PartialView("_BookInventoryRows", filteredBooks);
         }
-
-
         #endregion
     }
 }

@@ -75,4 +75,49 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
         });
     }
+
+    //// Pagination logic
+    //const pagination = document.getElementById('books-pagination');
+    //let currentPage = 1;
+    //const pageSize = 20; // Should match the server-side default
+
+    //function loadPage(page) {
+    //    const form = document.getElementById('book-filter-form');
+    //    const params = new URLSearchParams(new FormData(form));
+    //    params.set('skip', (page - 1) * pageSize);
+    //    params.set('take', pageSize);
+
+    //    fetch('/Admin/Books/ListPaged?' + params.toString())
+    //        .then(response => response.text())
+    //        .then(html => {
+    //            booksListContainer.innerHTML = html;
+    //            currentPage = page;
+    //            document.getElementById('pagination-current').textContent = currentPage;
+    //            // Optionally, disable/enable prev/next based on data
+    //            pagination.querySelector('[data-page="prev"]').disabled = currentPage === 1;
+    //            // For demo, always enable next; in production, check if there are more results
+    //        });
+    //}
+
+    //if (pagination) {
+    //    pagination.addEventListener('click', function (e) {
+    //        if (e.target.classList.contains('pagination__btn')) {
+    //            if (e.target.dataset.page === 'prev' && currentPage > 1) {
+    //                loadPage(currentPage - 1);
+    //            }
+    //            if (e.target.dataset.page === 'next') {
+    //                loadPage(currentPage + 1);
+    //            }
+    //        }
+    //    });
+    //}
+
+    //// When filter form is submitted, reset to page 1
+    //const filterForm = document.getElementById('book-filter-form');
+    //if (filterForm) {
+    //    filterForm.addEventListener('submit', function (e) {
+    //        e.preventDefault();
+    //        loadPage(1);
+    //    });
+    //}
 });

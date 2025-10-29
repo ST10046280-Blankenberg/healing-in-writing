@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Manage Books";
+    var pageSize = 20; // Should match the default in your controller
+    var currentPage = 1; // Default to first page
 }
 
 @section Scripts {
@@ -104,5 +106,11 @@
                 </tbody>
             </table>
         </div>
+        <!-- Pagination Controls -->
+        <nav class="manage-books__pagination" id="books-pagination" aria-label="Book inventory pagination">
+            <button type="button" class="pagination__btn" data-page="prev" disabled>Previous</button>
+            <span class="pagination__info">Page <span id="pagination-current">1</span></span>
+            <button type="button" class="pagination__btn" data-page="next">Next</button>
+        </nav>
     </main>
 </div>
