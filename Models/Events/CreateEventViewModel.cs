@@ -50,6 +50,6 @@ public class CreateEventViewModel
     public string PostalCode { get; set; } = string.Empty;
 
     // Coordinates (optional for now, can be populated via geocoding)
-    public double Latitude { get; set; }
-    public double Longitude { get; set; }
+    public double? Latitude { get; set; }
+    public double? Longitude { get; set; }
 }

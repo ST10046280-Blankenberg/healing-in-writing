@@ -53,8 +53,8 @@ public class EventService : IEventService
             Province = model.Province,
             PostalCode = model.PostalCode,
             Country = "South Africa",
-            Latitude = model.Latitude,
-            Longitude = model.Longitude
+            Latitude = model.Latitude ?? 0,
+            Longitude = model.Longitude ?? 0
         };
 
         // Create Event
