@@ -36,13 +36,14 @@
 }
 
 .stories__nav-tab {
+    position: relative;
     box-sizing: border-box;
     padding: 8px 0;
     background: transparent;
     border: none;
-    border-bottom: 2px solid transparent;
+    outline: none; /* Remove any focus outline */
     cursor: pointer;
-    
+
     font-family: 'Poppins', sans-serif;
     font-style: normal;
     font-weight: 400;
@@ -50,18 +51,31 @@
     line-height: 24px;
     text-align: center;
     color: #4B5563;
-    
+
     transition: all 0.2s ease;
 }
 
 .stories__nav-tab--active {
     font-weight: 500;
     color: #2F1648;
-    border-bottom-color: #2F1648;
+}
+
+.stories__nav-tab--active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #2F1648;
 }
 
 .stories__nav-tab:hover {
     color: #2F1648;
+}
+
+.stories__nav-tab:focus {
+    outline: none; /* Remove focus outline */
 }
 
 /* Write a Story Button */
