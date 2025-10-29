@@ -327,16 +327,13 @@
 }
 
 /* Column Widths */
-.manage-books__table th:nth-child(1) { width: 42.7%; order: 0; }  /* Name */
-.manage-books__table th:nth-child(2) { width: 11.3%; order: 1; }  /* Category */
-.manage-books__table th:nth-child(3) { width: 12.3%; order: 2; }  /* Quantity */
-.manage-books__table th:nth-child(4) { width: 11.8%; order: 3; }  /* Condition */
-.manage-books__table th:nth-child(5) { width: 9.5%; order: 4; }   /* Visible */
-.manage-books__table th:nth-child(6) { 
-    width: 9.9%; 
-    order: 5; 
-    justify-content: center;
-}   /* Actions */
+.manage-books__table th:nth-child(1) { width: 25%; order: 0; }    /* Name */
+.manage-books__table th:nth-child(2) { width: 25%; order: 1; }    /* Authors */
+.manage-books__table th:nth-child(3) { width: 12%; order: 2; }    /* Category */
+.manage-books__table th:nth-child(4) { width: 10%; order: 3; }    /* Quantity */
+.manage-books__table th:nth-child(5) { width: 10%; order: 4; }    /* Condition */
+.manage-books__table th:nth-child(6) { width: 8%; order: 5; }     /* Visible */
+.manage-books__table th:nth-child(7) { width: 10%; order: 6; }   /* Actions */
 
 /* Table Body */
 .manage-books__table tbody {
@@ -389,14 +386,14 @@
     flex: none;
     flex-grow: 0;
 }
-
 /* Column Widths for td */
-.manage-books__table td:nth-child(1) { width: 42.7%; order: 0; }  /* Name */
-.manage-books__table td:nth-child(2) { width: 11.3%; order: 1; }  /* Category */
-.manage-books__table td:nth-child(3) { width: 12.3%; order: 2; }  /* Quantity */
-.manage-books__table td:nth-child(4) { width: 11.8%; order: 3; }  /* Condition */
-.manage-books__table td:nth-child(5) { width: 9.5%; order: 4; }   /* Visible */
-.manage-books__table td:nth-child(6) { width: 9.9%; order: 5; }   /* Actions */
+.manage-books__table td:nth-child(1) { width: 25%; order: 0; }    /* Name */
+.manage-books__table td:nth-child(2) { width: 25%; order: 1; }    /* Authors */
+.manage-books__table td:nth-child(3) { width: 12%; order: 2; }    /* Category */
+.manage-books__table td:nth-child(4) { width: 10%; order: 3; }    /* Quantity */
+.manage-books__table td:nth-child(5) { width: 10%; order: 4; }    /* Condition */
+.manage-books__table td:nth-child(6) { width: 8%; order: 5; }     /* Visible */
+.manage-books__table td:nth-child(7) { width: 10%; order: 6;}    /* Actions */
 
 /* Book Info Cell */
 .manage-books__book-info {
@@ -425,6 +422,17 @@
     font-size: 16px;
     line-height: 24px;
     color: #111827;
+}
+
+/* Authors Cell */
+.manage-books__book-authors {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #374151;
 }
 
 /* Category Cell */

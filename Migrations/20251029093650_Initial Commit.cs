@@ -6,11 +6,25 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HealingInWriting.Migrations
 {
     /// <inheritdoc />
-    public partial class ResetingDatabaseForChangesToBook : Migration
+    public partial class InitialCommit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "BackoffStates",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    LastImportAttemptUtc = table.Column<DateTimeOffset>(type: "TEXT", nullable: true),
+                    CurrentBackoffSeconds = table.Column<double>(type: "REAL", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BackoffStates", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Books",
                 columns: table => new
@@ -26,7 +40,10 @@ namespace HealingInWriting.Migrations
                     Categories = table.Column<string>(type: "TEXT", nullable: false),
                     Language = table.Column<string>(type: "TEXT", maxLength: 10, nullable: false),
                     ImageLinks_SmallThumbnail = table.Column<string>(type: "TEXT", nullable: true),
-                    ImageLinks_Thumbnail = table.Column<string>(type: "TEXT", nullable: true)
+                    ImageLinks_Thumbnail = table.Column<string>(type: "TEXT", nullable: true),
+                    IsVisible = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Condition = table.Column<int>(type: "INTEGER", nullable: false),
+                    Price = table.Column<decimal>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -250,6 +267,9 @@ namespace HealingInWriting.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "BackoffStates");
+
             migrationBuilder.DropTable(
                 name: "BookIndustryIdentifiers");
 

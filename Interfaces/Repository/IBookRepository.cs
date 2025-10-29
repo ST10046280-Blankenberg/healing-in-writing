@@ -10,7 +10,7 @@ namespace HealingInWriting.Interfaces.Repository
         /// <summary>
         /// Retrieves all books in the catalogue.
         /// </summary>
-        Task<IEnumerable<Book>> GetAllAsync();
+        Task<IEnumerable<Book>> GetAllAsync(); // For admin: all books, regardless of visibility
 
         /// <summary>
         /// Retrieves a single book by its unique identifier.
@@ -31,5 +31,37 @@ namespace HealingInWriting.Interfaces.Repository
         /// Deletes a book from the catalogue by its unique identifier.
         /// </summary>
         Task DeleteAsync(int bookId);
+
+        /// <summary>
+        /// Retrieves a paged list of books with filters (admin).
+        /// </summary>
+        Task<IEnumerable<Book>> GetFilteredPagedAsync(
+            string? searchTerm,
+            string? selectedAuthor,
+            string? selectedCategory,
+            string? selectedTag,
+            int skip,
+            int take,
+            bool onlyVisible);
+
+        /// <summary>
+        /// Gets all unique authors from all books.
+        /// </summary>
+        Task<List<string>> GetAllAuthorsAsync(bool onlyVisible);
+
+        /// <summary>
+        /// Gets all unique categories from all books.
+        /// </summary>
+        Task<List<string>> GetAllCategoriesAsync(bool onlyVisible);
+
+        /// <summary>
+        /// Gets the count of books matching the given filters (admin).
+        /// </summary>
+        Task<int> GetFilteredCountAsync(
+            string? searchTerm,
+            string? selectedAuthor,
+            string? selectedCategory,
+            string? selectedTag,
+            bool onlyVisible);
     }
 }

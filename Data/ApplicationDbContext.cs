@@ -25,6 +25,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     // public DbSet<Donation> Donations { get; set; }
     // public DbSet<Volunteer> Volunteers { get; set; }
     public DbSet<Book> Books { get; set; }
+    public DbSet<BackoffState> BackoffStates { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
