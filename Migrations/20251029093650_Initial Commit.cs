@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HealingInWriting.Migrations
 {
     /// <inheritdoc />
-    public partial class AddBackoffState : Migration
+    public partial class InitialCommit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -42,7 +42,8 @@ namespace HealingInWriting.Migrations
                     ImageLinks_SmallThumbnail = table.Column<string>(type: "TEXT", nullable: true),
                     ImageLinks_Thumbnail = table.Column<string>(type: "TEXT", nullable: true),
                     IsVisible = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Condition = table.Column<int>(type: "INTEGER", nullable: false)
+                    Condition = table.Column<int>(type: "INTEGER", nullable: false),
+                    Price = table.Column<decimal>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

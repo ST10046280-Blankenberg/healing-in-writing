@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealingInWriting.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251029055440_AddBackoffState")]
-    partial class AddBackoffState
+    [Migration("20251029093650_Initial Commit")]
+    partial class InitialCommit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -69,6 +69,9 @@ namespace HealingInWriting.Migrations
 
                     b.Property<int>("PageCount")
                         .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("PublishedDate")
                         .IsRequired()
