@@ -10,6 +10,7 @@ using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.RateLimiting;
 using HealingInWriting.Interfaces.Repository;
 using HealingInWriting.Repositories.Books;
+using HealingInWriting.Services.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -94,6 +95,7 @@ builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IBackoffStateRepository, BackoffStateRepository>();
+builder.Services.AddScoped<IBankDetailsService, BankDetailsService>();
 
 // Configure rate limiting to prevent brute force, credential stuffing, and DDoS attacks
 // Uses IP address as the partition key to track requests per client
