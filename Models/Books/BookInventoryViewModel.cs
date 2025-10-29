@@ -21,11 +21,8 @@
         public string Title { get; set; } = string.Empty;
         public List<string> Categories { get; set; } = new();
         public string ThumbnailUrl { get; set; } = string.Empty;
-
-        // Inventory-specific fields
-        //TODO: add required fields to book domain model.
         public int Quantity { get; set; } = 1;
-        public string Condition { get; set; } = "Good"; // e.g., "New", "Good", "Fair", etc.
+        public string Condition { get; set; } = string.Empty; // e.g., "New", "Good", "Fair", etc.
         public bool IsVisible { get; set; } = true;
     }
 }

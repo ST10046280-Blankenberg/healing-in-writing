@@ -52,7 +52,8 @@ namespace HealingInWriting.Areas.Admin.Controllers
                     BookId = book.BookId,
                     Title = book.Title,
                     Categories = book.Categories?.ToList() ?? new List<string>(),
-                    ThumbnailUrl = book.ImageLinks?.Thumbnail ?? string.Empty
+                    ThumbnailUrl = book.ImageLinks?.Thumbnail ?? string.Empty,
+                    Condition = book.Condition.ToString()
                 }).ToList()
             };
 
