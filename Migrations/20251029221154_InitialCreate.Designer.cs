@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealingInWriting.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251029215845_CombinedInitialMigration")]
-    partial class CombinedInitialMigration
+    [Migration("20251029221154_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

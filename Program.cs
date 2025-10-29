@@ -165,18 +165,76 @@ using (var scope = app.Services.CreateScope())
         var logger = services.GetRequiredService<ILogger<Program>>();
         var context = services.GetRequiredService<ApplicationDbContext>();
 
-        // Automatically apply pending migrations on startup
+        // Automatically handle database migrations on startup
         // This ensures database schema stays in sync with code changes
-        // Prevents "table does not exist" errors from unapplied migrations
-        if (context.Database.GetPendingMigrations().Any())
+        // Prevents "table does not exist" or "column does not exist" errors
+        try
         {
-            logger.LogInformation("Applying pending migrations...");
-            context.Database.Migrate();
-            logger.LogInformation("Migrations applied successfully.");
+            var pendingMigrations = context.Database.GetPendingMigrations().ToList();
+            var appliedMigrations = context.Database.GetAppliedMigrations().ToList();
+
+            logger.LogInformation($"Applied migrations: {appliedMigrations.Count}, Pending migrations: {pendingMigrations.Count}");
+
+            if (pendingMigrations.Any())
+            {
+                logger.LogInformation("Applying pending migrations: {Migrations}", string.Join(", ", pendingMigrations));
+                context.Database.Migrate();
+                logger.LogInformation("Migrations applied successfully.");
+            }
+            else
+            {
+                logger.LogInformation("Database is up to date. No pending migrations.");
+
+                // Validate that database can be accessed (catches schema mismatch issues)
+                try
+                {
+                    _ = context.Books.Any();
+                    logger.LogInformation("Database schema validation successful.");
+                }
+                catch (Exception validationEx)
+                {
+                    logger.LogWarning(validationEx, "Database schema validation failed. Attempting to recreate database...");
+
+                    // Only in development: recreate database on schema mismatch
+                    if (app.Environment.IsDevelopment())
+                    {
+                        logger.LogWarning("Development mode: Dropping and recreating database...");
+                        context.Database.EnsureDeleted();
+                        context.Database.Migrate();
+                        logger.LogInformation("Database recreated successfully.");
+                    }
+                    else
+                    {
+                        logger.LogError("Production mode: Cannot auto-fix schema mismatch. Manual intervention required.");
+                        throw;
+                    }
+                }
+            }
         }
-        else
+        catch (Exception migrationEx)
         {
-            logger.LogInformation("Database is up to date. No pending migrations.");
+            logger.LogError(migrationEx, "Failed to apply migrations.");
+
+            // In development, offer nuclear option: drop and recreate
+            if (app.Environment.IsDevelopment())
+            {
+                logger.LogWarning("Development mode: Attempting to recreate database from scratch...");
+                try
+                {
+                    context.Database.EnsureDeleted();
+                    context.Database.Migrate();
+                    logger.LogInformation("Database recreated successfully after migration failure.");
+                }
+                catch (Exception recreateEx)
+                {
+                    logger.LogError(recreateEx, "Failed to recreate database. Manual intervention required.");
+                    throw;
+                }
+            }
+            else
+            {
+                throw;
+            }
         }
 
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
