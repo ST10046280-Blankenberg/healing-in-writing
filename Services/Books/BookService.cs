@@ -140,10 +140,9 @@ public class BookService : IBookService
     }
 
     // Seed books into the database if not already present
-    public async Task SeedBooksAsync()
+    public async Task<string?> SeedBooksAsync()
     {
         var existingBooks = (await _bookRepository.GetAllAsync()).ToList();
-        // Pull every stored ISBN so we avoid hitting Google Books for titles that already exist locally.
         var existingIsbns = existingBooks
             .SelectMany(b => b.IndustryIdentifiers ?? new List<IndustryIdentifier>())
             .Select(id => id.Identifier)
@@ -152,20 +151,25 @@ public class BookService : IBookService
         foreach (var isbn in SeedIsbns)
         {
             if (existingIsbns.Contains(isbn))
-            {
                 continue;
+
+            var result = await ImportBookByIsbnAsync(isbn);
+            if (result.RateLimited)
+            {
+                // Stop further imports and return the message
+                return result.Message;
             }
 
-            var book = await ImportBookByIsbnAsync(isbn);
-            if (book != null)
+            if (result.Book != null)
             {
-                await _bookRepository.AddAsync(book);
+                await _bookRepository.AddAsync(result.Book);
             }
             else
             {
                 _logger.LogWarning("Failed to import book with ISBN {Isbn} during seeding.", isbn);
             }
         }
+        return null;
     }
 
     public async Task<IReadOnlyCollection<Book>> GetFeaturedAsync()
@@ -194,10 +198,10 @@ public class BookService : IBookService
         return books.ToList();
     }
 
-    public async Task<Book?> ImportBookByIsbnAsync(string isbn)
+    public async Task<ImportResult> ImportBookByIsbnAsync(string isbn)
     {
         if (string.IsNullOrWhiteSpace(isbn))
-            return null;
+            return new ImportResult { Book = null };
 
         // Normalize ISBN: remove dashes, spaces, and other non-digit/non-X characters
         string normalizedIsbn = new string(isbn
@@ -206,36 +210,47 @@ public class BookService : IBookService
             .ToUpperInvariant();
 
         if (string.IsNullOrWhiteSpace(normalizedIsbn))
-            return null;
+            return new ImportResult { Book = null };
 
         var apiKey = _configuration["ApiKeys:GoogleBooks"];
         if (string.IsNullOrWhiteSpace(apiKey))
-            return null;
+            return new ImportResult { Book = null };
 
         var httpClient = _httpClientFactory.CreateClient();
         var url = $"https://www.googleapis.com/books/v1/volumes?q=isbn:{normalizedIsbn}&key={apiKey}";
         var response = await httpClient.GetAsync(url);
 
+        if (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
+        {
+            _logger.LogWarning("Google Books API rate limit exceeded (HTTP 429) while importing ISBN {Isbn}. Aborting import.", isbn);
+            return new ImportResult
+            {
+                Book = null,
+                RateLimited = true,
+                Message = "Google Books API rate limit exceeded. Please try again later."
+            };
+        }
+
         if (!response.IsSuccessStatusCode)
-            return null;
+            return new ImportResult { Book = null, Message = "Failed to import book." };
 
         var json = await response.Content.ReadAsStringAsync();
         var googleResult = JsonDocument.Parse(json);
 
         // Defensive: Check if "items" property exists
         if (!googleResult.RootElement.TryGetProperty("items", out var items) || items.ValueKind != JsonValueKind.Array)
-            return null;
+            return new ImportResult { Book = null };
 
         var item = items.EnumerateArray().FirstOrDefault();
         if (item.ValueKind == JsonValueKind.Undefined)
-            return null;
+            return new ImportResult { Book = null };
 
         var volumeInfo = item.GetProperty("volumeInfo");
 
         // Use mapping helper for Google Books JSON to Book
         var book = ViewModelMappers.ToBookFromGoogleJson(volumeInfo);
 
-        return book;
+        return new ImportResult { Book = book };
     }
 
     public BookDetailViewModel ToBookDetailViewModel(Book book)

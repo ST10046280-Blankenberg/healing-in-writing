@@ -158,12 +158,19 @@ namespace HealingInWriting.Areas.Admin.Controllers
             if (string.IsNullOrWhiteSpace(isbn))
                 return Json(new { success = false, message = "ISBN required." });
 
-            var book = await _bookService.ImportBookByIsbnAsync(isbn);
+            // Use the new ImportResult
+            var result = await (_bookService as BookService)?.ImportBookByIsbnAsync(isbn);
 
-            if (book == null)
+            if (result == null)
                 return Json(new { success = false, message = "Book not found for this ISBN." });
 
-            var viewModel = (_bookService as BookService)?.ToBookDetailViewModel(book);
+            if (result.RateLimited)
+                return Json(new { success = false, message = result.Message ?? "Rate limit exceeded. Please try again later." });
+
+            if (result.Book == null)
+                return Json(new { success = false, message = result.Message ?? "Book not found for this ISBN." });
+
+            var viewModel = (_bookService as BookService)?.ToBookDetailViewModel(result.Book);
 
             return Json(new { success = true, data = viewModel });
         }
