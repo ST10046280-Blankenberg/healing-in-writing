@@ -74,6 +74,27 @@ public class Book
     /// </summary>
     public ImageLinks ImageLinks { get; set; }
 
+    /// <summary>
+    /// Indicates whether the book is visible in the inventory.
+    /// </summary>
+    public bool IsVisible { get; set; } = true;
+
+    /// <summary>
+    /// The condition of the book (e.g., New, Good, Fair, Poor).
+    /// </summary>
+    [Required]
+    public BookCondition Condition { get; set; } = BookCondition.Good;
+}
+
+/// <summary>
+/// Represents the available conditions for a book.
+/// </summary>
+public enum BookCondition
+{
+    New,
+    Good,
+    Fair,
+    Poor
 }
 
 /// <summary>
@@ -191,7 +212,6 @@ public class ImageLinks
   ]
 }
 */
-
 
 //Info being stored
 /*
