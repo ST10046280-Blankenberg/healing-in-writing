@@ -97,7 +97,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<IEventService, EventService>();
-
+builder.Services.AddScoped<IBackoffStateRepository, BackoffStateRepository>();
 
 // Configure rate limiting to prevent brute force, credential stuffing, and DDoS attacks
 // Uses IP address as the partition key to track requests per client
@@ -188,7 +188,13 @@ using (var scope = app.Services.CreateScope())
         var bookService = services.GetRequiredService<IBookService>() as BookService;
         if (bookService != null)
         {
-            var existingBooks = await bookService.GetFeaturedAsync();
+            var existingBooks = await bookService.GetPagedForAdminAsync(
+                searchTerm: null,
+                selectedAuthor: null,
+                selectedCategory: null,
+                selectedTag: null,
+                skip: 0,
+                take: 20);
             if (!existingBooks.Any())
             {
                 logger.LogInformation("Database is empty. Seeding books...");

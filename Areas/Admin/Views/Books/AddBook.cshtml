@@ -51,6 +51,7 @@
                                     <input type="text" id="IsbnSecondaryDisplay" class="add-book__input" readonly />
                                 </div>
                             </div>
+                            <div id="import-message" class="alert alert-warning" style="display:none;"></div>
                         </div>
                         <button type="button" class="add-book__import-btn">Import Details</button>
                     </div>
@@ -102,7 +103,13 @@
                         <div class="add-book__row">
                             <div class="add-book__form-group">
                                 <label for="Condition" class="add-book__label">Condition</label>
-                                <input type="text" id="Condition" name="Condition" class="add-book__input" placeholder="Subtext" />
+                                <select id="Condition" name="Condition" class="add-book__input" required>
+                                    <option value="">Select condition</option>
+                                    @foreach (var item in (List<SelectListItem>)ViewBag.BookConditions)
+                                    {
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                </select>
                             </div>
                             <div class="add-book__form-group">
                                 <label for="Price" class="add-book__label">Price</label>

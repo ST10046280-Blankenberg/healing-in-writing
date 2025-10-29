@@ -3,12 +3,14 @@
    ========================================================= */
 
 /* Page Container */
+/* Page Container */
 .books {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     min-height: 100vh;
     background: linear-gradient(165.21deg, #FDF5ED 20.59%, #E9D5EB 77.36%);
+    padding-bottom: 64px;
 }
 
 /* =========================================================
@@ -235,7 +237,6 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    padding: 0;
 }
 
 .books__load-more-button {
@@ -261,6 +262,9 @@
 
 /* Responsive Design */
 @media (max-width: 1024px) {
+    .books {
+        padding-bottom: 32px;
+    }
     .books__hero {
         padding: 32px 32px 48px 32px;
     }
@@ -276,6 +280,9 @@
 }
 
 @media (max-width: 768px) {
+    .books {
+        padding-bottom: 24px;
+    }
     .books__title {
         font-size: 32px;
         line-height: 40px;

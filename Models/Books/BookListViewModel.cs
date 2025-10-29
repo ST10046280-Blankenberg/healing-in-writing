@@ -1,6 +1,5 @@
 namespace HealingInWriting.Models.Books;
 
-// TODO: Shape book catalogue data for presentation in views.
 public class BookListViewModel
 {
     public List<BookSummaryViewModel> Books { get; set; } = new();

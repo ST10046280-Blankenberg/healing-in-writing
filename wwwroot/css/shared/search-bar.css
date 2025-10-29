@@ -65,9 +65,9 @@
     transition: border-color 0.3s ease;
 }
 
-.search-bar__input-container:focus-within {
-    border-color: #2F1648;
-}
+/*.search-bar__input-container:focus-within {*/
+/*    border-color: #2F1648;*/
+/*}*/
 
 /* Search Icon */
 .search-bar__icon {
@@ -77,14 +77,20 @@
     flex-shrink: 0;
 }
 
-/* Search Input */
-.search-bar__input {
+
+/* Search Input - Higher specificity to override global styles */
+.search-bar .search-bar__input,
+.search-bar__input-container .search-bar__input {
     /* Box Model */
     flex: 1;
-    border: none;
-    outline: none;
-    background: transparent;
-    
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+
     /* Typography */
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-style: normal;

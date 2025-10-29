@@ -31,6 +31,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Address> Addresses { get; set; }
     public DbSet<UserProfile> UserProfiles { get; set; }
     public DbSet<Book> Books { get; set; }
+    public DbSet<BackoffState> BackoffStates { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

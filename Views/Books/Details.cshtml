@@ -1,22 +1,94 @@
 @model HealingInWriting.Models.Books.BookDetailViewModel
 
-<h1>Book Details</h1>
+@* @model HealingInWriting.Models.Books.BookDetailViewModel *@
+@* *@
+@* <h1>Book Details</h1> *@
+@* *@
+@* @if (Model != null) *@
+@* { *@
+@*     <ul> *@
+@*         <li><strong>BookId:</strong> @Model.BookId</li> *@
+@*         <li><strong>Title:</strong> @Model.Title</li> *@
+@*         <li><strong>Authors:</strong> @Model.Authors</li> *@
+@*         <li><strong>Published Date:</strong> @Model.PublishedDate</li> *@
+@*         <li><strong>Publisher:</strong> @Model.Publisher</li> *@
+@*         <li><strong>Page Count:</strong> @Model.PageCount</li> *@
+@*         <li><strong>Description:</strong> @Model.Description</li> *@
+@*         <li><strong>Categories:</strong> @(Model.Categories != null ? string.Join(", ", Model.Categories) : "")</li> *@
+@*         <li><strong>ThumbnailUrl:</strong> @Model.ThumbnailUrl</li> *@
+@*         <li><strong>Conditon:</strong> @Model.Condition</li> *@
+@*         <li><strong>Price:</strong> R @Model.Price</li> *@
+@*     </ul> *@
+@* } *@
+@* else *@
+@* { *@
+@*     <p>No book details available.</p> *@
+@* } *@
 
-@if (Model != null)
-{
-    <ul>
-        <li><strong>BookId:</strong> @Model.BookId</li>
-        <li><strong>Title:</strong> @Model.Title</li>
-        <li><strong>Authors:</strong> @Model.Authors</li>
-        <li><strong>Published Date:</strong> @Model.PublishedDate</li>
-        <li><strong>Publisher:</strong> @Model.Publisher</li>
-        <li><strong>Page Count:</strong> @Model.PageCount</li>
-        <li><strong>Description:</strong> @Model.Description</li>
-        <li><strong>Categories:</strong> @(Model.Categories != null ? string.Join(", ", Model.Categories) : "")</li>
-        <li><strong>ThumbnailUrl:</strong> @Model.ThumbnailUrl</li>
-    </ul>
-}
-else
-{
-    <p>No book details available.</p>
-}
+<link rel="stylesheet" href="~/css/views/book-detail.css" />
+
+<div class="book-detail">
+    <div class="book-detail__card">
+        <div class="book-detail__content">
+            <!-- Left Column: Image and Metadata -->
+            <div class="book-detail__left">
+                <div class="book-detail__cover">
+                    @if (!string.IsNullOrEmpty(Model.ThumbnailUrl))
+                    {
+                        <img src="@Model.ThumbnailUrl" alt="@Model.Title" />
+                    }
+                    else
+                    {
+                        <img src="~/images/placeholder-book.png" alt="No image available" />
+                    }
+                </div>
+
+                <div class="book-detail__metadata">
+                    <div class="book-detail__metadata-labels">
+                        <p class="book-detail__metadata-label">Page count:</p>
+                        <p class="book-detail__metadata-label">Publisher:</p>
+                        <p class="book-detail__metadata-label">Publication date:</p>
+                        <p class="book-detail__metadata-label">Condition:</p>
+                        <p class="book-detail__metadata-label">Price:</p>
+                    </div>
+                    <div class="book-detail__metadata-values">
+                        <p class="book-detail__metadata-value">@Model.PageCount</p>
+                        <p class="book-detail__metadata-value">@(string.IsNullOrEmpty(Model.Publisher) ? "N/A" : Model.Publisher)</p>
+                        <p class="book-detail__metadata-value">@(string.IsNullOrEmpty(Model.PublishedDate) ? "N/A" : Model.PublishedDate)</p>
+                        <p class="book-detail__metadata-value">@(string.IsNullOrEmpty(Model.Condition) ? "N/A" : Model.Condition)</p>
+                        <p class="book-detail__metadata-value">R @Model.Price.ToString("N2")</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Details -->
+            <div class="book-detail__right">
+                <!-- Header -->
+                <div class="book-detail__header">
+                    <h1 class="book-detail__title">@Model.Title</h1>
+                    <p class="book-detail__subtitle">By @Model.Authors @(string.IsNullOrEmpty(Model.PublishedDate) ? "" : Model.PublishedDate)</p>
+                </div>
+
+                <!-- Tags -->
+                @if (Model.Categories.Any())
+                {
+                    <div class="book-detail__tags">
+                        @foreach (var category in Model.Categories)
+                        {
+                            <span class="book-detail__tag">
+                                <span class="book-detail__tag-text">@category</span>
+                            </span>
+                        }
+                    </div>
+                }
+
+                <!-- Description -->
+                <div class="book-detail__description-container">
+                    <div class="book-detail__description">
+                        <p class="book-detail__description-text">@Model.Description</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

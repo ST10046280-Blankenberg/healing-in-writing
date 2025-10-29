@@ -46,10 +46,16 @@
     importBtn.addEventListener('click', async function () {
         const isbn = isbnPrimary.value.trim();
         const normalized = normalizeIsbn(isbn);
-        if (!normalized) {
-            alert('Please enter an ISBN.');
+        const messageDiv = document.getElementById('import-message');
+        messageDiv.style.display = 'none';
+        messageDiv.textContent = '';
+
+        if (!isbn) {
+            messageDiv.textContent = 'Please enter an ISBN.';
+            messageDiv.style.display = 'block';
             return;
         }
+
         importBtn.disabled = true;
         importBtn.textContent = 'Importing...';
         try {
