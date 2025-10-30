@@ -37,5 +37,8 @@ namespace HealingInWriting.Areas.Admin.Controllers
             TempData["Success"] = "Bank details updated.";
             return RedirectToAction("Index");
         }
+        
+        [HttpPost]
+        public IActionResult TestPost() => Content("POST OK");
     }
 }
