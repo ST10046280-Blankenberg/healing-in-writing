@@ -1,3 +1,5 @@
+@model HealingInWriting.Models.Home.HomeIndexViewModel
+
 @{
     ViewData["Title"] = "Home";
 }
@@ -17,10 +19,10 @@
                 and build resilience together. You're not alone in your journey.
             </p>
             <div class="home-hero__actions">
-                <a class="home-hero__btn" asp-area="" asp-controller="Auth" asp-action="Auth" asp-route-mode="register">
+                <a class="home-hero__btn" asp-controller="Auth" asp-action="Auth" asp-route-mode="register">
                     Join Our Community
                 </a>
-                <a class="home-hero__btn home-hero__btn--secondary" asp-area="" asp-controller="Home" asp-action="About">
+                <a class="home-hero__btn home-hero__btn--secondary" asp-controller="Home" asp-action="About">
                     Learn More
                 </a>
             </div>
@@ -66,7 +68,7 @@
                              alt="Sarah M." />
                         <span class="home-stories__author-name">Sarah M.</span>
                     </div>
-                    <a class="home-stories__read-more" asp-area="" asp-controller="Stories" asp-action="Details" asp-route-id="1">
+                    <a class="home-stories__read-more" asp-controller="Stories" asp-action="Details" asp-route-id="1">
                         Read More
                     </a>
                 </div>
@@ -85,7 +87,7 @@
                              alt="Marcus J." />
                         <span class="home-stories__author-name">Marcus J.</span>
                     </div>
-                    <a class="home-stories__read-more" asp-area="" asp-controller="Stories" asp-action="Details" asp-route-id="2">
+                    <a class="home-stories__read-more" asp-controller="Stories" asp-action="Details" asp-route-id="2">
                         Read More
                     </a>
                 </div>
@@ -104,7 +106,7 @@
                              alt="Elena R." />
                         <span class="home-stories__author-name">Elena R.</span>
                     </div>
-                    <a class="home-stories__read-more" asp-area="" asp-controller="Stories" asp-action="Details" asp-route-id="3">
+                    <a class="home-stories__read-more" asp-controller="Stories" asp-action="Details" asp-route-id="3">
                         Read More
                     </a>
                 </div>
@@ -113,7 +115,7 @@
         
         <!-- View All CTA -->
         <div class="home-stories__cta">
-            <a class="home-stories__btn" asp-area="" asp-controller="Stories" asp-action="Index">
+            <a class="home-stories__btn" asp-controller="Stories" asp-action="Index">
                 View All Stories
             </a>
         </div>
@@ -131,142 +133,115 @@
         </header>
         
         <!-- Featured Event Card -->
-        <article class="home-events__featured">
-            <div class="home-events__featured-content">
-                <span class="home-events__badge">Featured Event</span>
-                
-                <h3 class="home-events__featured-title">Monthly Support Circle</h3>
-                
-                <p class="home-events__featured-description">
-                    A safe space for sharing experiences, offering support, and building connections with fellow community members.
-                </p>
-                
-                <div class="home-events__featured-info">
-                    @* TODO: Convert to _partialView and load from database *@
-                    <div class="home-events__info-item">
-                        <svg class="home-events__icon" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
-                            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-                        </svg>
-                        <span>Saturday, March 15, 2024</span>
+        @if (Model.FeaturedEvent != null)
+        {
+            var featuredDate = Model.FeaturedEvent.StartDateTime.ToString("dddd, MMMM dd, yyyy");
+            var featuredTime = $"{Model.FeaturedEvent.StartDateTime:h:mm tt} - {Model.FeaturedEvent.EndDateTime:h:mm tt}";
+            var featuredDescription = Model.FeaturedEvent.Description.Length > 150
+                ? Model.FeaturedEvent.Description.Substring(0, 150) + "..."
+                : Model.FeaturedEvent.Description;
+
+            <article class="home-events__featured">
+                <div class="home-events__featured-content">
+                    <span class="home-events__badge">Featured Event</span>
+
+                    <h3 class="home-events__featured-title">@Model.FeaturedEvent.Title</h3>
+
+                    <p class="home-events__featured-description">
+                        @featuredDescription
+                    </p>
+
+                    <div class="home-events__featured-info">
+                        <div class="home-events__info-item">
+                            <svg class="home-events__icon" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
+                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                            </svg>
+                            <span>@featuredDate</span>
+                        </div>
+
+                        <div class="home-events__info-item">
+                            <svg class="home-events__icon" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+                            </svg>
+                            <span>@featuredTime</span>
+                        </div>
+
+                        <div class="home-events__info-item">
+                            <svg class="home-events__icon" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                            </svg>
+                            <span>@Model.FeaturedEvent.LocationSummary</span>
+                        </div>
                     </div>
-                    
-                    <div class="home-events__info-item">
-                        <svg class="home-events__icon" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
-                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
-                        </svg>
-                        <span>2:00 PM - 4:00 PM</span>
-                    </div>
-                    
-                    <div class="home-events__info-item">
-                        <svg class="home-events__icon" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
-                        </svg>
-                        <span>Community Center, Main Hall</span>
-                    </div>
+
+                    <a class="home-events__btn" asp-controller="Events" asp-action="Details" asp-route-id="@Model.FeaturedEvent.Id">
+                        Join Event
+                    </a>
                 </div>
-                
-                <a class="home-events__btn" asp-area="" asp-controller="Events" asp-action="Details" asp-route-id="1">
-                    Join Event
-                </a>
+
+                <div class="home-events__featured-image">
+                    <img src="@Model.FeaturedEvent.CoverImageUrl"
+                         alt="@Model.FeaturedEvent.Title"
+                         class="home-events__image" />
+                </div>
+            </article>
+        }
+        else
+        {
+            <div style="text-align: center; padding: 3rem;">
+                <h3>No upcoming events available</h3>
+                <p>Check back soon for exciting community events and workshops.</p>
             </div>
-            
-            <div class="home-events__featured-image">
-                <img src="~/images/upcoming-events.webp" 
-                     alt="Monthly Support Circle gathering" 
-                     class="home-events__image" />
-            </div>
-        </article>
+        }
         
         <!-- Event Cards Grid -->
-        <div class="home-events__grid">
-            @* TODO: Convert to _partialView and load from database *@
-            <!-- Event Card 1 -->
-            <article class="home-events__card">
-                <h4 class="home-events__card-title">Mindfulness Workshop</h4>
-                
-                <div class="home-events__card-info">
-                    <div class="home-events__info-item home-events__info-item--small">
-                        <svg class="home-events__icon home-events__icon--small" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
-                            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-                        </svg>
-                        <span>March 22, 2024</span>
-                    </div>
-                    
-                    <div class="home-events__info-item home-events__info-item--small">
-                        <svg class="home-events__icon home-events__icon--small" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
-                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
-                        </svg>
-                        <span>2:00 PM - 4:00 PM</span>
-                    </div>
-                    
-                    <div class="home-events__info-item home-events__info-item--small">
-                        <svg class="home-events__icon home-events__icon--small" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
-                        </svg>
-                        <span>Online Event</span>
-                    </div>
-                </div>
-                
-                <a class="home-events__card-btn" asp-area="" asp-controller="Events" asp-action="Details" asp-route-id="2">
-                    Learn More
-                </a>
-            </article>
-            
-            <!-- Event Card 2 -->
-            <article class="home-events__card">
-                <h4 class="home-events__card-title">Art Therapy Session</h4>
-                
-                <div class="home-events__card-info">
-                    <div class="home-events__info-item home-events__info-item--small">
-                        <svg class="home-events__icon home-events__icon--small" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
-                            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-                        </svg>
-                        <span>March 29, 2024</span>
-                    </div>
-                    
-                    <div class="home-events__info-item home-events__info-item--small">
-                        <svg class="home-events__icon home-events__icon--small" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
-                        </svg>
-                        <span>Art Studio Downtown</span>
-                    </div>
-                </div>
-                
-                <a class="home-events__card-btn" asp-area="" asp-controller="Events" asp-action="Details" asp-route-id="3">
-                    Learn More
-                </a>
-            </article>
-            
-            <!-- Event Card 3 -->
-            <article class="home-events__card">
-                <h4 class="home-events__card-title">Community Walk</h4>
-                
-                <div class="home-events__card-info">
-                    <div class="home-events__info-item home-events__info-item--small">
-                        <svg class="home-events__icon home-events__icon--small" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
-                            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-                        </svg>
-                        <span>April 5, 2024</span>
-                    </div>
-                    
-                    <div class="home-events__info-item home-events__info-item--small">
-                        <svg class="home-events__icon home-events__icon--small" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
-                        </svg>
-                        <span>Central Park</span>
-                    </div>
-                </div>
-                
-                <a class="home-events__card-btn" asp-area="" asp-controller="Events" asp-action="Details" asp-route-id="4">
-                    Learn More
-                </a>
-            </article>
-        </div>
+        @if (Model.UpcomingEvents.Any())
+        {
+            <div class="home-events__grid">
+                @foreach (var eventItem in Model.UpcomingEvents)
+                {
+                    var eventDate = eventItem.StartDateTime.ToString("MMMM dd, yyyy");
+                    var eventTime = $"{eventItem.StartDateTime:h:mm tt} - {eventItem.EndDateTime:h:mm tt}";
+
+                    <article class="home-events__card">
+                        <h4 class="home-events__card-title">@eventItem.Title</h4>
+
+                        <div class="home-events__card-info">
+                            <div class="home-events__info-item home-events__info-item--small">
+                                <svg class="home-events__icon home-events__icon--small" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
+                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                                </svg>
+                                <span>@eventDate</span>
+                            </div>
+
+                            <div class="home-events__info-item home-events__info-item--small">
+                                <svg class="home-events__icon home-events__icon--small" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+                                </svg>
+                                <span>@eventTime</span>
+                            </div>
+
+                            @if (!string.IsNullOrWhiteSpace(eventItem.LocationSummary))
+                            {
+                                <div class="home-events__info-item home-events__info-item--small">
+                                    <svg class="home-events__icon home-events__icon--small" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                                    </svg>
+                                    <span>@eventItem.LocationSummary</span>
+                                </div>
+                            }
+                        </div>
+
+                        <a class="home-events__card-btn" asp-controller="Events" asp-action="Details" asp-route-id="@eventItem.Id">
+                            Learn More
+                        </a>
+                    </article>
+                }
+            </div>
+        }
     </div>
 </section>

@@ -12,6 +12,10 @@ using HealingInWriting.Interfaces.Repository;
 using HealingInWriting.Repositories.Books;
 using HealingInWriting.Services.Common;
 using HealingInWriting.Repositories.BankDetailsFolder;
+using System.Globalization;
+using HealingInWriting.Repositories.Events;
+using HealingInWriting.Services.Events;
+using Microsoft.AspNetCore.Localization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -95,6 +99,10 @@ builder.Services.AddScoped<IStoryService, StoryService>();
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IEventRepository, EventRepository>();
+builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<IRegistrationRepository, RegistrationRepository>();
+builder.Services.AddScoped<IRegistrationService, RegistrationService>();
 builder.Services.AddScoped<IBackoffStateRepository, BackoffStateRepository>();
 builder.Services.AddScoped<IBankDetailsRepository, BankDetailsRepository>();
 builder.Services.AddScoped<IBankDetailsService, BankDetailsService>();
@@ -156,6 +164,15 @@ builder.Services.AddRateLimiter(options =>
 
 var app = builder.Build();
 
+// Set default culture to en-US for all requests
+var supportedCultures = new[] { new CultureInfo("en-US") };
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture("en-US"),
+    SupportedCultures = supportedCultures,
+    SupportedUICultures = supportedCultures
+});
+
 // Seed the database with test accounts
 using (var scope = app.Services.CreateScope())
 {
@@ -164,11 +181,78 @@ using (var scope = app.Services.CreateScope())
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
         var context = services.GetRequiredService<ApplicationDbContext>();
-        //TODO: Remove the following two lines in production
-        //// --- Apply migrations and recreate database (for dev/testing only) ---
-        //context.Database.EnsureDeleted();
-        //context.Database.Migrate();
-        //// --- End drop/recreate ---
+
+        // Automatically handle database migrations on startup
+        // This ensures database schema stays in sync with code changes
+        // Prevents "table does not exist" or "column does not exist" errors
+        try
+        {
+            var pendingMigrations = context.Database.GetPendingMigrations().ToList();
+            var appliedMigrations = context.Database.GetAppliedMigrations().ToList();
+
+            logger.LogInformation($"Applied migrations: {appliedMigrations.Count}, Pending migrations: {pendingMigrations.Count}");
+
+            if (pendingMigrations.Any())
+            {
+                logger.LogInformation("Applying pending migrations: {Migrations}", string.Join(", ", pendingMigrations));
+                context.Database.Migrate();
+                logger.LogInformation("Migrations applied successfully.");
+            }
+            else
+            {
+                logger.LogInformation("Database is up to date. No pending migrations.");
+
+                // Validate that database can be accessed (catches schema mismatch issues)
+                try
+                {
+                    _ = context.Books.Any();
+                    logger.LogInformation("Database schema validation successful.");
+                }
+                catch (Exception validationEx)
+                {
+                    logger.LogWarning(validationEx, "Database schema validation failed. Attempting to recreate database...");
+
+                    // Only in development: recreate database on schema mismatch
+                    if (app.Environment.IsDevelopment())
+                    {
+                        logger.LogWarning("Development mode: Dropping and recreating database...");
+                        context.Database.EnsureDeleted();
+                        context.Database.Migrate();
+                        logger.LogInformation("Database recreated successfully.");
+                    }
+                    else
+                    {
+                        logger.LogError("Production mode: Cannot auto-fix schema mismatch. Manual intervention required.");
+                        throw;
+                    }
+                }
+            }
+        }
+        catch (Exception migrationEx)
+        {
+            logger.LogError(migrationEx, "Failed to apply migrations.");
+
+            // In development, offer nuclear option: drop and recreate
+            if (app.Environment.IsDevelopment())
+            {
+                logger.LogWarning("Development mode: Attempting to recreate database from scratch...");
+                try
+                {
+                    context.Database.EnsureDeleted();
+                    context.Database.Migrate();
+                    logger.LogInformation("Database recreated successfully after migration failure.");
+                }
+                catch (Exception recreateEx)
+                {
+                    logger.LogError(recreateEx, "Failed to recreate database. Manual intervention required.");
+                    throw;
+                }
+            }
+            else
+            {
+                throw;
+            }
+        }
 
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();

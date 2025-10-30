@@ -1,4 +1,6 @@
-﻿namespace HealingInWriting.Models.Books
+﻿using HealingInWriting.Domain.Books;
+
+namespace HealingInWriting.Models.Books
 {
     public class BookDetailViewModel
     {
@@ -13,7 +15,7 @@
         public string Language { get; set; } = string.Empty;
         public string Publisher { get; set; } = string.Empty;
         public List<string> IndustryIdentifiers { get; set; } = new();
-        public string Condition { get; set; } = string.Empty;
+        public BookCondition Condition { get; set; } = BookCondition.Good;
         public decimal Price { get; set; } = new();
     }
 }

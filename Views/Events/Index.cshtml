@@ -1,4 +1,5 @@
-@* TODO: Surface upcoming events sourced by the events service. *@
+@model HealingInWriting.Models.Events.EventsIndexViewModel
+
 @{
     ViewData["Title"] = "Events/Workshops for the Community";
 }
@@ -56,118 +57,62 @@
     <!-- Body Section with Event/Workshop Cards -->
     <section class="events__body">
         <div class="events__grid">
-            <!-- Community Event Card -->
-            <article class="event-card">
-                <img src="https://via.placeholder.com/304x262" alt="Event Title" class="event-card__image" />
-                <div class="event-card__content">
-                    <span class="event-card__badge event-card__badge--community">Community Event</span>
-                    <h2 class="event-card__title">Event Title</h2>
-                    <div class="event-card__meta">
-                        <div class="event-card__meta-item">
-                            <svg class="event-card__icon" xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16" fill="none">
-                                <path d="M11 2H3C1.89543 2 1 2.89543 1 4V14C1 15.1046 1.89543 16 3 16H11C12.1046 16 13 15.1046 13 14V4C13 2.89543 12.1046 2 11 2Z" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M10 0V4M4 0V4M1 8H13" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span class="event-card__meta-text">Mar 15, 2024</span>
-                        </div>
-                        <div class="event-card__meta-item">
-                            <svg class="event-card__icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                <circle cx="8" cy="8" r="7" stroke="#4B5563" stroke-width="2"/>
-                                <path d="M8 4V8L11 11" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span class="event-card__meta-text">2:00 PM</span>
-                        </div>
-                    </div>
-                    <p class="event-card__description">Brief description for Event</p>
-                    <button class="event-card__button" type="button">View More</button>
+            @if (!Model.Events.Any())
+            {
+                <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+                    <h3>No published events available</h3>
+                    <p>Check back soon for upcoming events and workshops.</p>
                 </div>
-            </article>
+            }
+            else
+            {
+                @foreach (var eventItem in Model.Events)
+                {
+                    var badgeClass = eventItem.EventType == HealingInWriting.Domain.Events.EventType.Workshop
+                        ? "event-card__badge--workshop"
+                        : "event-card__badge--community";
+                    var badgeLabel = eventItem.EventType.ToString();
+                    var eventDate = eventItem.StartDateTime.ToString("MMM dd, yyyy");
+                    var eventTime = eventItem.StartDateTime.ToString("h:mm tt");
+                    var description = eventItem.Description.Length > 100
+                        ? eventItem.Description.Substring(0, 100) + "..."
+                        : eventItem.Description;
 
-            <!-- Workshop Card 1 -->
-            <article class="event-card">
-                <img src="https://via.placeholder.com/304x262" alt="Workshop Title" class="event-card__image" />
-                <div class="event-card__content">
-                    <span class="event-card__badge event-card__badge--workshop">Workshop</span>
-                    <h2 class="event-card__title">Workshop Title</h2>
-                    <div class="event-card__meta">
-                        <div class="event-card__meta-item">
-                            <svg class="event-card__icon" xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16" fill="none">
-                                <path d="M11 2H3C1.89543 2 1 2.89543 1 4V14C1 15.1046 1.89543 16 3 16H11C12.1046 16 13 15.1046 13 14V4C13 2.89543 12.1046 2 11 2Z" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M10 0V4M4 0V4M1 8H13" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span class="event-card__meta-text">Mar 15, 2024</span>
+                    <article class="event-card">
+                        <img src="@eventItem.CoverImageUrl" alt="@eventItem.Title" class="event-card__image" />
+                        <div class="event-card__content">
+                            <span class="event-card__badge @badgeClass">@badgeLabel</span>
+                            <h2 class="event-card__title">@eventItem.Title</h2>
+                            <div class="event-card__meta">
+                                <div class="event-card__meta-item">
+                                    <svg class="event-card__icon" xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16" fill="none">
+                                        <path d="M11 2H3C1.89543 2 1 2.89543 1 4V14C1 15.1046 1.89543 16 3 16H11C12.1046 16 13 15.1046 13 14V4C13 2.89543 12.1046 2 11 2Z" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M10 0V4M4 0V4M1 8H13" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <span class="event-card__meta-text">@eventDate</span>
+                                </div>
+                                <div class="event-card__meta-item">
+                                    <svg class="event-card__icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <circle cx="8" cy="8" r="7" stroke="#4B5563" stroke-width="2"/>
+                                        <path d="M8 4V8L11 11" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <span class="event-card__meta-text">@eventTime</span>
+                                </div>
+                            </div>
+                            <p class="event-card__description">@description</p>
+                            <a asp-controller="Events" asp-action="Details" asp-route-id="@eventItem.Id" class="event-card__button">View More</a>
                         </div>
-                        <div class="event-card__meta-item">
-                            <svg class="event-card__icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                <circle cx="8" cy="8" r="7" stroke="#4B5563" stroke-width="2"/>
-                                <path d="M8 4V8L11 11" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span class="event-card__meta-text">2:00 PM</span>
-                        </div>
-                    </div>
-                    <p class="event-card__description">Brief description for Workshop</p>
-                    <button class="event-card__button" type="button">View More</button>
-                </div>
-            </article>
-
-            <!-- Workshop Card 2 -->
-            <article class="event-card">
-                <img src="https://via.placeholder.com/304x262" alt="Workshop Title" class="event-card__image" />
-                <div class="event-card__content">
-                    <span class="event-card__badge event-card__badge--workshop">Workshop</span>
-                    <h2 class="event-card__title">Workshop Title</h2>
-                    <div class="event-card__meta">
-                        <div class="event-card__meta-item">
-                            <svg class="event-card__icon" xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16" fill="none">
-                                <path d="M11 2H3C1.89543 2 1 2.89543 1 4V14C1 15.1046 1.89543 16 3 16H11C12.1046 16 13 15.1046 13 14V4C13 2.89543 12.1046 2 11 2Z" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M10 0V4M4 0V4M1 8H13" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span class="event-card__meta-text">Mar 15, 2024</span>
-                        </div>
-                        <div class="event-card__meta-item">
-                            <svg class="event-card__icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                <circle cx="8" cy="8" r="7" stroke="#4B5563" stroke-width="2"/>
-                                <path d="M8 4V8L11 11" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span class="event-card__meta-text">2:00 PM</span>
-                        </div>
-                    </div>
-                    <p class="event-card__description">Brief description for Workshop</p>
-                    <button class="event-card__button" type="button">View More</button>
-                </div>
-            </article>
-
-            <!-- Workshop Card 3 -->
-            <article class="event-card">
-                <img src="https://via.placeholder.com/304x262" alt="Workshop Title" class="event-card__image" />
-                <div class="event-card__content">
-                    <span class="event-card__badge event-card__badge--workshop">Workshop</span>
-                    <h2 class="event-card__title">Workshop Title</h2>
-                    <div class="event-card__meta">
-                        <div class="event-card__meta-item">
-                            <svg class="event-card__icon" xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16" fill="none">
-                                <path d="M11 2H3C1.89543 2 1 2.89543 1 4V14C1 15.1046 1.89543 16 3 16H11C12.1046 16 13 15.1046 13 14V4C13 2.89543 12.1046 2 11 2Z" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M10 0V4M4 0V4M1 8H13" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span class="event-card__meta-text">Mar 15, 2024</span>
-                        </div>
-                        <div class="event-card__meta-item">
-                            <svg class="event-card__icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                <circle cx="8" cy="8" r="7" stroke="#4B5563" stroke-width="2"/>
-                                <path d="M8 4V8L11 11" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span class="event-card__meta-text">2:00 PM</span>
-                        </div>
-                    </div>
-                    <p class="event-card__description">Brief description for Workshop</p>
-                    <button class="event-card__button" type="button">View More</button>
-                </div>
-            </article>
+                    </article>
+                }
+            }
         </div>
 
-        <!-- Load More Button -->
-        <div class="events__load-more">
-            <button class="events__load-more-button" type="button">Load More Events</button>
-        </div>
+        <!-- Load More Button (TODO: Implement pagination) -->
+        @if (Model.Events.Any())
+        {
+            <div class="events__load-more">
+                <button class="events__load-more-button" type="button" disabled>Load More Events</button>
+            </div>
+        }
     </section>
 </div>

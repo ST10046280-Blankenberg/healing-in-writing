@@ -55,7 +55,7 @@
                         <p class="book-detail__metadata-value">@Model.PageCount</p>
                         <p class="book-detail__metadata-value">@(string.IsNullOrEmpty(Model.Publisher) ? "N/A" : Model.Publisher)</p>
                         <p class="book-detail__metadata-value">@(string.IsNullOrEmpty(Model.PublishedDate) ? "N/A" : Model.PublishedDate)</p>
-                        <p class="book-detail__metadata-value">@(string.IsNullOrEmpty(Model.Condition) ? "N/A" : Model.Condition)</p>
+                        <p class="book-detail__metadata-value">@(Model.Condition == null ? "N/A" : Model.Condition.ToString())</p>
                         <p class="book-detail__metadata-value">R @Model.Price.ToString("N2")</p>
                     </div>
                 </div>

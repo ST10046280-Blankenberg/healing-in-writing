@@ -1,0 +1,81 @@
+/**
+ * Tag Input Component Styles
+ * Uses site brand colors from root CSS variables
+ */
+
+/* Individual Tag */
+.tag-input__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: var(--brand-300);
+    border-radius: 9999px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: var(--font-weight-semi);
+    color: var(--brand-700);
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-soft-sm);
+    border: 1px solid rgba(47, 22, 72, 0.08);
+}
+
+.tag-input__tag:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-soft-md);
+    background: #E0C5E2;
+}
+
+/* Tag Text */
+.tag-input__tag-text {
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+/* Remove Button */
+.tag-input__tag-remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border: none;
+    background: rgba(47, 22, 72, 0.1);
+    border-radius: 50%;
+    color: var(--brand-700);
+    font-size: 16px;
+    font-weight: var(--font-weight-bold);
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.2s ease;
+}
+
+.tag-input__tag-remove:hover {
+    background: rgba(47, 22, 72, 0.2);
+    transform: scale(1.1);
+}
+
+.tag-input__tag-remove:active {
+    transform: scale(0.95);
+}
+
+/* Alternative accent variant (teal) */
+.tag-input__tag--accent {
+    background: rgba(82, 182, 154, 0.15);
+    color: var(--accent-teal-500);
+    border-color: rgba(82, 182, 154, 0.2);
+}
+
+.tag-input__tag--accent:hover {
+    background: rgba(82, 182, 154, 0.25);
+}
+
+.tag-input__tag--accent .tag-input__tag-remove {
+    background: rgba(82, 182, 154, 0.2);
+    color: var(--accent-teal-500);
+}
+
+.tag-input__tag--accent .tag-input__tag-remove:hover {
+    background: rgba(82, 182, 154, 0.35);
+}
