@@ -101,11 +101,6 @@ namespace HealingInWriting.Controllers
         public IActionResult Contact()
         {
             return View();
-        }
-        
-        public IActionResult Donate()
-        {
-            return View();
-        }
+        } 
     }
 }
