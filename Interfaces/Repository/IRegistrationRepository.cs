@@ -46,4 +46,10 @@ public interface IRegistrationRepository
     /// Deletes a registration from the database.
     /// </summary>
     Task DeleteAsync(int registrationId);
+
+    /// <summary>
+    /// Gets the count of registrations from a specific IP address for an event within a time window.
+    /// Used for rate limiting guest registrations.
+    /// </summary>
+    Task<int> GetRegistrationCountByIpAsync(int eventId, string ipAddress, DateTime since);
 }

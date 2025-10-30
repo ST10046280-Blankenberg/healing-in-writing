@@ -19,16 +19,17 @@ public interface IRegistrationService
 
     /// <summary>
     /// Registers a guest for an event using email.
-    /// Validates capacity, event status, and prevents duplicate guest registrations.
+    /// Validates capacity, event status, prevents duplicate guest registrations, and enforces IP rate limiting.
     /// </summary>
     /// <param name="eventId">Event to register for</param>
     /// <param name="guestName">Guest's name</param>
     /// <param name="guestEmail">Guest's email (required)</param>
+    /// <param name="ipAddress">IP address of the guest (for rate limiting)</param>
     /// <param name="guestPhone">Guest's phone (optional)</param>
-    /// <param name="isAdminOverride">Admin bypass for capacity and status checks</param>
+    /// <param name="isAdminOverride">Admin bypass for capacity, status, and rate limit checks</param>
     /// <returns>Result with success status and message</returns>
     Task<RegistrationResult> RegisterGuestAsync(int eventId, string guestName, string guestEmail,
-        string? guestPhone = null, bool isAdminOverride = false);
+        string? ipAddress = null, string? guestPhone = null, bool isAdminOverride = false);
 
     /// <summary>
     /// Cancels a registration.

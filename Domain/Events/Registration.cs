@@ -47,6 +47,12 @@ public class Registration
     /// </summary>
     public bool IsAdminOverride { get; set; }
 
+    /// <summary>
+    /// IP address from which the registration was made. Used for rate limiting guest registrations.
+    /// </summary>
+    [StringLength(45)]
+    public string? IpAddress { get; set; }
+
     #region Navigation Properties
 
     /// <summary>

@@ -137,10 +137,13 @@ namespace HealingInWriting.Controllers
                 return RedirectToAction("Details", new { id = model.EventId });
             }
 
+            var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+
             var result = await _registrationService.RegisterGuestAsync(
                 model.EventId,
                 model.GuestName,
                 model.GuestEmail,
+                ipAddress,
                 model.GuestPhone);
 
             if (result.Success)

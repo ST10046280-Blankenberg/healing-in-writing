@@ -76,4 +76,12 @@ public class RegistrationRepository : IRegistrationRepository
             await _context.SaveChangesAsync();
         }
     }
+
+    public async Task<int> GetRegistrationCountByIpAsync(int eventId, string ipAddress, DateTime since)
+    {
+        return await _context.Registrations
+            .CountAsync(r => r.EventId == eventId
+                && r.IpAddress == ipAddress
+                && r.RegistrationDate >= since);
+    }
 }

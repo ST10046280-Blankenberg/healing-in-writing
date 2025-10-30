@@ -62,7 +62,7 @@ public class RegistrationService : IRegistrationService
     }
 
     public async Task<RegistrationResult> RegisterGuestAsync(int eventId, string guestName, string guestEmail,
-        string? guestPhone = null, bool isAdminOverride = false)
+        string? ipAddress = null, string? guestPhone = null, bool isAdminOverride = false)
     {
         // Validate guest email
         if (string.IsNullOrWhiteSpace(guestEmail))
@@ -88,6 +88,23 @@ public class RegistrationService : IRegistrationService
             };
         }
 
+        // IP-based rate limiting (unless admin override)
+        if (!isAdminOverride && !string.IsNullOrWhiteSpace(ipAddress))
+        {
+            var oneHourAgo = DateTime.UtcNow.AddHours(-1);
+            var recentRegistrationsFromIp = await _registrationRepository.GetRegistrationCountByIpAsync(
+                eventId, ipAddress, oneHourAgo);
+
+            if (recentRegistrationsFromIp >= 3)
+            {
+                return new RegistrationResult
+                {
+                    Success = false,
+                    Message = "Registration limit reached. Maximum 3 registrations per hour from your location."
+                };
+            }
+        }
+
         // Validate registration rules (unless admin override)
         if (!isAdminOverride)
         {
@@ -106,6 +123,7 @@ public class RegistrationService : IRegistrationService
             GuestName = guestName,
             GuestEmail = guestEmail.ToLower(),
             GuestPhone = guestPhone,
+            IpAddress = ipAddress,
             RegistrationDate = DateTime.UtcNow,
             IsAdminOverride = isAdminOverride,
             Event = @event

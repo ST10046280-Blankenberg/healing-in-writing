@@ -251,6 +251,7 @@ namespace HealingInWriting.Areas.Admin.Controllers
                 eventId,
                 guestName,
                 guestEmail,
+                ipAddress: null,
                 guestPhone,
                 isAdminOverride: true);
 
