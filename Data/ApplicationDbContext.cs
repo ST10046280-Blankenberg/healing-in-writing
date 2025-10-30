@@ -27,6 +27,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     // public DbSet<Donation> Donations { get; set; }
     // public DbSet<Volunteer> Volunteers { get; set; }
     public DbSet<Event> Events { get; set; }
+    public DbSet<Registration> Registrations { get; set; }
     public DbSet<Tag> Tags { get; set; }
     public DbSet<Address> Addresses { get; set; }
     public DbSet<UserProfile> UserProfiles { get; set; }
@@ -120,7 +121,29 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .WithOne()
             .HasForeignKey<UserProfile>(up => up.UserId)
             .OnDelete(DeleteBehavior.Cascade);
-        
+
+        // Registration relationships
+        builder.Entity<Registration>()
+            .HasOne(r => r.Event)
+            .WithMany()
+            .HasForeignKey(r => r.EventId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<Registration>()
+            .HasOne(r => r.User)
+            .WithMany()
+            .HasForeignKey(r => r.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Unique constraint: one registration per user per event (for authenticated users)
+        builder.Entity<Registration>()
+            .HasIndex(r => new { r.EventId, r.UserId })
+            .IsUnique()
+            .HasFilter("[UserId] IS NOT NULL");
+
+        // Index for guest email lookups
+        builder.Entity<Registration>()
+            .HasIndex(r => new { r.EventId, r.GuestEmail });
 
     }
 }
