@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.RateLimiting;
 using HealingInWriting.Interfaces.Repository;
 using HealingInWriting.Repositories.Books;
 using System.Globalization;
+using HealingInWriting.Repositories.Events;
+using HealingInWriting.Services.Events;
 using Microsoft.AspNetCore.Localization;
 
 var builder = WebApplication.CreateBuilder(args);

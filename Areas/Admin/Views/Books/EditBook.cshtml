@@ -124,12 +124,12 @@
                                 <label for="Condition" class="add-book__label">Condition <span style="color:red">*</span></label>
                                 <select id="Condition" name="Condition" class="add-book__input" required>
                                     <option value="">Select condition</option>
-                                    @foreach (BookCondition condition in Enum.GetValues(typeof(BookCondition)))
-                                    {
-                                        <option value="@condition" @(Model.Condition == condition ? "selected" : "")>
-                                            @condition
-                                        </option>
-                                    }
+                                @foreach (BookCondition condition in Enum.GetValues(typeof(BookCondition)))
+                                {
+                                    <option value="@condition" selected="@(Model.Condition == condition ? "selected" : null)">
+                                        @condition
+                                    </option>
+                                }
                                 </select>
                             </div>
                             <div class="add-book__form-group">
