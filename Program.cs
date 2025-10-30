@@ -10,8 +10,10 @@ using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.RateLimiting;
 using HealingInWriting.Interfaces.Repository;
 using HealingInWriting.Repositories.Books;
+using System.Globalization;
 using HealingInWriting.Repositories.Events;
 using HealingInWriting.Services.Events;
+using Microsoft.AspNetCore.Localization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -157,6 +159,15 @@ builder.Services.AddRateLimiter(options =>
 });
 
 var app = builder.Build();
+
+// Set default culture to en-US for all requests
+var supportedCultures = new[] { new CultureInfo("en-US") };
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture("en-US"),
+    SupportedCultures = supportedCultures,
+    SupportedUICultures = supportedCultures
+});
 
 // Seed the database with test accounts
 using (var scope = app.Services.CreateScope())
