@@ -195,6 +195,7 @@ SEARCH/FILTER REQUIREMENTS:
                                     </select>
                                     <button type="submit" class="event-item__status-submit">Update</button>
                                 </form>
+                                <a class="event-item__btn event-item__btn--registrations" asp-area="Admin" asp-controller="Events" asp-action="Registrations" asp-route-id="@eventItem.Id">Registrations</a>
                                 <a class="event-item__btn event-item__btn--edit" asp-area="Admin" asp-controller="Events" asp-action="Details" asp-route-id="@eventItem.Id">Edit</a>
                                 <form asp-area="Admin" asp-controller="Events" asp-action="Delete" asp-route-id="@eventItem.Id" method="post" class="event-item__status-form" onsubmit="return confirm('Are you sure you want to delete this event? This action cannot be undone.');">
                                     @Html.AntiForgeryToken()

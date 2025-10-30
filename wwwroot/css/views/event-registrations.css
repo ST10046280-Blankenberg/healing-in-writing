@@ -1,0 +1,686 @@
+/* =========================================================
+   Admin Event Registrations Page Styles
+   Following BEM Naming Convention
+   Uses CSS root variables for theming
+   ========================================================= */
+
+/* =========================================================
+   Alert Messages
+   ========================================================= */
+
+.alert {
+    /* Box Model */
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 0.25rem;
+    width: 100%;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.alert--success {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+.alert--error {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+/* =========================================================
+   Main Container
+   ========================================================= */
+
+.event-registrations-page {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 32px 64px;
+    gap: 16px;
+    width: 100%;
+    min-height: 100vh;
+
+    /* Visual */
+    background: linear-gradient(165.21deg, #FDF5ED 20.59%, #E9D5EB 77.36%);
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* =========================================================
+   Header Section
+   ========================================================= */
+
+.event-registrations__header {
+    /* Positioning */
+    box-sizing: border-box;
+
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px 32px;
+    gap: 16px;
+    width: 100%;
+
+    /* Visual */
+    background: #FFFFFF;
+    border-bottom: 1px solid #E5E7EB;
+    border-radius: 8px;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.event-registrations__header-content {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    gap: 32px;
+    width: 100%;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.event-registrations__header-text {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 4px;
+    flex: 1;
+    min-width: 0;
+}
+
+.event-registrations__title {
+    /* Box Model */
+    margin: 0;
+    width: 100%;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 36px;
+    color: var(--brand-700);
+    white-space: normal;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.event-registrations__subtitle {
+    /* Box Model */
+    margin: 0;
+    width: 100%;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    color: #374151;
+    white-space: normal;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.event-registrations__meta {
+    /* Box Model */
+    margin: 0;
+    width: 100%;
+
+    /* Typography */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #6B7280;
+    white-space: normal;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.event-registrations__add-btn {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 12px 18px;
+    gap: 8px;
+    height: 48px;
+
+    /* Visual */
+    background: var(--brand-700);
+    border: none;
+    border-radius: 8px;
+
+    /* Animation */
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+.event-registrations__add-btn:hover {
+    background: var(--brand-600);
+}
+
+.event-registrations__add-btn:active {
+    background: #251038;
+    transform: scale(0.98);
+}
+
+.event-registrations__add-icon {
+    /* Box Model */
+    width: 14px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.event-registrations__add-text {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+/* Capacity Summary */
+.event-registrations__capacity {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+    padding: 16px 0 0 0;
+    width: 100%;
+    border-top: 1px solid #F3F4F6;
+}
+
+.event-registrations__capacity-item {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+}
+
+.event-registrations__capacity-label {
+    /* Typography */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #6B7280;
+}
+
+.event-registrations__capacity-value {
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--brand-700);
+}
+
+/* =========================================================
+   Navigation
+   ========================================================= */
+
+.event-registrations__nav {
+    /* Box Model */
+    display: flex;
+    width: 100%;
+}
+
+.event-registrations__back-link {
+    /* Box Model */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+
+    /* Typography */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--brand-700);
+    text-decoration: none;
+
+    /* Visual */
+    border-radius: 6px;
+
+    /* Animation */
+    transition: background-color 0.2s ease;
+}
+
+.event-registrations__back-link:hover {
+    background: var(--neutral-100);
+}
+
+.event-registrations__back-icon {
+    /* Box Model */
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+
+    /* Visual */
+    color: var(--brand-700);
+}
+
+/* =========================================================
+   Registrations List
+   ========================================================= */
+
+.event-registrations__list-container {
+    /* Positioning */
+    box-sizing: border-box;
+
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1px;
+    width: 100%;
+
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid #F3F4F6;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.event-registrations__list-header {
+    /* Positioning */
+    box-sizing: border-box;
+
+    /* Box Model */
+    padding: 24px 24px;
+    width: 100%;
+
+    /* Visual */
+    border-bottom: 1px solid #F3F4F6;
+}
+
+.event-registrations__list-title {
+    /* Box Model */
+    margin: 0;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 28px;
+    color: var(--brand-700);
+}
+
+.event-registrations__list {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 1px;
+    width: 100%;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* =========================================================
+   Registration Item Component
+   ========================================================= */
+
+.registration-item {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+    gap: 10px;
+    width: 100%;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.registration-item--empty {
+    /* Box Model */
+    padding: 48px 24px;
+}
+
+.registration-item__empty-text {
+    /* Box Model */
+    margin: 0;
+    width: 100%;
+
+    /* Typography */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--neutral-400);
+    text-align: center;
+}
+
+.registration-item__content {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    width: 100%;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.registration-item__info {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.registration-item__name-row {
+    /* Box Model */
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.registration-item__name {
+    /* Box Model */
+    margin: 0;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 28px;
+    color: var(--brand-700);
+    white-space: normal;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+.registration-item__badge {
+    /* Box Model */
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    height: 24px;
+
+    /* Visual */
+    border-radius: 9999px;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.registration-item__badge--guest {
+    background: var(--accent-100);
+    color: #92400E;
+}
+
+.registration-item__badge--override {
+    background: #E0E7FF;
+    color: #4338CA;
+}
+
+.registration-item__details {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    width: 100%;
+}
+
+.registration-item__detail {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+}
+
+.registration-item__icon {
+    /* Box Model */
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+
+    /* Visual */
+    color: #4B5563;
+}
+
+.registration-item__detail-text {
+    /* Typography */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #6B7280;
+    word-break: break-word;
+}
+
+/* =========================================================
+   Registration Actions
+   ========================================================= */
+
+.registration-item__actions {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+    gap: 8px;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+.registration-item__remove-form {
+    /* Box Model */
+    display: inline-flex;
+}
+
+.registration-item__btn {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 16px;
+    gap: 10px;
+    height: 36px;
+
+    /* Visual */
+    border-radius: 6px;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+
+    /* Animation */
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.1s ease;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+.registration-item__btn:hover {
+    opacity: 0.9;
+}
+
+.registration-item__btn:active {
+    transform: scale(0.98);
+}
+
+.registration-item__btn--remove {
+    background: #DC2626;
+    border: none;
+    color: #FFFFFF;
+}
+
+.registration-item__btn--remove:hover {
+    background: #B91C1C;
+}
+
+/* =========================================================
+   Responsive Design
+   ========================================================= */
+
+/* Tablet (768px - 1023px) */
+@media (max-width: 1023px) {
+    .event-registrations-page {
+        padding: 32px 32px;
+    }
+
+    .event-registrations__header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .event-registrations__add-btn {
+        width: 100%;
+    }
+
+    .event-registrations__capacity {
+        flex-wrap: wrap;
+    }
+}
+
+/* Mobile (max-width: 767px) */
+@media (max-width: 767px) {
+    .event-registrations-page {
+        padding: 24px 20px;
+    }
+
+    .event-registrations__title {
+        font-size: 24px;
+        line-height: 32px;
+    }
+
+    .event-registrations__subtitle {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .registration-item__content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .registration-item__actions {
+        width: 100%;
+    }
+
+    .registration-item__btn {
+        width: 100%;
+    }
+
+    .event-registrations__capacity {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+}
+
+/* Small Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+    .event-registrations-page {
+        padding: 20px 16px;
+    }
+
+    .event-registrations__title {
+        font-size: 22px;
+        line-height: 28px;
+    }
+
+    .registration-item__name {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .registration-item__detail-text {
+        font-size: 13px;
+        line-height: 18px;
+    }
+}

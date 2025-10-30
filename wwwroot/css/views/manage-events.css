@@ -576,6 +576,20 @@
     transform: scale(0.98);
 }
 
+.event-item__btn--registrations {
+    /* Positioning */
+    box-sizing: border-box;
+
+    /* Visual */
+    background: transparent;
+    border: 1px solid var(--brand-700);
+    color: var(--brand-700);
+}
+
+.event-item__btn--registrations:hover {
+    background: var(--brand-300);
+}
+
 .event-item__btn--edit {
     background: #2F1648;
     border: none;
