@@ -104,13 +104,13 @@ namespace HealingInWriting.Controllers
 
             if (userIdClaim == null)
             {
-                return RedirectToAction("RegisterGuest", new { eventId });
+                return RedirectToAction("RegisterGuest", "Events", new { area = "", eventId });
             }
 
             if (!int.TryParse(User.FindFirst("ProfileId")?.Value, out var userId))
             {
                 TempData["ErrorMessage"] = "Unable to process registration. Please try logging in again.";
-                return RedirectToAction("Details", new { id = eventId });
+                return RedirectToAction("Details", "Events", new { area = "", id = eventId });
             }
 
             var result = await _registrationService.RegisterUserAsync(eventId, userId);
@@ -124,7 +124,7 @@ namespace HealingInWriting.Controllers
                 TempData["ErrorMessage"] = result.Message;
             }
 
-            return RedirectToAction("Details", new { id = eventId });
+            return RedirectToAction("Details", "Events", new { area = "", id = eventId });
         }
 
         [HttpPost]
@@ -134,7 +134,7 @@ namespace HealingInWriting.Controllers
             if (!ModelState.IsValid)
             {
                 TempData["ErrorMessage"] = "Please provide valid registration details.";
-                return RedirectToAction("Details", new { id = model.EventId });
+                return RedirectToAction("Details", "Events", new { area = "", id = model.EventId });
             }
 
             var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
@@ -155,7 +155,7 @@ namespace HealingInWriting.Controllers
                 TempData["ErrorMessage"] = result.Message;
             }
 
-            return RedirectToAction("Details", new { id = model.EventId });
+            return RedirectToAction("Details", "Events", new { area = "", id = model.EventId });
         }
 
         [HttpPost]
@@ -166,7 +166,7 @@ namespace HealingInWriting.Controllers
             if (!int.TryParse(User.FindFirst("ProfileId")?.Value, out var userId))
             {
                 TempData["ErrorMessage"] = "Unable to process cancellation. Please try logging in again.";
-                return RedirectToAction("Details", new { id = eventId });
+                return RedirectToAction("Details", "Events", new { area = "", id = eventId });
             }
 
             var result = await _registrationService.CancelRegistrationAsync(registrationId, userId);
@@ -180,7 +180,7 @@ namespace HealingInWriting.Controllers
                 TempData["ErrorMessage"] = result.Message;
             }
 
-            return RedirectToAction("Details", new { id = eventId });
+            return RedirectToAction("Details", "Events", new { area = "", id = eventId });
         }
     }
 }

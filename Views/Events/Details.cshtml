@@ -85,7 +85,7 @@
             <!-- Registration Buttons -->
             @if (Model.IsUserRegistered)
             {
-                <form asp-controller="Events" asp-action="CancelRegistration" method="post">
+                <form asp-area="" asp-controller="Events" asp-action="CancelRegistration" method="post">
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="registrationId" value="@Model.UserRegistrationId" />
                     <input type="hidden" name="eventId" value="@Model.Id" />
@@ -99,7 +99,7 @@
             {
                 @if (Model.IsAuthenticated)
                 {
-                    <form asp-controller="Events" asp-action="Register" method="post">
+                    <form asp-area="" asp-controller="Events" asp-action="Register" method="post">
                         @Html.AntiForgeryToken()
                         <input type="hidden" name="eventId" value="@Model.Id" />
                         <button type="submit" class="event-details__button">
@@ -132,7 +132,7 @@
             <button type="button" class="modal__close" data-modal-close aria-label="Close">&times;</button>
         </div>
 
-        <form asp-controller="Events" asp-action="RegisterGuest" method="post">
+        <form asp-area="" asp-controller="Events" asp-action="RegisterGuest" method="post">
             @Html.AntiForgeryToken()
             <input type="hidden" name="EventId" value="@Model.Id" />
 
