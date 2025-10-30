@@ -266,10 +266,14 @@ app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Admin Area routes - explicit pattern for proper form tag helper resolution
+// Using explicit "Admin" instead of {area:exists} fixes POST form generation issues
 app.MapControllerRoute(
     name: "admin",
-    pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
+    pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}",
+    defaults: new { area = "Admin" });
 
+// Default route for non-area controllers
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

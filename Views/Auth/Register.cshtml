@@ -23,7 +23,7 @@
                     <p class="auth__subtitle">Create your account and start your healing journey</p>
                 </header>
 
-                <form class="auth__form auth__form--register" method="post" asp-action="Register" asp-controller="Auth">
+                <form class="auth__form auth__form--register" method="post" asp-area="" asp-controller="Auth" asp-action="Register">
                     @Html.AntiForgeryToken()
                     
                     <!-- Name Fields Row -->
