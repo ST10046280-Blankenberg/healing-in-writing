@@ -83,7 +83,9 @@ public static class ViewModelMappers
             {
                 Thumbnail = model.ThumbnailUrl,
                 SmallThumbnail = model.ThumbnailUrl
-            }
+            },
+            Condition = model.Condition, // Use enum directly
+            Price = model.Price
         };
     }
 
@@ -155,7 +157,7 @@ public static class ViewModelMappers
             Language = book.Language,
             Publisher = book.Publisher,
             IndustryIdentifiers = IndustryIdentifiersToStrings(book.IndustryIdentifiers),
-            Condition = book.Condition.ToString(),
+            Condition = book.Condition, // Use enum directly
             Price = book.Price
         };
     }

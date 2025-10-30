@@ -1,4 +1,5 @@
 ﻿@model HealingInWriting.Models.Books.BookDetailViewModel
+@using HealingInWriting.Domain.Books
 
 @{
     ViewData["Title"] = "Edit Book";
@@ -119,18 +120,20 @@
                     <div class="add-book__middle-section">
                         <div class="add-book__row">
                             <div class="add-book__form-group">
-                                <label for="Condition" class="add-book__label">Condition</label>
+                                <label for="Condition" class="add-book__label">Condition <span style="color:red">*</span></label>
                                 <select id="Condition" name="Condition" class="add-book__input" required>
                                     <option value="">Select condition</option>
-                                    @foreach (var item in (List<SelectListItem>)ViewBag.BookConditions)
+                                    @foreach (BookCondition condition in Enum.GetValues(typeof(BookCondition)))
                                     {
-                                        <option value="@item.Value" @(Model.Condition == item.Value ? "selected" : "")>@item.Text</option>
+                                        <option value="@condition" @(Model.Condition == condition ? "selected" : "")>
+                                            @condition
+                                        </option>
                                     }
                                 </select>
                             </div>
                             <div class="add-book__form-group">
-                                <label for="Price" class="add-book__label">Price</label>
-                                <input type="number" step="0.01" id="Price" name="Price" class="add-book__input" placeholder="Subtext" value="@Model.Price"/>
+                                <label for="Price" class="add-book__label">Price <span style="color:red">*</span></label>
+                                <input type="number" step="0.01" id="Price" name="Price" required class="add-book__input" value="@Model.Price.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)" />
                             </div>
                         </div>
                     </div>
