@@ -3,6 +3,7 @@ using System;
 using HealingInWriting.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealingInWriting.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251029221154_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
@@ -148,53 +151,6 @@ namespace HealingInWriting.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Events");
-                });
-
-            modelBuilder.Entity("HealingInWriting.Domain.Events.Registration", b =>
-                {
-                    b.Property<int>("RegistrationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("EventId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("GuestEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("GuestName")
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("GuestPhone")
-                        .HasMaxLength(20)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("IpAddress")
-                        .HasMaxLength(45)
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsAdminOverride")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("RegistrationDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("RegistrationId");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("EventId", "GuestEmail");
-
-                    b.HasIndex("EventId", "UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
-
-                    b.ToTable("Registrations");
                 });
 
             modelBuilder.Entity("HealingInWriting.Domain.Shared.Address", b =>
@@ -594,24 +550,6 @@ namespace HealingInWriting.Migrations
                         .IsRequired();
 
                     b.Navigation("Address");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("HealingInWriting.Domain.Events.Registration", b =>
-                {
-                    b.HasOne("HealingInWriting.Domain.Events.Event", "Event")
-                        .WithMany()
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HealingInWriting.Domain.Users.UserProfile", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Event");
 
                     b.Navigation("User");
                 });

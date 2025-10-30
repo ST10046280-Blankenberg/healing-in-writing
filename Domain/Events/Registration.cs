@@ -1,23 +1,70 @@
 using System.ComponentModel.DataAnnotations;
+using HealingInWriting.Domain.Users;
 
 namespace HealingInWriting.Domain.Events;
 
-// TODO: Represent an attendee registration value object protecting invariants.
+/// <summary>
+/// Represents an attendee registration for an event.
+/// Supports both authenticated users and guest registrations.
+/// </summary>
 public class Registration
 {
     [Key]
-    public int RegistrationId { get; set; }         // PK: registration_id
+    public int RegistrationId { get; set; }
 
     [Required]
-    public int EventId { get; set; }                // FK: event_id
+    public int EventId { get; set; }
+
+    /// <summary>
+    /// User ID for authenticated registrations. Null for guest registrations.
+    /// </summary>
+    public int? UserId { get; set; }
 
     [Required]
-    public int UserId { get; set; }                 // FK: user_id
+    public DateTime RegistrationDate { get; set; }
 
+    /// <summary>
+    /// Guest name for unauthenticated registrations. Null for authenticated users.
+    /// </summary>
+    [StringLength(100)]
+    public string? GuestName { get; set; }
+
+    /// <summary>
+    /// Guest email for unauthenticated registrations. Required for guest registrations.
+    /// </summary>
+    [StringLength(256)]
+    [EmailAddress]
+    public string? GuestEmail { get; set; }
+
+    /// <summary>
+    /// Guest phone number for unauthenticated registrations. Optional.
+    /// </summary>
+    [StringLength(20)]
+    public string? GuestPhone { get; set; }
+
+    /// <summary>
+    /// Indicates whether registration was created by admin (bypassing capacity checks).
+    /// </summary>
+    public bool IsAdminOverride { get; set; }
+
+    /// <summary>
+    /// IP address from which the registration was made. Used for rate limiting guest registrations.
+    /// </summary>
+    [StringLength(45)]
+    public string? IpAddress { get; set; }
+
+    #region Navigation Properties
+
+    /// <summary>
+    /// Navigation property to the event.
+    /// </summary>
     [Required]
-    public DateTime RegistrationDate { get; set; }  // registration_date
+    public Event Event { get; set; } = null!;
 
-    // TODO: Navigation properties for related entities
-    // public Event Event { get; set; }
-    // public User User { get; set; }
+    /// <summary>
+    /// Navigation property to the user. Null for guest registrations.
+    /// </summary>
+    public UserProfile? User { get; set; }
+
+    #endregion
 }
