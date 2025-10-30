@@ -25,7 +25,7 @@ namespace HealingInWriting.Domain.Common
 
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-        [Timestamp]
-        public byte[] RowVersion { get; set; }
+        // Remove [Timestamp] attribute for SQLite compatibility
+        public byte[]? RowVersion { get; set; }
     }
 }

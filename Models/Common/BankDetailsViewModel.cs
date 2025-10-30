@@ -1,5 +1,5 @@
-using System;
 using System.ComponentModel.DataAnnotations;
+using HealingInWriting.Domain.Common;
 
 namespace HealingInWriting.Models.Common
 {
@@ -7,23 +7,22 @@ namespace HealingInWriting.Models.Common
     {
         public int Id { get; set; }
 
-        [Required, StringLength(100)]
+        [Required(ErrorMessage = "Bank Name is required")]
+        [Display(Name = "Bank Name")]
         public string BankName { get; set; }
 
-        [Required, StringLength(50)]
+        [Required(ErrorMessage = "Account Number is required")]
+        [Display(Name = "Account Number")]
         public string AccountNumber { get; set; }
 
-        [StringLength(100)]
+        [Display(Name = "Branch")]
         public string Branch { get; set; }
 
-        [StringLength(20)]
+        [Display(Name = "Branch Code")]
         public string BranchCode { get; set; }
 
-        [StringLength(200)]
-        public string UpdatedBy { get; set; }
-
-        public DateTime UpdatedAt { get; set; }
-
-        public byte[] RowVersion { get; set; }
+        public byte[]? RowVersion { get; set; }
     }
+
+
 }

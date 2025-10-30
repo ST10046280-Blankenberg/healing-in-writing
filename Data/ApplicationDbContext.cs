@@ -102,7 +102,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             b.Property(x => x.BranchCode).HasMaxLength(20);
             b.Property(x => x.UpdatedBy).HasMaxLength(200);
             b.Property(x => x.UpdatedAt).IsRequired();
-            b.Property(x => x.RowVersion).IsRowVersion();
+            // Remove .IsRowVersion() for SQLite
+            b.Property(x => x.RowVersion).IsRequired(false);
         });
+
     }
 }
