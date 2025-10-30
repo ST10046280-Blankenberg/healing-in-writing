@@ -97,6 +97,8 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<IRegistrationRepository, RegistrationRepository>();
+builder.Services.AddScoped<IRegistrationService, RegistrationService>();
 builder.Services.AddScoped<IBackoffStateRepository, BackoffStateRepository>();
 
 // Configure rate limiting to prevent brute force, credential stuffing, and DDoS attacks
