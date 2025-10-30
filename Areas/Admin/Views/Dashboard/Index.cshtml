@@ -61,7 +61,7 @@
         <h2 class="admin-dashboard__section-title">Quick Actions</h2>
 
         <div class="admin-dashboard__actions-grid">
-            <a href="@Url.Action("ManageStories", "Admin")" class="admin-dashboard__action-card">
+            <a href="@Url.Action("Manage", "Stories", new { area = "Admin" })" class="admin-dashboard__action-card">
                 <div class="admin-dashboard__action-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="27" height="24" viewBox="0 0 27 24" fill="none">
                         <path d="M5 2h8a2 2 0 012 2v16a2 2 0 01-2 2H5a2 2 0 01-2-2V4a2 2 0 012-2z" stroke="#2F1648" stroke-width="2" fill="none"/>
@@ -72,7 +72,7 @@
                 <span class="admin-dashboard__action-label">Manage Stories</span>
             </a>
 
-            <a href="@Url.Action("ManageEvents", "Admin")" class="admin-dashboard__action-card">
+            <a href="@Url.Action("Manage", "Events", new { area = "Admin" })" class="admin-dashboard__action-card">
                 <div class="admin-dashboard__action-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="21" height="24" viewBox="0 0 21 24" fill="none">
                         <rect x="3" y="4" width="15" height="16" rx="2" stroke="#2F1648" stroke-width="2" fill="none"/>

@@ -1,5 +1,7 @@
 using HealingInWriting.Domain.Users;
 using HealingInWriting.Domain.Books;
+using HealingInWriting.Domain.Events;
+using HealingInWriting.Domain.Shared;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +15,7 @@ namespace HealingInWriting.Data;
 /// </summary>
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) 
         : base(options)
     {
     }
@@ -24,6 +26,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     // public DbSet<Event> Events { get; set; }
     // public DbSet<Donation> Donations { get; set; }
     // public DbSet<Volunteer> Volunteers { get; set; }
+    public DbSet<Event> Events { get; set; }
+    public DbSet<Registration> Registrations { get; set; }
+    public DbSet<Tag> Tags { get; set; }
+    public DbSet<Address> Addresses { get; set; }
+    public DbSet<UserProfile> UserProfiles { get; set; }
     public DbSet<Book> Books { get; set; }
     public DbSet<BackoffState> BackoffStates { get; set; }
 
@@ -88,6 +95,55 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             ii.Property(i => i.Identifier).HasColumnName("Identifier");
             ii.ToTable("BookIndustryIdentifiers");
         });
+        
+        // Event relationships
+        builder.Entity<Event>()
+            .HasOne(e => e.User)
+            .WithMany()
+            .HasForeignKey(e => e.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+        
+        builder.Entity<Event>()
+            .HasOne(e => e.Address)
+            .WithMany()
+            .HasForeignKey(e => e.AddressId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        // Many-to-many: Events and Tags
+        builder.Entity<Event>()
+            .HasMany(e => e.EventTags)
+            .WithMany()
+            .UsingEntity(j => j.ToTable("EventTags"));
+        
+        // UserProfile relationship
+        builder.Entity<UserProfile>()
+            .HasOne(up => up.User)
+            .WithOne()
+            .HasForeignKey<UserProfile>(up => up.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Registration relationships
+        builder.Entity<Registration>()
+            .HasOne(r => r.Event)
+            .WithMany()
+            .HasForeignKey(r => r.EventId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<Registration>()
+            .HasOne(r => r.User)
+            .WithMany()
+            .HasForeignKey(r => r.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Unique constraint: one registration per user per event (for authenticated users)
+        builder.Entity<Registration>()
+            .HasIndex(r => new { r.EventId, r.UserId })
+            .IsUnique()
+            .HasFilter("[UserId] IS NOT NULL");
+
+        // Index for guest email lookups
+        builder.Entity<Registration>()
+            .HasIndex(r => new { r.EventId, r.GuestEmail });
 
     }
 }
