@@ -38,7 +38,7 @@ namespace HealingInWriting.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            return RedirectToAction("Auth", new { mode = "register" });
+            return RedirectToAction("Auth", new { area = "", mode = "register" });
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace HealingInWriting.Controllers
             if (result.Success)
             {
                 TempData["SuccessMessage"] = result.Message;
-                return RedirectToAction("Auth", new { mode = "login" });
+                return RedirectToAction("Auth", new { area = "", mode = "login" });
             }
 
             ModelState.AddModelError(string.Empty, result.Message);
@@ -76,7 +76,7 @@ namespace HealingInWriting.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            return RedirectToAction("Auth", new { mode = "login" });
+            return RedirectToAction("Auth", new { area = "", mode = "login" });
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace HealingInWriting.Controllers
             {
                 // Successful login - redirect to landing page (Home/Index)
                 TempData["SuccessMessage"] = "Welcome back!";
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home", new { area = "" });
             }
 
             // Login failed - could be invalid credentials or unverified email
@@ -121,7 +121,7 @@ namespace HealingInWriting.Controllers
             if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
             {
                 TempData["ErrorMessage"] = "Invalid verification link.";
-                return RedirectToAction("Auth", new { mode = "login" });
+                return RedirectToAction("Auth", new { area = "", mode = "login" });
             }
 
             var result = await _authService.VerifyEmailAsync(userId, token);
@@ -129,11 +129,11 @@ namespace HealingInWriting.Controllers
             if (result.Success)
             {
                 TempData["SuccessMessage"] = result.Message;
-                return RedirectToAction("EmailVerificationSuccess");
+                return RedirectToAction("EmailVerificationSuccess", new { area = "" });
             }
 
             TempData["ErrorMessage"] = result.Message;
-            return RedirectToAction("Auth", new { mode = "login" });
+            return RedirectToAction("Auth", new { area = "", mode = "login" });
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace HealingInWriting.Controllers
         {
             await _authService.LogoutAsync();
             TempData["SuccessMessage"] = "You have been logged out successfully.";
-            return RedirectToAction("Auth", new { mode = "login" });
+            return RedirectToAction("Auth", new { area = "", mode = "login" });
         }
 
         // TODO [Future Enhancement]: Add ForgotPassword and ResetPassword actions when required

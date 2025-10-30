@@ -1,9 +1,10 @@
+@model HealingInWriting.Models.Common.BankDetailsViewModel
 @{
     ViewData["Title"] = "Site Settings";
 }
 
-<link rel="stylesheet" href="~/css/shared/search-bar.css" />
-<link rel="stylesheet" href="~/css/views/admin-site-settings.css" />
+<link rel="stylesheet" href="~/css/shared/search-bar.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/views/admin-site-settings.css" asp-append-version="true" />
 
 <main class="admin-site-settings">
     
@@ -11,30 +12,52 @@
     <section class="donation-settings">
         <div class="donation-settings__header">
             <h2 class="donation-settings__title">Donation Settings</h2>
-            <button class="donation-settings__btn-edit">Edit Bank Details</button>
         </div>
         
-        <div class="donation-settings__form-grid">
-            <div class="donation-settings__field">
-                <label class="donation-settings__label">Bank Name</label>
-                <input type="text" class="donation-settings__input" placeholder="First National Bank" value="First National Bank" readonly />
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success" style="padding: 12px; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 8px; color: #155724; margin-bottom: 16px;">
+                @TempData["Success"]
+            </div>
+        }
+        
+        <form asp-area="Admin" asp-controller="SiteSettings" asp-action="Update" method="post">
+            @Html.AntiForgeryToken()
+            <input asp-for="Id" type="hidden" />
+            <input asp-for="RowVersion" type="hidden" value="@(Model.RowVersion != null ? Convert.ToBase64String(Model.RowVersion) : "")" />
+
+            
+            <div class="donation-settings__form-grid">
+                <div class="donation-settings__field">
+                    <label asp-for="BankName" class="donation-settings__label">Bank Name</label>
+                    <input asp-for="BankName" class="donation-settings__input" readonly />
+                    <span asp-validation-for="BankName" class="text-danger"></span>
+                </div>
+                
+                <div class="donation-settings__field">
+                    <label asp-for="AccountNumber" class="donation-settings__label">Account Number</label>
+                    <input asp-for="AccountNumber" class="donation-settings__input" readonly />
+                    <span asp-validation-for="AccountNumber" class="text-danger"></span>
+                </div>
+                
+                <div class="donation-settings__field">
+                    <label asp-for="Branch" class="donation-settings__label">Branch</label>
+                    <input asp-for="Branch" class="donation-settings__input" readonly />
+                    <span asp-validation-for="Branch" class="text-danger"></span>
+                </div>
+                
+                <div class="donation-settings__field">
+                    <label asp-for="BranchCode" class="donation-settings__label">Branch Code:</label>
+                    <input asp-for="BranchCode" class="donation-settings__input" readonly />
+                    <span asp-validation-for="BranchCode" class="text-danger"></span>
+                </div>
             </div>
             
-            <div class="donation-settings__field">
-                <label class="donation-settings__label">Account Number</label>
-                <input type="text" class="donation-settings__input" placeholder="****-****-****-1234" value="****-****-****-1234" readonly />
+            <div class="donation-settings__actions">
+                <button type="button" id="editBtn" class="donation-settings__btn-edit">Edit</button>
+                <button type="submit" id="saveBtn" class="donation-settings__btn-save hidden">Save</button>
             </div>
-            
-            <div class="donation-settings__field">
-                <label class="donation-settings__label">Branch</label>
-                <input type="text" class="donation-settings__input" placeholder="Downtown Branch" value="Downtown Branch" readonly />
-            </div>
-            
-            <div class="donation-settings__field">
-                <label class="donation-settings__label">Branch Code</label>
-                <input type="text" class="donation-settings__input" placeholder="Downtown Branch" value="Downtown Branch" readonly />
-            </div>
-        </div>
+        </form>
     </section>
     
     <!-- Privacy Editor & Gallery Page Row -->
@@ -250,3 +273,7 @@
     </section>
     
 </main>
+@section Scripts {
+    <script src="~/js/admin/site-settings-bank.js" asp-append-version="true"></script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

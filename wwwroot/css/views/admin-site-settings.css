@@ -193,6 +193,58 @@
     border-color: #2F1648;
 }
 
+/* Donation Settings Actions */
+.donation-settings__actions {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 2;
+    flex-grow: 0;
+}
+
+/* Save Button */
+.donation-settings__btn-save {
+    /* Box Model */
+    padding: 12px 24px;
+    height: 48px;
+    
+    /* Typography */
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #FFFFFF;
+    
+    /* Visual */
+    background: #16A34A;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+.donation-settings__btn-save:hover {
+    background: #15803D;
+}
+
+/* Hidden Utility Class */
+.hidden {
+    display: none !important;
+}
+
 /* =========================================================
    Privacy & Terms Editor and Gallery Page Row
    ========================================================= */

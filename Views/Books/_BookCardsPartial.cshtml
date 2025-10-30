@@ -4,7 +4,7 @@
 {
     foreach (var book in Model)
     {
-        <a class="book-card" asp-action="Details" asp-controller="Books" asp-route-BookId="@book.BookId">
+        <a class="book-card" asp-area="" asp-controller="Books" asp-action="Details" asp-route-BookId="@book.BookId">
             <div class="book-card__content">
                 <div class="book-card__cover">
                     @if (!string.IsNullOrEmpty(book.ThumbnailUrl))
