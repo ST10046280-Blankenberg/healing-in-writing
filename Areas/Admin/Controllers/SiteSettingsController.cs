@@ -1,5 +1,10 @@
+using System.Threading.Tasks;
+using HealingInWriting.Domain.Common;
+using HealingInWriting.Interfaces.Services;
+using HealingInWriting.Models.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace HealingInWriting.Areas.Admin.Controllers
 {
@@ -7,9 +12,30 @@ namespace HealingInWriting.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class SiteSettingsController : Controller
     {
-        public IActionResult Index()
+        private readonly IBankDetailsService _service;
+
+        public SiteSettingsController(IBankDetailsService service)
         {
-            return View();
+            _service = service;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var entity = await _service.GetAsync();
+            return View(entity.ToViewModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(BankDetailsViewModel vm)
+        {
+            if (!ModelState.IsValid)
+                return View("Index", vm);
+
+            await _service.UpdateAsync(vm.ToEntity(), User.Identity.Name);
+            TempData["Success"] = "Bank details updated.";
+            return RedirectToAction("Index");
         }
     }
 }
