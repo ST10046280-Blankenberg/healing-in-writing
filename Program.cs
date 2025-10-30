@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.RateLimiting;
 using HealingInWriting.Interfaces.Repository;
 using HealingInWriting.Repositories.Books;
 using HealingInWriting.Services.Common;
-using HealingInWriting.Repositories.BankDetails;
 using HealingInWriting.Repositories.BankDetailsFolder;
 
 var builder = WebApplication.CreateBuilder(args);
