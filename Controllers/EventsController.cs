@@ -55,8 +55,45 @@ namespace HealingInWriting.Controllers
                 return NotFound();
             }
 
-            // TODO: Create detailed view model and view
-            return View(@event);
+            var capacityInfo = await _registrationService.GetCapacityInfoAsync(id);
+
+            var isAuthenticated = User.Identity?.IsAuthenticated ?? false;
+            var isUserRegistered = false;
+            int? userRegistrationId = null;
+
+            if (isAuthenticated && int.TryParse(User.FindFirst("ProfileId")?.Value, out var userId))
+            {
+                isUserRegistered = await _registrationService.IsUserRegisteredAsync(id, userId);
+                if (isUserRegistered)
+                {
+                    var userRegistrations = await _registrationService.GetUserRegistrationsAsync(userId);
+                    userRegistrationId = userRegistrations
+                        .FirstOrDefault(r => r.EventId == id)?.RegistrationId;
+                }
+            }
+
+            var viewModel = new EventDetailViewModel
+            {
+                Id = @event.EventId,
+                EventType = @event.EventType.ToString(),
+                EventStatus = @event.EventStatus,
+                EventTags = @event.EventTags,
+                Title = @event.Title,
+                StartDateTime = @event.StartDateTime,
+                EndDateTime = @event.EndDateTime,
+                Description = @event.Description,
+                Address = @event.Address,
+                Capacity = capacityInfo.Capacity,
+                RegisteredCount = capacityInfo.RegisteredCount,
+                AvailableSpots = capacityInfo.AvailableSpots,
+                CanRegister = capacityInfo.CanRegister,
+                RegistrationStatusMessage = capacityInfo.StatusMessage,
+                IsUserRegistered = isUserRegistered,
+                UserRegistrationId = userRegistrationId,
+                IsAuthenticated = isAuthenticated
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -90,20 +127,14 @@ namespace HealingInWriting.Controllers
             return RedirectToAction("Details", new { id = eventId });
         }
 
-        [HttpGet]
-        public IActionResult RegisterGuest(int eventId)
-        {
-            var model = new GuestRegistrationViewModel { EventId = eventId };
-            return View(model);
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegisterGuest(GuestRegistrationViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                TempData["ErrorMessage"] = "Please provide valid registration details.";
+                return RedirectToAction("Details", new { id = model.EventId });
             }
 
             var result = await _registrationService.RegisterGuestAsync(
@@ -115,11 +146,13 @@ namespace HealingInWriting.Controllers
             if (result.Success)
             {
                 TempData["SuccessMessage"] = result.Message;
-                return RedirectToAction("Details", new { id = model.EventId });
+            }
+            else
+            {
+                TempData["ErrorMessage"] = result.Message;
             }
 
-            ModelState.AddModelError("", result.Message);
-            return View(model);
+            return RedirectToAction("Details", new { id = model.EventId });
         }
 
         [HttpPost]

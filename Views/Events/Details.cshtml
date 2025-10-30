@@ -1,13 +1,25 @@
+@model HealingInWriting.Models.Events.EventDetailViewModel
+
 @{
-    ViewData["Title"] = "Event Details";
+    ViewData["Title"] = Model.Title;
 }
 
 @section Styles {
     <link rel="stylesheet" href="~/css/views/events.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/shared/modal.css" asp-append-version="true" />
 }
 
 <main class="event-details">
     <div class="event-details__body">
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+        }
+
         <article class="event-details__container">
             <!-- Event Image -->
             <div class="event-details__image">
@@ -16,35 +28,143 @@
 
             <!-- Event Badge -->
             <span class="event-details__badge">
-                <span class="event-details__badge-text">Community Event</span>
+                <span class="event-details__badge-text">@Model.EventType</span>
             </span>
 
             <!-- Tags Section -->
-            <div class="event-details__tags">
-                <span class="event-details__tag">
-                    <span class="event-details__tag-text">Tag</span>
-                </span>
-                <span class="event-details__tag">
-                    <span class="event-details__tag-text">Tag</span>
-                </span>
-            </div>
+            @if (Model.EventTags.Any())
+            {
+                <div class="event-details__tags">
+                    @foreach (var tag in Model.EventTags)
+                    {
+                        <span class="event-details__tag">
+                            <span class="event-details__tag-text">@tag.Name</span>
+                        </span>
+                    }
+                </div>
+            }
 
             <!-- Event Title -->
-            <h1 class="event-details__title">Event Title</h1>
+            <h1 class="event-details__title">@Model.Title</h1>
 
             <!-- Event Date -->
-            <p class="event-details__date">March 10, 2024</p>
+            <p class="event-details__date">
+                @Model.StartDateTime.ToString("MMMM dd, yyyy • HH:mm")
+                @if (Model.EndDateTime > Model.StartDateTime)
+                {
+                    <text> - @Model.EndDateTime.ToString("HH:mm")</text>
+                }
+            </p>
+
+            <!-- Event Location -->
+            @if (Model.Address != null)
+            {
+                <p class="event-details__location">
+                    @Model.Address.City, @Model.Address.Province
+                </p>
+            }
+
+            <!-- Registration Status -->
+            <p class="event-details__capacity">
+                @Model.RegisteredCount / @Model.Capacity registered
+                @if (Model.AvailableSpots > 0)
+                {
+                    <text> • @Model.RegistrationStatusMessage</text>
+                }
+                else
+                {
+                    <text> • Event Full</text>
+                }
+            </p>
 
             <!-- Event Description -->
             <p class="event-details__description">
-                Article Description
+                @Model.Description
             </p>
 
-            <!-- Join Event Button -->
-            <button class="event-details__button">
-                <span class="event-details__button-text">Join Event</span>
-            </button>
+            <!-- Registration Buttons -->
+            @if (Model.IsUserRegistered)
+            {
+                <form asp-controller="Events" asp-action="CancelRegistration" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="registrationId" value="@Model.UserRegistrationId" />
+                    <input type="hidden" name="eventId" value="@Model.Id" />
+                    <button type="submit" class="event-details__button event-details__button--cancel">
+                        <span class="event-details__button-text">Cancel Registration</span>
+                    </button>
+                </form>
+                <p class="event-details__registered-message">You are registered for this event</p>
+            }
+            else if (Model.CanRegister)
+            {
+                @if (Model.IsAuthenticated)
+                {
+                    <form asp-controller="Events" asp-action="Register" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="eventId" value="@Model.Id" />
+                        <button type="submit" class="event-details__button">
+                            <span class="event-details__button-text">Register for Event</span>
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <button type="button" class="event-details__button" data-modal-open="guestRegistrationModal">
+                        <span class="event-details__button-text">Register as Guest</span>
+                    </button>
+                }
+            }
+            else
+            {
+                <button type="button" class="event-details__button event-details__button--disabled" disabled>
+                    <span class="event-details__button-text">@Model.RegistrationStatusMessage</span>
+                </button>
+            }
         </article>
     </div>
 </main>
+
+<!-- Guest Registration Modal -->
+<div id="guestRegistrationModal" class="modal">
+    <div class="modal__content">
+        <div class="modal__header">
+            <h2 class="modal__title">Register as Guest</h2>
+            <button type="button" class="modal__close" data-modal-close aria-label="Close">&times;</button>
+        </div>
+
+        <form asp-controller="Events" asp-action="RegisterGuest" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="EventId" value="@Model.Id" />
+
+            <div class="modal__body">
+                <div class="modal__form-group">
+                    <label for="GuestName" class="modal__label">Full Name</label>
+                    <input type="text" id="GuestName" name="GuestName" class="modal__input" required maxlength="100" placeholder="Enter your full name" />
+                    <span class="modal__error" data-valmsg-for="GuestName"></span>
+                </div>
+
+                <div class="modal__form-group">
+                    <label for="GuestEmail" class="modal__label">Email Address</label>
+                    <input type="email" id="GuestEmail" name="GuestEmail" class="modal__input" required maxlength="256" placeholder="Enter your email" />
+                    <span class="modal__error" data-valmsg-for="GuestEmail"></span>
+                </div>
+
+                <div class="modal__form-group">
+                    <label for="GuestPhone" class="modal__label">Phone Number (Optional)</label>
+                    <input type="tel" id="GuestPhone" name="GuestPhone" class="modal__input" maxlength="20" placeholder="Enter your phone number" />
+                    <span class="modal__error" data-valmsg-for="GuestPhone"></span>
+                </div>
+            </div>
+
+            <div class="modal__actions">
+                <button type="button" class="modal__button modal__button--secondary" data-modal-close>Cancel</button>
+                <button type="submit" class="modal__button modal__button--primary">Register</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/modal.js" asp-append-version="true"></script>
+}
 
