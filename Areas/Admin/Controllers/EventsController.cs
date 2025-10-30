@@ -12,12 +12,14 @@ namespace HealingInWriting.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class EventsController : Controller
     {
-        
-        private readonly IEventService _eventService;
 
-        public EventsController(IEventService eventService)
+        private readonly IEventService _eventService;
+        private readonly IRegistrationService _registrationService;
+
+        public EventsController(IEventService eventService, IRegistrationService registrationService)
         {
             _eventService = eventService;
+            _registrationService = registrationService;
         }
         // GET: Admin/Events/Manage
         public async Task<IActionResult> Manage()
@@ -200,6 +202,89 @@ namespace HealingInWriting.Areas.Admin.Controllers
             }
 
             return RedirectToAction(nameof(Manage));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Registrations(int id)
+        {
+            var @event = await _eventService.GetEventByIdAsync(id);
+            if (@event == null)
+            {
+                return NotFound();
+            }
+
+            var registrations = await _registrationService.GetEventRegistrationsAsync(id);
+
+            var viewModel = new EventRegistrationsViewModel
+            {
+                EventId = @event.EventId,
+                EventTitle = @event.Title,
+                EventStartDateTime = @event.StartDateTime,
+                Capacity = @event.Capacity,
+                RegisteredCount = registrations.Count(),
+                Registrations = registrations.Select(r => new RegistrationItemViewModel
+                {
+                    RegistrationId = r.RegistrationId,
+                    AttendeeName = r.UserId.HasValue
+                        ? $"{r.User?.User?.FirstName} {r.User?.User?.LastName}".Trim()
+                        : r.GuestName ?? "Unknown",
+                    AttendeeEmail = r.UserId.HasValue
+                        ? r.User?.User?.Email ?? "N/A"
+                        : r.GuestEmail ?? "N/A",
+                    AttendeePhone = r.UserId.HasValue
+                        ? r.User?.User?.PhoneNumber
+                        : r.GuestPhone,
+                    RegistrationDate = r.RegistrationDate,
+                    IsGuest = !r.UserId.HasValue,
+                    IsAdminOverride = r.IsAdminOverride
+                }).ToList()
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddRegistration(int eventId, string guestName, string guestEmail, string? guestPhone)
+        {
+            var result = await _registrationService.RegisterGuestAsync(
+                eventId,
+                guestName,
+                guestEmail,
+                guestPhone,
+                isAdminOverride: true);
+
+            if (result.Success)
+            {
+                TempData["SuccessMessage"] = "Registration added successfully.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = result.Message;
+            }
+
+            return RedirectToAction(nameof(Registrations), new { id = eventId });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveRegistration(int registrationId, int eventId)
+        {
+            var result = await _registrationService.CancelRegistrationAsync(
+                registrationId,
+                requestingUserId: null,
+                isAdminOverride: true);
+
+            if (result.Success)
+            {
+                TempData["SuccessMessage"] = "Registration removed successfully.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = result.Message;
+            }
+
+            return RedirectToAction(nameof(Registrations), new { id = eventId });
         }
     }
 }
