@@ -23,7 +23,7 @@
                     <p class="auth__subtitle">Sign in to continue your healing journey</p>
                 </header>
 
-                <form class="auth__form auth__form--login" method="post" asp-action="Login" asp-controller="Auth">
+                <form class="auth__form auth__form--login" method="post" asp-area="" asp-controller="Auth" asp-action="Login">
                     @Html.AntiForgeryToken()
                     
                     <!-- Email Field -->

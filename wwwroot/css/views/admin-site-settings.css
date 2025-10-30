@@ -1,0 +1,1178 @@
+/* =========================================================
+   Admin Site Settings Page
+   Configure site-wide settings, donations, privacy, and impact metrics
+   ========================================================= */
+
+/* Base Container */
+.admin-site-settings {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 32px 64px;
+    gap: 32px;
+    width: 100%;
+    min-height: 100vh;
+
+    background: linear-gradient(165.21deg, #FDF5ED 20.59%, #E9D5EB 77.36%);
+
+
+    /* Visual */
+
+}
+
+/* =========================================================
+   Donation Settings Card
+   ========================================================= */
+
+.donation-settings {
+    /* Box Model */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 24px;
+    gap: 24px;
+    width: 100%;
+    
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid #F3F4F6;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* Donation Settings Header */
+.donation-settings__header {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+/* Donation Settings Title */
+.donation-settings__title {
+    /* Typography */
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 32px;
+    color: #111827;
+    margin: 0;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+/* Edit Bank Details Button */
+.donation-settings__btn-edit {
+    /* Box Model */
+    padding: 12px 24px;
+    height: 48px;
+    
+    /* Typography */
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #FFFFFF;
+    
+    /* Visual */
+    background: #2F1648;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+.donation-settings__btn-edit:hover {
+    background: #3A1F53;
+}
+
+/* Donation Settings Form Grid */
+.donation-settings__form-grid {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 24px;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+/* Form Field */
+.donation-settings__field {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: calc(50% - 12px);
+    min-width: 300px;
+    
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+/* Field Label */
+.donation-settings__label {
+    /* Typography */
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    color: #374151;
+    margin: 0;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* Field Input */
+.donation-settings__input {
+    /* Box Model */
+    box-sizing: border-box;
+    padding: 16px;
+    height: 56px;
+    
+    /* Typography */
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #6B7280;
+    
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid #D1D5DB;
+    border-radius: 12px;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.donation-settings__input::placeholder {
+    color: #ADAEBC;
+}
+
+.donation-settings__input:focus {
+    outline: none;
+    border-color: #2F1648;
+}
+
+/* Donation Settings Actions */
+.donation-settings__actions {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 2;
+    flex-grow: 0;
+}
+
+/* Save Button */
+.donation-settings__btn-save {
+    /* Box Model */
+    padding: 12px 24px;
+    height: 48px;
+    
+    /* Typography */
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #FFFFFF;
+    
+    /* Visual */
+    background: #16A34A;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+.donation-settings__btn-save:hover {
+    background: #15803D;
+}
+
+/* Hidden Utility Class */
+.hidden {
+    display: none !important;
+}
+
+/* =========================================================
+   Privacy & Terms Editor and Gallery Page Row
+   ========================================================= */
+
+.settings-content-row {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* =========================================================
+   Privacy & Terms Editor Card
+   ========================================================= */
+
+.privacy-editor {
+    /* Box Model */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    gap: 22px;
+    flex: 1;
+    max-width: 753px;
+    
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid #F3F4F6;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 1;
+}
+
+/* Privacy Editor Title */
+.privacy-editor__title {
+    /* Typography */
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 32px;
+    color: #111827;
+    margin: 0;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+/* Rich Text Box */
+.privacy-editor__rich-text-box {
+    /* Box Model */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 1px;
+    width: 100%;
+    height: 514px;
+    
+    /* Visual */
+    border: 1px solid #D1D5DB;
+    border-radius: 12px;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 1;
+}
+
+/* Rich Text Toolbar */
+.privacy-editor__toolbar {
+    /* Box Model */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 16px;
+    gap: 8px;
+    width: 100%;
+    height: 56px;
+    
+    /* Visual */
+    background: #F9FAFB;
+    border-bottom: 1px solid #D1D5DB;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* Toolbar Button */
+.privacy-editor__toolbar-btn {
+    /* Box Model */
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    
+    /* Visual */
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.privacy-editor__toolbar-btn:hover {
+    background: #E5E7EB;
+}
+
+.privacy-editor__toolbar-btn svg {
+    width: 14px;
+    height: 14px;
+    fill: #4B5563;
+}
+
+/* Rich Text Textarea */
+.privacy-editor__textarea {
+    /* Box Model */
+    padding: 12px 16px;
+    width: 100%;
+    height: 456px;
+    
+    /* Typography */
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    
+    /* Visual */
+    background: #FFFFFF;
+    border: none;
+    border-radius: 0;
+    resize: none;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 1;
+}
+
+.privacy-editor__textarea::placeholder {
+    color: #ADAEBC;
+}
+
+.privacy-editor__textarea:focus {
+    outline: none;
+}
+
+/* Privacy Editor Actions */
+.privacy-editor__actions {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 2;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* Privacy Editor Buttons */
+.privacy-editor__btn-save {
+    /* Box Model */
+    padding: 16px 36px;
+    height: 56px;
+    
+    /* Typography */
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #FFFFFF;
+    
+    /* Visual */
+    background: #2F1648;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.privacy-editor__btn-save:hover {
+    background: #3A1F53;
+}
+
+.privacy-editor__btn-discard {
+    /* Box Model */
+    box-sizing: border-box;
+    padding: 16px 36px;
+    height: 56px;
+    
+    /* Typography */
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #2F1648;
+    
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid #4B5563;
+    border-radius: 8px;
+    cursor: pointer;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+.privacy-editor__btn-discard:hover {
+    background: #F9FAFB;
+}
+
+/* =========================================================
+   Gallery Page Card
+   ========================================================= */
+
+.gallery-page {
+    /* Box Model */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    gap: 12px;
+    flex: 1;
+    max-width: 100%;
+    
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid #F3F4F6;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
+    border-radius: 16px;
+    
+    /* Layout */
+    order: 1;
+    align-self: stretch;
+}
+
+/* Gallery Page Header */
+.gallery-page__header {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* Gallery Page Title */
+.gallery-page__title {
+    /* Typography */
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 28px;
+    color: #2F1648;
+    margin: 0;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+/* Gallery Page Delete Icon */
+.gallery-page__icon-delete {
+    /* Box Model */
+    width: 16px;
+    height: 16px;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    cursor: pointer;
+}
+
+.gallery-page__icon-delete svg {
+    width: 16px;
+    height: 16px;
+    fill: #CA9F9D;
+}
+
+/* Gallery Page Form */
+.gallery-page__form {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* Upload Photo Field */
+.gallery-page__upload-field {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+/* Gallery Page Label */
+.gallery-page__label {
+    /* Typography */
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: #374151;
+    margin: 0;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+}
+
+/* Upload Area */
+.gallery-page__upload-area {
+    /* Box Model */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 26px;
+    width: 100%;
+    height: 112px;
+    
+    /* Visual */
+    border: 2px dashed #D1D5DB;
+    border-radius: 8px;
+    cursor: pointer;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+}
+
+.gallery-page__upload-area:hover {
+    border-color: #2F1648;
+    background: #F9FAFB;
+}
+
+/* Upload Icon */
+.gallery-page__upload-icon {
+    /* Box Model */
+    width: 37.5px;
+    height: 30px;
+    margin-bottom: 4px;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+}
+
+.gallery-page__upload-icon svg {
+    width: 37.5px;
+    height: 30px;
+    fill: #9CA3AF;
+}
+
+/* Upload Text */
+.gallery-page__upload-text {
+    /* Typography */
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #4B5563;
+    margin: 0;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+}
+
+/* Standard Form Field */
+.gallery-page__field {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+/* Gallery Page Input */
+.gallery-page__input {
+    /* Box Model */
+    box-sizing: border-box;
+    padding: 16px;
+    height: 50px;
+    
+    /* Typography */
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+}
+
+.gallery-page__input::placeholder {
+    color: #ADAEBC;
+}
+
+.gallery-page__input:focus {
+    outline: none;
+    border-color: #2F1648;
+}
+
+/* Gallery Page Textarea */
+.gallery-page__textarea {
+    /* Box Model */
+    box-sizing: border-box;
+    padding: 12px 16px;
+    height: 98px;
+    
+    /* Typography */
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+    
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    resize: none;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+}
+
+.gallery-page__textarea::placeholder {
+    color: #ADAEBC;
+}
+
+.gallery-page__textarea:focus {
+    outline: none;
+    border-color: #2F1648;
+}
+
+/* Gallery Page Select */
+.gallery-page__select {
+    /* Box Model */
+    box-sizing: border-box;
+    padding: 12px 16px;
+    height: 48px;
+    
+    /* Typography */
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #000000;
+    
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23000000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+}
+
+.gallery-page__select:focus {
+    outline: none;
+    border-color: #2F1648;
+}
+
+/* Gallery Page Actions */
+.gallery-page__actions {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 2;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* Gallery Page Button - Add Photo */
+.gallery-page__btn-add {
+    /* Box Model */
+    padding: 11px 24px;
+    height: 42px;
+    
+    /* Typography */
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    text-align: center;
+    color: #FFFFFF;
+    
+    /* Visual */
+    background: #2F1648;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.gallery-page__btn-add:hover {
+    background: #3A1F53;
+}
+
+/* Gallery Page Button - Cancel */
+.gallery-page__btn-cancel {
+    /* Box Model */
+    box-sizing: border-box;
+    padding: 11px 24px;
+    height: 42px;
+    
+    /* Typography */
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    text-align: center;
+    color: #374151;
+    
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid #D1D5DB;
+    border-radius: 8px;
+    cursor: pointer;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+.gallery-page__btn-cancel:hover {
+    background: #F9FAFB;
+}
+
+/* =========================================================
+   Our Impact Card
+   ========================================================= */
+
+.our-impact {
+    /* Box Model */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+    gap: 22px;
+    width: 100%;
+    
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid #F3F4F6;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    
+    /* Layout */
+    flex: none;
+    order: 2;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* Our Impact Title */
+.our-impact__title {
+    /* Typography */
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 32px;
+    color: #111827;
+    margin: 0;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+/* Our Impact Grid */
+.our-impact__grid {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 24px;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+/* Our Impact Field */
+.our-impact__field {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: calc(50% - 12px);
+    min-width: 300px;
+    
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+/* Our Impact Label */
+.our-impact__label {
+    /* Typography */
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    color: #374151;
+    margin: 0;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* Our Impact Input */
+.our-impact__input {
+    /* Box Model */
+    box-sizing: border-box;
+    padding: 16px;
+    height: 56px;
+    
+    /* Typography */
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #6B7280;
+    
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid #D1D5DB;
+    border-radius: 12px;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.our-impact__input::placeholder {
+    color: #ADAEBC;
+}
+
+.our-impact__input:focus {
+    outline: none;
+    border-color: #2F1648;
+}
+
+/* =========================================================
+   Featured Stories Card
+   ========================================================= */
+
+.featured-stories {
+    /* Box Model */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+    gap: 16px;
+    width: 100%;
+    
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid #F3F4F6;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    
+    /* Layout */
+    flex: none;
+    order: 3;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* Featured Stories Title */
+.featured-stories__title {
+    /* Typography */
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 44px;
+    color: #000000;
+    margin: 0;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+/* Featured Stories uses shared search-bar component - see search-bar.css */
+
+/* Featured Stories List */
+.featured-stories__list {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 16px;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 2;
+    flex-grow: 0;
+}
+
+/* Story Checkbox Item */
+.featured-stories__checkbox-item {
+    /* Box Model */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 16px;
+    gap: 10px;
+    width: calc(33.333% - 11px);
+    min-width: 300px;
+    height: 56px;
+    
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid #D1D5DB;
+    border-radius: 12px;
+    cursor: pointer;
+    
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+.featured-stories__checkbox-item:hover {
+    border-color: #2F1648;
+    background: #F9FAFB;
+}
+
+/* Checkbox */
+.featured-stories__checkbox {
+    /* Box Model */
+    width: 16px;
+    height: 16px;
+    
+    /* Visual */
+    background: #FFFFFF;
+    border: 0.5px solid #000000;
+    border-radius: 1px;
+    cursor: pointer;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+/* Checkbox Label */
+.featured-stories__checkbox-label {
+    /* Typography */
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #ADAEBC;
+    cursor: pointer;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    flex-grow: 1;
+}
+
+/* =========================================================
+   Responsive Design
+   ========================================================= */
+
+@media (max-width: 1200px) {
+    .admin-site-settings {
+        padding: 24px 32px;
+    }
+    
+    .settings-content-row {
+        flex-direction: column;
+    }
+    
+    .privacy-editor {
+        max-width: none;
+    }
+    
+    .gallery-page {
+        max-width: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-site-settings {
+        padding: 16px;
+        gap: 24px;
+    }
+    
+    .donation-settings__form-grid {
+        flex-direction: column;
+    }
+    
+    .donation-settings__field {
+        width: 100%;
+    }
+    
+    .our-impact__grid {
+        flex-direction: column;
+    }
+    
+    .our-impact__field {
+        width: 100%;
+    }
+    
+
+    .featured-stories__checkbox-item {
+        width: 100%;
+    }
+}
+

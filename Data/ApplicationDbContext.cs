@@ -2,6 +2,7 @@ using HealingInWriting.Domain.Users;
 using HealingInWriting.Domain.Books;
 using HealingInWriting.Domain.Events;
 using HealingInWriting.Domain.Shared;
+using HealingInWriting.Domain.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +34,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<UserProfile> UserProfiles { get; set; }
     public DbSet<Book> Books { get; set; }
     public DbSet<BackoffState> BackoffStates { get; set; }
+
+    public DbSet<BankDetails> BankDetails { get; set; }
+    
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -144,6 +148,20 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         // Index for guest email lookups
         builder.Entity<Registration>()
             .HasIndex(r => new { r.EventId, r.GuestEmail });
+
+        
+        builder.Entity<HealingInWriting.Domain.Common.BankDetails>(b =>
+        {
+            b.HasKey(x => x.Id);
+            b.Property(x => x.BankName).HasMaxLength(100).IsRequired();
+            b.Property(x => x.AccountNumber).HasMaxLength(50).IsRequired();
+            b.Property(x => x.Branch).HasMaxLength(100);
+            b.Property(x => x.BranchCode).HasMaxLength(20);
+            b.Property(x => x.UpdatedBy).HasMaxLength(200);
+            b.Property(x => x.UpdatedAt).IsRequired();
+            // Remove .IsRowVersion() for SQLite
+            b.Property(x => x.RowVersion).IsRequired(false);
+        });
 
     }
 }

@@ -8,36 +8,37 @@
     <script src="~/js/admin-books-inventory.js"></script>
 }
 @section Styles {
+    <link rel="stylesheet" href="~/css/shared/admin-header.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/shared/search-bar.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/views/manage-books.css" asp-append-version="true" />
 }
 
 <div class="manage-books">
     <!-- Header Section -->
-    <header class="manage-books__header">
-        <div class="manage-books__header-content">
-            <div class="manage-books__header-text">
-                <h1 class="manage-books__title">Manage Books</h1>
-                <p class="manage-books__subtitle">Update inventory, edit book details, and manage visibility.</p>
+    <header class="admin-header">
+        <div class="admin-header__content">
+            <div class="admin-header__text">
+                <h1 class="admin-header__title">Manage Books</h1>
+                <p class="admin-header__subtitle">Update inventory, edit book details, and manage visibility.</p>
             </div>
-            <div style="display: flex; gap: 12px;">
+            <div class="admin-header__actions">
                 @* TODO: Remove in production. *@
-                <a href="@Url.Action("AddBook", "Books", new { area = "Admin" })" class="manage-books__add-button">
-                    <svg class="manage-books__add-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16" fill="none">
+                <a href="@Url.Action("AddBook", "Books", new { area = "Admin" })" class="admin-header__action-btn">
+                    <svg class="admin-header__action-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16" fill="none">
                         <path d="M7 1v14M1 8h12" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" />
                     </svg>
-                    <span class="manage-books__add-button-text">Add New Book</span>
+                    <span class="admin-header__action-label">Add New Book</span>
                 </a>
                 @* TODO: Remove in production. *@
                 <a href="@Url.Action("SeedSampleData", "Books", new { area = "Admin" })"
-                   class="manage-books__add-button"
+                   class="admin-header__action-btn admin-header__action-btn--secondary"
                    style="background:#4B5563;"
                    onclick="return confirm('Seed sample data? This may take a moment.');">
-                    <svg class="manage-books__add-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16" fill="none">
+                    <svg class="admin-header__action-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16" fill="none">
                         <rect x="2" y="2" width="10" height="12" rx="2" fill="#fff" stroke="#fff" stroke-width="2" />
                         <path d="M4 8h6M4 11h6" stroke="#4B5563" stroke-width="2" stroke-linecap="round" />
                     </svg>
-                    <span class="manage-books__add-button-text">Seed Sample Data</span>
+                    <span class="admin-header__action-label">Seed Sample Data</span>
                 </a>
             </div>
         </div>@* TODO: Remove in production. *@

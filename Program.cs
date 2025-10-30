@@ -10,6 +10,8 @@ using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.RateLimiting;
 using HealingInWriting.Interfaces.Repository;
 using HealingInWriting.Repositories.Books;
+using HealingInWriting.Services.Common;
+using HealingInWriting.Repositories.BankDetailsFolder;
 using System.Globalization;
 using HealingInWriting.Repositories.Events;
 using HealingInWriting.Services.Events;
@@ -102,6 +104,8 @@ builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IRegistrationRepository, RegistrationRepository>();
 builder.Services.AddScoped<IRegistrationService, RegistrationService>();
 builder.Services.AddScoped<IBackoffStateRepository, BackoffStateRepository>();
+builder.Services.AddScoped<IBankDetailsRepository, BankDetailsRepository>();
+builder.Services.AddScoped<IBankDetailsService, BankDetailsService>();
 
 // Configure rate limiting to prevent brute force, credential stuffing, and DDoS attacks
 // Uses IP address as the partition key to track requests per client
@@ -348,10 +352,14 @@ app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Admin Area routes - explicit pattern for proper form tag helper resolution
+// Using explicit "Admin" instead of {area:exists} fixes POST form generation issues
 app.MapControllerRoute(
     name: "admin",
-    pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
+    pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}",
+    defaults: new { area = "Admin" });
 
+// Default route for non-area controllers
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

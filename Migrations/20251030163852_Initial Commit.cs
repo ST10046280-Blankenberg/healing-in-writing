@@ -46,6 +46,25 @@ namespace HealingInWriting.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BankDetails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    BankName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    AccountNumber = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    Branch = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    BranchCode = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "BLOB", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BankDetails", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Books",
                 columns: table => new
                 {
@@ -413,6 +432,9 @@ namespace HealingInWriting.Migrations
         {
             migrationBuilder.DropTable(
                 name: "BackoffStates");
+
+            migrationBuilder.DropTable(
+                name: "BankDetails");
 
             migrationBuilder.DropTable(
                 name: "BookIndustryIdentifiers");

@@ -10,9 +10,12 @@
     flex-direction: column;
     align-items: flex-start;
     padding: 32px 64px;
-    gap: 32px;
+    gap: 16px;
     width: 100%;
-    
+
+    background: linear-gradient(165.21deg, #FDF5ED 20.59%, #E9D5EB 77.36%);
+
+
     /* Layout */
     flex: none;
     align-self: stretch;
@@ -20,68 +23,68 @@
 }
 
 /* Header Section */
-.manage-stories__header {
-    /* Box Model */
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0;
-    gap: 8px;
-    width: 100%;
-    max-width: 434px;
-    
-    /* Layout */
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-}
+/*.manage-stories__header {*/
+/*    !* Box Model *!*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: flex-start;*/
+/*    padding: 0;*/
+/*    gap: 8px;*/
+/*    width: 100%;*/
+/*    max-width: 434px;*/
+
+/*    !* Layout *!*/
+/*    flex: none;*/
+/*    order: 0;*/
+/*    flex-grow: 0;*/
+/*}*/
 
 /* Page Title */
-.manage-stories__title {
-    /* Box Model */
-    width: auto;
-    height: auto;
-    
-    /* Typography */
-    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 36px;
-    line-height: 40px;
-    color: #2F1648;
-    
-    /* Layout */
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-}
+/*.manage-stories__title {*/
+/*    !* Box Model *!*/
+/*    width: auto;*/
+/*    height: auto;*/
+
+/*    !* Typography *!*/
+/*    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;*/
+/*    font-style: normal;*/
+/*    font-weight: 700;*/
+/*    font-size: 36px;*/
+/*    line-height: 40px;*/
+/*    color: #2F1648;*/
+
+/*    !* Layout *!*/
+/*    flex: none;*/
+/*    order: 0;*/
+/*    flex-grow: 0;*/
+/*}*/
 
 /* Page Subtitle */
-.manage-stories__subtitle {
-    /* Box Model */
-    width: 100%;
-    height: auto;
-    
-    /* Typography */
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 28px;
-    color: #4B5563;
-    
-    /* Layout */
-    flex: none;
-    order: 1;
-    flex-grow: 0;
-}
+/*.manage-stories__subtitle {*/
+/*    !* Box Model *!*/
+/*    width: 100%;*/
+/*    height: auto;*/
 
-/* Search Bar Overrides for Manage Stories */
-.manage-stories .search-bar {
-    /* Layout */
-    order: 1;
-    width: 100%;
-}
+/*    !* Typography *!*/
+/*    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;*/
+/*    font-style: normal;*/
+/*    font-weight: 400;*/
+/*    font-size: 18px;*/
+/*    line-height: 28px;*/
+/*    color: #4B5563;*/
+
+/*    !* Layout *!*/
+/*    flex: none;*/
+/*    order: 1;*/
+/*    flex-grow: 0;*/
+/*}*/
+
+/*!* Search Bar Overrides for Manage Stories *!*/
+/*.manage-stories .search-bar {*/
+/*    !* Layout *!*/
+/*    order: 1;*/
+/*    width: 100%;*/
+/*}*/
 
 /* Table Container */
 .manage-stories__table-container {

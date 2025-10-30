@@ -1,0 +1,627 @@
+/* =========================================================
+   Admin Reports Page
+   Administrative reports with charts and data tables
+   ========================================================= */
+
+/* Base Container */
+.admin-reports {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    padding: 32px 64px;
+    gap: 16px;
+    width: 100%;
+    min-height: 100vh;
+    
+    /* Visual */
+    background: var(--color-bg, #FDF5ED);
+}
+
+/* =========================================================
+   Report Card Container
+/* Report Card Container */
+.admin-reports__card {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+    gap: 16px;
+    width: 100%;
+    
+    /* Visual */
+    background: #FFFFFF;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+}
+
+/* Report Card Title */
+.admin-reports__card-title {
+    /* Box Model */
+    width: 100%;
+    
+    /* Typography */
+    font-family: var(--font-family-heading, 'Poppins');
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 30px;
+    color: #2F1648;
+    margin: 0;
+}
+
+/* =========================================================
+   Event Attendance Chart Section
+   ========================================================= */
+.admin-reports__chart {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 16px;
+    width: 100%;
+    min-height: 280px;
+}
+
+/* Chart Y-Axis Labels */
+.admin-reports__chart-labels {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-end;
+    padding: 40px 12px 40px 0;
+    gap: 8px;
+    width: 120px;
+    min-width: 120px;
+    border-right: 1px solid #E5E7EB;
+}
+
+.admin-reports__chart-label {
+    /* Box Model */
+    width: 100%;
+    
+    /* Typography */
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: right;
+    color: #374151;
+}
+
+/* Chart Area Container */
+.admin-reports__chart-area {
+    /* Positioning */
+    position: relative;
+    
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 20px 0;
+}
+
+/* Chart Grid Lines */
+.admin-reports__chart-grid {
+    /* Positioning */
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    bottom: 40px;
+    
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.admin-reports__chart-grid-line {
+    /* Box Model */
+    width: 1px;
+    height: 100%;
+    
+    /* Visual */
+    background-color: #E5E7EB;
+}
+
+/* Chart Bars Container */
+.admin-reports__chart-bars {
+    /* Positioning */
+    position: relative;
+    z-index: 2;
+    
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 16px;
+    padding: 20px 0;
+    flex: 1;
+}
+
+/* Individual Chart Bar - Data-Driven with CSS Variables */
+.admin-reports__chart-bar {
+    /* Positioning */
+    position: relative;
+    
+    /* Box Model */
+    display: flex;
+    align-items: center;
+    height: 40px;
+    
+    /* Dynamic width calculation based on --attendance-value */
+    /* Max value is 225, so we calculate percentage */
+    /*width: calc((var(--attendance-value, 0) / 225) * 100%);*/
+    max-width: 100%;
+    min-width: 2%;
+    
+    /* Visual */
+    background-color: #C99F9C;
+    border-radius: 4px;
+    
+    /* Animation */
+    transition: width 0.3s ease, background-color 0.2s ease;
+    cursor: pointer;
+}
+
+.admin-reports__chart-bar:hover {
+    background-color: #B88F8C;
+}
+
+/* Optional: Show value on hover */
+.admin-reports__chart-bar::after {
+    /* Positioning */
+    position: absolute;
+    right: -50px;
+    
+    /* Content */
+    content: attr(data-value);
+    
+    /* Typography */
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #6B7280;
+    
+    /* Visual */
+    opacity: 0;
+    
+    /* Animation */
+    transition: opacity 0.3s ease;
+}
+
+.admin-reports__chart-bar:hover::after {
+    opacity: 1;
+}
+
+/* Chart X-Axis Labels */
+.admin-reports__chart-x-axis {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #E5E7EB;
+}
+
+.admin-reports__chart-x-label {
+    /* Box Model */
+    flex: 1;
+    text-align: center;
+    
+    /* Typography */
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 14px;
+    color: #6B7280;
+}
+
+/* =========================================================
+   Story Submissions Section
+   ========================================================= */
+.admin-reports__submissions-header {
+    /* Box Model */
+    width: 100%;
+    
+    /* Typography */
+    font-family: var(--font-family-heading, 'Poppins');
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 28px;
+    color: #111827;
+    margin: 0;
+}
+
+/* Stats Row */
+.admin-reports__stats-row {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+}
+
+/* Stat Card */
+.admin-reports__stat-card {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    flex: 1;
+    
+    /* Visual */
+    border-radius: 8px;
+}
+
+.admin-reports__stat-card--pending {
+    background: #FEFCE8;
+}
+
+.admin-reports__stat-card--published {
+    background: #F0FDF4;
+}
+
+.admin-reports__stat-card--drafts {
+    background: #F9FAFB;
+}
+
+/* Stat Number */
+.admin-reports__stat-number {
+    /* Typography */
+    font-family: var(--font-family-heading, 'Poppins');
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 36px;
+    text-align: center;
+    margin: 0;
+}
+
+.admin-reports__stat-number--pending {
+    color: #CA8A04;
+}
+
+.admin-reports__stat-number--published {
+    color: #16A34A;
+}
+
+.admin-reports__stat-number--drafts {
+    color: #4B5563;
+}
+
+/* Stat Label */
+.admin-reports__stat-label {
+    /* Typography */
+    font-family: var(--font-family-heading, 'Poppins');
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    text-align: center;
+    color: #4B5563;
+    margin: 0;
+}
+
+/* =========================================================
+   Data Table
+   ========================================================= */
+.admin-reports__table-wrapper {
+    /* Box Model */
+    width: 100%;
+    align-self: stretch;
+}
+
+.admin-reports__table {
+    /* Box Model */
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+/* Table Header */
+.admin-reports__table-head {
+    border-bottom: 1px solid #F3F4F6;
+}
+
+.admin-reports__table-header {
+    /* Box Model */
+    padding: 16px 24px;
+    text-align: left;
+    
+    /* Typography */
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    color: #374151;
+}
+
+.admin-reports__table-header:nth-child(1) {
+    width: 40%;
+}
+
+.admin-reports__table-header:nth-child(2) {
+    width: 20%;
+}
+
+.admin-reports__table-header:nth-child(3) {
+    width: 20%;
+}
+
+.admin-reports__table-header:nth-child(4) {
+    width: 20%;
+}
+
+/* Table Body */
+.admin-reports__table-row {
+    border-bottom: 1px solid #F9FAFB;
+}
+
+.admin-reports__table-cell {
+    /* Box Model */
+    padding: 16px 24px;
+    
+    /* Typography */
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #4B5563;
+}
+
+.admin-reports__table-cell--title {
+    font-weight: 500;
+    color: #111827;
+}
+
+/* Status Badge */
+.admin-reports__status-badge {
+    /* Box Model */
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 3px 8px;
+    border-radius: 9999px;
+    
+    /* Typography */
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    text-align: center;
+}
+
+.admin-reports__status-badge--approved {
+    background: #DCFCE7;
+    color: #166534;
+}
+
+.admin-reports__status-badge--pending {
+    background: #FEF9C3;
+    color: #854D0E;
+}
+
+.admin-reports__status-badge--rejected {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+.admin-reports__status-badge--good {
+    background: #DCFCE7;
+    color: #166534;
+}
+
+.admin-reports__status-badge--low {
+    background: #FEF9C3;
+    color: #854D0E;
+}
+
+.admin-reports__status-badge--critical {
+    background: #FEE2E2;
+    color: #991B1B;
+}
+
+/* =========================================================
+   Scrollable Table Wrappers
+   ========================================================= */
+.admin-reports__table-wrapper--scrollable {
+    /* Positioning */
+    position: relative;
+    
+    /* Box Model */
+    max-height: 400px;
+    overflow-y: auto;
+    
+    /* Visual */
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+}
+
+/* Sticky Table Header */
+.admin-reports__table-head {
+    /* Positioning */
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    
+    /* Visual */
+    background: #F9FAFB;
+}
+
+/* Table Body with Scrollable Content */
+.admin-reports__table-body,
+.admin-reports__inventory-body {
+    display: table-row-group;
+}
+
+/* Table Row Hover in Scrollable Container */
+.admin-reports__table-wrapper--scrollable .admin-reports__table-row:hover,
+.admin-reports__table-wrapper--scrollable .admin-reports__inventory-row:hover {
+    background-color: #F9FAFB;
+    cursor: pointer;
+}
+
+/* =========================================================
+   Book Inventory Section
+   ========================================================= */
+.admin-reports__inventory-table {
+    /* Box Model */
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.admin-reports__inventory-header {
+    /* Box Model */
+    padding: 16px 24px;
+    text-align: left;
+    border-bottom: 1px solid #E5E7EB;
+    
+    /* Typography */
+    font-family: var(--font-family-heading, 'Poppins');
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #374151;
+}
+
+.admin-reports__inventory-header:nth-child(1) {
+    width: 40%;
+}
+
+.admin-reports__inventory-header:nth-child(2) {
+    width: 35%;
+}
+
+.admin-reports__inventory-header:nth-child(3) {
+    width: 25%;
+}
+
+.admin-reports__inventory-row {
+    border-bottom: 1px solid #F3F4F6;
+}
+
+.admin-reports__inventory-cell {
+    /* Box Model */
+    padding: 16px 24px;
+    
+    /* Typography */
+    font-family: var(--font-family-heading, 'Poppins');
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+}
+
+/* =========================================================
+   Responsive Design
+   ========================================================= */
+
+/* Tablet and below (1024px) */
+@media (max-width: 1024px) {
+    .admin-reports {
+        padding: 32px 48px;
+    }
+    
+    .admin-reports__stats-row {
+        flex-wrap: wrap;
+    }
+    
+    .admin-reports__stat-card {
+        min-width: calc(50% - 8px);
+    }
+    
+    .admin-reports__table-wrapper--scrollable {
+        max-height: 350px;
+    }
+}
+
+/* Mobile landscape and below (768px) */
+@media (max-width: 768px) {
+    .admin-reports {
+        padding: 24px 32px;
+    }
+    
+    .admin-reports__stats-row {
+        flex-direction: column;
+    }
+    
+    .admin-reports__stat-card {
+        width: 100%;
+        min-width: 100%;
+    }
+    
+    .admin-reports__table-wrapper {
+        overflow-x: auto;
+    }
+    
+    .admin-reports__table-wrapper--scrollable {
+        max-height: 300px;
+        overflow-x: auto;
+    }
+    
+    .admin-reports__chart {
+        min-height: 240px;
+    }
+    
+    .admin-reports__chart-labels {
+        width: 90px;
+        min-width: 90px;
+        padding: 30px 8px 30px 0;
+    }
+    
+    .admin-reports__chart-label {
+        font-size: 11px;
+    }
+    
+    .admin-reports__chart-bar {
+        height: 32px;
+    }
+    
+    .admin-reports__chart-bar::after {
+        right: -45px;
+        font-size: 12px;
+    }
+}
+
+/* Mobile portrait (480px) */
+@media (max-width: 480px) {
+    .admin-reports {
+        padding: 16px;
+    }
+    
+    .admin-reports__card {
+        padding: 16px;
+    }
+    
+    .admin-reports__card-title,
+    .admin-reports__submissions-header {
+        font-size: 18px;
+        line-height: 26px;
+    }
+    
+    .admin-reports__table-wrapper--scrollable {
+        max-height: 250px;
+    }
+}
+

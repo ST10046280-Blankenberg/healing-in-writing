@@ -1,0 +1,279 @@
+@model HealingInWriting.Models.Common.BankDetailsViewModel
+@{
+    ViewData["Title"] = "Site Settings";
+}
+
+<link rel="stylesheet" href="~/css/shared/search-bar.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/views/admin-site-settings.css" asp-append-version="true" />
+
+<main class="admin-site-settings">
+    
+    <!-- Donation Settings Section -->
+    <section class="donation-settings">
+        <div class="donation-settings__header">
+            <h2 class="donation-settings__title">Donation Settings</h2>
+        </div>
+        
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success" style="padding: 12px; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 8px; color: #155724; margin-bottom: 16px;">
+                @TempData["Success"]
+            </div>
+        }
+        
+        <form asp-area="Admin" asp-controller="SiteSettings" asp-action="Update" method="post">
+            @Html.AntiForgeryToken()
+            <input asp-for="Id" type="hidden" />
+            <input asp-for="RowVersion" type="hidden" value="@(Model.RowVersion != null ? Convert.ToBase64String(Model.RowVersion) : "")" />
+
+            
+            <div class="donation-settings__form-grid">
+                <div class="donation-settings__field">
+                    <label asp-for="BankName" class="donation-settings__label">Bank Name</label>
+                    <input asp-for="BankName" class="donation-settings__input" readonly />
+                    <span asp-validation-for="BankName" class="text-danger"></span>
+                </div>
+                
+                <div class="donation-settings__field">
+                    <label asp-for="AccountNumber" class="donation-settings__label">Account Number</label>
+                    <input asp-for="AccountNumber" class="donation-settings__input" readonly />
+                    <span asp-validation-for="AccountNumber" class="text-danger"></span>
+                </div>
+                
+                <div class="donation-settings__field">
+                    <label asp-for="Branch" class="donation-settings__label">Branch</label>
+                    <input asp-for="Branch" class="donation-settings__input" readonly />
+                    <span asp-validation-for="Branch" class="text-danger"></span>
+                </div>
+                
+                <div class="donation-settings__field">
+                    <label asp-for="BranchCode" class="donation-settings__label">Branch Code:</label>
+                    <input asp-for="BranchCode" class="donation-settings__input" readonly />
+                    <span asp-validation-for="BranchCode" class="text-danger"></span>
+                </div>
+            </div>
+            
+            <div class="donation-settings__actions">
+                <button type="button" id="editBtn" class="donation-settings__btn-edit">Edit</button>
+                <button type="submit" id="saveBtn" class="donation-settings__btn-save hidden">Save</button>
+            </div>
+        </form>
+    </section>
+    
+    <!-- Privacy Editor & Gallery Page Row -->
+    <div class="settings-content-row">
+        
+        <!-- Privacy & Terms Editor -->
+        <section class="privacy-editor">
+            <h2 class="privacy-editor__title">Privacy & Terms Editor</h2>
+            
+            <div class="privacy-editor__rich-text-box">
+                <div class="privacy-editor__toolbar">
+                    <button class="privacy-editor__toolbar-btn" title="Bold">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M15.6 10.79c.97-.67 1.65-1.77 1.65-2.79 0-2.26-1.75-4-4-4H7v14h7.04c2.09 0 3.71-1.7 3.71-3.79 0-1.52-.86-2.82-2.15-3.42zM10 6.5h3c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-3v-3zm3.5 9H10v-3h3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5z"/>
+                        </svg>
+                    </button>
+                    <button class="privacy-editor__toolbar-btn" title="Italic">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M10 4v3h2.21l-3.42 8H6v3h8v-3h-2.21l3.42-8H18V4z"/>
+                        </svg>
+                    </button>
+                    <button class="privacy-editor__toolbar-btn" title="Bullet List">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"/>
+                        </svg>
+                    </button>
+                </div>
+                
+                <textarea class="privacy-editor__textarea" placeholder="Enter description here..."></textarea>
+            </div>
+            
+            <div class="privacy-editor__actions">
+                <button class="privacy-editor__btn-save">Save</button>
+                <button class="privacy-editor__btn-discard">Discard</button>
+            </div>
+        </section>
+        
+        <!-- Gallery Page -->
+        <section class="gallery-page">
+            <div class="gallery-page__header">
+                <h3 class="gallery-page__title">Gallery Page</h3>
+                <div class="gallery-page__icon-delete">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </svg>
+                </div>
+            </div>
+            
+            <form class="gallery-page__form">
+                <div class="gallery-page__upload-field">
+                    <label class="gallery-page__label">Upload Photo</label>
+                    <div class="gallery-page__upload-area">
+                        <div class="gallery-page__upload-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
+                            </svg>
+                        </div>
+                        <p class="gallery-page__upload-text">Click to upload or drag and drop</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-page__field">
+                    <label class="gallery-page__label">Title</label>
+                    <input type="text" class="gallery-page__input" placeholder="Enter photo title" />
+                </div>
+                
+                <div class="gallery-page__field">
+                    <label class="gallery-page__label">Description</label>
+                    <textarea class="gallery-page__textarea" placeholder="Enter photo description..."></textarea>
+                </div>
+                
+                <div class="gallery-page__field">
+                    <label class="gallery-page__label">Collection</label>
+                    <select class="gallery-page__select">
+                        <option>Select a collection</option>
+                        <option>Workshop Photos</option>
+                        <option>Event Highlights</option>
+                        <option>Community Stories</option>
+                    </select>
+                </div>
+                
+                <div class="gallery-page__field">
+                    <label class="gallery-page__label">Create New Collection</label>
+                    <input type="text" class="gallery-page__input" placeholder="Enter new collection name" />
+                </div>
+                
+                <div class="gallery-page__actions">
+                    <button type="button" class="gallery-page__btn-add">Add Photo</button>
+                    <button type="button" class="gallery-page__btn-cancel">Cancel</button>
+                </div>
+            </form>
+        </section>
+        
+    </div>
+    
+    <!-- Our Impact Section -->
+    <section class="our-impact">
+        <h2 class="our-impact__title">Our Impact</h2>
+        
+        <div class="our-impact__grid">
+            <div class="our-impact__field">
+                <label class="our-impact__label">People Helped</label>
+                <input type="number" class="our-impact__input" placeholder="0" value="0" />
+            </div>
+            
+            <div class="our-impact__field">
+                <label class="our-impact__label">Workshops Hosted</label>
+                <input type="number" class="our-impact__input" placeholder="0" value="0" />
+            </div>
+            
+            <div class="our-impact__field">
+                <label class="our-impact__label">Partner Organisations</label>
+                <input type="number" class="our-impact__input" placeholder="0" value="0" />
+            </div>
+            
+            <div class="our-impact__field">
+                <label class="our-impact__label">Cities Reaches</label>
+                <input type="number" class="our-impact__input" placeholder="0" value="0" />
+            </div>
+        </div>
+    </section>
+    
+    <!-- Featured Stories Section -->
+    <section class="featured-stories">
+        <h2 class="featured-stories__title">Featured Stories</h2>
+        
+        <!-- Search Bar Component -->
+        <div class="search-bar">
+            <div class="search-bar__filters-row">
+                <div class="search-bar__input-container">
+                    <svg class="search-bar__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path fill="#9CA3AF" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                    <input type="text" class="search-bar__input" placeholder="Search..." />
+                </div>
+                
+                <div class="search-bar__dropdown">
+                    <span class="search-bar__dropdown-label">Any Date</span>
+                    <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path fill="#000000" d="M7 10l5 5 5-5z"/>
+                    </svg>
+                </div>
+                
+                <div class="search-bar__dropdown">
+                    <span class="search-bar__dropdown-label">Any Tags</span>
+                    <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path fill="#000000" d="M7 10l5 5 5-5z"/>
+                    </svg>
+                </div>
+                
+                <div class="search-bar__dropdown">
+                    <span class="search-bar__dropdown-label">Newest</span>
+                    <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path fill="#000000" d="M7 10l5 5 5-5z"/>
+                    </svg>
+                </div>
+                
+                <button class="search-bar__button">
+                    <svg class="search-bar__button-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path fill="#FFFFFF" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                    <span class="search-bar__button-label">Search</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="featured-stories__list">
+            <div class="featured-stories__checkbox-item">
+                <input type="checkbox" class="featured-stories__checkbox" id="story1" />
+                <label for="story1" class="featured-stories__checkbox-label">Sarah's Journey to Recovery</label>
+            </div>
+            
+            <div class="featured-stories__checkbox-item">
+                <input type="checkbox" class="featured-stories__checkbox" id="story2" />
+                <label for="story2" class="featured-stories__checkbox-label">Sarah's Journey to Recovery</label>
+            </div>
+            
+            <div class="featured-stories__checkbox-item">
+                <input type="checkbox" class="featured-stories__checkbox" id="story3" />
+                <label for="story3" class="featured-stories__checkbox-label">Sarah's Journey to Recovery</label>
+            </div>
+            
+            <div class="featured-stories__checkbox-item">
+                <input type="checkbox" class="featured-stories__checkbox" id="story4" />
+                <label for="story4" class="featured-stories__checkbox-label">Sarah's Journey to Recovery</label>
+            </div>
+            
+            <div class="featured-stories__checkbox-item">
+                <input type="checkbox" class="featured-stories__checkbox" id="story5" />
+                <label for="story5" class="featured-stories__checkbox-label">Sarah's Journey to Recovery</label>
+            </div>
+            
+            <div class="featured-stories__checkbox-item">
+                <input type="checkbox" class="featured-stories__checkbox" id="story6" />
+                <label for="story6" class="featured-stories__checkbox-label">Sarah's Journey to Recovery</label>
+            </div>
+            
+            <div class="featured-stories__checkbox-item">
+                <input type="checkbox" class="featured-stories__checkbox" id="story7" />
+                <label for="story7" class="featured-stories__checkbox-label">Sarah's Journey to Recovery</label>
+            </div>
+            
+            <div class="featured-stories__checkbox-item">
+                <input type="checkbox" class="featured-stories__checkbox" id="story8" />
+                <label for="story8" class="featured-stories__checkbox-label">Sarah's Journey to Recovery</label>
+            </div>
+            
+            <div class="featured-stories__checkbox-item">
+                <input type="checkbox" class="featured-stories__checkbox" id="story9" />
+                <label for="story9" class="featured-stories__checkbox-label">Sarah's Journey to Recovery</label>
+            </div>
+        </div>
+    </section>
+    
+</main>
+@section Scripts {
+    <script src="~/js/admin/site-settings-bank.js" asp-append-version="true"></script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
