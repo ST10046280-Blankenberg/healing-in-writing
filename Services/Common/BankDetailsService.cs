@@ -1,26 +1,23 @@
-using System;
-using System.Threading.Tasks;
-using HealingInWriting.Data;
 using HealingInWriting.Domain.Common;
 using HealingInWriting.Interfaces.Services;
-using Microsoft.EntityFrameworkCore;
+using HealingInWriting.Interfaces.Repository;
 
 namespace HealingInWriting.Services.Common
 {
     public class BankDetailsService : IBankDetailsService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IBankDetailsRepository _repository;
 
-        public BankDetailsService(ApplicationDbContext context)
+        public BankDetailsService(IBankDetailsRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         public async Task<BankDetails> GetAsync()
         {
             // Get the first (and only) bank details record, or create default
-            var entity = await _context.BankDetails.FirstOrDefaultAsync();
-            
+            var entity = await _repository.GetAsync();
+
             if (entity == null)
             {
                 entity = new BankDetails
@@ -32,23 +29,24 @@ namespace HealingInWriting.Services.Common
                     UpdatedBy = "System",
                     UpdatedAt = DateTime.UtcNow
                 };
-                
-                _context.BankDetails.Add(entity);
-                await _context.SaveChangesAsync();
+
+                await _repository.AddAsync(entity);
+                // No need to call SaveChangesAsync separately, AddAsync handles it
             }
-            
-            return entity;
+
+            return entity ?? await _repository.GetAsync();
         }
 
         public async Task UpdateAsync(BankDetails entity, string updatedBy)
         {
-            var existing = await _context.BankDetails.FirstOrDefaultAsync();
+            var existing = await _repository.GetAsync();
 
             if (existing == null)
             {
                 entity.UpdatedBy = updatedBy;
                 entity.UpdatedAt = DateTime.UtcNow;
-                _context.BankDetails.Add(entity);
+                await _repository.AddAsync(entity);
+                // No need to call SaveChangesAsync separately, AddAsync handles it
             }
             else
             {
@@ -58,11 +56,10 @@ namespace HealingInWriting.Services.Common
                 existing.BranchCode = entity.BranchCode;
                 existing.UpdatedBy = updatedBy;
                 existing.UpdatedAt = DateTime.UtcNow;
-                
-                _context.BankDetails.Update(existing);
-            }
 
-            await _context.SaveChangesAsync();
+                await _repository.UpdateAsync(existing);
+                // No need to call SaveChangesAsync separately, UpdateAsync handles it
+            }
         }
     }
 }
