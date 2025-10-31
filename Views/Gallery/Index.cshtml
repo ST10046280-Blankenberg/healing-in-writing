@@ -25,10 +25,10 @@
             {
                 @foreach (var photo in Model.Photos)
                 {
-                    @if (photo.IsAlbum && photo.AlbumPhotoCount.HasValue)
+                    @if (photo.IsAlbum && photo.AlbumPhotoCount.HasValue && !string.IsNullOrEmpty(photo.CollectionId))
                     {
-                        <!-- Group Photo Card (with multi-photo indicator) -->
-                        <article class="gallery-card gallery-card--group">
+                        <!-- Group Photo Card (with multi-photo indicator) - Clickable -->
+                        <a asp-area="" asp-controller="Gallery" asp-action="Details" asp-route-collectionId="@photo.CollectionId" class="gallery-card gallery-card--group" style="text-decoration: none; display: block;">
                             <img src="@photo.ImageUrl" alt="@photo.AltText" class="gallery-card__image" />
                             <div class="gallery-card__multi-indicator">
                                 <svg class="gallery-card__multi-icon" xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 38 38" fill="none">
@@ -39,7 +39,7 @@
                                 </svg>
                                 <span class="gallery-card__photo-count">@photo.AlbumPhotoCount</span>
                             </div>
-                        </article>
+                        </a>
                     }
                     else
                     {
