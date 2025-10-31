@@ -14,7 +14,7 @@
         <h1 class="log-hours__title">Log Your Hours</h1>
         <p class="log-hours__subtitle">Track your community activities and volunteer hours for validation.</p>
     </section>
-    
+
     <!-- Main Content -->
     <div class="log-hours__content">
         <!-- Form Card -->
@@ -24,7 +24,7 @@
             {
                 <div class="alert alert-success">@TempData["Success"]</div>
             }
-            <form asp-action="LogHours" asp-controller="Dashboard" method="post" enctype="multipart/form-data" class="log-hours__form">
+            <form asp-area="" asp-action="LogHours" asp-controller="Dashboard" method="post" enctype="multipart/form-data" class="log-hours__form">
                 @Html.AntiForgeryToken()
                 <!-- Date and Hours Row -->
                 <div class="log-hours__form-row">
@@ -33,14 +33,14 @@
                         <input asp-for="Date" class="log-hours__input" type="date" />
                         <span asp-validation-for="Date" class="text-danger"></span>
                     </div>
-                    
+
                     <div class="log-hours__form-group">
                         <label asp-for="Hours" class="log-hours__label"></label>
                         <input asp-for="Hours" class="log-hours__input" type="number" step="0.5" min="0" />
                         <span asp-validation-for="Hours" class="text-danger"></span>
                     </div>
                 </div>
-                
+
                 <!-- Activity Dropdown -->
                 <div class="log-hours__form-group">
                     <label asp-for="Activity" class="log-hours__label"></label>
@@ -54,35 +54,35 @@
                     </select>
                     <span asp-validation-for="Activity" class="text-danger"></span>
                 </div>
-                
+
                 <!-- Notes Textarea -->
                 <div class="log-hours__form-group">
                     <label asp-for="Notes" class="log-hours__label"></label>
                     <textarea asp-for="Notes" class="log-hours__textarea"></textarea>
                     <span asp-validation-for="Notes" class="text-danger"></span>
                 </div>
-                
+
                 <!-- File Upload -->
                 <div class="log-hours__form-group">
                     <label asp-for="Attachment" class="log-hours__label">Attachment (Optional)</label>
                     <input asp-for="Attachment" type="file" class="log-hours__input" />
                     <span asp-validation-for="Attachment" class="text-danger"></span>
                 </div>
-                
+
                 <!-- Submit Button -->
                 <button type="submit" class="log-hours__submit">
                     <svg class="log-hours__submit-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                     </svg>
                     <span>Submit for Validation</span>
                 </button>
             </form>
         </div>
-        
+
         <!-- Recent Entries Card -->
         <div class="log-hours__entries-card">
             <h2 class="log-hours__entries-header">Recent Entries</h2>
-            
+
             <div class="log-hours__entries-list">
                 <!-- Entry 1: Validated -->
                 <article class="entry-card">
@@ -96,7 +96,7 @@
                     <p class="entry-card__hours">Hours</p>
                     <p class="entry-card__description">Description</p>
                 </article>
-                
+
                 <!-- Entry 2: Pending -->
                 <article class="entry-card">
                     <div class="entry-card__header">
@@ -109,7 +109,7 @@
                     <p class="entry-card__hours">Hours</p>
                     <p class="entry-card__description">Description</p>
                 </article>
-                
+
                 <!-- Entry 3: Needs Info -->
                 <article class="entry-card">
                     <div class="entry-card__header">
@@ -123,35 +123,35 @@
                     <p class="entry-card__description">Description</p>
                 </article>
             </div>
-            
+
             <!-- View All Button -->
             <button class="log-hours__view-all">View All Entries</button>
         </div>
     </div>
-    
+
     <!-- Hours Summary Section -->
     <section class="log-hours__summary">
         <h2 class="log-hours__summary-title">Hours Summary</h2>
-        
+
         <div class="log-hours__summary-grid">
             <!-- Total Hours -->
             <div class="summary-card summary-card--total">
                 <p class="summary-card__value">24.5</p>
                 <p class="summary-card__label">Total Hours</p>
             </div>
-            
+
             <!-- Validated Hours -->
             <div class="summary-card summary-card--validated">
                 <p class="summary-card__value">18.0</p>
                 <p class="summary-card__label">Validated</p>
             </div>
-            
+
             <!-- Pending Hours -->
             <div class="summary-card summary-card--pending">
                 <p class="summary-card__value">4.5</p>
                 <p class="summary-card__label">Pending</p>
             </div>
-            
+
             <!-- Needs Info Hours -->
             <div class="summary-card summary-card--needs-info">
                 <p class="summary-card__value">2.0</p>

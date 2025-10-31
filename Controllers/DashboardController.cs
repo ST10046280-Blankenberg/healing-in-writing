@@ -62,7 +62,7 @@ namespace HealingInWriting.Controllers
             }
 
             TempData["Success"] = "Your hours have been submitted for validation.";
-            return RedirectToAction("LogHours");
+            return RedirectToAction(nameof(LogHours), "Dashboard", new { area = "" });
         }
 
         // GET: /Dashboard/MyEvents
