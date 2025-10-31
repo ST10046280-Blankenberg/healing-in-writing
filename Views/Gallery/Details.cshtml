@@ -1,5 +1,8 @@
+@model HealingInWriting.Models.Gallery.GalleryViewModel
+
 @{
     ViewData["Title"] = "Gallery Details";
+    var firstPhoto = Model.Photos.FirstOrDefault();
 }
 
 @section Styles {
@@ -12,50 +15,73 @@
     <!-- Details Card -->
     <section class="gallery-details">
         <div class="gallery-details__container">
-            <!-- Back Arrow -->
-            <div class="gallery-details__nav">
-                <button class="gallery-details__back" aria-label="Back">
-                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-                        <rect width="40" height="40" rx="8" fill="#fff"/>
-                        <path d="M24 12L16 20L24 28" stroke="#1D1B20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-            </div>
-            <!-- Main Image -->
-            <div class="gallery-details__main-image">
-                <img src="https://via.placeholder.com/1241x412?text=Main+Image" alt="Event Main Image" class="gallery-details__main-img" />
-            </div>
-            <!-- Thumbnails Scroller -->
-            <div class="gallery-details__thumbnails">
-                <button class="gallery-details__thumb-arrow gallery-details__thumb-arrow--left" aria-label="Previous">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <rect width="24" height="24" rx="4" fill="#fff"/>
-                        <path d="M15 7L9 12L15 17" stroke="#1D1B20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-                <div class="gallery-details__thumb-list">
-                    <img src="https://via.placeholder.com/88x88?text=1" alt="Thumb 1" class="gallery-details__thumb" />
-                    <img src="https://via.placeholder.com/88x88?text=2" alt="Thumb 2" class="gallery-details__thumb" />
-                    <img src="https://via.placeholder.com/88x88?text=3" alt="Thumb 3" class="gallery-details__thumb" />
-                    <img src="https://via.placeholder.com/88x88?text=4" alt="Thumb 4" class="gallery-details__thumb" />
-                    <img src="https://via.placeholder.com/88x88?text=5" alt="Thumb 5" class="gallery-details__thumb" />
-                    <img src="https://via.placeholder.com/88x88?text=6" alt="Thumb 6" class="gallery-details__thumb" />
-                    <img src="https://via.placeholder.com/88x88?text=7" alt="Thumb 7" class="gallery-details__thumb" />
-                    <img src="https://via.placeholder.com/88x88?text=8" alt="Thumb 8" class="gallery-details__thumb" />
+            @if (firstPhoto != null)
+            {
+                <!-- Back Arrow -->
+                <div class="gallery-details__nav">
+                    <a asp-area="" asp-controller="Gallery" asp-action="Index" class="gallery-details__back" aria-label="Back to Gallery">
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                            <rect width="40" height="40" rx="8" fill="#fff"/>
+                            <path d="M24 12L16 20L24 28" stroke="#1D1B20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
                 </div>
-                <button class="gallery-details__thumb-arrow gallery-details__thumb-arrow--right" aria-label="Next">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <rect width="24" height="24" rx="4" fill="#fff"/>
-                        <path d="M9 7L15 12L9 17" stroke="#1D1B20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-            </div>
-            <!-- Event Metadata -->
-            <div class="gallery-details__meta">
-                <h2 class="gallery-details__title">Event Name</h2>
-                <div class="gallery-details__date">March 10, 2025</div>
-                <div class="gallery-details__location">Location</div>
-            </div>
+                
+                <!-- Main Image -->
+                <div class="gallery-details__main-image">
+                    <img id="mainImage" src="@firstPhoto.ImageUrl" alt="@firstPhoto.AltText" class="gallery-details__main-img" />
+                </div>
+                
+                @if (Model.Photos.Count > 1)
+                {
+                    <!-- Thumbnails Scroller -->
+                    <div class="gallery-details__thumbnails">
+                        <button class="gallery-details__thumb-arrow gallery-details__thumb-arrow--left" id="scrollLeft" aria-label="Scroll Left">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <rect width="24" height="24" rx="4" fill="#fff"/>
+                                <path d="M15 7L9 12L15 17" stroke="#1D1B20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <div class="gallery-details__thumb-list" id="thumbList">
+                            @for (int i = 0; i < Model.Photos.Count; i++)
+                            {
+                                var photo = Model.Photos[i];
+                                <img src="@photo.ImageUrl" 
+                                     alt="@photo.AltText" 
+                                     class="gallery-details__thumb @(i == 0 ? "gallery-details__thumb--active" : "")" 
+                                     data-index="@i"
+                                     data-url="@photo.ImageUrl"
+                                     data-alt="@photo.AltText" />
+                            }
+                        </div>
+                        <button class="gallery-details__thumb-arrow gallery-details__thumb-arrow--right" id="scrollRight" aria-label="Scroll Right">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <rect width="24" height="24" rx="4" fill="#fff"/>
+                                <path d="M9 7L15 12L9 17" stroke="#1D1B20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                }
+                
+                <!-- Collection Metadata -->
+                <div class="gallery-details__meta">
+                    <h2 class="gallery-details__title">@(firstPhoto.CollectionId ?? "Gallery Collection")</h2>
+                    <div class="gallery-details__date">@firstPhoto.CreatedDate.ToString("MMMM dd, yyyy")</div>
+                    <div class="gallery-details__location">@Model.Photos.Count @(Model.Photos.Count == 1 ? "Photo" : "Photos")</div>
+                </div>
+            }
+            else
+            {
+                <div style="padding: 48px; text-align: center;">
+                    <p style="font-size: 1.25rem; color: #6b7280; margin-bottom: 16px;">No photos found in this collection.</p>
+                    <a asp-area="" asp-controller="Gallery" asp-action="Index" style="display: inline-block; padding: 12px 24px; background: #4f46e5; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">Back to Gallery</a>
+                </div>
+            }
         </div>
     </section>
 </main>
+
+@section Scripts {
+    <script src="~/js/gallery-details.js" asp-append-version="true"></script>
+}
+

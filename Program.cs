@@ -18,6 +18,13 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using HealingInWriting.Repositories.Events;
+using HealingInWriting.Repositories.Gallery;
+using HealingInWriting.Repositories.Privacy;
+using HealingInWriting.Repositories.OurImpactFolder;
+using HealingInWriting.Services.Events;
+using HealingInWriting.Services.Gallery;
+using Microsoft.AspNetCore.Localization;
 using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);

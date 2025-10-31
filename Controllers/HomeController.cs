@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models;
+using HealingInWriting.Models.Common;
 using HealingInWriting.Models.Home;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,11 +11,19 @@ namespace HealingInWriting.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IEventService _eventService;
+        private readonly IPrivacyPolicyService _privacyPolicyService;
+        private readonly IOurImpactService _ourImpactService;
 
-        public HomeController(ILogger<HomeController> logger, IEventService eventService)
+        public HomeController(
+            ILogger<HomeController> logger, 
+            IEventService eventService,
+            IPrivacyPolicyService privacyPolicyService,
+            IOurImpactService ourImpactService)
         {
             _logger = logger;
             _eventService = eventService;
+            _privacyPolicyService = privacyPolicyService;
+            _ourImpactService = ourImpactService;
         }
 
         public async Task<IActionResult> Index()
@@ -71,19 +80,25 @@ namespace HealingInWriting.Controllers
                     .ToList();
             }
 
+            // Fetch OurImpact
+            var ourImpact = await _ourImpactService.GetAsync();
+            viewModel.OurImpact = ourImpact.ToViewModel();
+
             return View(viewModel);
         }
 
         // TODO: Keep about page content static or delegate to service if dynamic content is needed.
-        public IActionResult About()
+        public async Task<IActionResult> About()
         {
-            return View();
+            var ourImpact = await _ourImpactService.GetAsync();
+            return View(ourImpact.ToViewModel());
         }
 
         // TODO: Keep privacy content generation inside the service layer.
-        public IActionResult Privacy()
+        public async Task<IActionResult> Privacy()
         {
-            return View();
+            var privacyPolicy = await _privacyPolicyService.GetAsync();
+            return View(privacyPolicy.ToViewModel());
         }
 
         // TODO: Let the service surface diagnostics while the controller returns the view.
@@ -101,11 +116,6 @@ namespace HealingInWriting.Controllers
         public IActionResult Contact()
         {
             return View();
-        }
-        
-        public IActionResult Donate()
-        {
-            return View();
-        }
+        } 
     }
 }

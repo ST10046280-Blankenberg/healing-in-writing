@@ -4,40 +4,38 @@ using HealingInWriting.Interfaces.Repository;
 
 namespace HealingInWriting.Services.Common
 {
-    public class BankDetailsService : IBankDetailsService
+    public class OurImpactService : IOurImpactService
     {
-        private readonly IBankDetailsRepository _repository;
+        private readonly IOurImpactRepository _repository;
 
-        public BankDetailsService(IBankDetailsRepository repository)
+        public OurImpactService(IOurImpactRepository repository)
         {
             _repository = repository;
         }
 
-        public async Task<BankDetails> GetAsync()
+        public async Task<OurImpact> GetAsync()
         {
-            // Get the first (and only) bank details record, or create default
             var entity = await _repository.GetAsync();
 
             if (entity == null)
             {
-                entity = new BankDetails
+                entity = new OurImpact
                 {
-                    BankName = "Not Set",
-                    AccountNumber = "Not Set",
-                    Branch = "Not Set",
-                    BranchCode = "Not Set",
+                    PeopleHelped = 0,
+                    WorkshopsHosted = 0,
+                    PartnerOrganisations = 0,
+                    CitiesReached = 0,
                     UpdatedBy = "System",
                     UpdatedAt = DateTime.UtcNow
                 };
 
                 await _repository.AddAsync(entity);
-                // No need to call SaveChangesAsync separately, AddAsync handles it
             }
 
             return entity ?? await _repository.GetAsync();
         }
 
-        public async Task UpdateAsync(BankDetails entity, string updatedBy)
+        public async Task UpdateAsync(OurImpact entity, string updatedBy)
         {
             // Set audit fields
             entity.UpdatedBy = updatedBy;
@@ -59,3 +57,4 @@ namespace HealingInWriting.Services.Common
         }
     }
 }
+

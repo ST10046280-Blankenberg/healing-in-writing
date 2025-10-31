@@ -1,4 +1,4 @@
-﻿using HealingInWriting.Data;
+﻿﻿using HealingInWriting.Data;
 using HealingInWriting.Domain.Common;
 using HealingInWriting.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -22,13 +22,22 @@ namespace HealingInWriting.Repositories.BankDetailsFolder
 
         public async Task<BankDetails?> GetAsync()
         {
-            return await _context.BankDetails.FirstOrDefaultAsync();
+            return await _context.BankDetails.AsNoTracking().FirstOrDefaultAsync();
         }
 
         public async Task UpdateAsync(BankDetails entity)
         {
-            _context.BankDetails.Update(entity);
-            await _context.SaveChangesAsync();
+            var existing = await _context.BankDetails.FindAsync(entity.Id);
+            if (existing != null)
+            {
+                _context.Entry(existing).CurrentValues.SetValues(entity);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                _context.BankDetails.Update(entity);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }
