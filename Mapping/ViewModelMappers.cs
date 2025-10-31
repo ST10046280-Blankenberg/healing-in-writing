@@ -10,6 +10,7 @@ namespace HealingInWriting.Mapping;
 // TODO: Provide helper methods for shaping view models outside controllers.
 public static class ViewModelMappers
 {
+    #region Helper Methods
     private static string AuthorsToString(List<string>? authors) =>
         authors == null ? string.Empty : string.Join(", ", authors.Where(a => !string.IsNullOrWhiteSpace(a)));
 
@@ -66,7 +67,9 @@ public static class ViewModelMappers
                 }).ToList();
         return new List<IndustryIdentifier>();
     }
+    #endregion
 
+    #region Books
     public static Book ToBookFromDetailViewModel(this BookDetailViewModel model)
     {
         return new Book
@@ -197,6 +200,7 @@ public static class ViewModelMappers
             Authors = AuthorsToString(book.Authors)
         };
     }
+    #endregion
 
     #region Volunteers
     public static VolunteerHour ToVolunteerHour(LogHoursViewModel model, int volunteerId, string? attachmentUrl)
@@ -211,6 +215,24 @@ public static class ViewModelMappers
             Status = VolunteerHourStatus.Pending,
             SubmittedAt = DateTime.UtcNow,
             Comments = model.Notes
+        };
+    }
+    public static VolunteerHourApprovalViewModel ToVolunteerHourApprovalViewModel(VolunteerHour hour)
+    {
+        return new VolunteerHourApprovalViewModel
+        {
+            Id = hour.Id,
+            VolunteerName = hour.Volunteer?.User != null
+                ? $"{hour.Volunteer.User.FirstName} {hour.Volunteer.User.LastName}"
+                : "Unknown",
+            VolunteerAvatarUrl = !string.IsNullOrEmpty(hour.Volunteer?.User?.FirstName)
+                ? $"/images/volunteers/{hour.Volunteer.User.FirstName.ToLower()}.jpg"
+                : "/images/volunteers/default.jpg",
+            Date = hour.Date,
+            Activity = hour.Activity,
+            Hours = hour.Hours,
+            AttachmentUrl = hour.AttachmentUrl,
+            Status = hour.Status.ToString()
         };
     }
     #endregion

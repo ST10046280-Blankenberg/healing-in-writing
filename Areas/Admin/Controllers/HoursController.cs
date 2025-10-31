@@ -1,3 +1,4 @@
+using HealingInWriting.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,10 +9,17 @@ namespace HealingInWriting.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class HoursController : Controller
     {
-        // GET: Admin/Reports/Index
-        public IActionResult Index()
+        private readonly IVolunteerService _volunteerService;
+
+        public HoursController(IVolunteerService volunteerService)
         {
-            return View();
+            _volunteerService = volunteerService;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var hourSubmissions = await _volunteerService.GetAllVolunteerHourApprovalsAsync();
+            return View(hourSubmissions);
         }
     }
 }
