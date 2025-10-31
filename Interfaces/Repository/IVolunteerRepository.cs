@@ -8,5 +8,6 @@ public interface IVolunteerRepository
     void AddVolunteerHour(VolunteerHour hour);
     Task<List<VolunteerHour>> GetAllVolunteerHoursWithVolunteerAsync();
     Volunteer? GetVolunteerByUserId(string userId);
+    Task<VolunteerHour?> GetVolunteerHourByIdAsync(Guid id);
     Task SaveChangesAsync();
 }

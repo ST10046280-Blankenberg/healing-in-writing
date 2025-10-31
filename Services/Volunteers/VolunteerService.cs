@@ -1,3 +1,4 @@
+using HealingInWriting.Domain.Volunteers;
 using HealingInWriting.Interfaces.Repository;
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Mapping;
@@ -33,5 +34,21 @@ public class VolunteerService : IVolunteerService
     {
         var hours = await _repository.GetAllVolunteerHoursWithVolunteerAsync();
         return hours.Select(ViewModelMappers.ToVolunteerHourApprovalViewModel).ToList();
+    }
+
+    public async Task<(bool Success, string? Error)> UpdateHourStatusAsync(Guid hourId, string status, string? reviewedBy)
+    {
+        var hour = await _repository.GetVolunteerHourByIdAsync(hourId);
+        if (hour == null)
+            return (false, "Volunteer hour not found.");
+
+        if (!Enum.TryParse<VolunteerHourStatus>(status, true, out var newStatus))
+            return (false, "Invalid status.");
+
+        hour.Status = newStatus;
+        hour.ReviewedAt = DateTime.UtcNow;
+        hour.ReviewedBy = reviewedBy;
+        await _repository.SaveChangesAsync();
+        return (true, null);
     }
 }

@@ -21,6 +21,19 @@ namespace HealingInWriting.Areas.Admin.Controllers
             var hourSubmissions = await _volunteerService.GetAllVolunteerHourApprovalsAsync();
             return View(hourSubmissions);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateStatus(Guid id, string status)
+        {
+            // You may want to validate the status string here
+            var result = await _volunteerService.UpdateHourStatusAsync(id, status, User.Identity?.Name);
+            if (!result.Success)
+            {
+                TempData["Error"] = result.Error;
+            }
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
 

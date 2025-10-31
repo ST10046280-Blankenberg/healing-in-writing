@@ -9,4 +9,5 @@ public interface IVolunteerService
 
     // TODO: Provide dashboards, assignments, and hour logging operations.
     Task<(bool Success, string? Error)> LogHoursAsync(string userId, LogHoursViewModel model, string? attachmentUrl);
+    Task<(bool Success, string? Error)> UpdateHourStatusAsync(Guid hourId, string status, string? reviewedBy);
 }

@@ -38,4 +38,9 @@ public class VolunteerRepository : IVolunteerRepository
             .OrderByDescending(vh => vh.SubmittedAt)
             .ToListAsync();
     }
+
+    public async Task<VolunteerHour?> GetVolunteerHourByIdAsync(Guid id)
+    {
+        return await _dbContext.VolunteerHours.FindAsync(id);
+    }
 }
