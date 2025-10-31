@@ -15,5 +15,5 @@
         }
     </div>
     <p class="story-card__excerpt">@Model.Summary</p>
-    <a href="@Url.Action("Details", "Stories", new { id = Model.StoryId })" class="story-card__button">Read More</a>
+    <a href="@Url.Action("Details", "Stories", new { area = "", id = Model.StoryId })" class="story-card__button">Read More</a>
 </article>

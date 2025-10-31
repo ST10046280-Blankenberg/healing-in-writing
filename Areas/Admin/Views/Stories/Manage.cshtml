@@ -1,35 +1,4 @@
-@*
-========================================
-BACKEND DATA REQUIREMENTS
-========================================
-This page displays a list of all story submissions for admin review.
-
-REQUIRED DATA PER STORY:
-- Story Title (string)
-- Author Name (string) - Can be "Anonymous" if user opted for anonymity
-- Submitted Date (DateTime) - Created_At field from stories table
-- Status (string/enum) - Options: "Pending", "Approved", "Published", "Rejected"
-  * NOTE: Status field may need to be added to database if not present
-
-DATABASE FIELDS NEEDED:
-- stories.id
-- stories.title
-- stories.created_at
-- stories.status (NEW FIELD?) - Consider adding if not present
-- users.username OR users.full_name (join with users table via user_id)
-- stories.is_anonymous (boolean) - Display "Anonymous" if true
-
-ADDITIONAL NOTES:
-- Search/filter functionality will require backend filtering by:
-  * Date range
-  * Status
-  * Tags (if implemented)
-- "Review" button should link to /Admin/Stories/Details/{id}
-- Consider pagination for large datasets
-========================================
-*@
-
-
+@model HealingInWriting.Models.Admin.AdminManageStoriesViewModel
 
 @{
     ViewData["Title"] = "Manage Stories";
@@ -52,58 +21,141 @@ ADDITIONAL NOTES:
         </div>
     </header>
 
-    <!-- Search Bar -->
-    <div class="search-bar">
-        <!-- Search Input with Icon -->
-        <div class="search-bar__input-container">
-            <svg class="search-bar__icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <input type="text" name="searchTerm" class="search-bar__input" placeholder="Search..." />
-        </div>
-        
-        <!-- Any Date Dropdown -->
-        <div class="search-bar__dropdown">
-            <span class="search-bar__dropdown-label">Any Date</span>
-            <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </div>
+    <!-- Search & Filters -->
+    @if (TempData["StoryStatusMessage"] is string statusMessage)
+    {
+        <div class="manage-stories__alert" role="status">@statusMessage</div>
+    }
 
-        <!-- Any Status Dropdown -->
-        <div class="search-bar__dropdown">
-            <span class="search-bar__dropdown-label">Any Status</span>
-            <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </div>
+    <form method="get" class="search-bar" novalidate>
+        <input type="hidden" name="page" value="1" />
 
-        <!-- Any Tags Dropdown -->
-        <div class="search-bar__dropdown">
-            <span class="search-bar__dropdown-label">Any Tags</span>
-            <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </div>
+        <div class="search-bar__filters-row">
+            <!-- Search Input with Icon -->
+            <div class="search-bar__input-container">
+                <svg class="search-bar__icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <input type="text"
+                       name="searchTerm"
+                       value="@Model.Filters.SearchTerm"
+                       class="search-bar__input"
+                       placeholder="Search..."
+                       aria-label="Search stories" />
+            </div>
 
-        <!-- Newest Dropdown -->
-        <div class="search-bar__dropdown">
-            <span class="search-bar__dropdown-label">Newest</span>
-            <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </div>
+            <!-- Date Dropdown -->
+            <div class="search-bar__dropdown">
+                <select name="dateRange" class="search-bar__select" aria-label="Filter by date">
+                    @foreach (var option in Model.DateOptions)
+                    {
+                        if (option.Selected)
+                        {
+                            <option value="@option.Value" selected>@option.Label</option>
+                        }
+                        else
+                        {
+                            <option value="@option.Value">@option.Label</option>
+                        }
+                    }
+                </select>
+                <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
 
-        <!-- Search Button -->
-        <button class="search-bar__button" type="button">
-            <svg class="search-bar__button-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <span class="search-bar__button-label">Search</span>
-        </button>
-    </div>
+            <!-- Status Dropdown -->
+            <div class="search-bar__dropdown">
+                <select name="status" class="search-bar__select" aria-label="Filter by status">
+                    @foreach (var option in Model.StatusOptions)
+                    {
+                        if (option.Selected)
+                        {
+                            <option value="@option.Value" selected>@option.Label</option>
+                        }
+                        else
+                        {
+                            <option value="@option.Value">@option.Label</option>
+                        }
+                    }
+                </select>
+                <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+
+            <!-- Tags Dropdown -->
+            <div class="search-bar__dropdown">
+                <select name="tag" class="search-bar__select" aria-label="Filter by tag">
+                    @foreach (var option in Model.TagOptions)
+                    {
+                        if (option.Selected)
+                        {
+                            <option value="@option.Value" selected>@option.Label</option>
+                        }
+                        else
+                        {
+                            <option value="@option.Value">@option.Label</option>
+                        }
+                    }
+                </select>
+                <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+
+            <!-- Sort Dropdown -->
+            <div class="search-bar__dropdown">
+                <select name="sortOrder" class="search-bar__select" aria-label="Sort by">
+                    @foreach (var option in Model.SortOptions)
+                    {
+                        if (option.Selected)
+                        {
+                            <option value="@option.Value" selected>@option.Label</option>
+                        }
+                        else
+                        {
+                            <option value="@option.Value">@option.Label</option>
+                        }
+                    }
+                </select>
+                <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+
+            <!-- Search Button -->
+            <button class="search-bar__button" type="submit">
+                <svg class="search-bar__button-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="search-bar__button-label">Search</span>
+            </button>
+        </div>
+    </form>
+
+    <!-- Status Summary -->
+    <section class="manage-stories__metrics">
+        <div class="manage-stories__metric">
+            <span class="manage-stories__metric-label">Submitted</span>
+            <span class="manage-stories__metric-value">@Model.PendingCount</span>
+        </div>
+        <div class="manage-stories__metric">
+            <span class="manage-stories__metric-label">Published</span>
+            <span class="manage-stories__metric-value">@Model.PublishedCount</span>
+        </div>
+        <div class="manage-stories__metric">
+            <span class="manage-stories__metric-label">Draft</span>
+            <span class="manage-stories__metric-value">@Model.DraftCount</span>
+        </div>
+        <div class="manage-stories__metric">
+            <span class="manage-stories__metric-label">Rejected</span>
+            <span class="manage-stories__metric-value">@Model.RejectedCount</span>
+        </div>
+    </section>
 
     <!-- Stories Table -->
+    <p class="manage-stories__results">Showing @Model.Stories.Count of @Model.TotalStories story@((Model.TotalStories == 1) ? string.Empty : "ies")</p>
     <div class="manage-stories__table-container">
         <table class="manage-stories__table">
             <thead>
@@ -116,76 +168,97 @@ ADDITIONAL NOTES:
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>
-                        <span class="manage-stories__story-title">My Journey Through Anxiety</span>
-                    </td>
-                    <td>
-                        <span class="manage-stories__author">Sarah Mitchell</span>
-                    </td>
-                    <td>
-                        <span class="manage-stories__date">Dec 15, 2024</span>
-                    </td>
-                    <td>
-                        <span class="manage-stories__status-badge manage-stories__status-badge--pending">Pending</span>
-                    </td>
-                    <td>
-                        <a href="#" class="manage-stories__review-btn">Review</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="manage-stories__story-title">Finding Hope in Dark Times</span>
-                    </td>
-                    <td>
-                        <span class="manage-stories__author">Anonymous</span>
-                    </td>
-                    <td>
-                        <span class="manage-stories__date">Dec 14, 2024</span>
-                    </td>
-                    <td>
-                        <span class="manage-stories__status-badge manage-stories__status-badge--approved">Approved</span>
-                    </td>
-                    <td>
-                        <a href="#" class="manage-stories__review-btn">Review</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="manage-stories__story-title">Overcoming Depression Together</span>
-                    </td>
-                    <td>
-                        <span class="manage-stories__author">Michael Chen</span>
-                    </td>
-                    <td>
-                        <span class="manage-stories__date">Dec 13, 2024</span>
-                    </td>
-                    <td>
-                        <span class="manage-stories__status-badge manage-stories__status-badge--published">Published</span>
-                    </td>
-                    <td>
-                        <a href="#" class="manage-stories__review-btn">Review</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="manage-stories__story-title">Breaking the Silence</span>
-                    </td>
-                    <td>
-                        <span class="manage-stories__author">Emma Rodriguez</span>
-                    </td>
-                    <td>
-                        <span class="manage-stories__date">Dec 12, 2024</span>
-                    </td>
-                    <td>
-                        <span class="manage-stories__status-badge manage-stories__status-badge--rejected">Rejected</span>
-                    </td>
-                    <td>
-                        <a href="#" class="manage-stories__review-btn">Review</a>
-                    </td>
-                </tr>
+                @if (!Model.Stories.Any())
+                {
+                    <tr>
+                        <td colspan="5" class="manage-stories__empty">No stories available yet.</td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var story in Model.Stories)
+                    {
+                        <tr>
+                            <td>
+                                <span class="manage-stories__story-title">@story.Title</span>
+                            </td>
+                            <td>
+                                <span class="manage-stories__author">@story.AuthorName</span>
+                            </td>
+                            <td>
+                                <span class="manage-stories__date">@story.CreatedAt.ToLocalTime().ToString("MMM dd, yyyy")</span>
+                            </td>
+                            <td>
+                                <span class="manage-stories__status-badge @story.StatusBadgeClass">@story.StatusText</span>
+                            </td>
+                            <td>
+                                @{
+                                    var returnUrl = Url.Action("Manage", "Stories", new
+                                    {
+                                        area = "Admin",
+                                        searchTerm = Model.Filters.SearchTerm,
+                                        status = Model.Filters.Status,
+                                        dateRange = Model.Filters.DateRange,
+                                        tag = Model.Filters.Tag,
+                                        sortOrder = Model.Filters.SortOrder,
+                                        page = Model.Filters.Page
+                                    });
+                                }
+                                <a class="manage-stories__review-btn"
+                                   asp-area=""
+                                   asp-controller="Stories"
+                                   asp-action="Details"
+                                   asp-route-id="@story.StoryId"
+                                   asp-route-returnUrl="@returnUrl">Review</a>
+                            </td>
+                        </tr>
+                    }
+                }
             </tbody>
         </table>
     </div>
-</main>
 
+    @if (Model.TotalPages > 1)
+    {
+        <nav class="manage-stories__pagination" aria-label="Stories pagination">
+            <a class="manage-stories__pagination-link @(Model.CurrentPage == 1 ? "is-disabled" : null)"
+               href="@(Model.CurrentPage == 1 ? "#" : Url.Action("Manage", "Stories", new {
+                   area = "Admin",
+                   searchTerm = Model.Filters.SearchTerm,
+                   status = Model.Filters.Status,
+                   dateRange = Model.Filters.DateRange,
+                   tag = Model.Filters.Tag,
+                   sortOrder = Model.Filters.SortOrder,
+                   page = Model.CurrentPage - 1
+               }))"
+               aria-disabled="@(Model.CurrentPage == 1 ? "true" : "false")">Previous</a>
+
+            @for (var pageNumber = 1; pageNumber <= Model.TotalPages; pageNumber++)
+            {
+                <a class="manage-stories__pagination-link @(pageNumber == Model.CurrentPage ? "is-active" : null)"
+                   href="@Url.Action("Manage", "Stories", new {
+                       area = "Admin",
+                       searchTerm = Model.Filters.SearchTerm,
+                       status = Model.Filters.Status,
+                       dateRange = Model.Filters.DateRange,
+                       tag = Model.Filters.Tag,
+                       sortOrder = Model.Filters.SortOrder,
+                       page = pageNumber
+                   })"
+                   aria-current="@(pageNumber == Model.CurrentPage ? "page" : null)">@pageNumber</a>
+            }
+
+            <a class="manage-stories__pagination-link @(Model.CurrentPage == Model.TotalPages ? "is-disabled" : null)"
+               href="@(Model.CurrentPage == Model.TotalPages ? "#" : Url.Action("Manage", "Stories", new {
+                   area = "Admin",
+                   searchTerm = Model.Filters.SearchTerm,
+                   status = Model.Filters.Status,
+                   dateRange = Model.Filters.DateRange,
+                   tag = Model.Filters.Tag,
+                   sortOrder = Model.Filters.SortOrder,
+                   page = Model.CurrentPage + 1
+               }))"
+               aria-disabled="@(Model.CurrentPage == Model.TotalPages ? "true" : "false")">Next</a>
+        </nav>
+    }
+</main>

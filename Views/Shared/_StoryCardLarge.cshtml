@@ -16,5 +16,5 @@
         <p class="story-card__author">@(!string.IsNullOrWhiteSpace(Model.AuthorName) ? Model.AuthorName : "Anonymous")</p>
         <p class="story-card__description">@Model.Summary</p>
     </div>
-    <a href="@Url.Action("Details", "Stories", new { id = Model.StoryId })" class="story-card__button">Read More</a>
+    <a href="@Url.Action("Details", "Stories", new { area = "", id = Model.StoryId })" class="story-card__button">Read More</a>
 </article>

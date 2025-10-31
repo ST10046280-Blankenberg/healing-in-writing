@@ -128,6 +128,31 @@
     transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
+.search-bar__dropdown label,
+.search-bar__dropdown select {
+    cursor: pointer;
+}
+
+.search-bar__select {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-body);
+    font-weight: var(--font-weight-regular);
+    color: var(--neutral-900);
+    appearance: none;
+    -webkit-appearance: none;
+    line-height: var(--line-height-normal);
+    padding: 0;
+    margin: 0;
+    flex: 1;
+}
+
+.search-bar__select:focus {
+    outline: none;
+}
+
 .search-bar__dropdown:hover {
     border-color: #2F1648;
     background-color: #F9FAFB;
@@ -265,4 +290,3 @@
         padding: 16px;
     }
 }
-

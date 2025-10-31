@@ -217,4 +217,48 @@ public class EventService : IEventService
         await _eventRepository.UpdateAsync(existingEvent);
         return true;
     }
+
+    public async Task<int> GetUserUpcomingEventsCountAsync(string userId)
+    {
+        // Registration.UserId is int?, but Event.UserId is int (creator)
+        // We need to find registrations by the ApplicationUser string ID
+        // First find the UserProfile
+        var userProfile = await _context.UserProfiles
+            .FirstOrDefaultAsync(up => up.UserId == userId);
+
+        if (userProfile == null)
+        {
+            return 0;
+        }
+
+        var registrations = await _context.Registrations
+            .Include(r => r.Event)
+            .Where(r => r.UserId == userProfile.ProfileId && r.Event.StartDateTime >= DateTime.UtcNow)
+            .CountAsync();
+
+        return registrations;
+    }
+
+    public async Task<IReadOnlyCollection<Registration>> GetUserRegistrationsAsync(string userId)
+    {
+        // Find user profile first
+        var userProfile = await _context.UserProfiles
+            .FirstOrDefaultAsync(up => up.UserId == userId);
+
+        if (userProfile == null)
+        {
+            return new List<Registration>();
+        }
+
+        var registrations = await _context.Registrations
+            .Include(r => r.Event)
+                .ThenInclude(e => e.Address)
+            .Include(r => r.Event)
+                .ThenInclude(e => e.EventTags)
+            .Where(r => r.UserId == userProfile.ProfileId)
+            .OrderByDescending(r => r.Event.StartDateTime)
+            .ToListAsync();
+
+        return registrations;
+    }
 }

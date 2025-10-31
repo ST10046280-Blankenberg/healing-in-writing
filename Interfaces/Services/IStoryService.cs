@@ -8,4 +8,34 @@ public interface IStoryService
     /// Retrieves the set of stories ready to be displayed publicly.
     /// </summary>
     Task<IReadOnlyCollection<Story>> GetPublishedAsync();
+
+    /// <summary>
+    /// Creates a new story submission from the authenticated user.
+    /// </summary>
+    Task<Story> SubmitStoryAsync(string userId, string title, string content, string tags, bool isAnonymous);
+
+    /// <summary>
+    /// Gets the count of stories for a specific user.
+    /// </summary>
+    Task<int> GetUserStoryCountAsync(string userId);
+
+    /// <summary>
+    /// Gets all stories for a specific user, grouped by status.
+    /// </summary>
+    Task<IReadOnlyCollection<Story>> GetUserStoriesAsync(string userId);
+
+    /// <summary>
+    /// Retrieves a single story by identifier, including related data needed for detail views.
+    /// </summary>
+    Task<Story?> GetStoryByIdAsync(int storyId);
+
+    /// <summary>
+    /// Retrieves all stories for administrative management views.
+    /// </summary>
+    Task<IReadOnlyCollection<Story>> GetAllStoriesForAdminAsync();
+
+    /// <summary>
+    /// Updates the status of a story for administrative workflows.
+    /// </summary>
+    Task<bool> UpdateStoryStatusAsync(int storyId, StoryStatus newStatus, string updatedBy);
 }

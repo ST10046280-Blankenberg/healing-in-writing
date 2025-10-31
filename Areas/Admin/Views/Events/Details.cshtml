@@ -129,7 +129,7 @@ FORM SUBMISSION:
         <!-- Event Title Input -->
         <div class="event-details__form-group">
             <h4 class="event-details__form-label">Event Title</h4>
-            <input asp-for="Title" type="text" class="event-details__input" placeholder="Enter event title..."/>
+            <input asp-for="Title" type="text" class="event-details__input" placeholder="Enter event title..." required/>
             <span asp-validation-for="Title" class="text-danger"></span>
         </div>
 
@@ -143,31 +143,31 @@ FORM SUBMISSION:
         <!-- Address Inputs -->
         <div class="event-details__form-group event-details__form-group--full-width">
             <label class="event-details__label">Street Address</label>
-            <input asp-for="StreetAddress" type="text" class="event-details__input" placeholder="Enter street address..."/>
+            <input asp-for="StreetAddress" type="text" class="event-details__input" placeholder="Enter street address..." required/>
             <span asp-validation-for="StreetAddress" class="text-danger"></span>
         </div>
 
         <div class="event-details__form-group">
             <label class="event-details__label">Suburb</label>
-            <input asp-for="Suburb" type="text" class="event-details__input" placeholder="Enter suburb..."/>
+            <input asp-for="Suburb" type="text" class="event-details__input" placeholder="Enter suburb..." required/>
             <span asp-validation-for="Suburb" class="text-danger"></span>
         </div>
 
         <div class="event-details__form-group">
             <label class="event-details__label">City</label>
-            <input asp-for="City" type="text" class="event-details__input" placeholder="Enter city..."/>
+            <input asp-for="City" type="text" class="event-details__input" placeholder="Enter city..." required/>
             <span asp-validation-for="City" class="text-danger"></span>
         </div>
 
         <div class="event-details__form-group">
             <label class="event-details__label">Province</label>
-            <input asp-for="Province" type="text" class="event-details__input" placeholder="Enter province..."/>
+            <input asp-for="Province" type="text" class="event-details__input" placeholder="Enter province..." required/>
             <span asp-validation-for="Province" class="text-danger"></span>
         </div>
 
         <div class="event-details__form-group">
             <label class="event-details__label">Postal Code</label>
-            <input asp-for="PostalCode" type="text" class="event-details__input" placeholder="0000" maxlength="4"/>
+            <input asp-for="PostalCode" type="text" class="event-details__input" placeholder="0000" maxlength="4" required/>
             <span asp-validation-for="PostalCode" class="text-danger"></span>
         </div>
 
@@ -211,7 +211,7 @@ FORM SUBMISSION:
                         </svg>
                     </button>
                 </div>
-                <textarea asp-for="Description" class="event-details__editor-textarea" placeholder="Enter description here..."></textarea>
+                <textarea asp-for="Description" class="event-details__editor-textarea" placeholder="Enter description here..." required></textarea>
             </div>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>

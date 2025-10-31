@@ -47,6 +47,18 @@ public class Story
     public string Content { get; set; }
 
     /// <summary>
+    /// Category of the story for classification.
+    /// </summary>
+    [Required]
+    public StoryCategory Category { get; set; }
+
+    /// <summary>
+    /// Indicates whether the author's identity should be hidden.
+    /// </summary>
+    [Required]
+    public bool IsAnonymous { get; set; }
+
+    /// <summary>
     /// Current lifecycle status of the story (e.g., Draft, Published).
     /// </summary>
     [Required]

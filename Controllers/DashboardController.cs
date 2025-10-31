@@ -1,30 +1,43 @@
 using HealingInWriting.Domain.Users;
 using HealingInWriting.Interfaces.Services;
+using HealingInWriting.Models.Dashboard;
 using HealingInWriting.Models.Volunteer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace HealingInWriting.Controllers
 {
-    [Authorize(Roles = "Volunteer")]
+    [Authorize]
     public class DashboardController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IVolunteerService _volunteerService;
+        private readonly IStoryService _storyService;
+        private readonly IEventService _eventService;
 
         public DashboardController(
             UserManager<ApplicationUser> userManager,
-            IVolunteerService volunteerService)
+            IVolunteerService volunteerService,
+            IStoryService storyService,
+            IEventService eventService)
         {
             _userManager = userManager;
             _volunteerService = volunteerService;
+            _storyService = storyService;
+            _eventService = eventService;
         }
 
         // GET: /Dashboard/Index
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
 
             VolunteerHourSummaryViewModel summary = new();
             if (User.IsInRole("Volunteer"))
@@ -32,8 +45,15 @@ namespace HealingInWriting.Controllers
                 summary = await _volunteerService.GetVolunteerHourSummaryAsync(user.Id);
             }
 
-            ViewBag.VolunteerTotalHours = summary.TotalHours;
-            return View();
+            var viewModel = new DashboardViewModel
+            {
+                UserName = User.FindFirst(ClaimTypes.GivenName)?.Value ?? User.Identity?.Name ?? "User",
+                MyStoriesCount = await _storyService.GetUserStoryCountAsync(userId),
+                MyEventsCount = await _eventService.GetUserUpcomingEventsCountAsync(userId),
+                MyHoursCount = User.IsInRole("Volunteer") ? (int)summary.TotalHours : null
+            };
+
+            return View(viewModel);
         }
 
         // GET: /Dashboard/LogHours
@@ -98,15 +118,29 @@ namespace HealingInWriting.Controllers
         }
 
         // GET: /Dashboard/MyEvents
-        public IActionResult MyEvents()
+        public async Task<IActionResult> MyEvents()
         {
-            return View();
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            var registrations = await _eventService.GetUserRegistrationsAsync(userId);
+            return View(registrations);
         }
 
         // GET: /Dashboard/MyStories
-        public IActionResult MyStories()
+        public async Task<IActionResult> MyStories()
         {
-            return View();
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            var stories = await _storyService.GetUserStoriesAsync(userId);
+            return View(stories);
         }
     }
 }

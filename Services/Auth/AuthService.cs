@@ -1,3 +1,4 @@
+using HealingInWriting.Data;
 using HealingInWriting.Domain.Users;
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Auth;
@@ -13,15 +14,18 @@ public class AuthService : IAuthService
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly ILogger<AuthService> _logger;
+    private readonly ApplicationDbContext _context;
 
     public AuthService(
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
-        ILogger<AuthService> logger)
+        ILogger<AuthService> logger,
+        ApplicationDbContext context)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _logger = logger;
+        _context = context;
     }
 
     /// <summary>
@@ -63,6 +67,16 @@ public class AuthService : IAuthService
             // Assign default "User" role
             await _userManager.AddToRoleAsync(user, "User");
 
+            // Create UserProfile for the new user
+            var userProfile = new UserProfile
+            {
+                UserId = user.Id,
+                Bio = string.Empty,
+                City = string.Empty
+            };
+            _context.UserProfiles.Add(userProfile);
+            await _context.SaveChangesAsync();
+
             // TODO [Future Enhancement]: Send email verification
             // For now, we'll auto-confirm email for testing purposes
             // Uncomment below to require email verification:
@@ -74,7 +88,7 @@ public class AuthService : IAuthService
             var confirmToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             await _userManager.ConfirmEmailAsync(user, confirmToken);
 
-            _logger.LogInformation("User {Email} registered successfully", model.Email);
+            _logger.LogInformation("User {Email} registered successfully with ProfileId {ProfileId}", model.Email, userProfile.ProfileId);
             return (true, "Registration successful. You can now log in.");
         }
         catch (Exception ex)

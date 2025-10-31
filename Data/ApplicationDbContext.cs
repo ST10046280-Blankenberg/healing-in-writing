@@ -3,6 +3,7 @@ using HealingInWriting.Domain.Books;
 using HealingInWriting.Domain.Events;
 using HealingInWriting.Domain.Shared;
 using HealingInWriting.Domain.Common;
+using HealingInWriting.Domain.Stories;
 using HealingInWriting.Domain.Gallery;
 using HealingInWriting.Domain.Volunteers;
 using Microsoft.AspNetCore.Identity;
@@ -24,9 +25,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     }
 
     // TODO [Future]: Add DbSet properties for other domain entities when needed
-    // public DbSet<UserProfile> UserProfiles { get; set; }
-    // public DbSet<Story> Stories { get; set; }
-    // public DbSet<Event> Events { get; set; }
     // public DbSet<Donation> Donations { get; set; }
     // public DbSet<Volunteer> Volunteers { get; set; }
     public DbSet<Event> Events { get; set; }
@@ -38,6 +36,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<BackoffState> BackoffStates { get; set; }
 
     public DbSet<BankDetails> BankDetails { get; set; }
+    public DbSet<Story> Stories { get; set; }
     public DbSet<PrivacyPolicy> PrivacyPolicies { get; set; }
     public DbSet<OurImpact> OurImpacts { get; set; }
     public DbSet<GalleryItem> GalleryItems { get; set; }
@@ -156,7 +155,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<Registration>()
             .HasIndex(r => new { r.EventId, r.GuestEmail });
 
-        
+        var isSqlite = Database.IsSqlite();
+
         builder.Entity<HealingInWriting.Domain.Common.BankDetails>(b =>
         {
             b.HasKey(x => x.Id);
@@ -166,9 +166,75 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             b.Property(x => x.BranchCode).HasMaxLength(20);
             b.Property(x => x.UpdatedBy).HasMaxLength(200);
             b.Property(x => x.UpdatedAt).IsRequired();
-            // Remove .IsRowVersion() for SQLite
-            b.Property(x => x.RowVersion).IsRequired(false);
+            if (isSqlite)
+            {
+                b.Property(x => x.RowVersion).IsRequired(false);
+            }
+            else
+            {
+                b.Property(x => x.RowVersion).IsRowVersion();
+            }
+        });
+        // Story relationships
+        builder.Entity<Story>()
+            .HasOne(s => s.Author)
+            .WithMany()
+            .HasForeignKey(s => s.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Many-to-many: Stories and Tags
+        builder.Entity<Story>()
+            .HasMany(s => s.Tags)
+            .WithMany()
+            .UsingEntity(j => j.ToTable("StoryTags"));
+
+        // Volunteer relationships
+        builder.Entity<Volunteer>()
+            .HasMany(v => v.VolunteerHours)
+            .WithOne(h => h.Volunteer)
+            .HasForeignKey(h => h.VolunteerId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<Volunteer>()
+            .HasOne(v => v.User)
+            .WithMany()
+            .HasForeignKey(v => v.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<OurImpact>(entity =>
+        {
+            if (isSqlite)
+            {
+                entity.Property(x => x.RowVersion).IsRequired(false);
+            }
+            else
+            {
+                entity.Property(x => x.RowVersion).IsRowVersion();
+            }
         });
 
+        builder.Entity<PrivacyPolicy>(entity =>
+        {
+            if (isSqlite)
+            {
+                entity.Property(x => x.RowVersion).IsRequired(false);
+            }
+            else
+            {
+                entity.Property(x => x.RowVersion).IsRowVersion();
+            }
+        });
+
+        builder.Entity<GalleryItem>(entity =>
+        {
+            if (isSqlite)
+            {
+                entity.Property(x => x.RowVersion).IsRequired(false);
+            }
+            else
+            {
+                entity.Property(x => x.RowVersion).IsRowVersion();
+            }
+        });
     }
 }

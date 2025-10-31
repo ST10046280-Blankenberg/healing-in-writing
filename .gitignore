@@ -78,6 +78,10 @@ artifacts/
 *.db
 *.db-shm
 *.db-wal
+# Azure SQL migration scripts and local scripts (kept locally only)
+azure-*.sql
+**/azure-*.sql
+scripts/
 
 ## OS generated files
 [Tt]humbs.db
@@ -114,6 +118,7 @@ appsettings.*.json
 !appsettings.json
 appsettings.*.local.json
 appsettings.*.Development.json
+appsettings.Development.json
 Secrets.json
 secrets.json
 *.secret.json
@@ -122,6 +127,9 @@ secrets.json
 *.config.development
 .env
 .env.*
+*.env
+**/appsettings.Local.json
+**/appsettings.Production.json
 
 ## Azure and publish profiles
 .publishsettings
@@ -140,5 +148,5 @@ build/
 *.7z
 *.rar
 /config/local/
-
-
+# Azure CLI local config directory
+.azure_cli_home/

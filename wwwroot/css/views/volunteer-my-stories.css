@@ -344,6 +344,88 @@
 }
 
 /* ========================================
+   Empty State
+   ======================================== */
+
+.empty-state {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-3xl);
+    gap: var(--spacing-lg);
+    width: 100%;
+    min-height: 400px;
+
+    /* Visual */
+    background: var(--neutral-100);
+    border: 2px dashed var(--brand-300);
+    border-radius: var(--radius-xl);
+}
+
+.empty-state p {
+    /* Typography */
+    font-family: var(--font-family-base);
+    font-style: normal;
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-body-lg);
+    line-height: var(--line-height-normal);
+    color: var(--neutral-400);
+    text-align: center;
+    margin: 0;
+    max-width: 500px;
+}
+
+.empty-state .btn-primary {
+    /* Box Model */
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    gap: var(--spacing-sm);
+    height: 48px;
+
+    /* Visual */
+    background: var(--brand-700);
+    border: none;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-soft-sm);
+
+    /* Typography */
+    font-family: var(--font-family-heading);
+    font-style: normal;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-normal);
+    text-align: center;
+    color: var(--color-text-light);
+    text-decoration: none;
+
+    /* Animation */
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.empty-state .btn-primary:hover {
+    background: var(--brand-600);
+    box-shadow: var(--shadow-soft-md);
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+.empty-state .btn-primary:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+}
+
+.empty-state .btn-primary:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-soft-sm);
+}
+
+/* ========================================
    Responsive Design
    ======================================== */
 
@@ -366,41 +448,50 @@
         padding: 20px;
         gap: 20px;
     }
-    
+
     .my-stories__title {
         font-size: 24px;
         line-height: 32px;
     }
-    
+
     .my-stories__subtitle {
         font-size: 16px;
         line-height: 24px;
     }
-    
+
     .my-stories__nav {
         gap: 16px;
         overflow-x: auto;
         width: 100%;
         -webkit-overflow-scrolling: touch;
     }
-    
+
     .my-stories__nav-button {
         white-space: nowrap;
         min-width: 100px;
     }
-    
+
     .story-card {
         flex-direction: column;
         padding: 24px;
         gap: 16px;
     }
-    
+
     .story-card__actions {
         width: 100%;
     }
-    
+
     .story-card__button {
         width: 100%;
+    }
+
+    .empty-state {
+        padding: var(--spacing-xl);
+        min-height: 300px;
+    }
+
+    .empty-state p {
+        font-size: var(--font-size-body);
     }
 }
 
@@ -409,25 +500,39 @@
     .my-stories {
         padding: 16px;
     }
-    
+
     .my-stories__title {
         font-size: 20px;
         line-height: 28px;
     }
-    
+
     .my-stories__subtitle {
         font-size: 14px;
         line-height: 20px;
     }
-    
+
     .story-card {
         padding: 20px;
     }
-    
+
     .story-card__header {
         flex-direction: column;
         align-items: flex-start;
         gap: 8px;
+    }
+
+    .empty-state {
+        padding: var(--spacing-lg);
+        min-height: 250px;
+    }
+
+    .empty-state p {
+        font-size: var(--font-size-body-sm);
+    }
+
+    .empty-state .btn-primary {
+        width: 100%;
+        padding: 12px 20px;
     }
 }
 

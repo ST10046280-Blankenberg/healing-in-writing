@@ -1,8 +1,10 @@
+using HealingInWriting.Domain.Shared;
+using HealingInWriting.Domain.Stories;
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Stories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
-using Ganss.Xss;
+using System.Security.Claims;
 
 
 namespace HealingInWriting.Controllers
@@ -36,30 +38,69 @@ namespace HealingInWriting.Controllers
             return View(viewModel);
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id, string? returnUrl)
         {
-            // TODO: Replace with actual data retrieval once service is implemented
-            // SECURITY: When implementing, ensure authorisation checks:
-            // - Published stories: anyone can view
-            // - Draft/pending stories: only author and admins can view
-            // - Check story.Status and story.UserId against User.FindFirst(ClaimTypes.NameIdentifier)
-            // - Return 404 (not 403) if unauthorised to prevent enumeration
+            var story = await _storyService.GetStoryByIdAsync(id);
+            if (story is null)
+            {
+                return NotFound();
+            }
+
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var isAdmin = User.IsInRole("Admin");
+            var isOwner = !string.IsNullOrEmpty(currentUserId)
+                && string.Equals(story.Author?.UserId, currentUserId, StringComparison.Ordinal);
+
+            var isPublic = story.Status == StoryStatus.Published;
+            if (!isPublic && !isAdmin && !isOwner)
+            {
+                return NotFound();
+            }
+
             var viewModel = new StoryDetailViewModel
             {
-                StoryId = id,
-                Title = "Article Title",
-                AuthorName = "Author",
-                CreatedAt = new DateTime(2025, 3, 10),
-                Content = "In the thick of lockdown, 2020, poet, critic, and memoirist Jamie Hood published her debut, how to be a good girl, an interrogation of modern femininity and the narratives of love, desire, and violence yoked to it. The Rumpus praised Hood's \"bold vulnerability,\" and Vogue named it a Best Book of 2020.\n\nIn Trauma Plot, Hood draws on disparate literary forms to tell the story that lurked in good girl's margins—of three decades marred by sexual violence and the wreckage left behind. With her trademark critical remove, Hood interrogates the archetype of the rape survivor, who must perform penitence long after living through the unthinkable, invoking some of art's most infamous women to have played the role: Ovid's Philomela, David Lynch's Laura Palmer, and Artemisia Gentileschi, who captured Judith's wrath. In so doing, she asks: What do we as a culture demand of survivors? And what do survivors, in turn, owe a world that has abandoned them?\n\nTrauma Plot is a scalding work of personal and literary criticism. It is a send-up of our culture's pious disdain for \"trauma porn,\" a dirge for the broken promises of #MeToo, and a paean to finding life after death.",
-                Tags = new List<Domain.Shared.Tag>
-                {
-                    new Domain.Shared.Tag { Name = "Tag" },
-                    new Domain.Shared.Tag { Name = "Tag" },
-                    new Domain.Shared.Tag { Name = "Tag" }
-                }
+                StoryId = story.StoryId,
+                Title = story.Title,
+                AuthorName = ResolveAuthorName(story, isAdmin, isOwner),
+                CreatedAt = story.CreatedAt,
+                Content = story.Content,
+                Tags = story.Tags?.ToList() ?? new List<Domain.Shared.Tag>(),
+                ReturnUrl = SanitizeReturnUrl(returnUrl)
             };
 
             return View(viewModel);
+
+            static string ResolveAuthorName(Story story, bool isAdmin, bool isOwner)
+            {
+                if (story.IsAnonymous && !isAdmin && !isOwner)
+                {
+                    return "Anonymous";
+                }
+
+                var firstName = story.Author?.User?.FirstName;
+                var lastName = story.Author?.User?.LastName;
+                var fullName = string.Join(" ", new[] { firstName, lastName }
+                    .Where(name => !string.IsNullOrWhiteSpace(name)));
+
+                if (!string.IsNullOrWhiteSpace(fullName))
+                {
+                    return fullName;
+                }
+
+                if (!string.IsNullOrWhiteSpace(story.Author?.User?.Email))
+                {
+                    return story.Author.User.Email;
+                }
+
+                return story.Author?.UserId ?? "Unknown author";
+            }
+
+            string? SanitizeReturnUrl(string? candidate)
+            {
+                return !string.IsNullOrWhiteSpace(candidate) && Url.IsLocalUrl(candidate)
+                    ? candidate
+                    : null;
+            }
         }
 
         public IActionResult Submit()
@@ -84,34 +125,23 @@ namespace HealingInWriting.Controllers
                 return View();
             }
 
-            // Sanitize HTML content to prevent XSS attacks
-            var sanitizer = new HtmlSanitizer();
-            var sanitizedContent = sanitizer.Sanitize(content);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
 
-            // TODO: Create story entity and save via service
-            // SECURITY: When implementing, ensure:
-            // - Set UserId from User.FindFirst(ClaimTypes.NameIdentifier)?.Value
-            // - Never trust user-provided IDs in the request
-            // - Set CreatedAt server-side, never from client
-            // Example:
-            // var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            // if (string.IsNullOrEmpty(userId))
-            //     return Unauthorized();
-            //
-            // var story = new Story
-            // {
-            //     Title = title,
-            //     Content = sanitizedContent,
-            //     IsAnonymous = anonymous,
-            //     UserId = userId,  // CRITICAL: Always set from authenticated user
-            //     CreatedAt = DateTime.UtcNow,
-            //     Status = StoryStatus.Pending
-            // };
-            // await _storyService.CreateAsync(story);
-
-            // Temporary success redirect
+            try
+            {
+                await _storyService.SubmitStoryAsync(userId, title, content, tags, anonymous);
+            }
+            catch (InvalidOperationException ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View();
+            }
             TempData["SuccessMessage"] = "Your story has been submitted for review!";
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { area = "" });
         }
     }
 }

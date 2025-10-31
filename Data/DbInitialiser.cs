@@ -12,26 +12,20 @@ namespace HealingInWriting.Data;
 public static class DbInitialiser
 {
     /// <summary>
-    /// Initialises the database with roles and test accounts.
+    /// Initialises required roles and optionally seeds development test accounts.
     /// </summary>
     /// <param name="context">The database context.</param>
     /// <param name="userManager">The user manager for creating users.</param>
     /// <param name="roleManager">The role manager for creating roles.</param>
+    /// <param name="seedTestAccounts">If true, create development-only test accounts.</param>
     public static async Task InitialiseAsync(
         ApplicationDbContext context,
         UserManager<ApplicationUser> userManager,
-        RoleManager<IdentityRole> roleManager)
+        RoleManager<IdentityRole> roleManager,
+        bool seedTestAccounts = false)
     {
-        // Ensure database is created
         await context.Database.MigrateAsync();
 
-        // Check if roles already exist
-        if (await roleManager.Roles.AnyAsync())
-        {
-            return; // Database already seeded
-        }
-
-        // Create roles
         var roles = new[] { "User", "Volunteer", "Admin" };
         foreach (var roleName in roles)
         {
@@ -41,7 +35,11 @@ public static class DbInitialiser
             }
         }
 
-        // Create test accounts
+        if (!seedTestAccounts)
+        {
+            return;
+        }
+
         await CreateTestUserAsync(userManager, "user@test.com", "Test", "User", "User");
         await CreateTestUserAsync(userManager, "volunteer@test.com", "Test", "Volunteer", "Volunteer");
         await CreateTestUserAsync(userManager, "admin@test.com", "Test", "Admin", "Admin");
