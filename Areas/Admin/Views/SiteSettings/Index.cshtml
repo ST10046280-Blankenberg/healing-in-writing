@@ -1,4 +1,4 @@
-@model HealingInWriting.Areas.Admin.Controllers.SiteSettingsViewModel
+@model HealingInWriting.Models.Common.SiteSettingsViewModel
 
 @{
     ViewData["Title"] = "Site Settings";
@@ -169,27 +169,48 @@
     <section class="our-impact">
         <h2 class="our-impact__title">Our Impact</h2>
         
-        <div class="our-impact__grid">
-            <div class="our-impact__field">
-                <label class="our-impact__label">People Helped</label>
-                <input type="number" class="our-impact__input" placeholder="0" value="0" />
+        @if (TempData["OurImpactSuccess"] != null)
+        {
+            <div class="alert alert-success" style="padding: 12px; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 8px; color: #155724; margin-bottom: 16px;">
+                @TempData["OurImpactSuccess"]
+            </div>
+        }
+        
+        <form asp-area="Admin" asp-controller="SiteSettings" asp-action="UpdateOurImpact" method="post">
+            @Html.AntiForgeryToken()
+            <input asp-for="OurImpact.Id" type="hidden" />
+            <input asp-for="OurImpact.RowVersion" type="hidden" />
+            
+            <div class="our-impact__grid">
+                <div class="our-impact__field">
+                    <label asp-for="OurImpact.PeopleHelped" class="our-impact__label">People Helped</label>
+                    <input asp-for="OurImpact.PeopleHelped" type="number" class="our-impact__input" placeholder="0" min="0" />
+                    <span asp-validation-for="OurImpact.PeopleHelped" class="text-danger"></span>
+                </div>
+                
+                <div class="our-impact__field">
+                    <label asp-for="OurImpact.WorkshopsHosted" class="our-impact__label">Workshops Hosted</label>
+                    <input asp-for="OurImpact.WorkshopsHosted" type="number" class="our-impact__input" placeholder="0" min="0" />
+                    <span asp-validation-for="OurImpact.WorkshopsHosted" class="text-danger"></span>
+                </div>
+                
+                <div class="our-impact__field">
+                    <label asp-for="OurImpact.PartnerOrganisations" class="our-impact__label">Partner Organisations</label>
+                    <input asp-for="OurImpact.PartnerOrganisations" type="number" class="our-impact__input" placeholder="0" min="0" />
+                    <span asp-validation-for="OurImpact.PartnerOrganisations" class="text-danger"></span>
+                </div>
+                
+                <div class="our-impact__field">
+                    <label asp-for="OurImpact.CitiesReached" class="our-impact__label">Cities Reached</label>
+                    <input asp-for="OurImpact.CitiesReached" type="number" class="our-impact__input" placeholder="0" min="0" />
+                    <span asp-validation-for="OurImpact.CitiesReached" class="text-danger"></span>
+                </div>
             </div>
             
-            <div class="our-impact__field">
-                <label class="our-impact__label">Workshops Hosted</label>
-                <input type="number" class="our-impact__input" placeholder="0" value="0" />
+            <div class="our-impact__actions" style="margin-top: 16px; display: flex; gap: 12px;">
+                <button type="submit" class="our-impact__btn-save" style="padding: 10px 20px; background: #4f46e5; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Save</button>
             </div>
-            
-            <div class="our-impact__field">
-                <label class="our-impact__label">Partner Organisations</label>
-                <input type="number" class="our-impact__input" placeholder="0" value="0" />
-            </div>
-            
-            <div class="our-impact__field">
-                <label class="our-impact__label">Cities Reaches</label>
-                <input type="number" class="our-impact__input" placeholder="0" value="0" />
-            </div>
-        </div>
+        </form>
     </section>
     
     <!-- Featured Stories Section -->

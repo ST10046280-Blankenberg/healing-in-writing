@@ -13,13 +13,16 @@ namespace HealingInWriting.Areas.Admin.Controllers
     {
         private readonly IBankDetailsService _bankDetailsService;
         private readonly IPrivacyPolicyService _privacyPolicyService;
+        private readonly IOurImpactService _ourImpactService;
 
         public SiteSettingsController(
             IBankDetailsService bankDetailsService,
-            IPrivacyPolicyService privacyPolicyService)
+            IPrivacyPolicyService privacyPolicyService,
+            IOurImpactService ourImpactService)
         {
             _bankDetailsService = bankDetailsService;
             _privacyPolicyService = privacyPolicyService;
+            _ourImpactService = ourImpactService;
         }
 
         [HttpGet]
@@ -27,10 +30,12 @@ namespace HealingInWriting.Areas.Admin.Controllers
         {
             var bankDetails = await _bankDetailsService.GetAsync();
             var privacyPolicy = await _privacyPolicyService.GetAsync();
+            var ourImpact = await _ourImpactService.GetAsync();
             var model = new SiteSettingsViewModel
             {
                 BankDetails = bankDetails.ToViewModel(),
-                PrivacyPolicy = privacyPolicy.ToViewModel()
+                PrivacyPolicy = privacyPolicy.ToViewModel(),
+                OurImpact = ourImpact.ToViewModel()
             };
             return View(model);
         }
@@ -42,12 +47,13 @@ namespace HealingInWriting.Areas.Admin.Controllers
             if (!ModelState.IsValid)
             {
                 // Re-fetch both to maintain view model integrity
-                var bankDetails = await _bankDetailsService.GetAsync();
                 var privacyPolicy = await _privacyPolicyService.GetAsync();
+                var ourImpact = await _ourImpactService.GetAsync();
                 var model = new SiteSettingsViewModel
                 {
                     BankDetails = bankDetailsVm,
-                    PrivacyPolicy = privacyPolicy.ToViewModel()
+                    PrivacyPolicy = privacyPolicy.ToViewModel(),
+                    OurImpact = ourImpact.ToViewModel()
                 };
                 return View("Index", model);
             }
@@ -63,13 +69,14 @@ namespace HealingInWriting.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError("", $"An error occurred while saving: {ex.Message}");
-                // Re-fetch privacy policy to maintain view model integrity
-                var bankDetails = await _bankDetailsService.GetAsync();
+                // Re-fetch other data to maintain view model integrity
                 var privacyPolicy = await _privacyPolicyService.GetAsync();
+                var ourImpact = await _ourImpactService.GetAsync();
                 var model = new SiteSettingsViewModel
                 {
                     BankDetails = bankDetailsVm,
-                    PrivacyPolicy = privacyPolicy.ToViewModel()
+                    PrivacyPolicy = privacyPolicy.ToViewModel(),
+                    OurImpact = ourImpact.ToViewModel()
                 };
                 return View("Index", model);
             }
@@ -81,12 +88,14 @@ namespace HealingInWriting.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                // Re-fetch bank details for the view model
+                // Re-fetch other data for the view model
                 var bankDetails = await _bankDetailsService.GetAsync();
+                var ourImpact = await _ourImpactService.GetAsync();
                 var model = new SiteSettingsViewModel
                 {
                     BankDetails = bankDetails.ToViewModel(),
-                    PrivacyPolicy = privacyPolicyVm
+                    PrivacyPolicy = privacyPolicyVm,
+                    OurImpact = ourImpact.ToViewModel()
                 };
                 return View("Index", model);
             }
@@ -102,19 +111,55 @@ namespace HealingInWriting.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("", $"An error occurred while saving: {ex.Message}");
                 var bankDetails = await _bankDetailsService.GetAsync();
+                var ourImpact = await _ourImpactService.GetAsync();
                 var model = new SiteSettingsViewModel
                 {
                     BankDetails = bankDetails.ToViewModel(),
-                    PrivacyPolicy = privacyPolicyVm
+                    PrivacyPolicy = privacyPolicyVm,
+                    OurImpact = ourImpact.ToViewModel()
                 };
                 return View("Index", model);
             }
         }
-    }
 
-    public class SiteSettingsViewModel
-    {
-        public BankDetailsViewModel BankDetails { get; set; }
-        public PrivacyPolicyViewModel PrivacyPolicy { get; set; }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateOurImpact([Bind(Prefix = "OurImpact")] OurImpactViewModel ourImpactVm)
+        {
+            if (!ModelState.IsValid)
+            {
+                // Re-fetch other data for the view model
+                var bankDetails = await _bankDetailsService.GetAsync();
+                var privacyPolicy = await _privacyPolicyService.GetAsync();
+                var model = new SiteSettingsViewModel
+                {
+                    BankDetails = bankDetails.ToViewModel(),
+                    PrivacyPolicy = privacyPolicy.ToViewModel(),
+                    OurImpact = ourImpactVm
+                };
+                return View("Index", model);
+            }
+
+            try
+            {
+                var entity = ourImpactVm.ToEntity();
+                await _ourImpactService.UpdateAsync(entity, User.Identity?.Name ?? "System");
+                TempData["OurImpactSuccess"] = "Our Impact updated successfully.";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"An error occurred while saving: {ex.Message}");
+                var bankDetails = await _bankDetailsService.GetAsync();
+                var privacyPolicy = await _privacyPolicyService.GetAsync();
+                var model = new SiteSettingsViewModel
+                {
+                    BankDetails = bankDetails.ToViewModel(),
+                    PrivacyPolicy = privacyPolicy.ToViewModel(),
+                    OurImpact = ourImpactVm
+                };
+                return View("Index", model);
+            }
+        }
     }
 }

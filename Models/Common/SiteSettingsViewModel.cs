@@ -10,5 +10,8 @@ namespace HealingInWriting.Models.Common
 
         [Required]
         public PrivacyPolicyViewModel PrivacyPolicy { get; set; } = new PrivacyPolicyViewModel();
+
+        [Required]
+        public OurImpactViewModel OurImpact { get; set; } = new OurImpactViewModel();
     }
 }
