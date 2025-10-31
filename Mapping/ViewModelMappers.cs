@@ -1,5 +1,7 @@
 using HealingInWriting.Domain.Books;
+using HealingInWriting.Domain.Volunteers;
 using HealingInWriting.Models.Books;
+using HealingInWriting.Models.Volunteer;
 using Microsoft.AspNetCore.Http;
 using System.Text.Json;
 
@@ -8,6 +10,7 @@ namespace HealingInWriting.Mapping;
 // TODO: Provide helper methods for shaping view models outside controllers.
 public static class ViewModelMappers
 {
+    #region Helper Methods
     private static string AuthorsToString(List<string>? authors) =>
         authors == null ? string.Empty : string.Join(", ", authors.Where(a => !string.IsNullOrWhiteSpace(a)));
 
@@ -64,7 +67,9 @@ public static class ViewModelMappers
                 }).ToList();
         return new List<IndustryIdentifier>();
     }
+    #endregion
 
+    #region Books
     public static Book ToBookFromDetailViewModel(this BookDetailViewModel model)
     {
         return new Book
@@ -195,4 +200,51 @@ public static class ViewModelMappers
             Authors = AuthorsToString(book.Authors)
         };
     }
+    #endregion
+
+    #region Volunteers
+    public static VolunteerHour ToVolunteerHour(LogHoursViewModel model, int volunteerId, string? attachmentUrl)
+    {
+        return new VolunteerHour
+        {
+            VolunteerId = volunteerId,
+            Date = model.Date,
+            Activity = model.Activity,
+            Hours = model.Hours,
+            AttachmentUrl = attachmentUrl,
+            Status = VolunteerHourStatus.Pending,
+            SubmittedAt = DateTime.UtcNow,
+            Comments = model.Notes
+        };
+    }
+    public static VolunteerHourApprovalViewModel ToVolunteerHourApprovalViewModel(VolunteerHour hour)
+    {
+        return new VolunteerHourApprovalViewModel
+        {
+            Id = hour.Id,
+            VolunteerName = hour.Volunteer?.User != null
+                ? $"{hour.Volunteer.User.FirstName} {hour.Volunteer.User.LastName}"
+                : "Unknown",
+            VolunteerAvatarUrl = !string.IsNullOrEmpty(hour.Volunteer?.User?.FirstName)
+                ? $"/images/volunteers/{hour.Volunteer.User.FirstName.ToLower()}.jpg"
+                : "/images/volunteers/default.jpg",
+            Date = hour.Date,
+            Activity = hour.Activity,
+            Hours = hour.Hours,
+            AttachmentUrl = hour.AttachmentUrl,
+            Status = hour.Status.ToString()
+        };
+    }
+
+    public static VolunteerHourSummaryViewModel ToVolunteerHourSummaryViewModel(IEnumerable<VolunteerHour> hours)
+    {
+        return new VolunteerHourSummaryViewModel
+        {
+            TotalHours = hours.Sum(h => h.Hours),
+            ValidatedHours = hours.Where(h => h.Status == VolunteerHourStatus.Approved).Sum(h => h.Hours),
+            PendingHours = hours.Where(h => h.Status == VolunteerHourStatus.Pending).Sum(h => h.Hours),
+            NeedsInfoHours = hours.Where(h => h.Status == VolunteerHourStatus.NeedsInfo).Sum(h => h.Hours)
+        };
+    }
+    #endregion
 }

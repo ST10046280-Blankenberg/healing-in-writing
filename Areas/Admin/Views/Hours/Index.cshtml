@@ -1,5 +1,9 @@
+@model HealingInWriting.Models.Volunteer.VolunteerHourFilterViewModel
+@using HealingInWriting.Domain.Volunteers
+
 @{
     ViewData["Title"] = "Hours Approval";
+    var statusOptions = ViewBag.StatusOptions as string[] ?? Array.Empty<string>();
 }
 
 <link rel="stylesheet" href="~/css/shared/admin-header.css" asp-append-version="true" />
@@ -16,145 +20,42 @@
         </div>
 
     </header>
-    
-    <!-- Search Bar -->
-    <div class="search-bar">
+
+    <!-- Filter Bar -->
+    <form method="get" asp-action="Index" class="search-bar">
         <div class="search-bar__input-container">
-            <svg class="search-bar__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="11" cy="11" r="8" stroke="#ADAEBC" stroke-width="2"/>
-                <line x1="20" y1="20" x2="16.65" y2="16.65" stroke="#ADAEBC" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-            <input class="search-bar__input" type="text" placeholder="Search..." />
+            <input class="search-bar__input" type="text" name="search" placeholder="Search..." value="@Model.Search" />
         </div>
         <div class="search-bar__dropdown">
-            <span class="search-bar__dropdown-label">Any Date</span>
-            <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6 9L12 15L18 9" stroke="#ADAEBC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <input type="date" name="startDate" value="@(Model.StartDate?.ToString("yyyy-MM-dd") ?? "")" />
+            <span>to</span>
+            <input type="date" name="endDate" value="@(Model.EndDate?.ToString("yyyy-MM-dd") ?? "")" />
         </div>
         <div class="search-bar__dropdown">
-            <span class="search-bar__dropdown-label">Any Status</span>
-            <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6 9L12 15L18 9" stroke="#ADAEBC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <select name="status" class="search-bar__dropdown-select">
+                <option value="">Any Status</option>
+                @foreach (var status in statusOptions)
+                {
+                    var selected = Model.Status == status ? "selected" : null;
+                    <option value="@status" selected="@selected">@status</option>
+                }
+            </select>
         </div>
         <div class="search-bar__dropdown">
-            <span class="search-bar__dropdown-label">Newest</span>
-            <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6 9L12 15L18 9" stroke="#ADAEBC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <select name="orderBy" class="search-bar__dropdown-select">
+                @{
+                    var newestSelected = Model.OrderBy == "Newest" ? "selected" : null;
+                    var oldestSelected = Model.OrderBy == "Oldest" ? "selected" : null;
+                }
+                <option value="Newest" selected="@newestSelected">Newest</option>
+                <option value="Oldest" selected="@oldestSelected">Oldest</option>
+            </select>
         </div>
         <button class="search-bar__button" type="submit">
-            <svg class="search-bar__button-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="11" cy="11" r="8" stroke="#FFFFFF" stroke-width="2"/>
-                <line x1="20" y1="20" x2="16.65" y2="16.65" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
-            </svg>
             <span class="search-bar__button-label">Search</span>
         </button>
-    </div>
+    </form>
 
     <!-- Table Section -->
-    <div class="hours-approval__table-wrapper">
-        <table class="hours-approval__table">
-            <thead class="hours-approval__table-head">
-                <tr>
-                    <th class="hours-approval__table-header"><input type="checkbox" /></th>
-                    <th class="hours-approval__table-header">Volunteer</th>
-                    <th class="hours-approval__table-header">Date</th>
-                    <th class="hours-approval__table-header">Activity</th>
-                    <th class="hours-approval__table-header">Hours</th>
-                    <th class="hours-approval__table-header">Attachment</th>
-                    <th class="hours-approval__table-header">Status</th>
-                    <th class="hours-approval__table-header">Actions</th>
-                </tr>
-            </thead>
-            <tbody class="hours-approval__table-body">
-                <tr class="hours-approval__table-row">
-                    <td class="hours-approval__table-cell"><input type="checkbox" /></td>
-                    <td class="hours-approval__table-cell">
-                        <div class="hours-approval__volunteer-info">
-                            <img class="hours-approval__avatar" src="/wwwroot/images/volunteers/sarah.jpg" alt="Sarah Johnson" />
-                            <span class="hours-approval__volunteer-name">Sarah Johnson</span>
-                        </div>
-                    </td>
-                    <td class="hours-approval__table-cell">Jan 15, 2024</td>
-                    <td class="hours-approval__table-cell">Community Garden Cleanup</td>
-                    <td class="hours-approval__table-cell"><strong>4.5</strong></td>
-                    <td class="hours-approval__table-cell">
-                        <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4h12v12H4V4z" stroke="#9CA3AF" stroke-width="2"/></svg>
-                    </td>
-                    <td class="hours-approval__table-cell">
-                        <span class="hours-approval__status-badge hours-approval__status-badge--pending">Pending</span>
-                    </td>
-                    <td class="hours-approval__table-cell">
-                        <button class="hours-approval__action hours-approval__action--approve" title="Approve">
-                            <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 8l4 4 8-8" stroke="#16A34A" stroke-width="2"/></svg>
-                        </button>
-                        <button class="hours-approval__action hours-approval__action--reject" title="Reject">
-                            <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 2l12 12M14 2L2 14" stroke="#DC2626" stroke-width="2"/></svg>
-                        </button>
-                        <button class="hours-approval__action hours-approval__action--info" title="Needs Info">
-                            <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="7" stroke="#2563EB" stroke-width="2"/><text x="8" y="12" text-anchor="middle" font-size="10" fill="#2563EB">?</text></svg>
-                        </button>
-                    </td>
-                </tr>
-                <tr class="hours-approval__table-row">
-                    <td class="hours-approval__table-cell"><input type="checkbox" /></td>
-                    <td class="hours-approval__table-cell">
-                        <div class="hours-approval__volunteer-info">
-                            <img class="hours-approval__avatar" src="/wwwroot/images/volunteers/mike.jpg" alt="Mike Chen" />
-                            <span class="hours-approval__volunteer-name">Mike Chen</span>
-                        </div>
-                    </td>
-                    <td class="hours-approval__table-cell">Jan 14, 2024</td>
-                    <td class="hours-approval__table-cell">Food Bank Sorting</td>
-                    <td class="hours-approval__table-cell"><strong>3.0</strong></td>
-                    <td class="hours-approval__table-cell">&mdash;</td>
-                    <td class="hours-approval__table-cell">
-                        <span class="hours-approval__status-badge hours-approval__status-badge--approved">Approved</span>
-                    </td>
-                    <td class="hours-approval__table-cell">
-                        <button class="hours-approval__action hours-approval__action--approve" title="Approve">
-                            <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 8l4 4 8-8" stroke="#16A34A" stroke-width="2"/></svg>
-                        </button>
-                        <button class="hours-approval__action hours-approval__action--reject" title="Reject">
-                            <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 2l12 12M14 2L2 14" stroke="#DC2626" stroke-width="2"/></svg>
-                        </button>
-                        <button class="hours-approval__action hours-approval__action--info" title="Needs Info">
-                            <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="7" stroke="#2563EB" stroke-width="2"/><text x="8" y="12" text-anchor="middle" font-size="10" fill="#2563EB">?</text></svg>
-                        </button>
-                    </td>
-                </tr>
-                <tr class="hours-approval__table-row">
-                    <td class="hours-approval__table-cell"><input type="checkbox" /></td>
-                    <td class="hours-approval__table-cell">
-                        <div class="hours-approval__volunteer-info">
-                            <img class="hours-approval__avatar" src="/wwwroot/images/volunteers/emma.jpg" alt="Emma Davis" />
-                            <span class="hours-approval__volunteer-name">Emma Davis</span>
-                        </div>
-                    </td>
-                    <td class="hours-approval__table-cell">Jan 13, 2024</td>
-                    <td class="hours-approval__table-cell">Senior Center Reading Program</td>
-                    <td class="hours-approval__table-cell"><strong>2.5</strong></td>
-                    <td class="hours-approval__table-cell">
-                        <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4h12v12H4V4z" stroke="#9CA3AF" stroke-width="2"/></svg>
-                    </td>
-                    <td class="hours-approval__table-cell">
-                        <span class="hours-approval__status-badge hours-approval__status-badge--info">Needs Info</span>
-                    </td>
-                    <td class="hours-approval__table-cell">
-                        <button class="hours-approval__action hours-approval__action--approve" title="Approve">
-                            <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 8l4 4 8-8" stroke="#16A34A" stroke-width="2"/></svg>
-                        </button>
-                        <button class="hours-approval__action hours-approval__action--reject" title="Reject">
-                            <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 2l12 12M14 2L2 14" stroke="#DC2626" stroke-width="2"/></svg>
-                        </button>
-                        <button class="hours-approval__action hours-approval__action--info" title="Needs Info">
-                            <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="7" stroke="#2563EB" stroke-width="2"/><text x="8" y="12" text-anchor="middle" font-size="10" fill="#2563EB">?</text></svg>
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    @await Html.PartialAsync("_HoursApprovalTable", Model.Results)
 </main>
