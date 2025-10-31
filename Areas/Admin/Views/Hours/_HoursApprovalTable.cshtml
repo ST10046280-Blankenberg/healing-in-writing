@@ -1,0 +1,82 @@
+﻿@model List<HealingInWriting.Models.Volunteer.VolunteerHourApprovalViewModel>
+
+<div class="hours-approval__table-wrapper">
+    <table class="hours-approval__table">
+        <thead class="hours-approval__table-head">
+            <tr>
+                <th class="hours-approval__table-header"><input type="checkbox" /></th>
+                <th class="hours-approval__table-header">Volunteer</th>
+                <th class="hours-approval__table-header">Date</th>
+                <th class="hours-approval__table-header">Activity</th>
+                <th class="hours-approval__table-header">Hours</th>
+                <th class="hours-approval__table-header">Attachment</th>
+                <th class="hours-approval__table-header">Status</th>
+                <th class="hours-approval__table-header">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="hours-approval__table-body">
+            @if (Model?.Any() == true)
+            {
+
+                @foreach (var item in Model)
+                {
+                    <tr class="hours-approval__table-row">
+                        <td class="hours-approval__table-cell"><input type="checkbox" /></td>
+                        <td class="hours-approval__table-cell">
+                            <div class="hours-approval__volunteer-info">
+                                <img class="hours-approval__avatar"
+                                     src="@(string.IsNullOrEmpty(item.VolunteerAvatarUrl) ? "/images/volunteers/default.jpg" : item.VolunteerAvatarUrl)"
+                                     alt="@(item.VolunteerName ?? "Unknown")" />
+                                <span class="hours-approval__volunteer-name">@(!string.IsNullOrEmpty(item.VolunteerName) ? item.VolunteerName : "Unknown")</span>
+                            </div>
+                        </td>
+                        <td class="hours-approval__table-cell">@item.Date.ToString("MMM dd, yyyy")</td>
+                        <td class="hours-approval__table-cell">@item.Activity</td>
+                        <td class="hours-approval__table-cell"><strong>@item.Hours</strong></td>
+                        <td class="hours-approval__table-cell">
+                            @if (!string.IsNullOrEmpty(item.AttachmentUrl))
+                            {
+                                <a href="@item.AttachmentUrl" target="_blank">
+                                    <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4h12v12H4V4z" stroke="#9CA3AF" stroke-width="2" /></svg>
+                                </a>
+                            }
+                            else
+                            {
+                                @Html.Raw("&mdash;")
+                            }
+                        </td>
+                        <td class="hours-approval__table-cell">
+                            <span class="hours-approval__status-badge hours-approval__status-badge--@item.Status?.ToLower()">@item.Status</span>
+                        </td>
+                        <td class="hours-approval__table-cell">
+                            <form asp-action="UpdateStatus" asp-controller="Hours" asp-area="Admin" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <input type="hidden" name="status" value="Approved" />
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="hours-approval__action hours-approval__action--approve" title="Approve">
+                                    <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 8l4 4 8-8" stroke="#16A34A" stroke-width="2" /></svg>
+                                </button>
+                            </form>
+                            <form asp-action="UpdateStatus" asp-controller="Hours" asp-area="Admin" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <input type="hidden" name="status" value="Rejected" />
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="hours-approval__action hours-approval__action--reject" title="Reject">
+                                    <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 2l12 12M14 2L2 14" stroke="#DC2626" stroke-width="2" /></svg>
+                                </button>
+                            </form>
+                            <form asp-action="UpdateStatus" asp-controller="Hours" asp-area="Admin" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <input type="hidden" name="status" value="NeedsInfo" />
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="hours-approval__action hours-approval__action--info" title="Needs Info">
+                                    <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="7" stroke="#2563EB" stroke-width="2" /><text x="8" y="12" text-anchor="middle" font-size="10" fill="#2563EB">?</text></svg>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

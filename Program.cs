@@ -1,17 +1,21 @@
 using HealingInWriting.Data;
 using HealingInWriting.Domain.Users;
+using HealingInWriting.Interfaces.Repository;
 using HealingInWriting.Interfaces.Services;
+using HealingInWriting.Repositories.BankDetailsFolder;
+using HealingInWriting.Repositories.Books;
+using HealingInWriting.Repositories.Events;
+using HealingInWriting.Repositories.Volunteers;
 using HealingInWriting.Services.Auth;
 using HealingInWriting.Services.Books;
-using HealingInWriting.Services.Stories;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.RateLimiting;
-using Microsoft.AspNetCore.RateLimiting;
-using HealingInWriting.Interfaces.Repository;
-using HealingInWriting.Repositories.Books;
 using HealingInWriting.Services.Common;
-using HealingInWriting.Repositories.BankDetailsFolder;
+using HealingInWriting.Services.Events;
+using HealingInWriting.Services.Stories;
+using HealingInWriting.Services.Volunteers;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using HealingInWriting.Repositories.Events;
 using HealingInWriting.Repositories.Gallery;
@@ -20,6 +24,7 @@ using HealingInWriting.Repositories.OurImpactFolder;
 using HealingInWriting.Services.Events;
 using HealingInWriting.Services.Gallery;
 using Microsoft.AspNetCore.Localization;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -110,12 +115,8 @@ builder.Services.AddScoped<IRegistrationService, RegistrationService>();
 builder.Services.AddScoped<IBackoffStateRepository, BackoffStateRepository>();
 builder.Services.AddScoped<IBankDetailsRepository, BankDetailsRepository>();
 builder.Services.AddScoped<IBankDetailsService, BankDetailsService>();
-builder.Services.AddScoped<IPrivacyPolicyRepository, PrivacyPolicyRepository>();
-builder.Services.AddScoped<IPrivacyPolicyService, PrivacyPolicyService>();
-builder.Services.AddScoped<IOurImpactRepository, OurImpactRepository>();
-builder.Services.AddScoped<IOurImpactService, OurImpactService>();
-builder.Services.AddScoped<IGalleryRepository, GalleryRepository>();
-builder.Services.AddScoped<IGalleryService, GalleryService>();
+builder.Services.AddScoped<IVolunteerRepository, VolunteerRepository>();
+builder.Services.AddScoped<IVolunteerService, VolunteerService>();
 
 // Configure rate limiting to prevent brute force, credential stuffing, and DDoS attacks
 // Uses IP address as the partition key to track requests per client
@@ -332,8 +333,8 @@ app.Use(async (context, next) =>
         "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net", 
         
         // 2. ADDED http://books.google.com to allow book cover images
-        "img-src 'self' data: https: http://books.google.com", 
-        
+        "img-src 'self' data: https: http://books.google.com",
+
         "connect-src 'self'",
         "frame-ancestors 'none'",
         "base-uri 'self'",
