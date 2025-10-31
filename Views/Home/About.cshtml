@@ -1,3 +1,5 @@
+@model HealingInWriting.Models.Common.OurImpactViewModel
+
 @{
     ViewData["Title"] = "About Us";
 }
@@ -95,20 +97,20 @@
             <!-- Stats Grid -->
             <div class="about-impact__stats">
                 <div class="about-impact__stat">
-                    <div class="about-impact__stat-number about-impact__stat-number--purple">1,200+</div>
-                    <div class="about-impact__stat-label">Stories Shared</div>
+                    <div class="about-impact__stat-number about-impact__stat-number--purple">@Model.PeopleHelped</div>
+                    <div class="about-impact__stat-label">People Helped</div>
                 </div>
                 <div class="about-impact__stat">
-                    <div class="about-impact__stat-number about-impact__stat-number--rose">85+</div>
-                    <div class="about-impact__stat-label">Healing Workshops</div>
+                    <div class="about-impact__stat-number about-impact__stat-number--rose">@Model.WorkshopsHosted</div>
+                    <div class="about-impact__stat-label">Workshops Hosted</div>
                 </div>
                 <div class="about-impact__stat">
-                    <div class="about-impact__stat-number about-impact__stat-number--purple">500+</div>
-                    <div class="about-impact__stat-label">Active Members</div>
+                    <div class="about-impact__stat-number about-impact__stat-number--purple">@Model.PartnerOrganisations</div>
+                    <div class="about-impact__stat-label">Partner Organisations</div>
                 </div>
                 <div class="about-impact__stat">
-                    <div class="about-impact__stat-number about-impact__stat-number--rose">15</div>
-                    <div class="about-impact__stat-label">Support Groups</div>
+                    <div class="about-impact__stat-number about-impact__stat-number--rose">@Model.CitiesReached</div>
+                    <div class="about-impact__stat-label">Cities Reached</div>
                 </div>
             </div>
 
@@ -169,4 +171,3 @@
         </div>
     </section>
 </div>
-

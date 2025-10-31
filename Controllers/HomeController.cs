@@ -12,15 +12,18 @@ namespace HealingInWriting.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IEventService _eventService;
         private readonly IPrivacyPolicyService _privacyPolicyService;
+        private readonly IOurImpactService _ourImpactService;
 
         public HomeController(
             ILogger<HomeController> logger, 
             IEventService eventService,
-            IPrivacyPolicyService privacyPolicyService)
+            IPrivacyPolicyService privacyPolicyService,
+            IOurImpactService ourImpactService)
         {
             _logger = logger;
             _eventService = eventService;
             _privacyPolicyService = privacyPolicyService;
+            _ourImpactService = ourImpactService;
         }
 
         public async Task<IActionResult> Index()
@@ -77,13 +80,18 @@ namespace HealingInWriting.Controllers
                     .ToList();
             }
 
+            // Fetch OurImpact
+            var ourImpact = await _ourImpactService.GetAsync();
+            viewModel.OurImpact = ourImpact.ToViewModel();
+
             return View(viewModel);
         }
 
         // TODO: Keep about page content static or delegate to service if dynamic content is needed.
-        public IActionResult About()
+        public async Task<IActionResult> About()
         {
-            return View();
+            var ourImpact = await _ourImpactService.GetAsync();
+            return View(ourImpact.ToViewModel());
         }
 
         // TODO: Keep privacy content generation inside the service layer.
