@@ -146,6 +146,32 @@ namespace HealingInWriting.Migrations
                     b.ToTable("BankDetails");
                 });
 
+            modelBuilder.Entity("HealingInWriting.Domain.Common.PrivacyPolicy", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("LastUpdated")
+                        .HasColumnType("TEXT");
+
+                    b.Property<byte[]>("RowVersion")
+                        .HasColumnType("BLOB");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PrivacyPolicies");
+                });
+
             modelBuilder.Entity("HealingInWriting.Domain.Events.Event", b =>
                 {
                     b.Property<int>("EventId")

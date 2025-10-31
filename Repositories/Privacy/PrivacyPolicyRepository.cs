@@ -23,13 +23,22 @@ namespace HealingInWriting.Repositories.Privacy
 
         public async Task<PrivacyPolicy?> GetAsync()
         {
-            return await _context.PrivacyPolicies.FirstOrDefaultAsync();
+            return await _context.PrivacyPolicies.AsNoTracking().FirstOrDefaultAsync();
         }
 
         public async Task UpdateAsync(PrivacyPolicy entity)
         {
-            _context.PrivacyPolicies.Update(entity);
-            await _context.SaveChangesAsync();
+            var existing = await _context.PrivacyPolicies.FindAsync(entity.Id);
+            if (existing != null)
+            {
+                _context.Entry(existing).CurrentValues.SetValues(entity);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                _context.PrivacyPolicies.Update(entity);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

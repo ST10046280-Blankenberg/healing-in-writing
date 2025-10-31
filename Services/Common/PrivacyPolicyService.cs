@@ -33,19 +33,22 @@ namespace HealingInWriting.Services.Common
 
         public async Task UpdateAsync(PrivacyPolicy entity, string updatedBy)
         {
+            // Set audit fields
+            entity.UpdatedBy = updatedBy;
+            entity.LastUpdated = DateTime.UtcNow;
+
+            // Check if entity exists
             var existing = await _repository.GetAsync();
+            
             if (existing == null)
             {
-                entity.UpdatedBy = updatedBy;
-                entity.LastUpdated = DateTime.UtcNow;
+                // Create new if doesn't exist
                 await _repository.AddAsync(entity);
             }
             else
             {
-                existing.Content = entity.Content;
-                existing.UpdatedBy = updatedBy;
-                existing.LastUpdated = DateTime.UtcNow;
-                await _repository.UpdateAsync(existing);
+                // Update existing - repository handles the tracking
+                await _repository.UpdateAsync(entity);
             }
         }
     }

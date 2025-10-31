@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealingInWriting.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251030213834_Initial Commit")]
+    [Migration("20251031072143_Initial Commit")]
     partial class InitialCommit
     {
         /// <inheritdoc />
@@ -147,6 +147,32 @@ namespace HealingInWriting.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BankDetails");
+                });
+
+            modelBuilder.Entity("HealingInWriting.Domain.Common.PrivacyPolicy", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("LastUpdated")
+                        .HasColumnType("TEXT");
+
+                    b.Property<byte[]>("RowVersion")
+                        .HasColumnType("BLOB");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PrivacyPolicies");
                 });
 
             modelBuilder.Entity("HealingInWriting.Domain.Events.Event", b =>

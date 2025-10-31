@@ -39,26 +39,22 @@ namespace HealingInWriting.Services.Common
 
         public async Task UpdateAsync(BankDetails entity, string updatedBy)
         {
-            var existing = await _repository.GetAsync();
+            // Set audit fields
+            entity.UpdatedBy = updatedBy;
+            entity.UpdatedAt = DateTime.UtcNow;
 
+            // Check if entity exists
+            var existing = await _repository.GetAsync();
+            
             if (existing == null)
             {
-                entity.UpdatedBy = updatedBy;
-                entity.UpdatedAt = DateTime.UtcNow;
+                // Create new if doesn't exist
                 await _repository.AddAsync(entity);
-                // No need to call SaveChangesAsync separately, AddAsync handles it
             }
             else
             {
-                existing.BankName = entity.BankName;
-                existing.AccountNumber = entity.AccountNumber;
-                existing.Branch = entity.Branch;
-                existing.BranchCode = entity.BranchCode;
-                existing.UpdatedBy = updatedBy;
-                existing.UpdatedAt = DateTime.UtcNow;
-
-                await _repository.UpdateAsync(existing);
-                // No need to call SaveChangesAsync separately, UpdateAsync handles it
+                // Update existing - repository handles the tracking
+                await _repository.UpdateAsync(entity);
             }
         }
     }

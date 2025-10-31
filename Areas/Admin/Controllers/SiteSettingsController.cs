@@ -37,19 +37,24 @@ namespace HealingInWriting.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(SiteSettingsViewModel model)
+        public async Task<IActionResult> Update([Bind(Prefix = "BankDetails")] BankDetailsViewModel bankDetailsVm)
         {
             if (!ModelState.IsValid)
             {
-                // Re-fetch privacy policy to maintain view model integrity
+                // Re-fetch both to maintain view model integrity
+                var bankDetails = await _bankDetailsService.GetAsync();
                 var privacyPolicy = await _privacyPolicyService.GetAsync();
-                model.PrivacyPolicy = privacyPolicy.ToViewModel();
+                var model = new SiteSettingsViewModel
+                {
+                    BankDetails = bankDetailsVm,
+                    PrivacyPolicy = privacyPolicy.ToViewModel()
+                };
                 return View("Index", model);
             }
 
             try
             {
-                var entity = model.BankDetails.ToEntity();
+                var entity = bankDetailsVm.ToEntity();
                 await _bankDetailsService.UpdateAsync(entity, User.Identity?.Name ?? "System");
                 
                 TempData["Success"] = "Bank details updated successfully.";
@@ -57,17 +62,22 @@ namespace HealingInWriting.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", "An error occurred while saving. Please try again.");
+                ModelState.AddModelError("", $"An error occurred while saving: {ex.Message}");
                 // Re-fetch privacy policy to maintain view model integrity
+                var bankDetails = await _bankDetailsService.GetAsync();
                 var privacyPolicy = await _privacyPolicyService.GetAsync();
-                model.PrivacyPolicy = privacyPolicy.ToViewModel();
+                var model = new SiteSettingsViewModel
+                {
+                    BankDetails = bankDetailsVm,
+                    PrivacyPolicy = privacyPolicy.ToViewModel()
+                };
                 return View("Index", model);
             }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdatePrivacyPolicy(PrivacyPolicyViewModel vm)
+        public async Task<IActionResult> UpdatePrivacyPolicy([Bind(Prefix = "PrivacyPolicy")] PrivacyPolicyViewModel privacyPolicyVm)
         {
             if (!ModelState.IsValid)
             {
@@ -76,26 +86,26 @@ namespace HealingInWriting.Areas.Admin.Controllers
                 var model = new SiteSettingsViewModel
                 {
                     BankDetails = bankDetails.ToViewModel(),
-                    PrivacyPolicy = vm
+                    PrivacyPolicy = privacyPolicyVm
                 };
                 return View("Index", model);
             }
 
             try
             {
-                var entity = vm.ToEntity();
+                var entity = privacyPolicyVm.ToEntity();
                 await _privacyPolicyService.UpdateAsync(entity, User.Identity?.Name ?? "System");
                 TempData["PrivacySuccess"] = "Privacy policy updated successfully.";
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", "An error occurred while saving. Please try again.");
+                ModelState.AddModelError("", $"An error occurred while saving: {ex.Message}");
                 var bankDetails = await _bankDetailsService.GetAsync();
                 var model = new SiteSettingsViewModel
                 {
                     BankDetails = bankDetails.ToViewModel(),
-                    PrivacyPolicy = vm
+                    PrivacyPolicy = privacyPolicyVm
                 };
                 return View("Index", model);
             }

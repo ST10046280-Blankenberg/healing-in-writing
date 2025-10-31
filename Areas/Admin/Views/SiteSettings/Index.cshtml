@@ -25,7 +25,7 @@
         <form asp-area="Admin" asp-controller="SiteSettings" asp-action="Update" method="post">
             @Html.AntiForgeryToken()
             <input asp-for="BankDetails.Id" type="hidden" />
-            <input asp-for="BankDetails.RowVersion" type="hidden" value="@(Model.BankDetails.RowVersion != null ? Convert.ToBase64String(Model.BankDetails.RowVersion) : "")" />
+            <input asp-for="BankDetails.RowVersion" type="hidden" />
 
             
             <div class="donation-settings__form-grid">
@@ -76,7 +76,7 @@
             <form asp-area="Admin" asp-controller="SiteSettings" asp-action="UpdatePrivacyPolicy" method="post" id="privacy-terms-form">
                 @Html.AntiForgeryToken()
                 <input asp-for="PrivacyPolicy.Id" type="hidden" />
-                <input asp-for="PrivacyPolicy.RowVersion" type="hidden" value="@(Model.PrivacyPolicy.RowVersion != null ? Convert.ToBase64String((byte[])Model.PrivacyPolicy.RowVersion) : "")" />
+                <input asp-for="PrivacyPolicy.RowVersion" type="hidden" />
                 <input asp-for="PrivacyPolicy.LastUpdated" type="hidden" />
 
                 <div class="privacy-editor__rich-text-box">
