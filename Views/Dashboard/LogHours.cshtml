@@ -1,4 +1,4 @@
-@model HealingInWriting.Models.Volunteer.LogHoursViewModel
+@model HealingInWriting.Models.Volunteer.LogHoursPageViewModel
 
 @{
     ViewData["Title"] = "Log Your Hours";
@@ -29,22 +29,22 @@
                 <!-- Date and Hours Row -->
                 <div class="log-hours__form-row">
                     <div class="log-hours__form-group">
-                        <label asp-for="Date" class="log-hours__label"></label>
-                        <input asp-for="Date" class="log-hours__input" type="date" />
-                        <span asp-validation-for="Date" class="text-danger"></span>
+                        <label asp-for="LogForm.Date" class="log-hours__label"></label>
+                        <input asp-for="LogForm.Date" class="log-hours__input" type="date" />
+                        <span asp-validation-for="LogForm.Date" class="text-danger"></span>
                     </div>
 
                     <div class="log-hours__form-group">
-                        <label asp-for="Hours" class="log-hours__label"></label>
-                        <input asp-for="Hours" class="log-hours__input" type="number" step="0.5" min="0" />
-                        <span asp-validation-for="Hours" class="text-danger"></span>
+                        <label asp-for="LogForm.Hours" class="log-hours__label"></label>
+                        <input asp-for="LogForm.Hours" class="log-hours__input" type="number" step="0.5" min="0" />
+                        <span asp-validation-for="LogForm.Hours" class="text-danger"></span>
                     </div>
                 </div>
 
                 <!-- Activity Dropdown -->
                 <div class="log-hours__form-group">
-                    <label asp-for="Activity" class="log-hours__label"></label>
-                    <select asp-for="Activity" class="log-hours__select">
+                    <label asp-for="LogForm.Activity" class="log-hours__label"></label>
+                    <select asp-for="LogForm.Activity" class="log-hours__select">
                         <option value="">Select an activity</option>
                         <option value="Workshop">Workshop</option>
                         <option value="Community Event">Community Event</option>
@@ -52,21 +52,21 @@
                         <option value="Administration">Administration</option>
                         <option value="Other">Other</option>
                     </select>
-                    <span asp-validation-for="Activity" class="text-danger"></span>
+                    <span asp-validation-for="LogForm.Activity" class="text-danger"></span>
                 </div>
 
                 <!-- Notes Textarea -->
                 <div class="log-hours__form-group">
-                    <label asp-for="Notes" class="log-hours__label"></label>
-                    <textarea asp-for="Notes" class="log-hours__textarea"></textarea>
-                    <span asp-validation-for="Notes" class="text-danger"></span>
+                    <label asp-for="LogForm.Notes" class="log-hours__label"></label>
+                    <textarea asp-for="LogForm.Notes" class="log-hours__textarea"></textarea>
+                    <span asp-validation-for="LogForm.Notes" class="text-danger"></span>
                 </div>
 
                 <!-- File Upload -->
                 <div class="log-hours__form-group">
-                    <label asp-for="Attachment" class="log-hours__label">Attachment (Optional)</label>
-                    <input asp-for="Attachment" type="file" class="log-hours__input" />
-                    <span asp-validation-for="Attachment" class="text-danger"></span>
+                    <label asp-for="LogForm.Attachment" class="log-hours__label">Attachment (Optional)</label>
+                    <input asp-for="LogForm.Attachment" type="file" class="log-hours__input" />
+                    <span asp-validation-for="LogForm.Attachment" class="text-danger"></span>
                 </div>
 
                 <!-- Submit Button -->
@@ -82,50 +82,10 @@
         <!-- Recent Entries Card -->
         <div class="log-hours__entries-card">
             <h2 class="log-hours__entries-header">Recent Entries</h2>
-
-            <div class="log-hours__entries-list">
-                <!-- Entry 1: Validated -->
-                <article class="entry-card">
-                    <div class="entry-card__header">
-                        <div class="entry-card__info">
-                            <h3 class="entry-card__title">Title</h3>
-                            <p class="entry-card__date">Date: Day, Month, Year</p>
-                        </div>
-                        <span class="entry-card__status entry-card__status--validated">Validated</span>
-                    </div>
-                    <p class="entry-card__hours">Hours</p>
-                    <p class="entry-card__description">Description</p>
-                </article>
-
-                <!-- Entry 2: Pending -->
-                <article class="entry-card">
-                    <div class="entry-card__header">
-                        <div class="entry-card__info">
-                            <h3 class="entry-card__title">Title</h3>
-                            <p class="entry-card__date">Date: Day, Month, Year</p>
-                        </div>
-                        <span class="entry-card__status entry-card__status--pending">Pending</span>
-                    </div>
-                    <p class="entry-card__hours">Hours</p>
-                    <p class="entry-card__description">Description</p>
-                </article>
-
-                <!-- Entry 3: Needs Info -->
-                <article class="entry-card">
-                    <div class="entry-card__header">
-                        <div class="entry-card__info">
-                            <h3 class="entry-card__title">Title</h3>
-                            <p class="entry-card__date">Date: Day, Month, Year</p>
-                        </div>
-                        <span class="entry-card__status entry-card__status--needs-info">Needs Info</span>
-                    </div>
-                    <p class="entry-card__hours">Hours</p>
-                    <p class="entry-card__description">Description</p>
-                </article>
-            </div>
+            @await Html.PartialAsync("_RecentVolunteerHours", Model.RecentEntries)
 
             <!-- View All Button -->
-            <button class="log-hours__view-all">View All Entries</button>
+            @* <button class="log-hours__view-all">View All Entries</button> *@
         </div>
     </div>
 

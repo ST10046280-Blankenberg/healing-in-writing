@@ -30,35 +30,49 @@ namespace HealingInWriting.Controllers
         // GET: /Dashboard/LogHours
         // Only volunteers can log hours
         [Authorize(Roles = "Volunteer")]
-        public IActionResult LogHours()
+        public async Task<IActionResult> LogHours()
         {
-            return View(new LogHoursViewModel());
+            var user = await _userManager.GetUserAsync(User);
+            var recentEntries = await _volunteerService.GetRecentVolunteerHoursForUserAsync(user.Id, 5);
+
+            var vm = new LogHoursPageViewModel
+            {
+                LogForm = new LogHoursViewModel(),
+                RecentEntries = recentEntries
+            };
+            return View(vm);
         }
 
         // POST: /Dashboard/LogHours
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Volunteer")]
-        public async Task<IActionResult> LogHours(LogHoursViewModel model)
+        public async Task<IActionResult> LogHours(LogHoursPageViewModel vm)
         {
             if (!ModelState.IsValid)
-                return View(model);
-
-            var user = await _userManager.GetUserAsync(User);
-
-            string? attachmentUrl = null;
-            if (model.Attachment != null && model.Attachment.Length > 0)
             {
-                // Save file logic here
-                attachmentUrl = "/uploads/" + model.Attachment.FileName;
+                // Re-populate recent entries if validation fails
+                var user = await _userManager.GetUserAsync(User);
+                vm.RecentEntries = await _volunteerService.GetRecentVolunteerHoursForUserAsync(user.Id, 5);
+                return View(vm);
             }
 
-            var (success, error) = await _volunteerService.LogHoursAsync(user.Id, model, attachmentUrl);
+            var userObj = await _userManager.GetUserAsync(User);
+
+            string? attachmentUrl = null;
+            if (vm.LogForm.Attachment != null && vm.LogForm.Attachment.Length > 0)
+            {
+                // Save file logic here
+                attachmentUrl = "/uploads/" + vm.LogForm.Attachment.FileName;
+            }
+
+            var (success, error) = await _volunteerService.LogHoursAsync(userObj.Id, vm.LogForm, attachmentUrl);
 
             if (!success)
             {
                 ModelState.AddModelError("", error ?? "An error occurred.");
-                return View(model);
+                vm.RecentEntries = await _volunteerService.GetRecentVolunteerHoursForUserAsync(userObj.Id, 5);
+                return View(vm);
             }
 
             TempData["Success"] = "Your hours have been submitted for validation.";

@@ -75,4 +75,21 @@ public class VolunteerService : IVolunteerService
 
         return hours.Select(ViewModelMappers.ToVolunteerHourApprovalViewModel).ToList();
     }
+
+    public async Task<List<VolunteerHourApprovalViewModel>> GetRecentVolunteerHoursForUserAsync(string userId, int count = 5)
+    {
+        var volunteer = _repository.GetVolunteerByUserId(userId);
+        if (volunteer == null)
+            return new List<VolunteerHourApprovalViewModel>();
+
+        var allHours = await _repository.GetAllVolunteerHoursWithVolunteerAsync();
+        var userHours = allHours
+            .Where(h => h.VolunteerId == volunteer.VolunteerId)
+            .OrderByDescending(h => h.SubmittedAt)
+            .Take(count)
+            .Select(ViewModelMappers.ToVolunteerHourApprovalViewModel)
+            .ToList();
+
+        return userHours;
+    }
 }
