@@ -4,9 +4,13 @@
     ViewData["Title"] = "Story Details";
     var displayDate = Model.CreatedAt.ToLocalTime().ToString("MMMM d, yyyy");
     var isAuthenticated = User.Identity?.IsAuthenticated ?? false;
-    var backLink = isAuthenticated
-        ? Url.Action("MyStories", "Dashboard", new { area = "" })
-        : Url.Action("Index", "Stories", new { area = "" });
+    var isAdmin = User.IsInRole("Admin");
+    var defaultBackLink = isAdmin
+        ? Url.Action("Manage", "Stories", new { area = "Admin" })
+        : isAuthenticated
+            ? Url.Action("MyStories", "Dashboard", new { area = "" })
+            : Url.Action("Index", "Stories", new { area = "" });
+    var backLink = !string.IsNullOrWhiteSpace(Model.ReturnUrl) ? Model.ReturnUrl : defaultBackLink;
 }
 
 @section Styles {
@@ -23,7 +27,7 @@
                             <path d="M19 12H5M12 19l-7-7 7-7" stroke="#1D1B20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </a>
-                    @if (User.IsInRole("Admin"))
+                    @if (isAdmin)
                     {
                         <div class="story-details__actions">
                             <button class="story-details__btn story-details__btn--primary" type="button">

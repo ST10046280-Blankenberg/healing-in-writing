@@ -125,4 +125,17 @@ public class StoryService : IStoryService
 
         return story;
     }
+
+    public async Task<IReadOnlyCollection<Story>> GetAllStoriesForAdminAsync()
+    {
+        var stories = await _context.Stories
+            .AsNoTracking()
+            .Include(s => s.Author)
+                .ThenInclude(author => author.User)
+            .Include(s => s.Tags)
+            .OrderByDescending(s => s.CreatedAt)
+            .ToListAsync();
+
+        return stories;
+    }
 }

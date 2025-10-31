@@ -38,7 +38,7 @@ namespace HealingInWriting.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int id, string? returnUrl)
         {
             var story = await _storyService.GetStoryByIdAsync(id);
             if (story is null)
@@ -64,7 +64,8 @@ namespace HealingInWriting.Controllers
                 AuthorName = ResolveAuthorName(story, isAdmin, isOwner),
                 CreatedAt = story.CreatedAt,
                 Content = story.Content,
-                Tags = story.Tags?.ToList() ?? new List<Domain.Shared.Tag>()
+                Tags = story.Tags?.ToList() ?? new List<Domain.Shared.Tag>(),
+                ReturnUrl = SanitizeReturnUrl(returnUrl)
             };
 
             return View(viewModel);
@@ -92,6 +93,13 @@ namespace HealingInWriting.Controllers
                 }
 
                 return story.Author?.UserId ?? "Unknown author";
+            }
+
+            string? SanitizeReturnUrl(string? candidate)
+            {
+                return !string.IsNullOrWhiteSpace(candidate) && Url.IsLocalUrl(candidate)
+                    ? candidate
+                    : null;
             }
         }
 

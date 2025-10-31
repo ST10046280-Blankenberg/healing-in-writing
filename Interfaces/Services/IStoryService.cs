@@ -28,4 +28,9 @@ public interface IStoryService
     /// Retrieves a single story by identifier, including related data needed for detail views.
     /// </summary>
     Task<Story?> GetStoryByIdAsync(int storyId);
+
+    /// <summary>
+    /// Retrieves all stories for administrative management views.
+    /// </summary>
+    Task<IReadOnlyCollection<Story>> GetAllStoriesForAdminAsync();
 }
