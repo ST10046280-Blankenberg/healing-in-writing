@@ -6,11 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HealingInWriting.Migrations
 {
     /// <inheritdoc />
-<<<<<<<< HEAD:Migrations/20251031072143_Initial Commit.cs
     public partial class InitialCommit : Migration
-========
-    public partial class Initialcommit : Migration
->>>>>>>> origin/main:Migrations/20251030202329_Initial commit.cs
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -512,12 +508,9 @@ namespace HealingInWriting.Migrations
                 name: "EventTags");
 
             migrationBuilder.DropTable(
-<<<<<<<< HEAD:Migrations/20251031072143_Initial Commit.cs
                 name: "PrivacyPolicies");
 
             migrationBuilder.DropTable(
-========
->>>>>>>> origin/main:Migrations/20251030202329_Initial commit.cs
                 name: "Registrations");
 
             migrationBuilder.DropTable(

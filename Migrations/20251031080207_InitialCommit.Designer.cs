@@ -11,13 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealingInWriting.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-<<<<<<<< HEAD:Migrations/20251031072143_Initial Commit.Designer.cs
-    [Migration("20251031072143_Initial Commit")]
+    [Migration("20251031080207_InitialCommit")]
     partial class InitialCommit
-========
-    [Migration("20251030202329_Initial commit")]
-    partial class Initialcommit
->>>>>>>> origin/main:Migrations/20251030202329_Initial commit.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -154,7 +149,6 @@ namespace HealingInWriting.Migrations
                     b.ToTable("BankDetails");
                 });
 
-<<<<<<<< HEAD:Migrations/20251031072143_Initial Commit.Designer.cs
             modelBuilder.Entity("HealingInWriting.Domain.Common.PrivacyPolicy", b =>
                 {
                     b.Property<int>("Id")
@@ -181,8 +175,6 @@ namespace HealingInWriting.Migrations
                     b.ToTable("PrivacyPolicies");
                 });
 
-========
->>>>>>>> origin/main:Migrations/20251030202329_Initial commit.Designer.cs
             modelBuilder.Entity("HealingInWriting.Domain.Events.Event", b =>
                 {
                     b.Property<int>("EventId")
