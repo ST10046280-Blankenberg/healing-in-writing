@@ -1,9 +1,13 @@
 using System;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Common;
+using HealingInWriting.Models.Gallery;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace HealingInWriting.Areas.Admin.Controllers
 {
@@ -14,15 +18,18 @@ namespace HealingInWriting.Areas.Admin.Controllers
         private readonly IBankDetailsService _bankDetailsService;
         private readonly IPrivacyPolicyService _privacyPolicyService;
         private readonly IOurImpactService _ourImpactService;
+        private readonly IGalleryService _galleryService;
 
         public SiteSettingsController(
             IBankDetailsService bankDetailsService,
             IPrivacyPolicyService privacyPolicyService,
-            IOurImpactService ourImpactService)
+            IOurImpactService ourImpactService,
+            IGalleryService galleryService)
         {
             _bankDetailsService = bankDetailsService;
             _privacyPolicyService = privacyPolicyService;
             _ourImpactService = ourImpactService;
+            _galleryService = galleryService;
         }
 
         [HttpGet]
@@ -31,11 +38,13 @@ namespace HealingInWriting.Areas.Admin.Controllers
             var bankDetails = await _bankDetailsService.GetAsync();
             var privacyPolicy = await _privacyPolicyService.GetAsync();
             var ourImpact = await _ourImpactService.GetAsync();
+            var galleryItems = await _galleryService.GetAllAsync();
             var model = new SiteSettingsViewModel
             {
                 BankDetails = bankDetails.ToViewModel(),
                 PrivacyPolicy = privacyPolicy.ToViewModel(),
-                OurImpact = ourImpact.ToViewModel()
+                OurImpact = ourImpact.ToViewModel(),
+                GalleryItems = galleryItems.Select(g => g.ToViewModel()).ToList()
             };
             return View(model);
         }
@@ -160,6 +169,59 @@ namespace HealingInWriting.Areas.Admin.Controllers
                 };
                 return View("Index", model);
             }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddGalleryItem(IFormFile image, string altText, bool isAlbum, int? albumPhotoCount)
+        {
+            if (image == null || image.Length == 0)
+            {
+                TempData["GalleryError"] = "Please select an image to upload.";
+                return RedirectToAction("Index");
+            }
+            // Save image to /wwwroot/images/gallery/
+            var extension = Path.GetExtension(image.FileName).ToLowerInvariant();
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+            if (!allowedExtensions.Contains(extension))
+            {
+                TempData["GalleryError"] = "Invalid file type. Only image files are allowed.";
+                return RedirectToAction("Index");
+            }
+            if (image.Length > 5 * 1024 * 1024)
+            {
+                TempData["GalleryError"] = "File size exceeds 5MB limit.";
+                return RedirectToAction("Index");
+            }
+            var fileName = $"{Guid.NewGuid()}{extension}";
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "gallery");
+            if (!Directory.Exists(uploadsFolder))
+                Directory.CreateDirectory(uploadsFolder);
+            var filePath = Path.Combine(uploadsFolder, fileName);
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await image.CopyToAsync(stream);
+            }
+            var entity = new HealingInWriting.Domain.Gallery.GalleryItem
+            {
+                ImageUrl = $"/images/gallery/{fileName}",
+                AltText = altText,
+                IsAlbum = isAlbum,
+                AlbumPhotoCount = albumPhotoCount,
+                CreatedDate = DateTime.UtcNow
+            };
+            await _galleryService.AddAsync(entity, User.Identity?.Name ?? "System");
+            TempData["GallerySuccess"] = "Photo added successfully.";
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteGalleryItem(int id)
+        {
+            await _galleryService.DeleteAsync(id);
+            TempData["GallerySuccess"] = "Photo deleted successfully.";
+            return RedirectToAction("Index");
         }
     }
 }

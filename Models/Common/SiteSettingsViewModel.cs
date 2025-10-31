@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using HealingInWriting.Models.Gallery;
 
 namespace HealingInWriting.Models.Common
 {
@@ -13,5 +14,8 @@ namespace HealingInWriting.Models.Common
 
         [Required]
         public OurImpactViewModel OurImpact { get; set; } = new OurImpactViewModel();
+        
+        public List<GalleryItemViewModel> GalleryItems { get; set; } = new List<GalleryItemViewModel>();
+
     }
 }
