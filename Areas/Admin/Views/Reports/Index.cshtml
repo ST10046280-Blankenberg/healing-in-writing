@@ -58,6 +58,11 @@
         </div>
 
         <!-- Event Attendance Chart -->
+        @{
+            // Find the maximum attendance count for scaling
+            var maxAttendance = Model.EventAttendance.Any() ? Model.EventAttendance.Max(e => e.AttendanceCount) : 1;
+        }
+
         <div class="admin-reports__card">
             <h3 class="admin-reports__card-title">Event Attendance</h3>
             <div class="admin-reports__chart">
@@ -77,16 +82,19 @@
                     <div class="admin-reports__chart-bars">
                         @foreach (var item in Model.EventAttendance)
                         {
+                            // Calculate width as a percentage of the max attendance
+                            var percent = maxAttendance > 0 ? (item.AttendanceCount * 100.0 / maxAttendance) : 0;
                             <div class="admin-reports__chart-bar"
-                                 style="--attendance-value: @item.AttendanceCount;"
+                                 style="width:@percent%; min-width:2px;"
                                  data-value="@item.AttendanceCount"
-                                 title="@item.EventTitle: @item.AttendanceCount attendees"></div>
+                                 title="@item.EventTitle: @item.AttendanceCount attendees">
+                            </div>
                         }
                     </div>
                     <div class="admin-reports__chart-x-axis">
                         @for (int i = 0; i <= 10; i++)
                         {
-                            <span class="admin-reports__chart-x-label">@(i * 25)</span>
+                            <span class="admin-reports__chart-x-label">@(i * (maxAttendance / 10))</span>
                         }
                     </div>
                 </div>
