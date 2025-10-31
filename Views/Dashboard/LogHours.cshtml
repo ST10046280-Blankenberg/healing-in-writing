@@ -92,29 +92,28 @@
     <!-- Hours Summary Section -->
     <section class="log-hours__summary">
         <h2 class="log-hours__summary-title">Hours Summary</h2>
-
         <div class="log-hours__summary-grid">
             <!-- Total Hours -->
             <div class="summary-card summary-card--total">
-                <p class="summary-card__value">24.5</p>
+                <p class="summary-card__value">@Model.TotalHours</p>
                 <p class="summary-card__label">Total Hours</p>
             </div>
 
             <!-- Validated Hours -->
             <div class="summary-card summary-card--validated">
-                <p class="summary-card__value">18.0</p>
+                <p class="summary-card__value">@Model.ValidatedHours</p>
                 <p class="summary-card__label">Validated</p>
             </div>
 
             <!-- Pending Hours -->
             <div class="summary-card summary-card--pending">
-                <p class="summary-card__value">4.5</p>
+                <p class="summary-card__value">@Model.PendingHours</p>
                 <p class="summary-card__label">Pending</p>
             </div>
 
             <!-- Needs Info Hours -->
             <div class="summary-card summary-card--needs-info">
-                <p class="summary-card__value">2.0</p>
+                <p class="summary-card__value">@Model.NeedsInfoHours</p>
                 <p class="summary-card__label">Needs Info</p>
             </div>
         </div>

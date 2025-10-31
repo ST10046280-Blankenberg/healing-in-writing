@@ -35,10 +35,22 @@ namespace HealingInWriting.Controllers
             var user = await _userManager.GetUserAsync(User);
             var recentEntries = await _volunteerService.GetRecentVolunteerHoursForUserAsync(user.Id, 5);
 
+            // Get all of this user's hours (not just recent)
+            var allUserHours = (await _volunteerService.GetRecentVolunteerHoursForUserAsync(user.Id, int.MaxValue));
+
+            var total = allUserHours.Sum(h => h.Hours);
+            var validated = allUserHours.Where(h => h.Status == "Approved").Sum(h => h.Hours);
+            var pending = allUserHours.Where(h => h.Status == "Pending").Sum(h => h.Hours);
+            var needsInfo = allUserHours.Where(h => h.Status == "NeedsInfo").Sum(h => h.Hours);
+
             var vm = new LogHoursPageViewModel
             {
                 LogForm = new LogHoursViewModel(),
-                RecentEntries = recentEntries
+                RecentEntries = recentEntries,
+                TotalHours = total,
+                ValidatedHours = validated,
+                PendingHours = pending,
+                NeedsInfoHours = needsInfo
             };
             return View(vm);
         }
