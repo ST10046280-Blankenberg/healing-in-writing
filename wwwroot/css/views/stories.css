@@ -659,6 +659,10 @@
     flex-grow: 0;
 }
 
+.story-details__action-form {
+    margin: 0;
+}
+
 /* Button Base */
 .story-details__btn {
     /* Auto layout */

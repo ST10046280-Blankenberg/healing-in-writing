@@ -30,12 +30,22 @@
                     @if (isAdmin)
                     {
                         <div class="story-details__actions">
-                            <button class="story-details__btn story-details__btn--primary" type="button">
-                                <span class="story-details__btn-text">Approve</span>
-                            </button>
-                            <button class="story-details__btn story-details__btn--secondary" type="button">
-                                <span class="story-details__btn-text">Reject</span>
-                            </button>
+                            <form asp-area="Admin" asp-controller="Stories" asp-action="Approve" method="post" class="story-details__action-form">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@Model.StoryId" />
+                                <input type="hidden" name="returnUrl" value="@backLink" />
+                                <button class="story-details__btn story-details__btn--primary" type="submit">
+                                    <span class="story-details__btn-text">Approve</span>
+                                </button>
+                            </form>
+                            <form asp-area="Admin" asp-controller="Stories" asp-action="Reject" method="post" class="story-details__action-form">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@Model.StoryId" />
+                                <input type="hidden" name="returnUrl" value="@backLink" />
+                                <button class="story-details__btn story-details__btn--secondary" type="submit">
+                                    <span class="story-details__btn-text">Reject</span>
+                                </button>
+                            </form>
                         </div>
                     }
                 </div>

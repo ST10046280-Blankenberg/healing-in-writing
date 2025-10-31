@@ -33,4 +33,9 @@ public interface IStoryService
     /// Retrieves all stories for administrative management views.
     /// </summary>
     Task<IReadOnlyCollection<Story>> GetAllStoriesForAdminAsync();
+
+    /// <summary>
+    /// Updates the status of a story for administrative workflows.
+    /// </summary>
+    Task<bool> UpdateStoryStatusAsync(int storyId, StoryStatus newStatus, string updatedBy);
 }

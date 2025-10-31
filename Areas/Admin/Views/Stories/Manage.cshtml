@@ -22,6 +22,11 @@
     </header>
 
     <!-- Search & Filters -->
+    @if (TempData["StoryStatusMessage"] is string statusMessage)
+    {
+        <div class="manage-stories__alert" role="status">@statusMessage</div>
+    }
+
     <form method="get" class="search-bar" novalidate>
         <input type="hidden" name="page" value="1" />
 

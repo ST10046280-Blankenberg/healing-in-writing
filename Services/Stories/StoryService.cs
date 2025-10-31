@@ -138,4 +138,24 @@ public class StoryService : IStoryService
 
         return stories;
     }
+
+    public async Task<bool> UpdateStoryStatusAsync(int storyId, StoryStatus newStatus, string updatedBy)
+    {
+        var story = await _context.Stories.FirstOrDefaultAsync(s => s.StoryId == storyId);
+        if (story == null)
+        {
+            return false;
+        }
+
+        if (story.Status == newStatus)
+        {
+            return true;
+        }
+
+        story.Status = newStatus;
+        story.UpdatedAt = DateTime.UtcNow;
+
+        await _context.SaveChangesAsync();
+        return true;
+    }
 }

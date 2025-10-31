@@ -90,6 +90,36 @@ namespace HealingInWriting.Areas.Admin.Controllers
             return View(viewModel);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Approve(int id, string? returnUrl)
+        {
+            await _storyService.UpdateStoryStatusAsync(id, StoryStatus.Published, User.Identity?.Name ?? "Admin");
+            TempData["StoryStatusMessage"] = "Story approved and published.";
+            var redirect = RedirectToSafeUrl(returnUrl);
+            if (redirect != null)
+            {
+                return redirect;
+            }
+
+            return RedirectToAction(nameof(Manage));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Reject(int id, string? returnUrl)
+        {
+            await _storyService.UpdateStoryStatusAsync(id, StoryStatus.Rejected, User.Identity?.Name ?? "Admin");
+            TempData["StoryStatusMessage"] = "Story rejected.";
+            var redirect = RedirectToSafeUrl(returnUrl);
+            if (redirect != null)
+            {
+                return redirect;
+            }
+
+            return RedirectToAction(nameof(Manage));
+        }
+
         private static string ResolveAuthorName(Story story)
         {
             if (story.IsAnonymous)
@@ -288,6 +318,16 @@ namespace HealingInWriting.Areas.Admin.Controllers
         {
             return !string.IsNullOrWhiteSpace(source)
                 && source.Contains(term, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private RedirectResult? RedirectToSafeUrl(string? returnUrl)
+        {
+            if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+
+            return null;
         }
     }
 }
