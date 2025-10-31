@@ -260,6 +260,65 @@
     color: #FFFFFF;
 }
 
+/* Pagination (Books List) */
+#books-pagination {
+    display: flex;
+    justify-content: center; /* center the whole control horizontally */
+    align-items: center;
+    gap: 16px; /* space between button / page text */
+    width: 100%;
+    margin: 32px 0; /* top/bottom spacing from list */
+    padding: 0 16px; /* small horizontal padding on narrow screens */
+    box-sizing: border-box;
+}
+
+.pagination__btn {
+    -webkit-appearance: none;
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 18px;
+    min-width: 88px;
+    border-radius: 10px;
+    border: 1px solid #2F1648; /* primary brand color used elsewhere */
+    background: #2F1648; /* filled primary */
+    color: #FFFFFF;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+
+.pagination__btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(47, 22, 72, 0.12);
+}
+
+.pagination__btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.pagination__btn[disabled],
+.pagination__btn[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+#pagination-current,
+#pagination-total {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: #0C0C20;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
     .books {
@@ -340,5 +399,17 @@
     .book-card__title {
         font-size: 24px;
         line-height: 32px;
+    }
+    
+    #books-pagination {
+        flex-direction: column;
+        gap: 8px;
+        margin: 24px 0;
+    }
+
+    .pagination__btn {
+        padding: 8px 12px;
+        min-width: 72px;
+        font-size: 13px;
     }
 }
