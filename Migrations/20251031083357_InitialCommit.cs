@@ -90,6 +90,25 @@ namespace HealingInWriting.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "OurImpacts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    PeopleHelped = table.Column<int>(type: "INTEGER", nullable: false),
+                    WorkshopsHosted = table.Column<int>(type: "INTEGER", nullable: false),
+                    PartnerOrganisations = table.Column<int>(type: "INTEGER", nullable: false),
+                    CitiesReached = table.Column<int>(type: "INTEGER", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "BLOB", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OurImpacts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PrivacyPolicies",
                 columns: table => new
                 {
@@ -506,6 +525,9 @@ namespace HealingInWriting.Migrations
 
             migrationBuilder.DropTable(
                 name: "EventTags");
+
+            migrationBuilder.DropTable(
+                name: "OurImpacts");
 
             migrationBuilder.DropTable(
                 name: "PrivacyPolicies");

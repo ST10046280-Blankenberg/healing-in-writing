@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealingInWriting.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251031080207_InitialCommit")]
+    [Migration("20251031083357_InitialCommit")]
     partial class InitialCommit
     {
         /// <inheritdoc />
@@ -147,6 +147,40 @@ namespace HealingInWriting.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BankDetails");
+                });
+
+            modelBuilder.Entity("HealingInWriting.Domain.Common.OurImpact", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CitiesReached")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PartnerOrganisations")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PeopleHelped")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<byte[]>("RowVersion")
+                        .HasColumnType("BLOB");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("WorkshopsHosted")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OurImpacts");
                 });
 
             modelBuilder.Entity("HealingInWriting.Domain.Common.PrivacyPolicy", b =>

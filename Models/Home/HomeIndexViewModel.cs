@@ -1,4 +1,5 @@
 using HealingInWriting.Domain.Events;
+using HealingInWriting.Models.Common;
 
 namespace HealingInWriting.Models.Home;
 
@@ -6,6 +7,7 @@ public class HomeIndexViewModel
 {
     public HomeEventViewModel? FeaturedEvent { get; set; }
     public List<HomeEventViewModel> UpcomingEvents { get; set; } = new();
+    public OurImpactViewModel? OurImpact { get; set; }
 }
 
 public class HomeEventViewModel
