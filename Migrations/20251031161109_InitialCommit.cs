@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HealingInWriting.Migrations
 {
     /// <inheritdoc />
-    public partial class Initialcommit : Migration
+    public partial class InitialCommit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -87,6 +87,62 @@ namespace HealingInWriting.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Books", x => x.BookId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GalleryItems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ImageUrl = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false),
+                    AltText = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
+                    IsAlbum = table.Column<bool>(type: "INTEGER", nullable: false),
+                    AlbumPhotoCount = table.Column<int>(type: "INTEGER", nullable: true),
+                    CollectionId = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UploadedBy = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "BLOB", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GalleryItems", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OurImpacts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    PeopleHelped = table.Column<int>(type: "INTEGER", nullable: false),
+                    WorkshopsHosted = table.Column<int>(type: "INTEGER", nullable: false),
+                    PartnerOrganisations = table.Column<int>(type: "INTEGER", nullable: false),
+                    CitiesReached = table.Column<int>(type: "INTEGER", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "BLOB", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OurImpacts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PrivacyPolicies",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Content = table.Column<string>(type: "TEXT", nullable: false),
+                    LastUpdated = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "BLOB", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PrivacyPolicies", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -302,6 +358,28 @@ namespace HealingInWriting.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Volunteers",
+                columns: table => new
+                {
+                    VolunteerId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
+                    EnrolledAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    IsActive = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Notes = table.Column<string>(type: "TEXT", maxLength: 250, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Volunteers", x => x.VolunteerId);
+                    table.ForeignKey(
+                        name: "FK_Volunteers_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Events",
                 columns: table => new
                 {
@@ -332,6 +410,33 @@ namespace HealingInWriting.Migrations
                         principalTable: "UserProfiles",
                         principalColumn: "ProfileId",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VolunteerHours",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    VolunteerId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Date = table.Column<DateOnly>(type: "TEXT", nullable: false),
+                    Activity = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
+                    Hours = table.Column<double>(type: "REAL", nullable: false),
+                    AttachmentUrl = table.Column<string>(type: "TEXT", nullable: true),
+                    Status = table.Column<int>(type: "INTEGER", nullable: false),
+                    SubmittedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ReviewedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    ReviewedBy = table.Column<string>(type: "TEXT", nullable: true),
+                    Comments = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VolunteerHours", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_VolunteerHours_Volunteers_VolunteerId",
+                        column: x => x.VolunteerId,
+                        principalTable: "Volunteers",
+                        principalColumn: "VolunteerId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -474,6 +579,16 @@ namespace HealingInWriting.Migrations
                 table: "Users",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VolunteerHours_VolunteerId",
+                table: "VolunteerHours",
+                column: "VolunteerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Volunteers_UserId",
+                table: "Volunteers",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -490,6 +605,15 @@ namespace HealingInWriting.Migrations
 
             migrationBuilder.DropTable(
                 name: "EventTags");
+
+            migrationBuilder.DropTable(
+                name: "GalleryItems");
+
+            migrationBuilder.DropTable(
+                name: "OurImpacts");
+
+            migrationBuilder.DropTable(
+                name: "PrivacyPolicies");
 
             migrationBuilder.DropTable(
                 name: "Registrations");
@@ -510,6 +634,9 @@ namespace HealingInWriting.Migrations
                 name: "UserTokens");
 
             migrationBuilder.DropTable(
+                name: "VolunteerHours");
+
+            migrationBuilder.DropTable(
                 name: "Books");
 
             migrationBuilder.DropTable(
@@ -520,6 +647,9 @@ namespace HealingInWriting.Migrations
 
             migrationBuilder.DropTable(
                 name: "Roles");
+
+            migrationBuilder.DropTable(
+                name: "Volunteers");
 
             migrationBuilder.DropTable(
                 name: "UserProfiles");

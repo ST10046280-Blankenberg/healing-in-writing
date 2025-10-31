@@ -1,47 +1,41 @@
 using HealingInWriting.Domain.Common;
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Interfaces.Repository;
+using System;
+using System.Threading.Tasks;
 
 namespace HealingInWriting.Services.Common
 {
-    public class BankDetailsService : IBankDetailsService
+    public class PrivacyPolicyService : IPrivacyPolicyService
     {
-        private readonly IBankDetailsRepository _repository;
+        private readonly IPrivacyPolicyRepository _repository;
 
-        public BankDetailsService(IBankDetailsRepository repository)
+        public PrivacyPolicyService(IPrivacyPolicyRepository repository)
         {
             _repository = repository;
         }
 
-        public async Task<BankDetails> GetAsync()
+        public async Task<PrivacyPolicy> GetAsync()
         {
-            // Get the first (and only) bank details record, or create default
             var entity = await _repository.GetAsync();
-
             if (entity == null)
             {
-                entity = new BankDetails
+                entity = new PrivacyPolicy
                 {
-                    BankName = "Not Set",
-                    AccountNumber = "Not Set",
-                    Branch = "Not Set",
-                    BranchCode = "Not Set",
+                    Content = "Use this page to detail your site's privacy policy.",
                     UpdatedBy = "System",
-                    UpdatedAt = DateTime.UtcNow
+                    LastUpdated = DateTime.UtcNow
                 };
-
                 await _repository.AddAsync(entity);
-                // No need to call SaveChangesAsync separately, AddAsync handles it
             }
-
             return entity ?? await _repository.GetAsync();
         }
 
-        public async Task UpdateAsync(BankDetails entity, string updatedBy)
+        public async Task UpdateAsync(PrivacyPolicy entity, string updatedBy)
         {
             // Set audit fields
             entity.UpdatedBy = updatedBy;
-            entity.UpdatedAt = DateTime.UtcNow;
+            entity.LastUpdated = DateTime.UtcNow;
 
             // Check if entity exists
             var existing = await _repository.GetAsync();
@@ -59,3 +53,4 @@ namespace HealingInWriting.Services.Common
         }
     }
 }
+

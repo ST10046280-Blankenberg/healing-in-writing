@@ -1,4 +1,5 @@
-@model HealingInWriting.Models.Common.BankDetailsViewModel
+@model HealingInWriting.Models.Common.SiteSettingsViewModel
+
 @{
     ViewData["Title"] = "Site Settings";
 }
@@ -23,33 +24,33 @@
         
         <form asp-area="Admin" asp-controller="SiteSettings" asp-action="Update" method="post">
             @Html.AntiForgeryToken()
-            <input asp-for="Id" type="hidden" />
-            <input asp-for="RowVersion" type="hidden" value="@(Model.RowVersion != null ? Convert.ToBase64String(Model.RowVersion) : "")" />
+            <input asp-for="BankDetails.Id" type="hidden" />
+            <input asp-for="BankDetails.RowVersion" type="hidden" />
 
             
             <div class="donation-settings__form-grid">
                 <div class="donation-settings__field">
-                    <label asp-for="BankName" class="donation-settings__label">Bank Name</label>
-                    <input asp-for="BankName" class="donation-settings__input" readonly />
-                    <span asp-validation-for="BankName" class="text-danger"></span>
+                    <label asp-for="BankDetails.BankName" class="donation-settings__label">Bank Name</label>
+                    <input asp-for="BankDetails.BankName" class="donation-settings__input" readonly />
+                    <span asp-validation-for="BankDetails.BankName" class="text-danger"></span>
                 </div>
                 
                 <div class="donation-settings__field">
-                    <label asp-for="AccountNumber" class="donation-settings__label">Account Number</label>
-                    <input asp-for="AccountNumber" class="donation-settings__input" readonly />
-                    <span asp-validation-for="AccountNumber" class="text-danger"></span>
+                    <label asp-for="BankDetails.AccountNumber" class="donation-settings__label">Account Number</label>
+                    <input asp-for="BankDetails.AccountNumber" class="donation-settings__input" readonly />
+                    <span asp-validation-for="BankDetails.AccountNumber" class="text-danger"></span>
                 </div>
                 
                 <div class="donation-settings__field">
-                    <label asp-for="Branch" class="donation-settings__label">Branch</label>
-                    <input asp-for="Branch" class="donation-settings__input" readonly />
-                    <span asp-validation-for="Branch" class="text-danger"></span>
+                    <label asp-for="BankDetails.Branch" class="donation-settings__label">Branch</label>
+                    <input asp-for="BankDetails.Branch" class="donation-settings__input" readonly />
+                    <span asp-validation-for="BankDetails.Branch" class="text-danger"></span>
                 </div>
                 
                 <div class="donation-settings__field">
-                    <label asp-for="BranchCode" class="donation-settings__label">Branch Code:</label>
-                    <input asp-for="BranchCode" class="donation-settings__input" readonly />
-                    <span asp-validation-for="BranchCode" class="text-danger"></span>
+                    <label asp-for="BankDetails.BranchCode" class="donation-settings__label">Branch Code:</label>
+                    <input asp-for="BankDetails.BranchCode" class="donation-settings__input" readonly />
+                    <span asp-validation-for="BankDetails.BranchCode" class="text-danger"></span>
                 </div>
             </div>
             
@@ -66,89 +67,170 @@
         <!-- Privacy & Terms Editor -->
         <section class="privacy-editor">
             <h2 class="privacy-editor__title">Privacy & Terms Editor</h2>
-            
-            <div class="privacy-editor__rich-text-box">
-                <div class="privacy-editor__toolbar">
-                    <button class="privacy-editor__toolbar-btn" title="Bold">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M15.6 10.79c.97-.67 1.65-1.77 1.65-2.79 0-2.26-1.75-4-4-4H7v14h7.04c2.09 0 3.71-1.7 3.71-3.79 0-1.52-.86-2.82-2.15-3.42zM10 6.5h3c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-3v-3zm3.5 9H10v-3h3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5z"/>
-                        </svg>
-                    </button>
-                    <button class="privacy-editor__toolbar-btn" title="Italic">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M10 4v3h2.21l-3.42 8H6v3h8v-3h-2.21l3.42-8H18V4z"/>
-                        </svg>
-                    </button>
-                    <button class="privacy-editor__toolbar-btn" title="Bullet List">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"/>
-                        </svg>
-                    </button>
+            @if (TempData["PrivacySuccess"] != null)
+            {
+                <div class="alert alert-success" style="padding: 12px; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 8px; color: #155724; margin-bottom: 16px;">
+                    @TempData["PrivacySuccess"]
                 </div>
-                
-                <textarea class="privacy-editor__textarea" placeholder="Enter description here..."></textarea>
-            </div>
-            
-            <div class="privacy-editor__actions">
-                <button class="privacy-editor__btn-save">Save</button>
-                <button class="privacy-editor__btn-discard">Discard</button>
-            </div>
+            }
+            <form asp-area="Admin" asp-controller="SiteSettings" asp-action="UpdatePrivacyPolicy" method="post" id="privacy-terms-form">
+                @Html.AntiForgeryToken()
+                <input asp-for="PrivacyPolicy.Id" type="hidden" />
+                <input asp-for="PrivacyPolicy.RowVersion" type="hidden" />
+                <input asp-for="PrivacyPolicy.LastUpdated" type="hidden" />
+
+                <div class="privacy-editor__rich-text-box">
+                    <div class="privacy-editor__toolbar">
+                        <button type="button" class="privacy-editor__toolbar-btn" title="Bold">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M15.6 10.79c.97-.67 1.65-1.77 1.65-2.79 0-2.26-1.75-4-4-4H7v14h7.04c2.09 0 3.71-1.7 3.71-3.79 0-1.52-.86-2.82-2.15-3.42zM10 6.5h3c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-3v-3zm3.5 9H10v-3h3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5z"/>
+                            </svg>
+                        </button>
+                        <button type="button" class="privacy-editor__toolbar-btn" title="Italic">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M10 4v3h2.21l-3.42 8H6v3h8v-3h-2.21l3.42-8H18V4z"/>
+                            </svg>
+                        </button>
+                        <button type="button" class="privacy-editor__toolbar-btn" title="Bullet List">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <textarea asp-for="PrivacyPolicy.Content" class="privacy-editor__textarea" placeholder="Enter privacy policy content here..."></textarea>
+                    <span asp-validation-for="PrivacyPolicy.Content" class="text-danger"></span>
+                </div>
+                <div class="privacy-editor__actions">
+                    <button type="submit" class="privacy-editor__btn-save">Save</button>
+                    <button type="reset" class="privacy-editor__btn-discard">Discard</button>
+                </div>
+            </form>
         </section>
         
         <!-- Gallery Page -->
         <section class="gallery-page">
             <div class="gallery-page__header">
-                <h3 class="gallery-page__title">Gallery Page</h3>
-                <div class="gallery-page__icon-delete">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                    </svg>
-                </div>
+                <h3 class="gallery-page__title">Gallery Management</h3>
             </div>
             
-            <form class="gallery-page__form">
+            @if (TempData["GallerySuccess"] != null)
+            {
+                <div class="alert alert-success" style="padding: 12px; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 8px; color: #155724; margin-bottom: 16px;">
+                    @TempData["GallerySuccess"]
+                </div>
+            }
+            @if (TempData["GalleryError"] != null)
+            {
+                <div class="alert alert-danger" style="padding: 12px; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 8px; color: #721c24; margin-bottom: 16px;">
+                    @TempData["GalleryError"]
+                </div>
+            }
+            
+            <form asp-area="Admin" asp-controller="SiteSettings" asp-action="AddGalleryItem" method="post" enctype="multipart/form-data" class="gallery-page__form" id="galleryForm">
+                @Html.AntiForgeryToken()
+                
                 <div class="gallery-page__upload-field">
-                    <label class="gallery-page__label">Upload Photo</label>
-                    <div class="gallery-page__upload-area">
+                    <label class="gallery-page__label">Upload Photo *</label>
+                    <input type="file" name="image" id="imageUpload" accept="image/*" required />
+                    <div class="gallery-page__upload-area" id="uploadArea" style="cursor: pointer;">
                         <div class="gallery-page__upload-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
                             </svg>
                         </div>
-                        <p class="gallery-page__upload-text">Click to upload or drag and drop</p>
+                        <p class="gallery-page__upload-text" id="uploadText">Click to upload or drag and drop</p>
                     </div>
                 </div>
                 
                 <div class="gallery-page__field">
-                    <label class="gallery-page__label">Title</label>
-                    <input type="text" class="gallery-page__input" placeholder="Enter photo title" />
+                    <label class="gallery-page__label">Alt Text / Description *</label>
+                    <input type="text" name="altText" class="gallery-page__input" placeholder="Enter photo description" required />
                 </div>
                 
                 <div class="gallery-page__field">
-                    <label class="gallery-page__label">Description</label>
-                    <textarea class="gallery-page__textarea" placeholder="Enter photo description..."></textarea>
+                    <label class="gallery-page__label" style="display: flex; align-items: center; gap: 8px;">
+                        <input type="hidden" name="isAlbum" value="false" />
+                        <input type="checkbox" name="isAlbum" id="isAlbumCheckbox" value="true" />
+                        This is an album (multiple photos in collection)
+                    </label>    
                 </div>
                 
-                <div class="gallery-page__field">
-                    <label class="gallery-page__label">Collection</label>
-                    <select class="gallery-page__select">
-                        <option>Select a collection</option>
-                        <option>Workshop Photos</option>
-                        <option>Event Highlights</option>
-                        <option>Community Stories</option>
-                    </select>
-                </div>
-                
-                <div class="gallery-page__field">
-                    <label class="gallery-page__label">Create New Collection</label>
-                    <input type="text" class="gallery-page__input" placeholder="Enter new collection name" />
+                <div id="albumFields" style="display: none;">
+                    <div class="gallery-page__field">
+                        <label class="gallery-page__label">Number of Photos in Album</label>
+                        <input type="number" name="albumPhotoCount" class="gallery-page__input" placeholder="e.g., 12" min="1" />
+                    </div>
+                    
+                    <div class="gallery-page__field">
+                        <label class="gallery-page__label">Collection *</label>
+                        <select name="collectionId" id="collectionSelect" class="gallery-page__select">
+                            <option value="">Select a collection</option>
+                            @if (ViewBag.ExistingCollections != null && ViewBag.ExistingCollections.Count > 0)
+                            {
+                                <optgroup label="Existing Collections">
+                                    @foreach (var collection in ViewBag.ExistingCollections)
+                                    {
+                                        <option value="@collection">@collection</option>
+                                    }
+                                </optgroup>
+                            }
+                            <optgroup label="Preset Collections">
+                                <option value="Workshop Photos">Workshop Photos</option>
+                                <option value="Event Highlights">Event Highlights</option>
+                                <option value="Community Stories">Community Stories</option>
+                                <option value="Annual Gatherings">Annual Gatherings</option>
+                                <option value="Volunteer Activities">Volunteer Activities</option>
+                                <option value="Book Donations">Book Donations</option>
+                                <option value="Writing Workshops">Writing Workshops</option>
+                                <option value="Support Groups">Support Groups</option>
+                            </optgroup>
+                            <option value="__custom__">+ Create New Collection</option>
+                        </select>
+                    </div>
+                    
+                    <div class="gallery-page__field" id="customCollectionField" style="display: none;">
+                        <label class="gallery-page__label">New Collection Name *</label>
+                        <input type="text" id="customCollectionInput" class="gallery-page__input" placeholder="Enter new collection name" />
+                    </div>
                 </div>
                 
                 <div class="gallery-page__actions">
-                    <button type="button" class="gallery-page__btn-add">Add Photo</button>
-                    <button type="button" class="gallery-page__btn-cancel">Cancel</button>
+                    <button type="submit" class="gallery-page__btn-add">Add Photo</button>
+                    <button type="reset" class="gallery-page__btn-cancel">Clear</button>
                 </div>
             </form>
+            
+            <!-- Display Existing Gallery Items -->
+            @if (Model.GalleryItems != null && Model.GalleryItems.Any())
+            {
+                <div style="margin-top: 32px;">
+                    <h4 style="margin-bottom: 16px; font-size: 1.125rem; font-weight: 600;">Current Gallery Items</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px;">
+                        @foreach (var item in Model.GalleryItems)
+                        {
+                            <div style="position: relative; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;">
+                                <img src="@item.ImageUrl" alt="@item.AltText" style="width: 100%; height: 150px; object-fit: cover;" />
+                                <div style="padding: 8px; font-size: 0.75rem;">
+                                    <div style="font-weight: 500; margin-bottom: 4px;">@item.AltText</div>
+                                    @if (!string.IsNullOrEmpty(item.CollectionId))
+                                    {
+                                        <div style="color: #6b7280;">Collection: @item.CollectionId</div>
+                                    }
+                                    @if (item.IsAlbum)
+                                    {
+                                        <div style="color: #6b7280;">Album (@item.AlbumPhotoCount photos)</div>
+                                    }
+                                </div>
+                                <form asp-area="Admin" asp-controller="SiteSettings" asp-action="DeleteGalleryItem" method="post" style="position: absolute; top: 8px; right: 8px;">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <button type="submit" onclick="return confirm('Delete this photo?')" style="background: rgba(239, 68, 68, 0.9); color: white; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer; font-size: 0.75rem;">Delete</button>
+                                </form>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
         </section>
         
     </div>
@@ -157,27 +239,48 @@
     <section class="our-impact">
         <h2 class="our-impact__title">Our Impact</h2>
         
-        <div class="our-impact__grid">
-            <div class="our-impact__field">
-                <label class="our-impact__label">People Helped</label>
-                <input type="number" class="our-impact__input" placeholder="0" value="0" />
+        @if (TempData["OurImpactSuccess"] != null)
+        {
+            <div class="alert alert-success" style="padding: 12px; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 8px; color: #155724; margin-bottom: 16px;">
+                @TempData["OurImpactSuccess"]
+            </div>
+        }
+        
+        <form asp-area="Admin" asp-controller="SiteSettings" asp-action="UpdateOurImpact" method="post">
+            @Html.AntiForgeryToken()
+            <input asp-for="OurImpact.Id" type="hidden" />
+            <input asp-for="OurImpact.RowVersion" type="hidden" />
+            
+            <div class="our-impact__grid">
+                <div class="our-impact__field">
+                    <label asp-for="OurImpact.PeopleHelped" class="our-impact__label">People Helped</label>
+                    <input asp-for="OurImpact.PeopleHelped" type="number" class="our-impact__input" placeholder="0" min="0" />
+                    <span asp-validation-for="OurImpact.PeopleHelped" class="text-danger"></span>
+                </div>
+                
+                <div class="our-impact__field">
+                    <label asp-for="OurImpact.WorkshopsHosted" class="our-impact__label">Workshops Hosted</label>
+                    <input asp-for="OurImpact.WorkshopsHosted" type="number" class="our-impact__input" placeholder="0" min="0" />
+                    <span asp-validation-for="OurImpact.WorkshopsHosted" class="text-danger"></span>
+                </div>
+                
+                <div class="our-impact__field">
+                    <label asp-for="OurImpact.PartnerOrganisations" class="our-impact__label">Partner Organisations</label>
+                    <input asp-for="OurImpact.PartnerOrganisations" type="number" class="our-impact__input" placeholder="0" min="0" />
+                    <span asp-validation-for="OurImpact.PartnerOrganisations" class="text-danger"></span>
+                </div>
+                
+                <div class="our-impact__field">
+                    <label asp-for="OurImpact.CitiesReached" class="our-impact__label">Cities Reached</label>
+                    <input asp-for="OurImpact.CitiesReached" type="number" class="our-impact__input" placeholder="0" min="0" />
+                    <span asp-validation-for="OurImpact.CitiesReached" class="text-danger"></span>
+                </div>
             </div>
             
-            <div class="our-impact__field">
-                <label class="our-impact__label">Workshops Hosted</label>
-                <input type="number" class="our-impact__input" placeholder="0" value="0" />
+            <div class="our-impact__actions" style="margin-top: 16px; display: flex; gap: 12px;">
+                <button type="submit" class="our-impact__btn-save" style="padding: 10px 20px; background: #4f46e5; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Save</button>
             </div>
-            
-            <div class="our-impact__field">
-                <label class="our-impact__label">Partner Organisations</label>
-                <input type="number" class="our-impact__input" placeholder="0" value="0" />
-            </div>
-            
-            <div class="our-impact__field">
-                <label class="our-impact__label">Cities Reaches</label>
-                <input type="number" class="our-impact__input" placeholder="0" value="0" />
-            </div>
-        </div>
+        </form>
     </section>
     
     <!-- Featured Stories Section -->
@@ -275,5 +378,7 @@
 </main>
 @section Scripts {
     <script src="~/js/admin/site-settings-bank.js" asp-append-version="true"></script>
+    <script src="~/js/admin/privacy-terms-editor.js" asp-append-version="true"></script>
+    <script src="~/js/admin/site-settings-gallery.js" asp-append-version="true"></script>
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }
