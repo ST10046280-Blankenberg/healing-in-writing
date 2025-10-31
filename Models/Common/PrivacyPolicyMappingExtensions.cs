@@ -10,7 +10,6 @@ namespace HealingInWriting.Models.Common
             return new PrivacyPolicyViewModel
             {
                 Id = entity.Id,
-                Title = entity.Title,
                 Content = entity.Content,
                 LastUpdated = entity.LastUpdated,
                 RowVersion = entity.RowVersion
@@ -22,7 +21,6 @@ namespace HealingInWriting.Models.Common
             return new PrivacyPolicy
             {
                 Id = vm.Id,
-                Title = vm.Title,
                 Content = vm.Content,
                 LastUpdated = vm.LastUpdated,
                 RowVersion = vm.RowVersion

@@ -8,8 +8,6 @@ namespace HealingInWriting.Domain.Common
         [Key]
         public int Id { get; set; }
 
-        [Required, StringLength(200)]
-        public string Title { get; set; } = "Privacy Policy";
 
         [Required]
         public string Content { get; set; } = string.Empty;

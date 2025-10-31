@@ -1,13 +1,13 @@
 ﻿@model HealingInWriting.Models.Common.PrivacyPolicyViewModel
 @{
-    ViewData["Title"] = Model.Title;
+    ViewData["Title"] = "Privacy Policy";
 }
 
 <link rel="stylesheet" href="~/css/views/privacy-policy.css" asp-append-version="true" />
 
 <main class="privacy-policy">
     <div class="privacy-policy__container">
-        <h1 class="privacy-policy__title">@Model.Title</h1>
+        <h1 class="privacy-policy__title">Privacy Policy</h1>
         
         <div class="privacy-policy__content">
             @Html.Raw(Model.Content)

@@ -22,7 +22,6 @@ namespace HealingInWriting.Services.Common
             {
                 entity = new PrivacyPolicy
                 {
-                    Title = "Privacy Policy",
                     Content = "Use this page to detail your site's privacy policy.",
                     UpdatedBy = "System",
                     LastUpdated = DateTime.UtcNow
@@ -43,7 +42,6 @@ namespace HealingInWriting.Services.Common
             }
             else
             {
-                existing.Title = entity.Title;
                 existing.Content = entity.Content;
                 existing.UpdatedBy = updatedBy;
                 existing.LastUpdated = DateTime.UtcNow;

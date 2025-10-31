@@ -25,23 +25,31 @@ namespace HealingInWriting.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var entity = await _bankDetailsService.GetAsync();
-            var viewModel = entity.ToViewModel();
-            return View(viewModel);
+            var bankDetails = await _bankDetailsService.GetAsync();
+            var privacyPolicy = await _privacyPolicyService.GetAsync();
+            var model = new SiteSettingsViewModel
+            {
+                BankDetails = bankDetails.ToViewModel(),
+                PrivacyPolicy = privacyPolicy.ToViewModel()
+            };
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(BankDetailsViewModel vm)
+        public async Task<IActionResult> Update(SiteSettingsViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return View("Index", vm);
+                // Re-fetch privacy policy to maintain view model integrity
+                var privacyPolicy = await _privacyPolicyService.GetAsync();
+                model.PrivacyPolicy = privacyPolicy.ToViewModel();
+                return View("Index", model);
             }
 
             try
             {
-                var entity = vm.ToEntity();
+                var entity = model.BankDetails.ToEntity();
                 await _bankDetailsService.UpdateAsync(entity, User.Identity?.Name ?? "System");
                 
                 TempData["Success"] = "Bank details updated successfully.";
@@ -50,17 +58,11 @@ namespace HealingInWriting.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError("", "An error occurred while saving. Please try again.");
-                return View("Index", vm);
+                // Re-fetch privacy policy to maintain view model integrity
+                var privacyPolicy = await _privacyPolicyService.GetAsync();
+                model.PrivacyPolicy = privacyPolicy.ToViewModel();
+                return View("Index", model);
             }
-        }
-
-        // Privacy Policy Management (separate from BankDetails)
-        [HttpGet]
-        public async Task<IActionResult> PrivacyPolicy()
-        {
-            var entity = await _privacyPolicyService.GetAsync();
-            var viewModel = entity.ToViewModel();
-            return View(viewModel);
         }
 
         [HttpPost]
@@ -69,22 +71,40 @@ namespace HealingInWriting.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View("PrivacyPolicy", vm);
+                // Re-fetch bank details for the view model
+                var bankDetails = await _bankDetailsService.GetAsync();
+                var model = new SiteSettingsViewModel
+                {
+                    BankDetails = bankDetails.ToViewModel(),
+                    PrivacyPolicy = vm
+                };
+                return View("Index", model);
             }
 
             try
             {
                 var entity = vm.ToEntity();
                 await _privacyPolicyService.UpdateAsync(entity, User.Identity?.Name ?? "System");
-                
                 TempData["PrivacySuccess"] = "Privacy policy updated successfully.";
-                return RedirectToAction("PrivacyPolicy");
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", "An error occurred while saving. Please try again.");
-                return View("PrivacyPolicy", vm);
+                var bankDetails = await _bankDetailsService.GetAsync();
+                var model = new SiteSettingsViewModel
+                {
+                    BankDetails = bankDetails.ToViewModel(),
+                    PrivacyPolicy = vm
+                };
+                return View("Index", model);
             }
         }
+    }
+
+    public class SiteSettingsViewModel
+    {
+        public BankDetailsViewModel BankDetails { get; set; }
+        public PrivacyPolicyViewModel PrivacyPolicy { get; set; }
     }
 }

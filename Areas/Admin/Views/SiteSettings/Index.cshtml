@@ -1,4 +1,5 @@
-@model HealingInWriting.Models.Common.BankDetailsViewModel
+@model HealingInWriting.Areas.Admin.Controllers.SiteSettingsViewModel
+
 @{
     ViewData["Title"] = "Site Settings";
 }
@@ -23,33 +24,33 @@
         
         <form asp-area="Admin" asp-controller="SiteSettings" asp-action="Update" method="post">
             @Html.AntiForgeryToken()
-            <input asp-for="Id" type="hidden" />
-            <input asp-for="RowVersion" type="hidden" value="@(Model.RowVersion != null ? Convert.ToBase64String(Model.RowVersion) : "")" />
+            <input asp-for="BankDetails.Id" type="hidden" />
+            <input asp-for="BankDetails.RowVersion" type="hidden" value="@(Model.BankDetails.RowVersion != null ? Convert.ToBase64String(Model.BankDetails.RowVersion) : "")" />
 
             
             <div class="donation-settings__form-grid">
                 <div class="donation-settings__field">
-                    <label asp-for="BankName" class="donation-settings__label">Bank Name</label>
-                    <input asp-for="BankName" class="donation-settings__input" readonly />
-                    <span asp-validation-for="BankName" class="text-danger"></span>
+                    <label asp-for="BankDetails.BankName" class="donation-settings__label">Bank Name</label>
+                    <input asp-for="BankDetails.BankName" class="donation-settings__input" readonly />
+                    <span asp-validation-for="BankDetails.BankName" class="text-danger"></span>
                 </div>
                 
                 <div class="donation-settings__field">
-                    <label asp-for="AccountNumber" class="donation-settings__label">Account Number</label>
-                    <input asp-for="AccountNumber" class="donation-settings__input" readonly />
-                    <span asp-validation-for="AccountNumber" class="text-danger"></span>
+                    <label asp-for="BankDetails.AccountNumber" class="donation-settings__label">Account Number</label>
+                    <input asp-for="BankDetails.AccountNumber" class="donation-settings__input" readonly />
+                    <span asp-validation-for="BankDetails.AccountNumber" class="text-danger"></span>
                 </div>
                 
                 <div class="donation-settings__field">
-                    <label asp-for="Branch" class="donation-settings__label">Branch</label>
-                    <input asp-for="Branch" class="donation-settings__input" readonly />
-                    <span asp-validation-for="Branch" class="text-danger"></span>
+                    <label asp-for="BankDetails.Branch" class="donation-settings__label">Branch</label>
+                    <input asp-for="BankDetails.Branch" class="donation-settings__input" readonly />
+                    <span asp-validation-for="BankDetails.Branch" class="text-danger"></span>
                 </div>
                 
                 <div class="donation-settings__field">
-                    <label asp-for="BranchCode" class="donation-settings__label">Branch Code:</label>
-                    <input asp-for="BranchCode" class="donation-settings__input" readonly />
-                    <span asp-validation-for="BranchCode" class="text-danger"></span>
+                    <label asp-for="BankDetails.BranchCode" class="donation-settings__label">Branch Code:</label>
+                    <input asp-for="BankDetails.BranchCode" class="donation-settings__input" readonly />
+                    <span asp-validation-for="BankDetails.BranchCode" class="text-danger"></span>
                 </div>
             </div>
             
@@ -60,50 +61,50 @@
         </form>
     </section>
     
-    <!-- Privacy Policy Quick Link -->
-    <section class="quick-links" style="margin-bottom: 32px;">
-        <h2 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 16px; color: #1a202c;">Content Management</h2>
-        <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-            <a asp-area="Admin" asp-controller="SiteSettings" asp-action="PrivacyPolicy" 
-               style="display: inline-block; padding: 12px 24px; background-color: #4f46e5; color: #ffffff; text-decoration: none; border-radius: 8px; font-weight: 600; transition: background-color 0.2s;">
-                Edit Privacy Policy
-            </a>
-        </div>
-    </section>
-
     <!-- Privacy Editor & Gallery Page Row -->
     <div class="settings-content-row">
         
         <!-- Privacy & Terms Editor -->
         <section class="privacy-editor">
-            <h2 class="privacy-editor__title">Privacy & Terms Editor (Legacy)</h2>
-            
-            <div class="privacy-editor__rich-text-box">
-                <div class="privacy-editor__toolbar">
-                    <button class="privacy-editor__toolbar-btn" title="Bold">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M15.6 10.79c.97-.67 1.65-1.77 1.65-2.79 0-2.26-1.75-4-4-4H7v14h7.04c2.09 0 3.71-1.7 3.71-3.79 0-1.52-.86-2.82-2.15-3.42zM10 6.5h3c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-3v-3zm3.5 9H10v-3h3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5z"/>
-                        </svg>
-                    </button>
-                    <button class="privacy-editor__toolbar-btn" title="Italic">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M10 4v3h2.21l-3.42 8H6v3h8v-3h-2.21l3.42-8H18V4z"/>
-                        </svg>
-                    </button>
-                    <button class="privacy-editor__toolbar-btn" title="Bullet List">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"/>
-                        </svg>
-                    </button>
+            <h2 class="privacy-editor__title">Privacy & Terms Editor</h2>
+            @if (TempData["PrivacySuccess"] != null)
+            {
+                <div class="alert alert-success" style="padding: 12px; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 8px; color: #155724; margin-bottom: 16px;">
+                    @TempData["PrivacySuccess"]
                 </div>
-                
-                <textarea class="privacy-editor__textarea" placeholder="Enter description here..."></textarea>
-            </div>
-            
-            <div class="privacy-editor__actions">
-                <button class="privacy-editor__btn-save">Save</button>
-                <button class="privacy-editor__btn-discard">Discard</button>
-            </div>
+            }
+            <form asp-area="Admin" asp-controller="SiteSettings" asp-action="UpdatePrivacyPolicy" method="post" id="privacy-terms-form">
+                @Html.AntiForgeryToken()
+                <input asp-for="PrivacyPolicy.Id" type="hidden" />
+                <input asp-for="PrivacyPolicy.RowVersion" type="hidden" value="@(Model.PrivacyPolicy.RowVersion != null ? Convert.ToBase64String((byte[])Model.PrivacyPolicy.RowVersion) : "")" />
+                <input asp-for="PrivacyPolicy.LastUpdated" type="hidden" />
+
+                <div class="privacy-editor__rich-text-box">
+                    <div class="privacy-editor__toolbar">
+                        <button type="button" class="privacy-editor__toolbar-btn" title="Bold">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M15.6 10.79c.97-.67 1.65-1.77 1.65-2.79 0-2.26-1.75-4-4-4H7v14h7.04c2.09 0 3.71-1.7 3.71-3.79 0-1.52-.86-2.82-2.15-3.42zM10 6.5h3c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-3v-3zm3.5 9H10v-3h3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5z"/>
+                            </svg>
+                        </button>
+                        <button type="button" class="privacy-editor__toolbar-btn" title="Italic">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M10 4v3h2.21l-3.42 8H6v3h8v-3h-2.21l3.42-8H18V4z"/>
+                            </svg>
+                        </button>
+                        <button type="button" class="privacy-editor__toolbar-btn" title="Bullet List">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <textarea asp-for="PrivacyPolicy.Content" class="privacy-editor__textarea" placeholder="Enter privacy policy content here..."></textarea>
+                    <span asp-validation-for="PrivacyPolicy.Content" class="text-danger"></span>
+                </div>
+                <div class="privacy-editor__actions">
+                    <button type="submit" class="privacy-editor__btn-save">Save</button>
+                    <button type="reset" class="privacy-editor__btn-discard">Discard</button>
+                </div>
+            </form>
         </section>
         
         <!-- Gallery Page -->
@@ -286,5 +287,6 @@
 </main>
 @section Scripts {
     <script src="~/js/admin/site-settings-bank.js" asp-append-version="true"></script>
+    <script src="~/js/admin/privacy-terms-editor.js" asp-append-version="true"></script>
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }
