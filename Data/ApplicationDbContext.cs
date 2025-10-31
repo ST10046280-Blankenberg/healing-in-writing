@@ -155,7 +155,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<Registration>()
             .HasIndex(r => new { r.EventId, r.GuestEmail });
 
-        
+        var isSqlite = Database.IsSqlite();
+
         builder.Entity<HealingInWriting.Domain.Common.BankDetails>(b =>
         {
             b.HasKey(x => x.Id);
@@ -165,8 +166,14 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             b.Property(x => x.BranchCode).HasMaxLength(20);
             b.Property(x => x.UpdatedBy).HasMaxLength(200);
             b.Property(x => x.UpdatedAt).IsRequired();
-            // Remove .IsRowVersion() for SQLite
-            b.Property(x => x.RowVersion).IsRequired(false);
+            if (isSqlite)
+            {
+                b.Property(x => x.RowVersion).IsRequired(false);
+            }
+            else
+            {
+                b.Property(x => x.RowVersion).IsRowVersion();
+            }
         });
         // Story relationships
         builder.Entity<Story>()
@@ -193,5 +200,41 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .WithMany()
             .HasForeignKey(v => v.UserId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<OurImpact>(entity =>
+        {
+            if (isSqlite)
+            {
+                entity.Property(x => x.RowVersion).IsRequired(false);
+            }
+            else
+            {
+                entity.Property(x => x.RowVersion).IsRowVersion();
+            }
+        });
+
+        builder.Entity<PrivacyPolicy>(entity =>
+        {
+            if (isSqlite)
+            {
+                entity.Property(x => x.RowVersion).IsRequired(false);
+            }
+            else
+            {
+                entity.Property(x => x.RowVersion).IsRowVersion();
+            }
+        });
+
+        builder.Entity<GalleryItem>(entity =>
+        {
+            if (isSqlite)
+            {
+                entity.Property(x => x.RowVersion).IsRequired(false);
+            }
+            else
+            {
+                entity.Property(x => x.RowVersion).IsRowVersion();
+            }
+        });
     }
 }
