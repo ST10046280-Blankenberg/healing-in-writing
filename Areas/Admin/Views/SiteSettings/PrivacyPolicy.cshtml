@@ -1,0 +1,90 @@
+@model HealingInWriting.Models.Common.PrivacyPolicyViewModel
+@{
+    ViewData["Title"] = "Privacy Policy Editor";
+}
+
+<link rel="stylesheet" href="~/css/views/admin-privacy-editor.css" asp-append-version="true" />
+
+<main class="admin-privacy-editor">
+    
+    <div class="admin-privacy-editor__header">
+        <h2 class="admin-privacy-editor__title">Privacy & Terms Editor</h2>
+        <a asp-area="Admin" asp-controller="SiteSettings" asp-action="Index" class="admin-privacy-editor__back-link">
+            ← Back to Site Settings
+        </a>
+    </div>
+    
+    @if (TempData["PrivacySuccess"] != null)
+    {
+        <div class="alert alert-success" style="padding: 12px; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 8px; color: #155724; margin-bottom: 16px;">
+            @TempData["PrivacySuccess"]
+        </div>
+    }
+    
+    <form asp-area="Admin" asp-controller="SiteSettings" asp-action="UpdatePrivacyPolicy" method="post" class="admin-privacy-editor__form">
+        @Html.AntiForgeryToken()
+        <input asp-for="Id" type="hidden" />
+        <input asp-for="RowVersion" type="hidden" value="@(Model.RowVersion != null ? Convert.ToBase64String(Model.RowVersion) : "")" />
+        <input asp-for="LastUpdated" type="hidden" />
+        
+        <div class="admin-privacy-editor__field">
+            <label asp-for="Title" class="admin-privacy-editor__label">Title</label>
+            <input asp-for="Title" class="admin-privacy-editor__input" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        
+        <div class="admin-privacy-editor__field">
+            <label asp-for="Content" class="admin-privacy-editor__label">Content</label>
+            <div class="admin-privacy-editor__rich-text-box">
+                <div class="admin-privacy-editor__toolbar">
+                    <button type="button" class="admin-privacy-editor__toolbar-btn" data-command="bold" title="Bold">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M15.6 10.79c.97-.67 1.65-1.77 1.65-2.79 0-2.26-1.75-4-4-4H7v14h7.04c2.09 0 3.71-1.7 3.71-3.79 0-1.52-.86-2.82-2.15-3.42zM10 6.5h3c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-3v-3zm3.5 9H10v-3h3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5z"/>
+                        </svg>
+                    </button>
+                    <button type="button" class="admin-privacy-editor__toolbar-btn" data-command="italic" title="Italic">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M10 4v3h2.21l-3.42 8H6v3h8v-3h-2.21l3.42-8H18V4z"/>
+                        </svg>
+                    </button>
+                    <button type="button" class="admin-privacy-editor__toolbar-btn" data-command="insertUnorderedList" title="Bullet List">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"/>
+                        </svg>
+                    </button>
+                    <button type="button" class="admin-privacy-editor__toolbar-btn" data-command="insertOrderedList" title="Numbered List">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M2 17h2v.5H3v1h1v.5H2v1h3v-4H2v1zm1-9h1V4H2v1h1v3zm-1 3h1.8L2 13.1v.9h3v-1H3.2L5 10.9V10H2v1zm5-6v2h14V5H7zm0 14h14v-2H7v2zm0-6h14v-2H7v2z"/>
+                        </svg>
+                    </button>
+                </div>
+                
+                <textarea asp-for="Content" class="admin-privacy-editor__textarea" placeholder="Enter privacy policy content here..."></textarea>
+            </div>
+            <span asp-validation-for="Content" class="text-danger"></span>
+        </div>
+        
+        <div class="admin-privacy-editor__actions">
+            <button type="submit" class="admin-privacy-editor__btn-save">Save Changes</button>
+            <a asp-area="Admin" asp-controller="SiteSettings" asp-action="Index" class="admin-privacy-editor__btn-discard">Cancel</a>
+        </div>
+    </form>
+    
+    <div class="admin-privacy-editor__preview">
+        <h3 class="admin-privacy-editor__preview-title">Public Preview</h3>
+        <div class="admin-privacy-editor__preview-content">
+            <h1>@Model.Title</h1>
+            <div class="admin-privacy-editor__preview-body">
+                @Html.Raw(Model.Content)
+            </div>
+            <p class="admin-privacy-editor__preview-date">Last updated: @Model.LastUpdated.ToString("MMMM dd, yyyy")</p>
+        </div>
+    </div>
+    
+</main>
+
+@section Scripts {
+    <script src="~/js/admin/privacy-editor.js" asp-append-version="true"></script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+

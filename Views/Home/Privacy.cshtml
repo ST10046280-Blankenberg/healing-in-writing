@@ -1,6 +1,20 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
+﻿@model HealingInWriting.Models.Common.PrivacyPolicyViewModel
+@{
+    ViewData["Title"] = Model.Title;
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<link rel="stylesheet" href="~/css/views/privacy-policy.css" asp-append-version="true" />
+
+<main class="privacy-policy">
+    <div class="privacy-policy__container">
+        <h1 class="privacy-policy__title">@Model.Title</h1>
+        
+        <div class="privacy-policy__content">
+            @Html.Raw(Model.Content)
+        </div>
+        
+        <div class="privacy-policy__footer">
+            <p class="privacy-policy__updated">Last updated: @Model.LastUpdated.ToString("MMMM dd, yyyy")</p>
+        </div>
+    </div>
+</main>
