@@ -22,8 +22,19 @@ namespace HealingInWriting.Controllers
         }
 
         // GET: /Dashboard/Index
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var user = await _userManager.GetUserAsync(User);
+
+            double totalHours = 0;
+            if (User.IsInRole("Volunteer"))
+            {
+                // Get all hours for this volunteer
+                var allHours = await _volunteerService.GetRecentVolunteerHoursForUserAsync(user.Id, int.MaxValue);
+                totalHours = allHours.Sum(h => h.Hours);
+            }
+
+            ViewBag.VolunteerTotalHours = totalHours;
             return View();
         }
 
