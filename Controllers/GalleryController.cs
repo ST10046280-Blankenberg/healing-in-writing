@@ -34,5 +34,27 @@ namespace HealingInWriting.Controllers
 
             return View(viewModel);
         }
+
+        public async Task<IActionResult> Details(string collectionId)
+        {
+            if (string.IsNullOrWhiteSpace(collectionId))
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            var items = await _galleryService.GetByCollectionIdAsync(collectionId);
+            
+            if (!items.Any())
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            var viewModel = new GalleryViewModel
+            {
+                Photos = items.Select(i => i.ToViewModel()).ToList()
+            };
+
+            return View(viewModel);
+        }
     }
 }
