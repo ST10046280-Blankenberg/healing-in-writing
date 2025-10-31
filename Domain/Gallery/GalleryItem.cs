@@ -20,6 +20,9 @@ namespace HealingInWriting.Domain.Gallery
 
         public int? AlbumPhotoCount { get; set; }
 
+        [StringLength(100)]
+        public string? CollectionId { get; set; }
+
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
         [StringLength(200)]

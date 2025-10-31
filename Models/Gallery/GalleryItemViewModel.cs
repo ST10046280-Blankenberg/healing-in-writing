@@ -9,6 +9,7 @@ namespace HealingInWriting.Models.Gallery
         public string AltText { get; set; } = string.Empty;
         public bool IsAlbum { get; set; } = false;
         public int? AlbumPhotoCount { get; set; }
+        public string? CollectionId { get; set; }
         public DateTime CreatedDate { get; set; }
     }
 }

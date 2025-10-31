@@ -13,6 +13,7 @@ namespace HealingInWriting.Models.Gallery
                 AltText = entity.AltText,
                 IsAlbum = entity.IsAlbum,
                 AlbumPhotoCount = entity.AlbumPhotoCount,
+                CollectionId = entity.CollectionId,
                 CreatedDate = entity.CreatedDate
             };
         }
@@ -26,6 +27,7 @@ namespace HealingInWriting.Models.Gallery
                 AltText = vm.AltText,
                 IsAlbum = vm.IsAlbum,
                 AlbumPhotoCount = vm.AlbumPhotoCount,
+                CollectionId = vm.CollectionId,
                 CreatedDate = vm.CreatedDate
             };
         }
