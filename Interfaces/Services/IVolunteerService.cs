@@ -5,6 +5,8 @@ namespace HealingInWriting.Interfaces.Services;
 // TODO: Define volunteer workflows exposed to MVC controllers.
 public interface IVolunteerService
 {
+    Task<List<VolunteerHourApprovalViewModel>> GetAllVolunteerHourApprovalsAsync();
+
     // TODO: Provide dashboards, assignments, and hour logging operations.
     Task<(bool Success, string? Error)> LogHoursAsync(string userId, LogHoursViewModel model, string? attachmentUrl);
 }

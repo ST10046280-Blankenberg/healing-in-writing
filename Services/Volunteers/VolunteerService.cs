@@ -28,4 +28,10 @@ public class VolunteerService : IVolunteerService
         await _repository.SaveChangesAsync();
         return (true, null);
     }
+
+    public async Task<List<VolunteerHourApprovalViewModel>> GetAllVolunteerHourApprovalsAsync()
+    {
+        var hours = await _repository.GetAllVolunteerHoursWithVolunteerAsync();
+        return hours.Select(ViewModelMappers.ToVolunteerHourApprovalViewModel).ToList();
+    }
 }
