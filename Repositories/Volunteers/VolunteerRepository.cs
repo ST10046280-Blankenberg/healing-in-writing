@@ -29,4 +29,13 @@ public class VolunteerRepository : IVolunteerRepository
     }
 
     public Task SaveChangesAsync() => _dbContext.SaveChangesAsync();
+
+    public async Task<List<VolunteerHour>> GetAllVolunteerHoursWithVolunteerAsync()
+    {
+        return await _dbContext.VolunteerHours
+            .Include(vh => vh.Volunteer)
+            .ThenInclude(v => v.User)
+            .OrderByDescending(vh => vh.SubmittedAt)
+            .ToListAsync();
+    }
 }

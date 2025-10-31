@@ -6,6 +6,7 @@ namespace HealingInWriting.Interfaces.Repository;
 public interface IVolunteerRepository
 {
     void AddVolunteerHour(VolunteerHour hour);
+    Task<List<VolunteerHour>> GetAllVolunteerHoursWithVolunteerAsync();
     Volunteer? GetVolunteerByUserId(string userId);
     Task SaveChangesAsync();
 }
