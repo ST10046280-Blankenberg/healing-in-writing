@@ -92,4 +92,16 @@ public class VolunteerService : IVolunteerService
 
         return userHours;
     }
+
+    public async Task<VolunteerHourSummaryViewModel> GetVolunteerHourSummaryAsync(string userId)
+    {
+        var volunteer = _repository.GetVolunteerByUserId(userId);
+        if (volunteer == null)
+            return new VolunteerHourSummaryViewModel();
+
+        var allHours = await _repository.GetAllVolunteerHoursWithVolunteerAsync();
+        var userHours = allHours.Where(h => h.VolunteerId == volunteer.VolunteerId);
+
+        return ViewModelMappers.ToVolunteerHourSummaryViewModel(userHours);
+    }
 }

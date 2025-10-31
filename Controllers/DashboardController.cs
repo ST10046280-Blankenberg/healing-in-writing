@@ -26,42 +26,33 @@ namespace HealingInWriting.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
 
-            double totalHours = 0;
+            VolunteerHourSummaryViewModel summary = new();
             if (User.IsInRole("Volunteer"))
             {
-                // Get all hours for this volunteer
-                var allHours = await _volunteerService.GetRecentVolunteerHoursForUserAsync(user.Id, int.MaxValue);
-                totalHours = allHours.Sum(h => h.Hours);
+                summary = await _volunteerService.GetVolunteerHourSummaryAsync(user.Id);
             }
 
-            ViewBag.VolunteerTotalHours = totalHours;
+            ViewBag.VolunteerTotalHours = summary.TotalHours;
             return View();
         }
 
         // GET: /Dashboard/LogHours
-        // Only volunteers can log hours
         [Authorize(Roles = "Volunteer")]
         public async Task<IActionResult> LogHours()
         {
             var user = await _userManager.GetUserAsync(User);
             var recentEntries = await _volunteerService.GetRecentVolunteerHoursForUserAsync(user.Id, 5);
 
-            // Get all of this user's hours (not just recent)
-            var allUserHours = (await _volunteerService.GetRecentVolunteerHoursForUserAsync(user.Id, int.MaxValue));
-
-            var total = allUserHours.Sum(h => h.Hours);
-            var validated = allUserHours.Where(h => h.Status == "Approved").Sum(h => h.Hours);
-            var pending = allUserHours.Where(h => h.Status == "Pending").Sum(h => h.Hours);
-            var needsInfo = allUserHours.Where(h => h.Status == "NeedsInfo").Sum(h => h.Hours);
+            var summary = await _volunteerService.GetVolunteerHourSummaryAsync(user.Id);
 
             var vm = new LogHoursPageViewModel
             {
                 LogForm = new LogHoursViewModel(),
                 RecentEntries = recentEntries,
-                TotalHours = total,
-                ValidatedHours = validated,
-                PendingHours = pending,
-                NeedsInfoHours = needsInfo
+                TotalHours = summary.TotalHours,
+                ValidatedHours = summary.ValidatedHours,
+                PendingHours = summary.PendingHours,
+                NeedsInfoHours = summary.NeedsInfoHours
             };
             return View(vm);
         }
@@ -74,9 +65,13 @@ namespace HealingInWriting.Controllers
         {
             if (!ModelState.IsValid)
             {
-                // Re-populate recent entries if validation fails
                 var user = await _userManager.GetUserAsync(User);
                 vm.RecentEntries = await _volunteerService.GetRecentVolunteerHoursForUserAsync(user.Id, 5);
+                var summary = await _volunteerService.GetVolunteerHourSummaryAsync(user.Id);
+                vm.TotalHours = summary.TotalHours;
+                vm.ValidatedHours = summary.ValidatedHours;
+                vm.PendingHours = summary.PendingHours;
+                vm.NeedsInfoHours = summary.NeedsInfoHours;
                 return View(vm);
             }
 

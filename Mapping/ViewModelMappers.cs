@@ -235,5 +235,16 @@ public static class ViewModelMappers
             Status = hour.Status.ToString()
         };
     }
+
+    public static VolunteerHourSummaryViewModel ToVolunteerHourSummaryViewModel(IEnumerable<VolunteerHour> hours)
+    {
+        return new VolunteerHourSummaryViewModel
+        {
+            TotalHours = hours.Sum(h => h.Hours),
+            ValidatedHours = hours.Where(h => h.Status == VolunteerHourStatus.Approved).Sum(h => h.Hours),
+            PendingHours = hours.Where(h => h.Status == VolunteerHourStatus.Pending).Sum(h => h.Hours),
+            NeedsInfoHours = hours.Where(h => h.Status == VolunteerHourStatus.NeedsInfo).Sum(h => h.Hours)
+        };
+    }
     #endregion
 }
