@@ -36,6 +36,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<BackoffState> BackoffStates { get; set; }
 
     public DbSet<BankDetails> BankDetails { get; set; }
+    public DbSet<PrivacyPolicy> PrivacyPolicies { get; set; }
     
 
     protected override void OnModelCreating(ModelBuilder builder)

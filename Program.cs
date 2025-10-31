@@ -14,6 +14,7 @@ using HealingInWriting.Services.Common;
 using HealingInWriting.Repositories.BankDetailsFolder;
 using System.Globalization;
 using HealingInWriting.Repositories.Events;
+using HealingInWriting.Repositories.Privacy;
 using HealingInWriting.Services.Events;
 using Microsoft.AspNetCore.Localization;
 
@@ -106,6 +107,8 @@ builder.Services.AddScoped<IRegistrationService, RegistrationService>();
 builder.Services.AddScoped<IBackoffStateRepository, BackoffStateRepository>();
 builder.Services.AddScoped<IBankDetailsRepository, BankDetailsRepository>();
 builder.Services.AddScoped<IBankDetailsService, BankDetailsService>();
+builder.Services.AddScoped<IPrivacyPolicyRepository, PrivacyPolicyRepository>();
+builder.Services.AddScoped<IPrivacyPolicyService, PrivacyPolicyService>();
 
 // Configure rate limiting to prevent brute force, credential stuffing, and DDoS attacks
 // Uses IP address as the partition key to track requests per client
