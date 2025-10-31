@@ -1,3 +1,5 @@
+@model HealingInWriting.Models.Admin.ReportsDashboardViewModel
+
 @{
     ViewData["Title"] = "Admin Reports";
 }
@@ -11,44 +13,44 @@
             <div class="search-bar__filters-row">
                 <div class="search-bar__input-container">
                     <svg class="search-bar__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M21 21L16.65 16.65" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M21 21L16.65 16.65" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                     <input type="text" class="search-bar__input" placeholder="Search..." />
                 </div>
-            
+
                 <div class="search-bar__dropdown">
                     <span class="search-bar__dropdown-label">Any Location</span>
                     <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 9L12 15L18 9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M6 9L12 15L18 9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </div>
-            
+
                 <div class="search-bar__dropdown">
                     <span class="search-bar__dropdown-label">Any Date</span>
                     <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 9L12 15L18 9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M6 9L12 15L18 9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </div>
-            
+
                 <div class="search-bar__dropdown">
                     <span class="search-bar__dropdown-label">Any Tags</span>
                     <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 9L12 15L18 9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M6 9L12 15L18 9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </div>
-            
+
                 <div class="search-bar__dropdown">
                     <span class="search-bar__dropdown-label">Newest</span>
                     <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 9L12 15L18 9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M6 9L12 15L18 9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </div>
-            
+
                 <button class="search-bar__button">
                     <svg class="search-bar__button-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M21 21L16.65 16.65" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M21 21L16.65 16.65" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                     <span class="search-bar__button-label">Search</span>
                 </button>
@@ -58,35 +60,29 @@
         <!-- Event Attendance Chart -->
         <div class="admin-reports__card">
             <h3 class="admin-reports__card-title">Event Attendance</h3>
-            
             <div class="admin-reports__chart">
-                <!-- Y-axis Labels -->
                 <div class="admin-reports__chart-labels">
-                    <span class="admin-reports__chart-label">Book Drive</span>
-                    <span class="admin-reports__chart-label">Reading Circle</span>
-                    <span class="admin-reports__chart-label">Community Fair</span>
-                    <span class="admin-reports__chart-label">Workshop</span>
+                    @foreach (var item in Model.EventAttendance)
+                    {
+                        <span class="admin-reports__chart-label">@item.EventTitle</span>
+                    }
                 </div>
-                
-                <!-- Chart Area with Data Attributes -->
                 <div class="admin-reports__chart-area">
-                    <!-- Grid Lines -->
                     <div class="admin-reports__chart-grid">
                         @for (int i = 0; i <= 10; i++)
                         {
                             <div class="admin-reports__chart-grid-line"></div>
                         }
                     </div>
-                    
-                    <!-- Bars - Ready for dynamic data -->
                     <div class="admin-reports__chart-bars">
-                        <div class="admin-reports__chart-bar" style="--attendance-value: 200;" data-value="200" title="Book Drive: 200 attendees"></div>
-                        <div class="admin-reports__chart-bar" style="--attendance-value: 75;" data-value="75" title="Reading Circle: 75 attendees"></div>
-                        <div class="admin-reports__chart-bar" style="--attendance-value: 100;" data-value="100" title="Community Fair: 100 attendees"></div>
-                        <div class="admin-reports__chart-bar" style="--attendance-value: 50;" data-value="50" title="Workshop: 50 attendees"></div>
+                        @foreach (var item in Model.EventAttendance)
+                        {
+                            <div class="admin-reports__chart-bar"
+                                 style="--attendance-value: @item.AttendanceCount;"
+                                 data-value="@item.AttendanceCount"
+                                 title="@item.EventTitle: @item.AttendanceCount attendees"></div>
+                        }
                     </div>
-                    
-                    <!-- X-axis Labels -->
                     <div class="admin-reports__chart-x-axis">
                         @for (int i = 0; i <= 10; i++)
                         {
@@ -98,28 +94,22 @@
         </div>
 
         <!-- Story Submissions Section -->
-        <div class="admin-reports__card">
+        @* <div class="admin-reports__card">
             <h3 class="admin-reports__submissions-header">Story Submissions</h3>
-            
-            <!-- Stats Row -->
             <div class="admin-reports__stats-row">
                 <div class="admin-reports__stat-card admin-reports__stat-card--pending">
-                    <p class="admin-reports__stat-number admin-reports__stat-number--pending">14</p>
+                    <p class="admin-reports__stat-number admin-reports__stat-number--pending">@Model.StoryPendingCount</p>
                     <p class="admin-reports__stat-label">Pending</p>
                 </div>
-                
                 <div class="admin-reports__stat-card admin-reports__stat-card--published">
-                    <p class="admin-reports__stat-number admin-reports__stat-number--published">36</p>
+                    <p class="admin-reports__stat-number admin-reports__stat-number--published">@Model.StoryPublishedCount</p>
                     <p class="admin-reports__stat-label">Published</p>
                 </div>
-                
                 <div class="admin-reports__stat-card admin-reports__stat-card--drafts">
-                    <p class="admin-reports__stat-number admin-reports__stat-number--drafts">7</p>
+                    <p class="admin-reports__stat-number admin-reports__stat-number--drafts">@Model.StoryDraftCount</p>
                     <p class="admin-reports__stat-label">Drafts</p>
                 </div>
             </div>
-            
-            <!-- Story Table with Scrollable Container -->
             <div class="admin-reports__table-wrapper admin-reports__table-wrapper--scrollable">
                 <table class="admin-reports__table">
                     <thead class="admin-reports__table-head">
@@ -131,105 +121,30 @@
                         </tr>
                     </thead>
                     <tbody class="admin-reports__table-body">
-                        <!-- Rows with data attributes for backend integration -->
-                        <tr class="admin-reports__table-row" 
-                            data-story-id="1" 
-                            data-status="approved" 
-                            data-date="2024-03-14">
-                            <td class="admin-reports__table-cell admin-reports__table-cell--title">Finding Light in Darkness</td>
-                            <td class="admin-reports__table-cell">Sarah M.</td>
-                            <td class="admin-reports__table-cell">Mar 14, 2024</td>
-                            <td class="admin-reports__table-cell">
-                                <span class="admin-reports__status-badge admin-reports__status-badge--approved">Approved</span>
-                            </td>
-                        </tr>
-                        <tr class="admin-reports__table-row" 
-                            data-story-id="2" 
-                            data-status="pending" 
-                            data-date="2024-03-13">
-                            <td class="admin-reports__table-cell admin-reports__table-cell--title">Community Changed My Life</td>
-                            <td class="admin-reports__table-cell">Michael R.</td>
-                            <td class="admin-reports__table-cell">Mar 13, 2024</td>
-                            <td class="admin-reports__table-cell">
-                                <span class="admin-reports__status-badge admin-reports__status-badge--pending">Pending</span>
-                            </td>
-                        </tr>
-                        <tr class="admin-reports__table-row" 
-                            data-story-id="3" 
-                            data-status="approved" 
-                            data-date="2024-03-11">
-                            <td class="admin-reports__table-cell admin-reports__table-cell--title">A Second Chance</td>
-                            <td class="admin-reports__table-cell">Emma L.</td>
-                            <td class="admin-reports__table-cell">Mar 11, 2024</td>
-                            <td class="admin-reports__table-cell">
-                                <span class="admin-reports__status-badge admin-reports__status-badge--approved">Approved</span>
-                            </td>
-                        </tr>
-                        <tr class="admin-reports__table-row" 
-                            data-story-id="4" 
-                            data-status="rejected" 
-                            data-date="2024-03-10">
-                            <td class="admin-reports__table-cell admin-reports__table-cell--title">Rising Above Challenges</td>
-                            <td class="admin-reports__table-cell">David K.</td>
-                            <td class="admin-reports__table-cell">Mar 10, 2024</td>
-                            <td class="admin-reports__table-cell">
-                                <span class="admin-reports__status-badge admin-reports__status-badge--rejected">Rejected</span>
-                            </td>
-                        </tr>
-                        <tr class="admin-reports__table-row" 
-                            data-story-id="5" 
-                            data-status="pending" 
-                            data-date="2024-03-09">
-                            <td class="admin-reports__table-cell admin-reports__table-cell--title">Hope in Hard Times</td>
-                            <td class="admin-reports__table-cell">Lisa P.</td>
-                            <td class="admin-reports__table-cell">Mar 09, 2024</td>
-                            <td class="admin-reports__table-cell">
-                                <span class="admin-reports__status-badge admin-reports__status-badge--pending">Pending</span>
-                            </td>
-                        </tr>
-                        <!-- Additional rows to test scrolling -->
-                        <tr class="admin-reports__table-row" 
-                            data-story-id="6" 
-                            data-status="approved" 
-                            data-date="2024-03-08">
-                            <td class="admin-reports__table-cell admin-reports__table-cell--title">Journey to Healing</td>
-                            <td class="admin-reports__table-cell">Tom H.</td>
-                            <td class="admin-reports__table-cell">Mar 08, 2024</td>
-                            <td class="admin-reports__table-cell">
-                                <span class="admin-reports__status-badge admin-reports__status-badge--approved">Approved</span>
-                            </td>
-                        </tr>
-                        <tr class="admin-reports__table-row" 
-                            data-story-id="7" 
-                            data-status="pending" 
-                            data-date="2024-03-07">
-                            <td class="admin-reports__table-cell admin-reports__table-cell--title">My Recovery Story</td>
-                            <td class="admin-reports__table-cell">Anna S.</td>
-                            <td class="admin-reports__table-cell">Mar 07, 2024</td>
-                            <td class="admin-reports__table-cell">
-                                <span class="admin-reports__status-badge admin-reports__status-badge--pending">Pending</span>
-                            </td>
-                        </tr>
-                        <tr class="admin-reports__table-row" 
-                            data-story-id="8" 
-                            data-status="approved" 
-                            data-date="2024-03-06">
-                            <td class="admin-reports__table-cell admin-reports__table-cell--title">Breaking Free</td>
-                            <td class="admin-reports__table-cell">James W.</td>
-                            <td class="admin-reports__table-cell">Mar 06, 2024</td>
-                            <td class="admin-reports__table-cell">
-                                <span class="admin-reports__status-badge admin-reports__status-badge--approved">Approved</span>
-                            </td>
-                        </tr>
+                        @foreach (var story in Model.RecentStories)
+                        {
+                            <tr class="admin-reports__table-row"
+                                data-story-id="@story.StoryId"
+                                data-status="@story.Status.ToString().ToLower()"
+                                data-date="@story.CreatedAt.ToString("yyyy-MM-dd")">
+                                <td class="admin-reports__table-cell admin-reports__table-cell--title">@story.Title</td>
+                                <td class="admin-reports__table-cell">@story.AuthorName</td>
+                                <td class="admin-reports__table-cell">@story.CreatedAt.ToString("MMM dd, yyyy")</td>
+                                <td class="admin-reports__table-cell">
+                                    <span class="admin-reports__status-badge admin-reports__status-badge--@story.Status.ToString().ToLower()">
+                                        @story.Status
+                                    </span>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div> *@
 
         <!-- Book Inventory Snapshot -->
         <div class="admin-reports__card">
             <h3 class="admin-reports__card-title">Book Inventory Snapshot</h3>
-            
             <div class="admin-reports__table-wrapper admin-reports__table-wrapper--scrollable">
                 <table class="admin-reports__inventory-table">
                     <thead>
@@ -240,96 +155,25 @@
                         </tr>
                     </thead>
                     <tbody class="admin-reports__inventory-body">
-                        <!-- Stock thresholds: Critical (< 50), Low (50-100), Good (> 100) -->
-                        <tr class="admin-reports__inventory-row" 
-                            data-category-id="1" 
-                            data-stock-count="245" 
-                            data-threshold-critical="50" 
-                            data-threshold-low="100">
-                            <td class="admin-reports__inventory-cell">Children's Books</td>
-                            <td class="admin-reports__inventory-cell">245</td>
-                            <td class="admin-reports__inventory-cell">
-                                <span class="admin-reports__status-badge admin-reports__status-badge--good">Good</span>
-                            </td>
-                        </tr>
-                        <tr class="admin-reports__inventory-row" 
-                            data-category-id="2" 
-                            data-stock-count="89" 
-                            data-threshold-critical="50" 
-                            data-threshold-low="100">
-                            <td class="admin-reports__inventory-cell">Fiction</td>
-                            <td class="admin-reports__inventory-cell">89</td>
-                            <td class="admin-reports__inventory-cell">
-                                <span class="admin-reports__status-badge admin-reports__status-badge--low">Low</span>
-                            </td>
-                        </tr>
-                        <tr class="admin-reports__inventory-row" 
-                            data-category-id="3" 
-                            data-stock-count="156" 
-                            data-threshold-critical="50" 
-                            data-threshold-low="100">
-                            <td class="admin-reports__inventory-cell">Educational</td>
-                            <td class="admin-reports__inventory-cell">156</td>
-                            <td class="admin-reports__inventory-cell">
-                                <span class="admin-reports__status-badge admin-reports__status-badge--good">Good</span>
-                            </td>
-                        </tr>
-                        <tr class="admin-reports__inventory-row" 
-                            data-category-id="4" 
-                            data-stock-count="34" 
-                            data-threshold-critical="50" 
-                            data-threshold-low="100">
-                            <td class="admin-reports__inventory-cell">Reference</td>
-                            <td class="admin-reports__inventory-cell">34</td>
-                            <td class="admin-reports__inventory-cell">
-                                <span class="admin-reports__status-badge admin-reports__status-badge--critical">Critical</span>
-                            </td>
-                        </tr>
-                        <!-- Additional categories to test scrolling -->
-                        <tr class="admin-reports__inventory-row" 
-                            data-category-id="5" 
-                            data-stock-count="78" 
-                            data-threshold-critical="50" 
-                            data-threshold-low="100">
-                            <td class="admin-reports__inventory-cell">Non-Fiction</td>
-                            <td class="admin-reports__inventory-cell">78</td>
-                            <td class="admin-reports__inventory-cell">
-                                <span class="admin-reports__status-badge admin-reports__status-badge--low">Low</span>
-                            </td>
-                        </tr>
-                        <tr class="admin-reports__inventory-row" 
-                            data-category-id="6" 
-                            data-stock-count="45" 
-                            data-threshold-critical="50" 
-                            data-threshold-low="100">
-                            <td class="admin-reports__inventory-cell">Biography</td>
-                            <td class="admin-reports__inventory-cell">45</td>
-                            <td class="admin-reports__inventory-cell">
-                                <span class="admin-reports__status-badge admin-reports__status-badge--critical">Critical</span>
-                            </td>
-                        </tr>
-                        <tr class="admin-reports__inventory-row" 
-                            data-category-id="7" 
-                            data-stock-count="112" 
-                            data-threshold-critical="50" 
-                            data-threshold-low="100">
-                            <td class="admin-reports__inventory-cell">Self-Help</td>
-                            <td class="admin-reports__inventory-cell">112</td>
-                            <td class="admin-reports__inventory-cell">
-                                <span class="admin-reports__status-badge admin-reports__status-badge--good">Good</span>
-                            </td>
-                        </tr>
-                        <tr class="admin-reports__inventory-row" 
-                            data-category-id="8" 
-                            data-stock-count="28" 
-                            data-threshold-critical="50" 
-                            data-threshold-low="100">
-                            <td class="admin-reports__inventory-cell">Poetry</td>
-                            <td class="admin-reports__inventory-cell">28</td>
-                            <td class="admin-reports__inventory-cell">
-                                <span class="admin-reports__status-badge admin-reports__status-badge--critical">Critical</span>
-                            </td>
-                        </tr>
+                        @foreach (var row in Model.BookInventoryByCategory)
+                        {
+                            var status = row.StockCount < 50 ? "critical"
+                                : row.StockCount < 100 ? "low"
+                                : "good";
+                            <tr class="admin-reports__inventory-row"
+                                data-category="@row.Category"
+                                data-stock-count="@row.StockCount"
+                                data-threshold-critical="50"
+                                data-threshold-low="100">
+                                <td class="admin-reports__inventory-cell">@row.Category</td>
+                                <td class="admin-reports__inventory-cell">@row.StockCount</td>
+                                <td class="admin-reports__inventory-cell">
+                                    <span class="admin-reports__status-badge admin-reports__status-badge--@status">
+                                        @status.First().ToString().ToUpper()@status.Substring(1)
+                                    </span>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>

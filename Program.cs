@@ -5,6 +5,7 @@ using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Repositories.BankDetailsFolder;
 using HealingInWriting.Repositories.Books;
 using HealingInWriting.Repositories.Events;
+using HealingInWriting.Repositories.Stories;
 using HealingInWriting.Repositories.Volunteers;
 using HealingInWriting.Services.Auth;
 using HealingInWriting.Services.Books;
@@ -98,6 +99,7 @@ builder.Services.AddAntiforgery(options =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<IStoryService, StoryService>();
+builder.Services.AddScoped<IStoryRepository, StoryRepository>();
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
