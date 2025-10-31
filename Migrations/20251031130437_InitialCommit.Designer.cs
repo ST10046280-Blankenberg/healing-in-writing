@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HealingInWriting.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251031114108_InitialCommit")]
+    [Migration("20251031130437_InitialCommit")]
     partial class InitialCommit
     {
         /// <inheritdoc />
