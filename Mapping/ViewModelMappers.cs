@@ -1,5 +1,7 @@
 using HealingInWriting.Domain.Books;
+using HealingInWriting.Domain.Volunteers;
 using HealingInWriting.Models.Books;
+using HealingInWriting.Models.Volunteer;
 using Microsoft.AspNetCore.Http;
 using System.Text.Json;
 
@@ -195,4 +197,21 @@ public static class ViewModelMappers
             Authors = AuthorsToString(book.Authors)
         };
     }
+
+    #region Volunteers
+    public static VolunteerHour ToVolunteerHour(LogHoursViewModel model, int volunteerId, string? attachmentUrl)
+    {
+        return new VolunteerHour
+        {
+            VolunteerId = volunteerId,
+            Date = model.Date,
+            Activity = model.Activity,
+            Hours = model.Hours,
+            AttachmentUrl = attachmentUrl,
+            Status = VolunteerHourStatus.Pending,
+            SubmittedAt = DateTime.UtcNow,
+            Comments = model.Notes
+        };
+    }
+    #endregion
 }

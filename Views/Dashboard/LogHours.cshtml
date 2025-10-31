@@ -1,3 +1,5 @@
+@model HealingInWriting.Models.Volunteer.LogHoursViewModel
+
 @{
     ViewData["Title"] = "Log Your Hours";
 }
@@ -18,50 +20,53 @@
         <!-- Form Card -->
         <div class="log-hours__form-card">
             <h2 class="log-hours__form-title">Add New Entry</h2>
-            
-            <form class="log-hours__form">
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success">@TempData["Success"]</div>
+            }
+            <form asp-action="LogHours" asp-controller="Dashboard" method="post" enctype="multipart/form-data" class="log-hours__form">
+                @Html.AntiForgeryToken()
                 <!-- Date and Hours Row -->
                 <div class="log-hours__form-row">
                     <div class="log-hours__form-group">
-                        <label for="date" class="log-hours__label">Date</label>
-                        <input type="date" id="date" class="log-hours__input" placeholder="mm/dd/yyyy" />
+                        <label asp-for="Date" class="log-hours__label"></label>
+                        <input asp-for="Date" class="log-hours__input" type="date" />
+                        <span asp-validation-for="Date" class="text-danger"></span>
                     </div>
                     
                     <div class="log-hours__form-group">
-                        <label for="hours" class="log-hours__label">Hours</label>
-                        <input type="number" id="hours" class="log-hours__input" placeholder="2.5" step="0.5" min="0" />
+                        <label asp-for="Hours" class="log-hours__label"></label>
+                        <input asp-for="Hours" class="log-hours__input" type="number" step="0.5" min="0" />
+                        <span asp-validation-for="Hours" class="text-danger"></span>
                     </div>
                 </div>
                 
                 <!-- Activity Dropdown -->
                 <div class="log-hours__form-group">
-                    <label for="activity" class="log-hours__label">Activity</label>
-                    <select id="activity" class="log-hours__select">
+                    <label asp-for="Activity" class="log-hours__label"></label>
+                    <select asp-for="Activity" class="log-hours__select">
                         <option value="">Select an activity</option>
-                        <option value="workshop">Workshop</option>
-                        <option value="event">Community Event</option>
-                        <option value="mentoring">Mentoring</option>
-                        <option value="administration">Administration</option>
-                        <option value="other">Other</option>
+                        <option value="Workshop">Workshop</option>
+                        <option value="Community Event">Community Event</option>
+                        <option value="Mentoring">Mentoring</option>
+                        <option value="Administration">Administration</option>
+                        <option value="Other">Other</option>
                     </select>
+                    <span asp-validation-for="Activity" class="text-danger"></span>
                 </div>
                 
                 <!-- Notes Textarea -->
                 <div class="log-hours__form-group">
-                    <label for="notes" class="log-hours__label">Notes</label>
-                    <textarea id="notes" class="log-hours__textarea" placeholder="Describe your activity and its impact..."></textarea>
+                    <label asp-for="Notes" class="log-hours__label"></label>
+                    <textarea asp-for="Notes" class="log-hours__textarea"></textarea>
+                    <span asp-validation-for="Notes" class="text-danger"></span>
                 </div>
                 
                 <!-- File Upload -->
                 <div class="log-hours__form-group">
-                    <label class="log-hours__label">Attachment (Optional)</label>
-                    <div class="log-hours__upload">
-                        <svg class="log-hours__upload-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
-                        </svg>
-                        <p class="log-hours__upload-text">Click to upload or drag and drop</p>
-                        <p class="log-hours__upload-hint">PDF, JPG, PNG up to 10MB</p>
-                    </div>
+                    <label asp-for="Attachment" class="log-hours__label">Attachment (Optional)</label>
+                    <input asp-for="Attachment" type="file" class="log-hours__input" />
+                    <span asp-validation-for="Attachment" class="text-danger"></span>
                 </div>
                 
                 <!-- Submit Button -->
@@ -155,4 +160,8 @@
         </div>
     </section>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
 

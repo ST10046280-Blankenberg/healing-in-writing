@@ -40,8 +40,7 @@ public class Volunteer
     [StringLength(250)]
     public string? Notes { get; set; }
 
-    // Future: Add navigation properties for related entities (e.g., VolunteerHours)
-    // public ICollection<VolunteerHour> VolunteerHours { get; set; }
+    public ICollection<VolunteerHour> VolunteerHours { get; set; } = new List<VolunteerHour>();
 
     /// <summary>
     /// Convenience property for role assignment.
