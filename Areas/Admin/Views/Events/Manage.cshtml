@@ -76,6 +76,15 @@ SEARCH/FILTER REQUIREMENTS:
                 </svg>
                 <span class="admin-manage-events__create-text">Create Event</span>
             </a>
+            <form asp-area="Admin" asp-controller="Events" asp-action="SeedEvents" method="post" style="display:inline;">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="admin-manage-events__create-btn" style="margin-left: 1rem;">
+                    <svg class="admin-manage-events__create-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 5v14M5 12h14" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="admin-manage-events__create-text">Seed 10 Events</span>
+                </button>
+            </form>
         </div>
     </header>
 
