@@ -23,4 +23,9 @@ public interface IStoryService
     /// Gets all stories for a specific user, grouped by status.
     /// </summary>
     Task<IReadOnlyCollection<Story>> GetUserStoriesAsync(string userId);
+
+    /// <summary>
+    /// Retrieves a single story by identifier, including related data needed for detail views.
+    /// </summary>
+    Task<Story?> GetStoryByIdAsync(int storyId);
 }

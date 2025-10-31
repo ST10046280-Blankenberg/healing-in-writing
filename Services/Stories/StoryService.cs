@@ -114,4 +114,15 @@ public class StoryService : IStoryService
 
         return stories;
     }
+
+    public async Task<Story?> GetStoryByIdAsync(int storyId)
+    {
+        var story = await _context.Stories
+            .Include(s => s.Tags)
+            .Include(s => s.Author)
+                .ThenInclude(author => author.User)
+            .FirstOrDefaultAsync(s => s.StoryId == storyId);
+
+        return story;
+    }
 }

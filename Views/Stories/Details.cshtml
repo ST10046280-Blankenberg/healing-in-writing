@@ -1,44 +1,12 @@
-@*
-========================================
-BACKEND DATA REQUIREMENTS
-========================================
-This page displays full story details for admin review/editing.
-
-REQUIRED DATA:
-- Story ID (int) - From route parameter
-- Title (string)
-- Author Name (string) - Display "Anonymous" if user opted for anonymity
-- Created Date (DateTime)
-- Content (string/text) - Full story text
-- Status (string) - Current approval status
-- Tags (List<string>) - All tags associated with this story_id
-- Cover Image URL (string) - Path to uploaded image (if implemented)
-
-DATABASE QUERIES NEEDED:
-1. Get story details: SELECT * FROM stories WHERE id = @storyId
-2. Get author info: JOIN users ON stories.user_id = users.id
-3. Get tags: SELECT tags.name FROM story_tags 
-   JOIN tags ON story_tags.tag_id = tags.id 
-   WHERE story_tags.story_id = @storyId
-4. Get image: stories.cover_image_url (or file path if stored locally)
-
-IMAGE STORAGE CONSIDERATIONS:
-- Option 1: Store in wwwroot/uploads/stories/ and save file path in DB
-- Option 2: Use cloud storage (Azure Blob, AWS S3) and store URL
-- Option 3: Store as Base64 in database (NOT RECOMMENDED for performance)
-
-FORM ACTIONS NEEDED:
-- Approve Story: POST /Admin/Stories/Approve/{id}
-- Reject Story: POST /Admin/Stories/Reject/{id}
-- Publish Story: POST /Admin/Stories/Publish/{id}
-========================================
-*@
-
-
 @model HealingInWriting.Models.Stories.StoryDetailViewModel
 
 @{
     ViewData["Title"] = "Story Details";
+    var displayDate = Model.CreatedAt.ToLocalTime().ToString("MMMM d, yyyy");
+    var isAuthenticated = User.Identity?.IsAuthenticated ?? false;
+    var backLink = isAuthenticated
+        ? Url.Action("MyStories", "Dashboard", new { area = "" })
+        : Url.Action("Index", "Stories", new { area = "" });
 }
 
 @section Styles {
@@ -49,24 +17,23 @@ FORM ACTIONS NEEDED:
     <div class="story-details__body">
         <article class="story-details__container">
             <div class="story-details__content">
-                <!-- Admin Story Buttons --> 
-                @* TODO: Change this to only display if an admin is signed in & if the page was reached from the Manage Story Page*@
-
                 <div class="story-details__nav">
-                    <a href="@Url.Action("Index", "Stories")" class="story-details__back-btn">
+                    <a href="@backLink" class="story-details__back-btn">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <path d="M19 12H5M12 19l-7-7 7-7" stroke="#1D1B20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </a>
-                    
-                    <div class="story-details__actions">
-                        <button class="story-details__btn story-details__btn--primary">
-                            <span class="story-details__btn-text">Approve</span>
-                        </button>
-                        <button class="story-details__btn story-details__btn--secondary">
-                            <span class="story-details__btn-text">Reject</span>
-                        </button>
-                    </div>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <div class="story-details__actions">
+                            <button class="story-details__btn story-details__btn--primary" type="button">
+                                <span class="story-details__btn-text">Approve</span>
+                            </button>
+                            <button class="story-details__btn story-details__btn--secondary" type="button">
+                                <span class="story-details__btn-text">Reject</span>
+                            </button>
+                        </div>
+                    }
                 </div>
 
                 <!-- Hero Image -->
@@ -78,35 +45,29 @@ FORM ACTIONS NEEDED:
                 <div class="story-details__article">
                     <!-- Header Section -->
                     <header class="story-details__header">
-                        <h1 class="story-details__title">Article Title</h1>
-                        <p class="story-details__meta">By Author March 10, 2025</p>
+                        <h1 class="story-details__title">@Model.Title</h1>
+                        <p class="story-details__meta">By @Model.AuthorName, @displayDate</p>
                     </header>
 
                     <!-- Tags Section -->
-                    <div class="story-details__tags">
-                        <span class="story-details__tag">
-                            <span class="story-details__tag-text">Tag</span>
-                        </span>
-                        <span class="story-details__tag">
-                            <span class="story-details__tag-text">Tag</span>
-                        </span>
-                        <span class="story-details__tag">
-                            <span class="story-details__tag-text">Tag</span>
-                        </span>
-                    </div>
+                    @if (Model.Tags?.Any() == true)
+                    {
+                        <div class="story-details__tags">
+                            @foreach (var tag in Model.Tags)
+                            {
+                                <span class="story-details__tag">
+                                    <span class="story-details__tag-text">@tag.Name</span>
+                                </span>
+                            }
+                        </div>
+                    }
 
                     <!-- Article Text Content -->
                     <div class="story-details__text-container">
                         <div class="story-details__text-wrapper">
-                            <p class="story-details__text">
-                                In the thick of lockdown, 2020, poet, critic, and memoirist Jamie Hood published her debut, how to be a good girl, an interrogation of modern femininity and the narratives of love, desire, and violence yoked to it. The Rumpus praised Hood's "bold vulnerability," and Vogue named it a Best Book of 2020.
-                            </p>
-                            <p class="story-details__text">
-                                In Trauma Plot, Hood draws on disparate literary forms to tell the story that lurked in good girl's margins—of three decades marred by sexual violence and the wreckage left behind. With her trademark critical remove, Hood interrogates the archetype of the rape survivor, who must perform penitence long after living through the unthinkable, invoking some of art's most infamous women to have played the role: Ovid's Philomela, David Lynch's Laura Palmer, and Artemisia Gentileschi, who captured Judith's wrath. In so doing, she asks: What do we as a culture demand of survivors? And what do survivors, in turn, owe a world that has abandoned them?
-                            </p>
-                            <p class="story-details__text">
-                                Trauma Plot is a scalding work of personal and literary criticism. It is a send-up of our culture's pious disdain for "trauma porn," a dirge for the broken promises of #MeToo, and a paean to finding life after death.
-                            </p>
+                            <div class="story-details__text">
+                                @Html.Raw(Model.Content)
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -114,4 +75,3 @@ FORM ACTIONS NEEDED:
         </article>
     </div>
 </main>
-
