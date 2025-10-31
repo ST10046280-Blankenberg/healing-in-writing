@@ -16,7 +16,9 @@ using System.Globalization;
 using HealingInWriting.Repositories.Events;
 using HealingInWriting.Repositories.Privacy;
 using HealingInWriting.Repositories.OurImpactFolder;
+using HealingInWriting.Repositories.GalleryFolder;
 using HealingInWriting.Services.Events;
+using HealingInWriting.Services.Gallery;
 using Microsoft.AspNetCore.Localization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -112,6 +114,8 @@ builder.Services.AddScoped<IPrivacyPolicyRepository, PrivacyPolicyRepository>();
 builder.Services.AddScoped<IPrivacyPolicyService, PrivacyPolicyService>();
 builder.Services.AddScoped<IOurImpactRepository, OurImpactRepository>();
 builder.Services.AddScoped<IOurImpactService, OurImpactService>();
+builder.Services.AddScoped<IGalleryRepository, GalleryRepository>();
+builder.Services.AddScoped<IGalleryService, GalleryService>();
 
 // Configure rate limiting to prevent brute force, credential stuffing, and DDoS attacks
 // Uses IP address as the partition key to track requests per client
