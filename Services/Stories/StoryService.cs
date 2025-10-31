@@ -77,4 +77,20 @@ public class StoryService : IStoryService
 
         return story;
     }
+
+    public async Task<int> GetUserStoryCountAsync(string userId)
+    {
+        // Find user profile first
+        var userProfile = await _context.UserProfiles
+            .FirstOrDefaultAsync(up => up.UserId == userId);
+
+        if (userProfile == null)
+        {
+            return 0;
+        }
+
+        return await _context.Stories
+            .Where(s => s.UserId == userProfile.ProfileId)
+            .CountAsync();
+    }
 }

@@ -21,4 +21,6 @@ public interface IEventService
     Task<bool> DeleteEventAsync(int eventId);
 
     Task<bool> UpdateEventStatusAsync(int eventId, EventStatus newStatus);
+
+    Task<int> GetUserUpcomingEventsCountAsync(string userId);
 }
