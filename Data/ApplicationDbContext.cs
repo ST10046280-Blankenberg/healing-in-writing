@@ -7,6 +7,7 @@ using HealingInWriting.Domain.Stories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using HealingInWriting.Domain.Volunteers;
 
 namespace HealingInWriting.Data;
 
@@ -17,14 +18,13 @@ namespace HealingInWriting.Data;
 /// </summary>
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) 
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
     }
 
     // TODO [Future]: Add DbSet properties for other domain entities when needed
     // public DbSet<Donation> Donations { get; set; }
-    // public DbSet<Volunteer> Volunteers { get; set; }
     public DbSet<Event> Events { get; set; }
     public DbSet<Registration> Registrations { get; set; }
     public DbSet<Tag> Tags { get; set; }
@@ -34,7 +34,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<BackoffState> BackoffStates { get; set; }
     public DbSet<BankDetails> BankDetails { get; set; }
     public DbSet<Story> Stories { get; set; }
-    
+    public DbSet<Volunteer> Volunteers { get; set; }
+    public DbSet<VolunteerHour> VolunteerHours { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -97,26 +98,26 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             ii.Property(i => i.Identifier).HasColumnName("Identifier");
             ii.ToTable("BookIndustryIdentifiers");
         });
-        
+
         // Event relationships
         builder.Entity<Event>()
             .HasOne(e => e.User)
             .WithMany()
             .HasForeignKey(e => e.UserId)
             .OnDelete(DeleteBehavior.Restrict);
-        
+
         builder.Entity<Event>()
             .HasOne(e => e.Address)
             .WithMany()
             .HasForeignKey(e => e.AddressId)
             .OnDelete(DeleteBehavior.Cascade);
-        
+
         // Many-to-many: Events and Tags
         builder.Entity<Event>()
             .HasMany(e => e.EventTags)
             .WithMany()
             .UsingEntity(j => j.ToTable("EventTags"));
-        
+
         // UserProfile relationship
         builder.Entity<UserProfile>()
             .HasOne(up => up.User)
@@ -147,7 +148,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<Registration>()
             .HasIndex(r => new { r.EventId, r.GuestEmail });
 
-        
+
         builder.Entity<HealingInWriting.Domain.Common.BankDetails>(b =>
         {
             b.HasKey(x => x.Id);
@@ -174,5 +175,17 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .WithMany()
             .UsingEntity(j => j.ToTable("StoryTags"));
 
+        // Volunteer relationships
+        builder.Entity<Volunteer>()
+            .HasMany(v => v.VolunteerHours)
+            .WithOne(h => h.Volunteer)
+            .HasForeignKey(h => h.VolunteerId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<Volunteer>()
+            .HasOne(v => v.User)
+            .WithMany()
+            .HasForeignKey(v => v.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

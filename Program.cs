@@ -1,22 +1,24 @@
 using HealingInWriting.Data;
 using HealingInWriting.Domain.Users;
+using HealingInWriting.Interfaces.Repository;
 using HealingInWriting.Interfaces.Services;
+using HealingInWriting.Repositories.BankDetailsFolder;
+using HealingInWriting.Repositories.Books;
+using HealingInWriting.Repositories.Events;
+using HealingInWriting.Repositories.Volunteers;
 using HealingInWriting.Services.Admin;
 using HealingInWriting.Services.Auth;
 using HealingInWriting.Services.Books;
-using HealingInWriting.Services.Stories;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.RateLimiting;
-using Microsoft.AspNetCore.RateLimiting;
-using HealingInWriting.Interfaces.Repository;
-using HealingInWriting.Repositories.Books;
 using HealingInWriting.Services.Common;
-using HealingInWriting.Repositories.BankDetailsFolder;
-using System.Globalization;
-using HealingInWriting.Repositories.Events;
 using HealingInWriting.Services.Events;
+using HealingInWriting.Services.Stories;
+using HealingInWriting.Services.Volunteers;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.EntityFrameworkCore;
+using System.Globalization;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -131,6 +133,8 @@ builder.Services.AddScoped<IBackoffStateRepository, BackoffStateRepository>();
 builder.Services.AddScoped<IBankDetailsRepository, BankDetailsRepository>();
 builder.Services.AddScoped<IBankDetailsService, BankDetailsService>();
 builder.Services.AddScoped<IAdminDashboardService, AdminDashboardService>();
+builder.Services.AddScoped<IVolunteerRepository, VolunteerRepository>();
+builder.Services.AddScoped<IVolunteerService, VolunteerService>();
 
 // Azure Blob Storage for image uploads (optional, configured via StorageConnection)
 // Register clients only if connection string is present
@@ -327,8 +331,8 @@ app.Use(async (context, next) =>
         "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net", 
         
         // 2. ADDED http://books.google.com to allow book cover images
-        "img-src 'self' data: https: http://books.google.com", 
-        
+        "img-src 'self' data: https: http://books.google.com",
+
         "connect-src 'self'",
         "frame-ancestors 'none'",
         "base-uri 'self'",

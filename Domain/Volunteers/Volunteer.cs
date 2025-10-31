@@ -1,20 +1,50 @@
+using HealingInWriting.Domain.Users;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HealingInWriting.Domain.Volunteers;
 
-// TODO: Express volunteer identity and engagement details within the domain.
+/// <summary>
+/// Represents a volunteer and their engagement details.
+/// </summary>
 public class Volunteer
 {
-    // TODO: Include personal information, enrolment state, and role assignments.
     [Key]
-    public int VolunteerId { get; set; }        // PK: volunteer_id
+    public int VolunteerId { get; set; }
 
+    /// <summary>
+    /// Foreign key to ApplicationUser (Identity PK is string).
+    /// </summary>
     [Required]
-    public int UserId { get; set; }             // FK: user_id
+    public string UserId { get; set; }
 
-    //TODO: Implement availability as system develops
-    //public Boolean available { get; set; }
+    /// <summary>
+    /// Navigation property to the user account.
+    /// </summary>
+    [ForeignKey(nameof(UserId))]
+    public ApplicationUser User { get; set; }
 
-    // TODO: Add navigation properties for related entities
-    //public User User { get; set; }
+    /// <summary>
+    /// Date the volunteer enrolled.
+    /// </summary>
+    public DateTime EnrolledAt { get; set; } = DateTime.UtcNow;
+
+    /// <summary>
+    /// Indicates if the volunteer is currently active.
+    /// </summary>
+    public bool IsActive { get; set; } = true;
+
+    /// <summary>
+    /// Optional: Volunteer-specific notes or status.
+    /// </summary>
+    [StringLength(250)]
+    public string? Notes { get; set; }
+
+    public ICollection<VolunteerHour> VolunteerHours { get; set; } = new List<VolunteerHour>();
+
+    /// <summary>
+    /// Convenience property for role assignment.
+    /// </summary>
+    [NotMapped]
+    public string Role => "Volunteer";
 }

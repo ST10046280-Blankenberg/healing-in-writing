@@ -1,4 +1,5 @@
 using HealingInWriting.Domain.Users;
+using HealingInWriting.Domain.Volunteers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -42,6 +43,23 @@ public static class DbInitialiser
         await CreateTestUserAsync(userManager, "user@test.com", "Test", "User", "User");
         await CreateTestUserAsync(userManager, "volunteer@test.com", "Test", "Volunteer", "Volunteer");
         await CreateTestUserAsync(userManager, "admin@test.com", "Test", "Admin", "Admin");
+
+        //Seed Volunteer entity for volunteer user
+        var volunteerUser = await userManager.FindByEmailAsync("volunteer@test.com");
+        if (volunteerUser != null)
+        {
+            // Check if Volunteer already exists
+            if (!context.Volunteers.Any(v => v.UserId == volunteerUser.Id))
+            {
+                context.Volunteers.Add(new Volunteer
+                {
+                    UserId = volunteerUser.Id,
+                    EnrolledAt = DateTime.UtcNow,
+                    IsActive = true
+                });
+                await context.SaveChangesAsync();
+            }
+        }
     }
 
     /// <summary>

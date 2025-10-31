@@ -1,0 +1,32 @@
+﻿@model List<HealingInWriting.Models.Volunteer.VolunteerHourApprovalViewModel>
+
+<div class="log-hours__entries-list">
+    @if (Model.Any())
+    {
+        foreach (var entry in Model)
+        {
+            var statusClass = entry.Status?.ToLower() switch
+            {
+                "approved" => "entry-card__status--validated",
+                "pending" => "entry-card__status--pending",
+                "needsinfo" => "entry-card__status--needs-info",
+                "rejected" => "entry-card__status--rejected",
+                _ => ""
+            };
+            <article class="entry-card">
+                <div class="entry-card__header">
+                    <div class="entry-card__info">
+                        <h3 class="entry-card__title">@entry.Activity</h3>
+                        <p class="entry-card__date">Date: @entry.Date.ToString("MMM dd, yyyy")</p>
+                    </div>
+                    <span class="entry-card__status @statusClass">@entry.Status</span>
+                </div>
+                <p class="entry-card__hours">@entry.Hours @("hour" + (entry.Hours == 1 ? "" : "s"))</p>
+            </article>
+        }
+    }
+    else
+    {
+        <p>No recent entries found.</p>
+    }
+</div>
