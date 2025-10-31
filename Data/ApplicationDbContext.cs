@@ -3,6 +3,7 @@ using HealingInWriting.Domain.Books;
 using HealingInWriting.Domain.Events;
 using HealingInWriting.Domain.Shared;
 using HealingInWriting.Domain.Common;
+using HealingInWriting.Domain.Stories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -22,9 +23,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     }
 
     // TODO [Future]: Add DbSet properties for other domain entities when needed
-    // public DbSet<UserProfile> UserProfiles { get; set; }
-    // public DbSet<Story> Stories { get; set; }
-    // public DbSet<Event> Events { get; set; }
     // public DbSet<Donation> Donations { get; set; }
     // public DbSet<Volunteer> Volunteers { get; set; }
     public DbSet<Event> Events { get; set; }
@@ -34,8 +32,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<UserProfile> UserProfiles { get; set; }
     public DbSet<Book> Books { get; set; }
     public DbSet<BackoffState> BackoffStates { get; set; }
-
     public DbSet<BankDetails> BankDetails { get; set; }
+    public DbSet<Story> Stories { get; set; }
     
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -162,6 +160,19 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             // Remove .IsRowVersion() for SQLite
             b.Property(x => x.RowVersion).IsRequired(false);
         });
+
+        // Story relationships
+        builder.Entity<Story>()
+            .HasOne(s => s.Author)
+            .WithMany()
+            .HasForeignKey(s => s.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Many-to-many: Stories and Tags
+        builder.Entity<Story>()
+            .HasMany(s => s.Tags)
+            .WithMany()
+            .UsingEntity(j => j.ToTable("StoryTags"));
 
     }
 }

@@ -2,7 +2,7 @@ using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Stories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
-using Ganss.Xss;
+using System.Security.Claims;
 
 
 namespace HealingInWriting.Controllers
@@ -84,34 +84,23 @@ namespace HealingInWriting.Controllers
                 return View();
             }
 
-            // Sanitize HTML content to prevent XSS attacks
-            var sanitizer = new HtmlSanitizer();
-            var sanitizedContent = sanitizer.Sanitize(content);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
 
-            // TODO: Create story entity and save via service
-            // SECURITY: When implementing, ensure:
-            // - Set UserId from User.FindFirst(ClaimTypes.NameIdentifier)?.Value
-            // - Never trust user-provided IDs in the request
-            // - Set CreatedAt server-side, never from client
-            // Example:
-            // var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            // if (string.IsNullOrEmpty(userId))
-            //     return Unauthorized();
-            //
-            // var story = new Story
-            // {
-            //     Title = title,
-            //     Content = sanitizedContent,
-            //     IsAnonymous = anonymous,
-            //     UserId = userId,  // CRITICAL: Always set from authenticated user
-            //     CreatedAt = DateTime.UtcNow,
-            //     Status = StoryStatus.Pending
-            // };
-            // await _storyService.CreateAsync(story);
-
-            // Temporary success redirect
+            try
+            {
+                await _storyService.SubmitStoryAsync(userId, title, content, tags, anonymous);
+            }
+            catch (InvalidOperationException ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View();
+            }
             TempData["SuccessMessage"] = "Your story has been submitted for review!";
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { area = "" });
         }
     }
 }

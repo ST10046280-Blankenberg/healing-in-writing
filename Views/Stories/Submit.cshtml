@@ -20,8 +20,11 @@
         <div class="story-submit__container">
             <!-- Form Container -->
             <div class="story-submit__form-container">
-                <form method="post" asp-action="Submit">
+                <form method="post" asp-area="" asp-controller="Stories" asp-action="Submit">
                     @Html.AntiForgeryToken()
+
+                    <!-- Display validation errors -->
+                    <div asp-validation-summary="All" class="text-danger"></div>
 
                     <!-- Story Title Field -->
                     <div class="story-submit__field">
@@ -63,7 +66,7 @@
 
                     <!-- Anonymous Checkbox -->
                     <div class="story-submit__checkbox-group">
-                        <input class="story-submit__checkbox" type="checkbox" id="anonymous" name="anonymous" />
+                        <input class="story-submit__checkbox" type="checkbox" id="anonymous" name="anonymous" value="true" />
                         <label class="story-submit__checkbox-label" for="anonymous">
                             <svg class="story-submit__checkbox-icon" viewBox="0 0 24 24" fill="none">
                                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" fill="none"/>
@@ -75,7 +78,7 @@
 
                     <!-- Consent Checkbox -->
                     <div class="story-submit__checkbox-group">
-                        <input class="story-submit__checkbox" type="checkbox" id="consent" name="consent" required />
+                        <input class="story-submit__checkbox" type="checkbox" id="consent" name="consent" value="true" required />
                         <label class="story-submit__checkbox-label" for="consent">
                             <svg class="story-submit__checkbox-icon" viewBox="0 0 24 24" fill="none">
                                 <path d="M9 11l3 3l8-8" stroke="currentColor" stroke-width="2" fill="none"/>

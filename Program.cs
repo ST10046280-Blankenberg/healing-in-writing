@@ -19,19 +19,30 @@ using Microsoft.AspNetCore.Localization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add database context with environment-based provider switching
-// Development: SQLite for local work
-// Production: Azure SQL Server for cloud deployment
+// Configure database provider (SQLite for local development, SQL Server/Azure for hosted environments)
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' was not found.");
+
+var databaseProvider = builder.Configuration.GetValue<string>("DatabaseProvider") ?? "Auto";
+if (string.Equals(databaseProvider, "Auto", StringComparison.OrdinalIgnoreCase))
+{
+    databaseProvider = connectionString.Contains(".db", StringComparison.OrdinalIgnoreCase) ? "Sqlite" : "SqlServer";
+}
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-    if (builder.Environment.IsDevelopment())
+    switch (databaseProvider.ToLowerInvariant())
     {
-        options.UseSqlite(connectionString);
-    }
-    else
-    {
-        options.UseSqlServer(connectionString);
+        case "sqlite":
+            options.UseSqlite(connectionString);
+            break;
+        case "sqlserver":
+        case "mssql":
+        case "sqlazure":
+            options.UseSqlServer(connectionString);
+            break;
+        default:
+            throw new InvalidOperationException($"Unsupported DatabaseProvider '{databaseProvider}'.");
     }
 });
 
@@ -246,12 +257,12 @@ using (var scope = app.Services.CreateScope())
         }
 
         // Seed test accounts, roles, and demo data (only in development)
+        var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+        await DbInitialiser.InitialiseAsync(context, userManager, roleManager, seedTestAccounts: app.Environment.IsDevelopment());
+
         if (app.Environment.IsDevelopment())
         {
-            var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-            var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-            await DbInitialiser.InitialiseAsync(context, userManager, roleManager);
-
             // Seed books from Google Books API (development only, avoid rate limits in production)
             var bookService = services.GetRequiredService<IBookService>() as BookService;
             if (bookService != null)

@@ -1,15 +1,23 @@
+using HealingInWriting.Data;
 using HealingInWriting.Domain.Shared;
 using HealingInWriting.Domain.Stories;
 using HealingInWriting.Domain.Users;
 using HealingInWriting.Interfaces.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace HealingInWriting.Services.Stories;
 
 /// <summary>
-/// Temporary in-memory story service to keep controllers thin until persistence is wired up.
+/// Story service for managing story persistence and retrieval.
 /// </summary>
 public class StoryService : IStoryService
 {
+    private readonly ApplicationDbContext _context;
+
+    public StoryService(ApplicationDbContext context)
+    {
+        _context = context;
+    }
     private static readonly IReadOnlyCollection<Story> PublishedStories = new List<Story>
     {
         new()
@@ -119,8 +127,68 @@ public class StoryService : IStoryService
         }
     };
 
-    public Task<IReadOnlyCollection<Story>> GetPublishedAsync()
+    public async Task<IReadOnlyCollection<Story>> GetPublishedAsync()
     {
-        return Task.FromResult(PublishedStories);
+        var stories = await _context.Stories
+            .Include(s => s.Author)
+            .Include(s => s.Tags)
+            .Where(s => s.Status == StoryStatus.Published)
+            .OrderByDescending(s => s.CreatedAt)
+            .ToListAsync();
+
+        // If no stories in database, return mock data for display
+        if (stories.Count == 0)
+        {
+            return PublishedStories;
+        }
+
+        return stories;
+    }
+
+    public async Task<Story> SubmitStoryAsync(string userId, string title, string content, string tags, bool isAnonymous)
+    {
+        // Find or create user profile
+        var userProfile = await _context.UserProfiles
+            .FirstOrDefaultAsync(up => up.UserId == userId);
+
+        if (userProfile == null)
+        {
+            // Auto-create a basic profile for the user
+            userProfile = new UserProfile
+            {
+                UserId = userId,
+                Bio = "",
+                City = ""
+            };
+            _context.UserProfiles.Add(userProfile);
+            await _context.SaveChangesAsync();
+        }
+
+        // Sanitize content
+        var sanitizer = new Ganss.Xss.HtmlSanitizer();
+        var sanitizedContent = sanitizer.Sanitize(content);
+
+        // Generate summary from content (first 500 chars)
+        var plainText = System.Text.RegularExpressions.Regex.Replace(sanitizedContent, "<.*?>", string.Empty);
+        var summary = plainText.Length > 500 ? plainText.Substring(0, 497) + "..." : plainText;
+
+        // Create story
+        var story = new Story
+        {
+            Title = title.Trim(),
+            Content = sanitizedContent,
+            Summary = summary,
+            Category = StoryCategory.SurvivorStory,
+            IsAnonymous = isAnonymous,
+            UserId = userProfile.ProfileId,
+            CreatedAt = DateTime.UtcNow,
+            Status = StoryStatus.Submitted,
+            Tags = new List<Tag>()
+        };
+
+        _context.Stories.Add(story);
+        await _context.SaveChangesAsync();
+
+        return story;
     }
 }

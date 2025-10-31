@@ -316,27 +316,40 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Always keep the hidden content field synchronized with Quill
+    quill.on('text-change', function() {
+        const content = document.querySelector('input#content');
+        if (content) {
+            content.value = quill.root.innerHTML;
+        }
+    });
+
     // Validate and submit form
     form.addEventListener('submit', function(e) {
-        // First, validate the form
-        if (!validateForm()) {
-            e.preventDefault();
+        e.preventDefault(); // Always prevent default first
 
+        // Ensure content is populated
+        const content = document.querySelector('input#content');
+        if (content && quill) {
+            content.value = quill.root.innerHTML;
+            console.log('Content populated:', content.value.substring(0, 100)); // Debug log
+        }
+
+        // Validate the form
+        if (!validateForm()) {
             // Scroll to first error
             const firstError = document.querySelector('.story-submit__error-message');
             if (firstError) {
                 firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
-
             return false;
         }
 
-        // If validation passes, store HTML in hidden input
-        const content = document.querySelector('input#content');
-        content.value = quill.root.innerHTML;
+        // If validation passes, submit the form
+        console.log('Submitting form...'); // Debug log
+        form.submit();
 
         // Clear draft on successful submission
-        // Wait a bit to ensure form submission completes
         setTimeout(clearDraft, 1000);
     });
 });

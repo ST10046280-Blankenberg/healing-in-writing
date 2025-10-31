@@ -8,4 +8,9 @@ public interface IStoryService
     /// Retrieves the set of stories ready to be displayed publicly.
     /// </summary>
     Task<IReadOnlyCollection<Story>> GetPublishedAsync();
+
+    /// <summary>
+    /// Creates a new story submission from the authenticated user.
+    /// </summary>
+    Task<Story> SubmitStoryAsync(string userId, string title, string content, string tags, bool isAnonymous);
 }
