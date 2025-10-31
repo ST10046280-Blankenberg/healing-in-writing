@@ -3,6 +3,7 @@ using HealingInWriting.Domain.Books;
 using HealingInWriting.Domain.Events;
 using HealingInWriting.Domain.Shared;
 using HealingInWriting.Domain.Common;
+using HealingInWriting.Domain.Gallery;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +39,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<BankDetails> BankDetails { get; set; }
     public DbSet<PrivacyPolicy> PrivacyPolicies { get; set; }
     public DbSet<OurImpact> OurImpacts { get; set; }
+    public DbSet<GalleryItem> GalleryItems { get; set; }
     
 
     protected override void OnModelCreating(ModelBuilder builder)

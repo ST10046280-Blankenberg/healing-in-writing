@@ -90,6 +90,26 @@ namespace HealingInWriting.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "GalleryItems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ImageUrl = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false),
+                    AltText = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
+                    IsAlbum = table.Column<bool>(type: "INTEGER", nullable: false),
+                    AlbumPhotoCount = table.Column<int>(type: "INTEGER", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UploadedBy = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "BLOB", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GalleryItems", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OurImpacts",
                 columns: table => new
                 {
@@ -525,6 +545,9 @@ namespace HealingInWriting.Migrations
 
             migrationBuilder.DropTable(
                 name: "EventTags");
+
+            migrationBuilder.DropTable(
+                name: "GalleryItems");
 
             migrationBuilder.DropTable(
                 name: "OurImpacts");
