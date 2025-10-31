@@ -3,7 +3,7 @@ using HealingInWriting.Domain.Gallery;
 using HealingInWriting.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
 
-namespace HealingInWriting.Repositories.GalleryFolder
+namespace HealingInWriting.Repositories.Gallery
 {
     public class GalleryRepository : IGalleryRepository
     {
@@ -24,6 +24,15 @@ namespace HealingInWriting.Repositories.GalleryFolder
             return await _context.GalleryItems
                 .AsNoTracking()
                 .OrderByDescending(g => g.CreatedDate)
+                .ToListAsync();
+        }
+
+        public async Task<List<GalleryItem>> GetByCollectionIdAsync(string collectionId)
+        {
+            return await _context.GalleryItems
+                .AsNoTracking()
+                .Where(g => g.CollectionId == collectionId)
+                .OrderBy(g => g.CreatedDate)
                 .ToListAsync();
         }
 
