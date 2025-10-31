@@ -54,63 +54,43 @@
         
         <!-- Stories Grid -->
         <div class="home-stories__grid">
-            @* TODO: Convert to _partialView and load from database *@
-            <!-- Story Card 1 -->
-            <article class="home-stories__card">
-                <h3 class="home-stories__card-title">Finding Light After Darkness</h3>
-                <p class="home-stories__card-excerpt">
-                    "I never thought I'd be able to trust again, but this community showed me that healing is possible. Today, I'm stronger than ever..."
-                </p>
-                <div class="home-stories__card-footer">
-                    <div class="home-stories__author">
-                        <img class="home-stories__author-avatar" 
-                             src="~/images/avatars/sarah-m.jpg" 
-                             alt="Sarah M." />
-                        <span class="home-stories__author-name">Sarah M.</span>
+            @if (Model.Stories.Any())
+            {
+                foreach (var story in Model.Stories)
+                {
+                    <article class="home-stories__card">
+                        <h3 class="home-stories__card-title">@story.Title</h3>
+                        <p class="home-stories__card-excerpt">
+                            @story.Snippet
+                        </p>
+                        <div class="home-stories__card-footer">
+                            <div class="home-stories__author">
+                                <span class="home-stories__author-name">@story.AuthorName</span>
+                            </div>
+                            <a class="home-stories__read-more" asp-area="" asp-controller="Stories" asp-action="Details" asp-route-id="@story.StoryId">
+                                Read More
+                            </a>
+                        </div>
+                    </article>
+                }
+            }
+            else
+            {
+                <article class="home-stories__card">
+                    <h3 class="home-stories__card-title">No stories yet</h3>
+                    <p class="home-stories__card-excerpt">
+                        Stories shared by the community will appear here once submissions are published.
+                    </p>
+                    <div class="home-stories__card-footer">
+                        <div class="home-stories__author">
+                            <span class="home-stories__author-name">Healing in Writing</span>
+                        </div>
+                        <a class="home-stories__read-more" asp-area="" asp-controller="Stories" asp-action="Submit">
+                            Share Your Story
+                        </a>
                     </div>
-                    <a class="home-stories__read-more" asp-area="" asp-controller="Stories" asp-action="Details" asp-route-id="1">
-                        Read More
-                    </a>
-                </div>
-            </article>
-            
-            <!-- Story Card 2 -->
-            <article class="home-stories__card">
-                <h3 class="home-stories__card-title">Rebuilding My Confidence</h3>
-                <p class="home-stories__card-excerpt">
-                    "The support I found here helped me rediscover my worth. Every small step forward felt like a victory..."
-                </p>
-                <div class="home-stories__card-footer">
-                    <div class="home-stories__author">
-                        <img class="home-stories__author-avatar" 
-                             src="~/images/avatars/marcus-j.jpg" 
-                             alt="Marcus J." />
-                        <span class="home-stories__author-name">Marcus J.</span>
-                    </div>
-                    <a class="home-stories__read-more" asp-area="" asp-controller="Stories" asp-action="Details" asp-route-id="2">
-                        Read More
-                    </a>
-                </div>
-            </article>
-            
-            <!-- Story Card 3 -->
-            <article class="home-stories__card">
-                <h3 class="home-stories__card-title">A New Chapter Begins</h3>
-                <p class="home-stories__card-excerpt">
-                    "Connecting with others who understood my journey made all the difference. I'm now helping others find their path..."
-                </p>
-                <div class="home-stories__card-footer">
-                    <div class="home-stories__author">
-                        <img class="home-stories__author-avatar" 
-                             src="~/images/avatars/elena-r.jpg" 
-                             alt="Elena R." />
-                        <span class="home-stories__author-name">Elena R.</span>
-                    </div>
-                    <a class="home-stories__read-more" asp-area="" asp-controller="Stories" asp-action="Details" asp-route-id="3">
-                        Read More
-                    </a>
-                </div>
-            </article>
+                </article>
+            }
         </div>
         
         <!-- View All CTA -->
