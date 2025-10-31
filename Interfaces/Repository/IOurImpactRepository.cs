@@ -1,6 +1,12 @@
-namespace HealingInWriting.Interfaces.Repository;
+using HealingInWriting.Domain.Common;
 
-public class IOurImpactRepository
+namespace HealingInWriting.Interfaces.Repository
 {
-    
+    public interface IOurImpactRepository
+    {
+        Task<OurImpact?> GetAsync();
+        Task AddAsync(OurImpact entity);
+        Task UpdateAsync(OurImpact entity);
+    }
 }
+

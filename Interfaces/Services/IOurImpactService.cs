@@ -1,6 +1,11 @@
-namespace HealingInWriting.Interfaces.Services;
+using HealingInWriting.Domain.Common;
 
-public class IOurImpactService
+namespace HealingInWriting.Interfaces.Services
 {
-    
+    public interface IOurImpactService
+    {
+        Task<OurImpact> GetAsync();
+        Task UpdateAsync(OurImpact entity, string updatedBy);
+    }
 }
+
