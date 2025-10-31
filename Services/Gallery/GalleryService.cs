@@ -24,6 +24,11 @@ namespace HealingInWriting.Services.Gallery
             return await _repository.GetAllAsync();
         }
 
+        public async Task<List<GalleryItem>> GetByCollectionIdAsync(string collectionId)
+        {
+            return await _repository.GetByCollectionIdAsync(collectionId);
+        }
+
         public async Task<(List<GalleryItem> items, int totalCount)> GetPagedAsync(int page, int pageSize)
         {
             return await _repository.GetPagedAsync(page, pageSize);
