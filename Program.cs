@@ -5,6 +5,9 @@ using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Repositories.BankDetailsFolder;
 using HealingInWriting.Repositories.Books;
 using HealingInWriting.Repositories.Events;
+using HealingInWriting.Repositories.Gallery;
+using HealingInWriting.Repositories.OurImpactFolder;
+using HealingInWriting.Repositories.Privacy;
 using HealingInWriting.Repositories.Stories;
 using HealingInWriting.Repositories.Volunteers;
 using HealingInWriting.Services.Admin;
@@ -12,6 +15,7 @@ using HealingInWriting.Services.Auth;
 using HealingInWriting.Services.Books;
 using HealingInWriting.Services.Common;
 using HealingInWriting.Services.Events;
+using HealingInWriting.Services.Gallery;
 using HealingInWriting.Services.Stories;
 using HealingInWriting.Services.Volunteers;
 using Microsoft.AspNetCore.Identity;
@@ -19,13 +23,6 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
-using HealingInWriting.Repositories.Events;
-using HealingInWriting.Repositories.Gallery;
-using HealingInWriting.Repositories.Privacy;
-using HealingInWriting.Repositories.OurImpactFolder;
-using HealingInWriting.Services.Events;
-using HealingInWriting.Services.Gallery;
-using Microsoft.AspNetCore.Localization;
 using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -144,6 +141,12 @@ builder.Services.AddScoped<IBankDetailsService, BankDetailsService>();
 builder.Services.AddScoped<IAdminDashboardService, AdminDashboardService>();
 builder.Services.AddScoped<IVolunteerRepository, VolunteerRepository>();
 builder.Services.AddScoped<IVolunteerService, VolunteerService>();
+builder.Services.AddScoped<IPrivacyPolicyRepository, PrivacyPolicyRepository>();
+builder.Services.AddScoped<IPrivacyPolicyService, PrivacyPolicyService>();
+builder.Services.AddScoped<IOurImpactRepository, OurImpactRepository>();
+builder.Services.AddScoped<IOurImpactService, OurImpactService>();
+builder.Services.AddScoped<IGalleryRepository, GalleryRepository>();
+builder.Services.AddScoped<IGalleryService, GalleryService>();
 
 // Azure Blob Storage for image uploads (optional, configured via StorageConnection)
 // Register clients only if connection string is present
