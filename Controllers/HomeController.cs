@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models;
+using HealingInWriting.Models.Common;
 using HealingInWriting.Models.Home;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,11 +11,16 @@ namespace HealingInWriting.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IEventService _eventService;
+        private readonly IPrivacyPolicyService _privacyPolicyService;
 
-        public HomeController(ILogger<HomeController> logger, IEventService eventService)
+        public HomeController(
+            ILogger<HomeController> logger, 
+            IEventService eventService,
+            IPrivacyPolicyService privacyPolicyService)
         {
             _logger = logger;
             _eventService = eventService;
+            _privacyPolicyService = privacyPolicyService;
         }
 
         public async Task<IActionResult> Index()
@@ -81,9 +87,10 @@ namespace HealingInWriting.Controllers
         }
 
         // TODO: Keep privacy content generation inside the service layer.
-        public IActionResult Privacy()
+        public async Task<IActionResult> Privacy()
         {
-            return View();
+            var privacyPolicy = await _privacyPolicyService.GetAsync();
+            return View(privacyPolicy.ToViewModel());
         }
 
         // TODO: Let the service surface diagnostics while the controller returns the view.
