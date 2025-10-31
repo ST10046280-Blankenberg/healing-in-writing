@@ -1,5 +1,7 @@
+@using System.Security.Claims
 @{
     ViewData["Title"] = "Submit a Story";
+    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "anonymous";
 }
 
 @section Styles {
@@ -8,7 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
 }
 
-<main class="story-submit">
+<main class="story-submit" data-user-id="@userId">
     <div class="story-submit__body">
         <!-- Header Section -->
         <section class="story-submit__header">

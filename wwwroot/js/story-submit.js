@@ -1,7 +1,10 @@
 // Story submission page - Rich text editor and form handling
 
 document.addEventListener('DOMContentLoaded', function() {
-    const DRAFT_KEY = 'story-draft';
+    // Get user-specific draft key from data attribute or use default
+    const mainElement = document.querySelector('.story-submit');
+    const userId = mainElement?.dataset?.userId || 'anonymous';
+    const DRAFT_KEY = `story-draft-${userId}`;
     const AUTOSAVE_INTERVAL = 30000; // 30 seconds
 
     // Get form elements
@@ -345,11 +348,11 @@ document.addEventListener('DOMContentLoaded', function() {
             return false;
         }
 
+        // Clear draft BEFORE submitting (so it happens reliably before page redirect)
+        clearDraft();
+
         // If validation passes, submit the form
         console.log('Submitting form...'); // Debug log
         form.submit();
-
-        // Clear draft on successful submission
-        setTimeout(clearDraft, 1000);
     });
 });

@@ -9,7 +9,7 @@ using System.Security.Claims;
 
 namespace HealingInWriting.Controllers
 {
-    [Authorize(Roles = "Volunteer")]
+    [Authorize]
     public class DashboardController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

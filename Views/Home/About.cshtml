@@ -165,8 +165,8 @@
                 healing resources, and connect with others who understand your journey.
             </p>
             <div class="about-cta__actions">
-                <a href="@Url.Action("Auth", "Auth", new { mode = "register" })" class="about-cta__btn about-cta__btn--primary">Join Our Community</a>
-                <a href="@Url.Action("Index", "Stories")" class="about-cta__btn about-cta__btn--secondary">Read Stories</a>
+                <a asp-area="" asp-controller="Auth" asp-action="Register" class="about-cta__btn about-cta__btn--primary">Join Our Community</a>
+                <a asp-area="" asp-controller="Stories" asp-action="Index" class="about-cta__btn about-cta__btn--secondary">Read Stories</a>
             </div>
         </div>
     </section>
