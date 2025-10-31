@@ -238,4 +238,27 @@ public class EventService : IEventService
 
         return registrations;
     }
+
+    public async Task<IReadOnlyCollection<Registration>> GetUserRegistrationsAsync(string userId)
+    {
+        // Find user profile first
+        var userProfile = await _context.UserProfiles
+            .FirstOrDefaultAsync(up => up.UserId == userId);
+
+        if (userProfile == null)
+        {
+            return new List<Registration>();
+        }
+
+        var registrations = await _context.Registrations
+            .Include(r => r.Event)
+                .ThenInclude(e => e.Address)
+            .Include(r => r.Event)
+                .ThenInclude(e => e.EventTags)
+            .Where(r => r.UserId == userProfile.ProfileId)
+            .OrderByDescending(r => r.Event.StartDateTime)
+            .ToListAsync();
+
+        return registrations;
+    }
 }

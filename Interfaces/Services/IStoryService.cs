@@ -18,4 +18,9 @@ public interface IStoryService
     /// Gets the count of stories for a specific user.
     /// </summary>
     Task<int> GetUserStoryCountAsync(string userId);
+
+    /// <summary>
+    /// Gets all stories for a specific user, grouped by status.
+    /// </summary>
+    Task<IReadOnlyCollection<Story>> GetUserStoriesAsync(string userId);
 }

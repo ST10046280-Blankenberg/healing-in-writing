@@ -23,4 +23,9 @@ public interface IEventService
     Task<bool> UpdateEventStatusAsync(int eventId, EventStatus newStatus);
 
     Task<int> GetUserUpcomingEventsCountAsync(string userId);
+
+    /// <summary>
+    /// Gets all event registrations for a specific user.
+    /// </summary>
+    Task<IReadOnlyCollection<Registration>> GetUserRegistrationsAsync(string userId);
 }

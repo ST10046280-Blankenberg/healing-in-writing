@@ -93,4 +93,25 @@ public class StoryService : IStoryService
             .Where(s => s.UserId == userProfile.ProfileId)
             .CountAsync();
     }
+
+    public async Task<IReadOnlyCollection<Story>> GetUserStoriesAsync(string userId)
+    {
+        // Find user profile first
+        var userProfile = await _context.UserProfiles
+            .FirstOrDefaultAsync(up => up.UserId == userId);
+
+        if (userProfile == null)
+        {
+            return new List<Story>();
+        }
+
+        var stories = await _context.Stories
+            .Include(s => s.Tags)
+            .Include(s => s.Author)
+            .Where(s => s.UserId == userProfile.ProfileId)
+            .OrderByDescending(s => s.CreatedAt)
+            .ToListAsync();
+
+        return stories;
+    }
 }

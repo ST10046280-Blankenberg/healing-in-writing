@@ -47,15 +47,29 @@ namespace HealingInWriting.Controllers
         }
 
         // GET: /Dashboard/MyEvents
-        public IActionResult MyEvents()
+        public async Task<IActionResult> MyEvents()
         {
-            return View();
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            var registrations = await _eventService.GetUserRegistrationsAsync(userId);
+            return View(registrations);
         }
 
         // GET: /Dashboard/MyStories
-        public IActionResult MyStories()
+        public async Task<IActionResult> MyStories()
         {
-            return View();
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            var stories = await _storyService.GetUserStoriesAsync(userId);
+            return View(stories);
         }
     }
 }
