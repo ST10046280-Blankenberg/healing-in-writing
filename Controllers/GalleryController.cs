@@ -1,22 +1,38 @@
+using HealingInWriting.Interfaces.Services;
+using HealingInWriting.Models.Gallery;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HealingInWriting.Controllers
 {
-    // TODO: Depend on a gallery service for photo and album management.
     public class GalleryController : Controller
     {
-        public IActionResult Index()
+        private readonly IGalleryService _galleryService;
+
+        public GalleryController(IGalleryService galleryService)
         {
-            return View();
+            _galleryService = galleryService;
         }
-        
-        public IActionResult Details(int id)
+
+        public async Task<IActionResult> Index(int page = 1, int pageSize = 12)
         {
-            // TODO: Load gallery album details from service
-            return View();
+            // Ensure valid pagination parameters
+            if (page < 1) page = 1;
+            if (pageSize < 1) pageSize = 12;
+            if (pageSize > 100) pageSize = 100; // Max page size for performance
+
+            var (items, totalCount) = await _galleryService.GetPagedAsync(page, pageSize);
+
+            var viewModel = new GalleryViewModel
+            {
+                Photos = items.Select(i => i.ToViewModel()).ToList(),
+                TotalCount = totalCount,
+                PageSize = pageSize,
+                CurrentPage = page
+            };
+
+            return View(viewModel);
         }
-        
-        // TODO: Implement thin actions that coordinate gallery workflows via the service.
     }
 }
-
