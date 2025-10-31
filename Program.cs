@@ -320,8 +320,13 @@ app.Use(async (context, next) =>
         "default-src 'self'",
         "script-src 'self' https://cdn.jsdelivr.net",
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net",
-        "font-src 'self' https://fonts.gstatic.com",
-        "img-src 'self' data: https:",
+        
+        // 1. ADDED https://cdn.jsdelivr.net to allow Font Awesome fonts
+        "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net", 
+        
+        // 2. ADDED http://books.google.com to allow book cover images
+        "img-src 'self' data: https: http://books.google.com", 
+        
         "connect-src 'self'",
         "frame-ancestors 'none'",
         "base-uri 'self'",
