@@ -39,6 +39,17 @@ namespace HealingInWriting.Areas.Admin.Controllers
             var privacyPolicy = await _privacyPolicyService.GetAsync();
             var ourImpact = await _ourImpactService.GetAsync();
             var galleryItems = await _galleryService.GetAllAsync();
+            
+            // Get distinct existing collection IDs
+            var existingCollections = galleryItems
+                .Where(g => !string.IsNullOrWhiteSpace(g.CollectionId))
+                .Select(g => g.CollectionId)
+                .Distinct()
+                .OrderBy(c => c)
+                .ToList();
+            
+            ViewBag.ExistingCollections = existingCollections;
+            
             var model = new SiteSettingsViewModel
             {
                 BankDetails = bankDetails.ToViewModel(),
@@ -173,13 +184,27 @@ namespace HealingInWriting.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddGalleryItem(IFormFile image, string altText, bool isAlbum, int? albumPhotoCount)
+        public async Task<IActionResult> AddGalleryItem(IFormFile image, string altText, bool isAlbum, int? albumPhotoCount, string collectionId)
         {
             if (image == null || image.Length == 0)
             {
                 TempData["GalleryError"] = "Please select an image to upload.";
                 return RedirectToAction("Index");
             }
+            
+            if (string.IsNullOrWhiteSpace(altText))
+            {
+                TempData["GalleryError"] = "Please provide alt text/description for the image.";
+                return RedirectToAction("Index");
+            }
+            
+            // Validate collection ID for albums
+            if (isAlbum && string.IsNullOrWhiteSpace(collectionId))
+            {
+                TempData["GalleryError"] = "Album photos require a collection ID. Please select an existing collection or create a new one.";
+                return RedirectToAction("Index");
+            }
+            
             // Save image to /wwwroot/images/gallery/
             var extension = Path.GetExtension(image.FileName).ToLowerInvariant();
             var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
@@ -208,6 +233,7 @@ namespace HealingInWriting.Areas.Admin.Controllers
                 AltText = altText,
                 IsAlbum = isAlbum,
                 AlbumPhotoCount = albumPhotoCount,
+                CollectionId = !string.IsNullOrWhiteSpace(collectionId) ? collectionId : null,
                 CreatedDate = DateTime.UtcNow
             };
             await _galleryService.AddAsync(entity, User.Identity?.Name ?? "System");
@@ -219,8 +245,34 @@ namespace HealingInWriting.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteGalleryItem(int id)
         {
-            await _galleryService.DeleteAsync(id);
-            TempData["GallerySuccess"] = "Photo deleted successfully.";
+            try
+            {
+                var item = await _galleryService.GetByIdAsync(id);
+                if (item != null)
+                {
+                    // Delete physical file from disk
+                    var imagePath = item.ImageUrl.TrimStart('/');
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", imagePath);
+                    
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        System.IO.File.Delete(filePath);
+                    }
+                    
+                    // Delete from database
+                    await _galleryService.DeleteAsync(id);
+                    TempData["GallerySuccess"] = "Photo deleted successfully.";
+                }
+                else
+                {
+                    TempData["GalleryError"] = "Photo not found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["GalleryError"] = $"Error deleting photo: {ex.Message}";
+            }
+            
             return RedirectToAction("Index");
         }
     }
