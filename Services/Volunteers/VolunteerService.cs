@@ -51,4 +51,28 @@ public class VolunteerService : IVolunteerService
         await _repository.SaveChangesAsync();
         return (true, null);
     }
+
+    public async Task<List<VolunteerHourApprovalViewModel>> GetFilteredVolunteerHourApprovalsAsync(
+        DateOnly? startDate, DateOnly? endDate, string? status, string? orderBy, string? search)
+    {
+        var hours = await _repository.GetAllVolunteerHoursWithVolunteerAsync();
+
+        if (startDate.HasValue)
+            hours = hours.Where(h => h.Date >= startDate.Value).ToList();
+        if (endDate.HasValue)
+            hours = hours.Where(h => h.Date <= endDate.Value).ToList();
+        if (!string.IsNullOrEmpty(status) && Enum.TryParse<VolunteerHourStatus>(status, out var parsedStatus))
+            hours = hours.Where(h => h.Status == parsedStatus).ToList();
+        if (!string.IsNullOrWhiteSpace(search))
+            hours = hours.Where(h =>
+                (h.Volunteer?.User?.FirstName + " " + h.Volunteer?.User?.LastName).Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                h.Activity.Contains(search, StringComparison.OrdinalIgnoreCase)
+            ).ToList();
+
+        hours = orderBy == "Oldest"
+            ? hours.OrderBy(h => h.SubmittedAt).ToList()
+            : hours.OrderByDescending(h => h.SubmittedAt).ToList();
+
+        return hours.Select(ViewModelMappers.ToVolunteerHourApprovalViewModel).ToList();
+    }
 }

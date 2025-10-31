@@ -1,7 +1,9 @@
-@model List<HealingInWriting.Models.Volunteer.VolunteerHourApprovalViewModel>
+@model HealingInWriting.Models.Volunteer.VolunteerHourFilterViewModel
+@using HealingInWriting.Domain.Volunteers
 
 @{
     ViewData["Title"] = "Hours Approval";
+    var statusOptions = ViewBag.StatusOptions as string[] ?? Array.Empty<string>();
 }
 
 <link rel="stylesheet" href="~/css/shared/admin-header.css" asp-append-version="true" />
@@ -19,42 +21,41 @@
 
     </header>
 
-    <!-- Search Bar -->
-    <div class="search-bar">
+    <!-- Filter Bar -->
+    <form method="get" asp-action="Index" class="search-bar">
         <div class="search-bar__input-container">
-            <svg class="search-bar__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="11" cy="11" r="8" stroke="#ADAEBC" stroke-width="2" />
-                <line x1="20" y1="20" x2="16.65" y2="16.65" stroke="#ADAEBC" stroke-width="2" stroke-linecap="round" />
-            </svg>
-            <input class="search-bar__input" type="text" placeholder="Search..." />
+            <input class="search-bar__input" type="text" name="search" placeholder="Search..." value="@Model.Search" />
         </div>
         <div class="search-bar__dropdown">
-            <span class="search-bar__dropdown-label">Any Date</span>
-            <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6 9L12 15L18 9" stroke="#ADAEBC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
+            <input type="date" name="startDate" value="@(Model.StartDate?.ToString("yyyy-MM-dd") ?? "")" />
+            <span>to</span>
+            <input type="date" name="endDate" value="@(Model.EndDate?.ToString("yyyy-MM-dd") ?? "")" />
         </div>
         <div class="search-bar__dropdown">
-            <span class="search-bar__dropdown-label">Any Status</span>
-            <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6 9L12 15L18 9" stroke="#ADAEBC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
+            <select name="status" class="search-bar__dropdown-select">
+                <option value="">Any Status</option>
+                @foreach (var status in statusOptions)
+                {
+                    var selected = Model.Status == status ? "selected" : null;
+                    <option value="@status" selected="@selected">@status</option>
+                }
+            </select>
         </div>
         <div class="search-bar__dropdown">
-            <span class="search-bar__dropdown-label">Newest</span>
-            <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6 9L12 15L18 9" stroke="#ADAEBC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
+            <select name="orderBy" class="search-bar__dropdown-select">
+                @{
+                    var newestSelected = Model.OrderBy == "Newest" ? "selected" : null;
+                    var oldestSelected = Model.OrderBy == "Oldest" ? "selected" : null;
+                }
+                <option value="Newest" selected="@newestSelected">Newest</option>
+                <option value="Oldest" selected="@oldestSelected">Oldest</option>
+            </select>
         </div>
         <button class="search-bar__button" type="submit">
-            <svg class="search-bar__button-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="11" cy="11" r="8" stroke="#FFFFFF" stroke-width="2" />
-                <line x1="20" y1="20" x2="16.65" y2="16.65" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" />
-            </svg>
             <span class="search-bar__button-label">Search</span>
         </button>
-    </div>
+    </form>
 
     <!-- Table Section -->
-    @await Html.PartialAsync("_HoursApprovalTable", Model)
+    @await Html.PartialAsync("_HoursApprovalTable", Model.Results)
 </main>
