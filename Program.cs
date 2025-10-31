@@ -1,6 +1,7 @@
 using HealingInWriting.Data;
 using HealingInWriting.Domain.Users;
 using HealingInWriting.Interfaces.Services;
+using HealingInWriting.Services.Admin;
 using HealingInWriting.Services.Auth;
 using HealingInWriting.Services.Books;
 using HealingInWriting.Services.Stories;
@@ -129,6 +130,7 @@ builder.Services.AddScoped<IRegistrationService, RegistrationService>();
 builder.Services.AddScoped<IBackoffStateRepository, BackoffStateRepository>();
 builder.Services.AddScoped<IBankDetailsRepository, BankDetailsRepository>();
 builder.Services.AddScoped<IBankDetailsService, BankDetailsService>();
+builder.Services.AddScoped<IAdminDashboardService, AdminDashboardService>();
 
 // Azure Blob Storage for image uploads (optional, configured via StorageConnection)
 // Register clients only if connection string is present
