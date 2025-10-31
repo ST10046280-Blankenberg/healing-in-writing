@@ -4,6 +4,7 @@ using HealingInWriting.Domain.Events;
 using HealingInWriting.Domain.Shared;
 using HealingInWriting.Domain.Common;
 using HealingInWriting.Domain.Gallery;
+using HealingInWriting.Domain.Volunteers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -40,6 +41,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<PrivacyPolicy> PrivacyPolicies { get; set; }
     public DbSet<OurImpact> OurImpacts { get; set; }
     public DbSet<GalleryItem> GalleryItems { get; set; }
+    public DbSet<Volunteer> Volunteers { get; set; }
+    public DbSet<VolunteerHour> VolunteerHours { get; set; }
     
 
     protected override void OnModelCreating(ModelBuilder builder)
