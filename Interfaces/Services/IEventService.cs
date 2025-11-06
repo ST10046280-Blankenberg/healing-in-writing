@@ -28,4 +28,5 @@ public interface IEventService
     /// Gets all event registrations for a specific user.
     /// </summary>
     Task<IReadOnlyCollection<Registration>> GetUserRegistrationsAsync(string userId);
+    Task<EventsIndexViewModel> GetFilteredEventsAsync(string? searchText, EventType? selectedEventType, DateTime? startDate, DateTime? endDate);
 }

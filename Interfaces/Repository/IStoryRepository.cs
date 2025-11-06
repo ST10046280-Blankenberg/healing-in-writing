@@ -31,5 +31,6 @@ namespace HealingInWriting.Interfaces.Repository
         /// Deletes a story from the catalogue by its unique identifier.
         /// </summary>
         Task DeleteAsync(int storyId);
+        Task<IEnumerable<Story>> GetFilteredUserStoriesAsync(int profileId, string? searchText, string? selectedDate, string? selectedSort, StoryCategory? selectedCategory);
     }
 }

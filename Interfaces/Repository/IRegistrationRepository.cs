@@ -52,4 +52,5 @@ public interface IRegistrationRepository
     /// Used for rate limiting guest registrations.
     /// </summary>
     Task<int> GetRegistrationCountByIpAsync(int eventId, string ipAddress, DateTime since);
+    Task<IEnumerable<Registration>> GetFilteredUserRegistrationsAsync(int userId, string? searchText, EventType? selectedEventType, DateTime? startDate, DateTime? endDate);
 }

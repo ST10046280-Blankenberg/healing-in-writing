@@ -1,9 +1,13 @@
+using System.Text.Json;
 using HealingInWriting.Domain.Books;
 using HealingInWriting.Domain.Volunteers;
 using HealingInWriting.Models.Books;
 using HealingInWriting.Models.Volunteer;
-using Microsoft.AspNetCore.Http;
-using System.Text.Json;
+using HealingInWriting.Domain.Stories;
+using HealingInWriting.Models.Stories;
+using HealingInWriting.Models.Filters;
+using HealingInWriting.Domain.Events;
+using HealingInWriting.Models.Events;
 
 namespace HealingInWriting.Mapping;
 
@@ -244,6 +248,96 @@ public static class ViewModelMappers
             ValidatedHours = hours.Where(h => h.Status == VolunteerHourStatus.Approved).Sum(h => h.Hours),
             PendingHours = hours.Where(h => h.Status == VolunteerHourStatus.Pending).Sum(h => h.Hours),
             NeedsInfoHours = hours.Where(h => h.Status == VolunteerHourStatus.NeedsInfo).Sum(h => h.Hours)
+        };
+    }
+    #endregion
+
+    #region Stories
+    public static StorySummaryViewModel ToStorySummaryViewModel(this Story story)
+    {
+        if (story == null) return null!;
+
+        // Compose author name if available
+        string authorName = "Unknown";
+        if (story.Author?.User != null)
+        {
+            var first = story.Author.User.FirstName;
+            var last = story.Author.User.LastName;
+            authorName = string.Join(" ", new[] { first, last }.Where(n => !string.IsNullOrWhiteSpace(n))).Trim();
+            if (string.IsNullOrWhiteSpace(authorName))
+                authorName = story.Author.User.Email ?? story.Author.UserId ?? "Unknown";
+        }
+        else if (story.Author != null)
+        {
+            authorName = story.Author.UserId ?? "Unknown";
+        }
+
+        return new StorySummaryViewModel
+        {
+            StoryId = story.StoryId,
+            Title = story.Title,
+            AuthorName = authorName,
+            CreatedAt = story.CreatedAt,
+            Summary = story.Summary,
+            Tags = story.Tags?.Select(t => t.Name).ToList() ?? new List<string>()
+        };
+    }
+
+    /// <summary>
+    /// Maps filter options and selected values to a StoriesFilterViewModel.
+    /// </summary>
+    public static StoriesFilterViewModel ToStoriesFilterViewModel(
+        IEnumerable<StoryCategory> categoryOptions,
+        IEnumerable<string>? dateOptions = null,
+        IEnumerable<string>? sortOptions = null,
+        string? selectedDate = null,
+        string? selectedTag = null,
+        string? selectedSort = null,
+        StoryCategory? selectedCategory = null,
+        string? searchText = null)
+    {
+        return new StoriesFilterViewModel
+        {
+            DateOptions = dateOptions?.ToList() ?? new List<string> { "Any Date", "Last 7 Days", "Last Month" },
+            SortOptions = sortOptions?.ToList() ?? new List<string> { "Newest", "Oldest" },
+            CategoryOptions = categoryOptions.ToList(),
+            SelectedDate = selectedDate,
+            SelectedSort = selectedSort,
+            SelectedCategory = selectedCategory,
+            SearchText = searchText
+        };
+    }
+
+    public static StoriesFilterViewModel ToStoriesFilterViewModel(
+        string? selectedDate,
+        string? selectedSort,
+        StoryCategory? selectedCategory,
+        string? searchText)
+    {
+        return new StoriesFilterViewModel
+        {
+            CategoryOptions = Enum.GetValues(typeof(StoryCategory)).Cast<StoryCategory>().ToList(),
+            DateOptions = new List<string> { "Any", "Last 7 Days", "Last 30 Days", "This Year" },
+            SortOptions = new List<string> { "Newest", "Oldest" },
+            SelectedCategory = selectedCategory,
+            SelectedDate = selectedDate,
+            SelectedSort = selectedSort,
+            SearchText = searchText
+        };
+    }
+    #endregion
+
+    #region Events
+    public static EventCardViewModel ToEventCardViewModel(this Event e)
+    {
+        return new EventCardViewModel
+        {
+            Id = e.EventId,
+            Title = e.Title,
+            Description = e.Description,
+            EventType = e.EventType,
+            StartDateTime = e.StartDateTime,
+            LocationSummary = string.Join(", ", new[] { e.Address?.City, e.Address?.Province }.Where(part => !string.IsNullOrWhiteSpace(part)))
         };
     }
     #endregion

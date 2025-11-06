@@ -1,0 +1,86 @@
+﻿@model HealingInWriting.Models.Filters.BaseFilterViewModel
+@{
+    var formAction = ViewData["SearchFormAction"] as string ?? "Index";
+}
+
+<form asp-area="" asp-action="@formAction" method="get" class="search-bar search-bar--with-nav">
+    <div class="search-bar__filters-row">
+        <!-- Search Input with Icon -->
+        <div class="search-bar__input-container">
+            <svg class="search-bar__icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <input type="text" class="search-bar__input" name="SearchText" placeholder="Search..." value="@Model.SearchText" />
+        </div>
+
+        <!-- Stories Filters -->
+        @if (Model is HealingInWriting.Models.Filters.StoriesFilterViewModel storiesFilter)
+        {
+            <!-- Date Dropdown -->
+            <select name="SelectedDate" class="search-bar__dropdown">
+                @foreach (var option in storiesFilter.DateOptions)
+                {
+                    <option value="@option" selected="@(option == storiesFilter.SelectedDate ? "selected" : null)">@option</option>
+                }
+            </select>
+            <!-- Sort Dropdown -->
+            <select name="SelectedSort" class="search-bar__dropdown">
+                @foreach (var sort in storiesFilter.SortOptions)
+                {
+                    <option value="@sort" selected="@(sort == storiesFilter.SelectedSort ? "selected" : null)">@sort</option>
+                }
+            </select>
+            <!-- Category Dropdown -->
+            <select name="SelectedCategory" class="search-bar__dropdown">
+                <option value="">Any</option>
+                @foreach (var category in storiesFilter.CategoryOptions)
+                {
+                    <option value="@category" selected="@(category == storiesFilter.SelectedCategory ? "selected" : null)">@category.ToString()</option>
+                }
+            </select>
+        }
+        <!-- Books Filters -->
+        @if (Model is HealingInWriting.Models.Filters.BooksFilterViewModel booksFilter)
+        {
+            <!-- Category Dropdown -->
+            <select name="SelectedCategory" class="search-bar__dropdown">
+                <option value="">Any Category</option>
+                @foreach (var category in booksFilter.CategoryOptions)
+                {
+                    <option value="@category" selected="@(category == booksFilter.SelectedCategory ? "selected" : null)">@category</option>
+                }
+            </select>
+            <!-- Author Dropdown -->
+            <select name="SelectedAuthor" class="search-bar__dropdown">
+                <option value="">Any Author</option>
+                @foreach (var author in booksFilter.AuthorOptions)
+                {
+                    <option value="@author" selected="@(author == booksFilter.SelectedAuthor ? "selected" : null)">@author</option>
+                }
+            </select>
+        }
+        <!-- Events Filters -->
+        @if (Model is HealingInWriting.Models.Filters.EventsFilterViewModel eventsFilter)
+        {
+            <!-- Event Type Dropdown -->
+            <select name="SelectedEventType" class="search-bar__dropdown">
+                <option value="">Any Type</option>
+                @foreach (var type in eventsFilter.EventTypeOptions)
+                {
+                    <option value="@type" selected="@(type == eventsFilter.SelectedEventType ? "selected" : null)">@type</option>
+                }
+            </select>
+            <!-- Date Range Selections -->
+            <input type="date" name="StartDate" class="search-bar__dropdown" value="@(eventsFilter.StartDate?.ToString("yyyy-MM-dd") ?? "")" />
+            <input type="date" name="EndDate" class="search-bar__dropdown" value="@(eventsFilter.EndDate?.ToString("yyyy-MM-dd") ?? "")" />
+        }
+
+        <!-- Search Button -->
+        <button class="search-bar__button" type="submit">
+            <svg class="search-bar__button-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="search-bar__button-label">Search</span>
+        </button>
+    </div>
+</form>

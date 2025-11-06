@@ -1,4 +1,4 @@
-@model HealingInWriting.Models.Stories.StoryListViewModel
+@model HealingInWriting.Models.Stories.StoryListWithFilterViewModel
 
 @{
     ViewData["Title"] = "Community Stories";
@@ -17,86 +17,20 @@
             <h1 class="page-hero__title">Community Stories</h1>
             <p class="page-hero__subtitle">Discover inspiring stories from our community members. Share experiences, learn from others, and connect through the power of storytelling.</p>
         </div>
-    @* </section> *@
+        @* </section> *@
 
-    <!-- Combined Navigation and Search Section -->
-    @* <section class="stories__search-section"> *@
-        <div class="search-bar search-bar--with-nav">
-            <!-- Navigation Tabs Row -->
-            <div class="search-bar__nav-row">
-                <div class="stories__nav-tabs">
-                    <button class="stories__nav-tab stories__nav-tab--active">All Stories</button>
-                    <button class="stories__nav-tab">Latest</button>
-                    <button class="stories__nav-tab">Most Read</button>
-                    <button class="stories__nav-tab">Categories</button>
-                </div>
-                <a asp-area="" asp-controller="Stories" asp-action="Submit" class="stories__write-button">
-                    <svg class="stories__write-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16" fill="none">
-                        <path d="M7 1v14M1 8h12" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
-                    </svg>
-                    <span class="stories__write-text">Write a Story</span>
-                </a>
-            </div>
-            
-            <!-- Search Filters Row -->
-            <div class="search-bar__filters-row">
-                <!-- Search Input with Icon -->
-                <div class="search-bar__input-container">
-                    <svg class="search-bar__icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    <input type="text" class="search-bar__input" placeholder="Search..." />
-                </div>
-
-                <!-- Any Date Dropdown -->
-                <div class="search-bar__dropdown">
-                    <span class="search-bar__dropdown-label">Any Date</span>
-                    <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </div>
-
-                <!-- Any Status Dropdown -->
-                <div class="search-bar__dropdown">
-                    <span class="search-bar__dropdown-label">Any Status</span>
-                    <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </div>
-
-                <!-- Any Tags Dropdown -->
-                <div class="search-bar__dropdown">
-                    <span class="search-bar__dropdown-label">Any Tags</span>
-                    <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </div>
-
-                <!-- Newest Dropdown -->
-                <div class="search-bar__dropdown">
-                    <span class="search-bar__dropdown-label">Newest</span>
-                    <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </div>
-
-                <!-- Search Button -->
-                <button class="search-bar__button" type="button">
-                    <svg class="search-bar__button-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    <span class="search-bar__button-label">Search</span>
-                </button>
-            </div>
-        </div>
+        <!-- Combined Navigation and Search Section -->
+        <section class="stories__search-section">
+            <partial name="_SearchAndFilterBar" model="Model.Filter" />
+        </section>
     </section>
 
     <!-- Stories Masonry Grid -->
     <section class="stories__content">
         <div class="stories__masonry">
-            @if (Model?.Stories?.Any() == true)
+            @if (Model?.StoryList?.Stories?.Any() == true)
             {
-                var stories = Model.Stories;
+                var stories = Model.StoryList.Stories;
                 int storyIndex = 0;
 
                 while (storyIndex < stories.Count)
@@ -182,15 +116,15 @@
                 <div class="stories__empty">
                     <div class="stories__empty-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" stroke="currentColor" stroke-width="2" fill="none"/>
-                            <path d="M9 11h6M9 15h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" stroke="currentColor" stroke-width="2" fill="none" />
+                            <path d="M9 11h6M9 15h3" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
                         </svg>
                     </div>
                     <h2 class="stories__empty-title">No Stories Yet</h2>
                     <p class="stories__empty-text">Be the first to share your story with the community. Your experience could inspire and help others on their healing journey.</p>
                     <a asp-area="" asp-controller="Stories" asp-action="Submit" class="stories__empty-button">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                            <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
                         </svg>
                         Write Your Story
                     </a>

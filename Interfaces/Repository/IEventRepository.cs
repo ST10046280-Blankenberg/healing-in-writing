@@ -31,6 +31,7 @@ namespace HealingInWriting.Interfaces.Repository
         /// Deletes an event from the catalogue by its unique identifier.
         /// </summary>
         Task DeleteAsync(int eventId);
+        Task<IEnumerable<Event>> GetFilteredAsync(string? searchText, EventType? selectedEventType, DateTime? startDate, DateTime? endDate);
 
         /// <summary>
         /// Retrieves events within a specified distance (in kilometers) from the given latitude and longitude.
