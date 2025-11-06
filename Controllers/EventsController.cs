@@ -28,7 +28,6 @@ namespace HealingInWriting.Controllers
             DateTime? StartDate,
             DateTime? EndDate)
         {
-            // Prepare filter options
             var filter = new EventsFilterViewModel
             {
                 EventTypeOptions = Enum.GetValues(typeof(EventType)).Cast<EventType>().ToList(),
@@ -38,43 +37,11 @@ namespace HealingInWriting.Controllers
                 SearchText = SearchText
             };
 
-            // Get all events
-            var events = await _eventService.GetAllEventsAsync();
-
-            // Only published events
-            var filtered = events.Where(e => e.EventStatus == EventStatus.Published);
-
-            // Apply search text
-            if (!string.IsNullOrWhiteSpace(SearchText))
-                filtered = filtered.Where(e => e.Title.Contains(SearchText, StringComparison.OrdinalIgnoreCase)
-                                       || e.Description.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
-
-            // Filter by event type
-            if (SelectedEventType.HasValue)
-                filtered = filtered.Where(e => e.EventType == SelectedEventType.Value);
-
-            // Filter by date range
-            if (StartDate.HasValue)
-                filtered = filtered.Where(e => e.StartDateTime >= StartDate.Value);
-            if (EndDate.HasValue)
-                filtered = filtered.Where(e => e.EndDateTime <= EndDate.Value);
-
-            // Map to view model
-            var eventsList = new EventsIndexViewModel
-            {
-                Events = filtered
-                    .OrderBy(e => e.StartDateTime)
-                    .Select(e => new EventCardViewModel
-                    {
-                        Id = e.EventId,
-                        Title = e.Title,
-                        Description = e.Description,
-                        EventType = e.EventType,
-                        StartDateTime = e.StartDateTime,
-                        LocationSummary = string.Join(", ", new[] { e.Address?.City, e.Address?.Province }.Where(part => !string.IsNullOrWhiteSpace(part)))
-                    })
-                    .ToList()
-            };
+            var eventsList = await _eventService.GetFilteredEventsAsync(
+                SearchText,
+                SelectedEventType,
+                StartDate,
+                EndDate);
 
             var model = new EventsListWithFiltersViewModel
             {

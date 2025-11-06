@@ -1,12 +1,13 @@
+using System.Text.Json;
 using HealingInWriting.Domain.Books;
 using HealingInWriting.Domain.Volunteers;
 using HealingInWriting.Models.Books;
 using HealingInWriting.Models.Volunteer;
-using Microsoft.AspNetCore.Http;
-using System.Text.Json;
 using HealingInWriting.Domain.Stories;
 using HealingInWriting.Models.Stories;
 using HealingInWriting.Models.Filters;
+using HealingInWriting.Domain.Events;
+using HealingInWriting.Models.Events;
 
 namespace HealingInWriting.Mapping;
 
@@ -304,6 +305,21 @@ public static class ViewModelMappers
             SelectedSort = selectedSort,
             SelectedCategory = selectedCategory,
             SearchText = searchText
+        };
+    }
+    #endregion
+
+    #region Events
+    public static EventCardViewModel ToEventCardViewModel(this Event e)
+    {
+        return new EventCardViewModel
+        {
+            Id = e.EventId,
+            Title = e.Title,
+            Description = e.Description,
+            EventType = e.EventType,
+            StartDateTime = e.StartDateTime,
+            LocationSummary = string.Join(", ", new[] { e.Address?.City, e.Address?.Province }.Where(part => !string.IsNullOrWhiteSpace(part)))
         };
     }
     #endregion
