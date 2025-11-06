@@ -1,6 +1,9 @@
 ﻿@model HealingInWriting.Models.Filters.BaseFilterViewModel
+@{
+    var formAction = ViewData["SearchFormAction"] as string ?? "Index";
+}
 
-<form asp-area="" asp-action="Index" method="get" class="search-bar search-bar--with-nav">
+<form asp-area="" asp-action="@formAction" method="get" class="search-bar search-bar--with-nav">
     <div class="search-bar__filters-row">
         <!-- Search Input with Icon -->
         <div class="search-bar__input-container">

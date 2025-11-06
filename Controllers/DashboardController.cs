@@ -1,7 +1,10 @@
+using HealingInWriting.Domain.Events;
 using HealingInWriting.Domain.Users;
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Dashboard;
+using HealingInWriting.Models.Filters;
 using HealingInWriting.Models.Volunteer;
+using HealingInWriting.Services.Events;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,17 +19,20 @@ namespace HealingInWriting.Controllers
         private readonly IVolunteerService _volunteerService;
         private readonly IStoryService _storyService;
         private readonly IEventService _eventService;
+        private readonly IRegistrationService _registrationService;
 
         public DashboardController(
             UserManager<ApplicationUser> userManager,
             IVolunteerService volunteerService,
             IStoryService storyService,
-            IEventService eventService)
+            IEventService eventService,
+            IRegistrationService registrationService)
         {
             _userManager = userManager;
             _volunteerService = volunteerService;
             _storyService = storyService;
             _eventService = eventService;
+            _registrationService = registrationService;
         }
 
         // GET: /Dashboard/Index
@@ -34,7 +40,7 @@ namespace HealingInWriting.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (string.IsNullOrEmpty(userId))
+            if (string.IsNullOrEmpty(userId) || user == null)
             {
                 return Unauthorized();
             }
@@ -61,6 +67,10 @@ namespace HealingInWriting.Controllers
         public async Task<IActionResult> LogHours()
         {
             var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
             var recentEntries = await _volunteerService.GetRecentVolunteerHoursForUserAsync(user.Id, 5);
 
             var summary = await _volunteerService.GetVolunteerHourSummaryAsync(user.Id);
@@ -83,9 +93,14 @@ namespace HealingInWriting.Controllers
         [Authorize(Roles = "Volunteer")]
         public async Task<IActionResult> LogHours(LogHoursPageViewModel vm)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
             if (!ModelState.IsValid)
             {
-                var user = await _userManager.GetUserAsync(User);
                 vm.RecentEntries = await _volunteerService.GetRecentVolunteerHoursForUserAsync(user.Id, 5);
                 var summary = await _volunteerService.GetVolunteerHourSummaryAsync(user.Id);
                 vm.TotalHours = summary.TotalHours;
@@ -95,8 +110,6 @@ namespace HealingInWriting.Controllers
                 return View(vm);
             }
 
-            var userObj = await _userManager.GetUserAsync(User);
-
             string? attachmentUrl = null;
             if (vm.LogForm.Attachment != null && vm.LogForm.Attachment.Length > 0)
             {
@@ -104,12 +117,12 @@ namespace HealingInWriting.Controllers
                 attachmentUrl = "/uploads/" + vm.LogForm.Attachment.FileName;
             }
 
-            var (success, error) = await _volunteerService.LogHoursAsync(userObj.Id, vm.LogForm, attachmentUrl);
+            var (success, error) = await _volunteerService.LogHoursAsync(user.Id, vm.LogForm, attachmentUrl);
 
             if (!success)
             {
                 ModelState.AddModelError("", error ?? "An error occurred.");
-                vm.RecentEntries = await _volunteerService.GetRecentVolunteerHoursForUserAsync(userObj.Id, 5);
+                vm.RecentEntries = await _volunteerService.GetRecentVolunteerHoursForUserAsync(user.Id, 5);
                 return View(vm);
             }
 
@@ -118,16 +131,46 @@ namespace HealingInWriting.Controllers
         }
 
         // GET: /Dashboard/MyEvents
-        public async Task<IActionResult> MyEvents()
+        public async Task<IActionResult> MyEvents(
+            string? SearchText,
+            EventType? SelectedEventType,
+            DateTime? StartDate,
+            DateTime? EndDate)
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (string.IsNullOrEmpty(userId))
+            var profileIdClaim = User.FindFirst("ProfileId")?.Value;
+            if (string.IsNullOrEmpty(profileIdClaim) || !int.TryParse(profileIdClaim, out var profileId))
             {
                 return Unauthorized();
             }
 
-            var registrations = await _eventService.GetUserRegistrationsAsync(userId);
-            return View(registrations);
+            var registrationsEnumerable = await _registrationService.GetFilteredUserRegistrationsAsync(
+                profileId,
+                SearchText,
+                SelectedEventType,
+                StartDate,
+                EndDate);
+
+            // Fix: Convert IEnumerable to IReadOnlyCollection
+            var registrations = registrationsEnumerable is IReadOnlyCollection<Registration> readOnly
+                ? readOnly
+                : registrationsEnumerable.ToList();
+
+            var filter = new EventsFilterViewModel
+            {
+                EventTypeOptions = Enum.GetValues(typeof(EventType)).Cast<EventType>().ToList(),
+                SelectedEventType = SelectedEventType,
+                StartDate = StartDate,
+                EndDate = EndDate,
+                SearchText = SearchText
+            };
+
+            var model = new MyEventsViewModel
+            {
+                Registrations = registrations,
+                Filter = filter
+            };
+
+            return View(model);
         }
 
         // GET: /Dashboard/MyStories
@@ -140,7 +183,27 @@ namespace HealingInWriting.Controllers
             }
 
             var stories = await _storyService.GetUserStoriesAsync(userId);
-            return View(stories);
+
+            // TODO: Populate filter options as needed
+            var filter = new StoriesFilterViewModel
+            {
+                // Example: set options and defaults
+                // CategoryOptions = ...,
+                // SortOptions = ...,
+                // DateOptions = ...,
+                // SelectedCategory = ...,
+                // SelectedSort = ...,
+                // SelectedDate = ...,
+                // SearchText = ...
+            };
+
+            var model = new MyStoriesViewModel
+            {
+                Stories = stories,
+                Filter = filter
+            };
+
+            return View(model);
         }
     }
 }

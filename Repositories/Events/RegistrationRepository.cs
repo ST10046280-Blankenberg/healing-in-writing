@@ -84,4 +84,43 @@ public class RegistrationRepository : IRegistrationRepository
                 && r.IpAddress == ipAddress
                 && r.RegistrationDate >= since);
     }
+
+    public async Task<IEnumerable<Registration>> GetFilteredUserRegistrationsAsync(
+        int userId,
+        string? searchText,
+        EventType? selectedEventType,
+        DateTime? startDate,
+        DateTime? endDate)
+    {
+        var query = _context.Registrations
+            .Include(r => r.Event)
+            .ThenInclude(e => e.Address)
+            .Where(r => r.UserId == userId);
+
+        if (!string.IsNullOrWhiteSpace(searchText))
+        {
+            query = query.Where(r =>
+                r.Event.Title.Contains(searchText) ||
+                r.Event.Description.Contains(searchText));
+        }
+
+        if (selectedEventType.HasValue)
+        {
+            query = query.Where(r => r.Event.EventType == selectedEventType.Value);
+        }
+
+        if (startDate.HasValue)
+        {
+            query = query.Where(r => r.Event.StartDateTime >= startDate.Value);
+        }
+
+        if (endDate.HasValue)
+        {
+            query = query.Where(r => r.Event.EndDateTime <= endDate.Value);
+        }
+
+        return await query
+            .OrderByDescending(r => r.Event.StartDateTime)
+            .ToListAsync();
+    }
 }
