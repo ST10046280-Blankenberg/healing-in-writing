@@ -38,4 +38,14 @@ public interface IStoryService
     /// Updates the status of a story for administrative workflows.
     /// </summary>
     Task<bool> UpdateStoryStatusAsync(int storyId, StoryStatus newStatus, string updatedBy);
+
+    /// <summary>
+    /// Gets filtered stories for a specific user based on search text, date, sort order, and category.
+    /// </summary>
+    Task<IReadOnlyCollection<Story>> GetFilteredUserStoriesAsync(
+        string userId,
+        string? searchText,
+        string? selectedDate,
+        string? selectedSort,
+        StoryCategory? selectedCategory);
 }

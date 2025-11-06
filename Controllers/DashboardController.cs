@@ -1,6 +1,8 @@
 using HealingInWriting.Domain.Events;
+using HealingInWriting.Domain.Stories;
 using HealingInWriting.Domain.Users;
 using HealingInWriting.Interfaces.Services;
+using HealingInWriting.Mapping;
 using HealingInWriting.Models.Dashboard;
 using HealingInWriting.Models.Filters;
 using HealingInWriting.Models.Volunteer;
@@ -174,7 +176,11 @@ namespace HealingInWriting.Controllers
         }
 
         // GET: /Dashboard/MyStories
-        public async Task<IActionResult> MyStories()
+        public async Task<IActionResult> MyStories(
+            string? SearchText,
+            string? SelectedDate,
+            string? SelectedSort,
+            string? SelectedCategory)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
@@ -182,20 +188,24 @@ namespace HealingInWriting.Controllers
                 return Unauthorized();
             }
 
-            var stories = await _storyService.GetUserStoriesAsync(userId);
-
-            // TODO: Populate filter options as needed
-            var filter = new StoriesFilterViewModel
+            StoryCategory? selectedCategory = null;
+            if (!string.IsNullOrWhiteSpace(SelectedCategory) && Enum.TryParse<StoryCategory>(SelectedCategory, out var parsedCategory))
             {
-                // Example: set options and defaults
-                // CategoryOptions = ...,
-                // SortOptions = ...,
-                // DateOptions = ...,
-                // SelectedCategory = ...,
-                // SelectedSort = ...,
-                // SelectedDate = ...,
-                // SearchText = ...
-            };
+                selectedCategory = parsedCategory;
+            }
+
+            var stories = await _storyService.GetFilteredUserStoriesAsync(
+                userId,
+                SearchText,
+                SelectedDate,
+                SelectedSort,
+                selectedCategory);
+
+            var filter = ViewModelMappers.ToStoriesFilterViewModel(
+                SelectedDate,
+                SelectedSort,
+                selectedCategory,
+                SearchText);
 
             var model = new MyStoriesViewModel
             {

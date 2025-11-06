@@ -307,6 +307,24 @@ public static class ViewModelMappers
             SearchText = searchText
         };
     }
+
+    public static StoriesFilterViewModel ToStoriesFilterViewModel(
+        string? selectedDate,
+        string? selectedSort,
+        StoryCategory? selectedCategory,
+        string? searchText)
+    {
+        return new StoriesFilterViewModel
+        {
+            CategoryOptions = Enum.GetValues(typeof(StoryCategory)).Cast<StoryCategory>().ToList(),
+            DateOptions = new List<string> { "Any", "Last 7 Days", "Last 30 Days", "This Year" },
+            SortOptions = new List<string> { "Newest", "Oldest" },
+            SelectedCategory = selectedCategory,
+            SelectedDate = selectedDate,
+            SelectedSort = selectedSort,
+            SearchText = searchText
+        };
+    }
     #endregion
 
     #region Events

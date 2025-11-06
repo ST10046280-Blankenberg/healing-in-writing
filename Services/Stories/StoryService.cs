@@ -2,6 +2,7 @@ using HealingInWriting.Data;
 using HealingInWriting.Domain.Shared;
 using HealingInWriting.Domain.Stories;
 using HealingInWriting.Domain.Users;
+using HealingInWriting.Interfaces.Repository;
 using HealingInWriting.Interfaces.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,10 +13,12 @@ namespace HealingInWriting.Services.Stories;
 /// </summary>
 public class StoryService : IStoryService
 {
+    private readonly IStoryRepository _storyRepository;
     private readonly ApplicationDbContext _context;
 
-    public StoryService(ApplicationDbContext context)
+    public StoryService(IStoryRepository storyRepository, ApplicationDbContext context)
     {
+        _storyRepository = storyRepository;
         _context = context;
     }
 
@@ -157,5 +160,32 @@ public class StoryService : IStoryService
 
         await _context.SaveChangesAsync();
         return true;
+    }
+
+    public async Task<IReadOnlyCollection<Story>> GetFilteredUserStoriesAsync(
+        string userId,
+        string? searchText,
+        string? selectedDate,
+        string? selectedSort,
+        StoryCategory? selectedCategory)
+    {
+        // Find user profile first
+        var userProfile = await _context.UserProfiles
+            .FirstOrDefaultAsync(up => up.UserId == userId);
+
+        if (userProfile == null)
+        {
+            return new List<Story>();
+        }
+
+        // Delegate filtering to repository
+        var stories = await _storyRepository.GetFilteredUserStoriesAsync(
+            userProfile.ProfileId,
+            searchText,
+            selectedDate,
+            selectedSort,
+            selectedCategory);
+
+        return stories is IReadOnlyCollection<Story> readOnly ? readOnly : stories.ToList();
     }
 }
