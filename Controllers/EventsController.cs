@@ -4,10 +4,7 @@ using HealingInWriting.Models.Events;
 using HealingInWriting.Models.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace HealingInWriting.Controllers
 {
