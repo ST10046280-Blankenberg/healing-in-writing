@@ -1,8 +1,13 @@
+using HealingInWriting.Domain.Events;
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Events;
+using HealingInWriting.Models.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace HealingInWriting.Controllers
 {
@@ -17,15 +22,47 @@ namespace HealingInWriting.Controllers
             _registrationService = registrationService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+            string? SearchText,
+            EventType? SelectedEventType,
+            DateTime? StartDate,
+            DateTime? EndDate)
         {
+            // Prepare filter options
+            var filter = new EventsFilterViewModel
+            {
+                EventTypeOptions = Enum.GetValues(typeof(EventType)).Cast<EventType>().ToList(),
+                SelectedEventType = SelectedEventType,
+                StartDate = StartDate,
+                EndDate = EndDate,
+                SearchText = SearchText
+            };
+
+            // Get all events
             var events = await _eventService.GetAllEventsAsync();
 
+            // Only published events
+            var filtered = events.Where(e => e.EventStatus == EventStatus.Published);
+
+            // Apply search text
+            if (!string.IsNullOrWhiteSpace(SearchText))
+                filtered = filtered.Where(e => e.Title.Contains(SearchText, StringComparison.OrdinalIgnoreCase)
+                                       || e.Description.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
+
+            // Filter by event type
+            if (SelectedEventType.HasValue)
+                filtered = filtered.Where(e => e.EventType == SelectedEventType.Value);
+
+            // Filter by date range
+            if (StartDate.HasValue)
+                filtered = filtered.Where(e => e.StartDateTime >= StartDate.Value);
+            if (EndDate.HasValue)
+                filtered = filtered.Where(e => e.EndDateTime <= EndDate.Value);
+
             // Map to view model
-            var viewModel = new EventsIndexViewModel
+            var eventsList = new EventsIndexViewModel
             {
-                Events = events
-                    .Where(e => e.EventStatus == Domain.Events.EventStatus.Published)
+                Events = filtered
                     .OrderBy(e => e.StartDateTime)
                     .Select(e => new EventCardViewModel
                     {
@@ -34,16 +71,18 @@ namespace HealingInWriting.Controllers
                         Description = e.Description,
                         EventType = e.EventType,
                         StartDateTime = e.StartDateTime,
-                        LocationSummary = string.Join(", ", new[]
-                        {
-                            e.Address?.City,
-                            e.Address?.Province
-                        }.Where(part => !string.IsNullOrWhiteSpace(part)))
+                        LocationSummary = string.Join(", ", new[] { e.Address?.City, e.Address?.Province }.Where(part => !string.IsNullOrWhiteSpace(part)))
                     })
                     .ToList()
             };
 
-            return View(viewModel);
+            var model = new EventsListWithFiltersViewModel
+            {
+                EventsList = eventsList,
+                Filter = filter
+            };
+
+            return View(model);
         }
 
         public async Task<IActionResult> Details(int id)

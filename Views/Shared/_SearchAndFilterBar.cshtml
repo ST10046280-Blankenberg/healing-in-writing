@@ -10,6 +10,7 @@
             <input type="text" class="search-bar__input" name="SearchText" placeholder="Search..." value="@Model.SearchText" />
         </div>
 
+        <!-- Stories Filters -->
         @if (Model is HealingInWriting.Models.Filters.StoriesFilterViewModel storiesFilter)
         {
             <!-- Date Dropdown -->
@@ -35,8 +36,10 @@
                 }
             </select>
         }
+        <!-- Books Filters -->
         @if (Model is HealingInWriting.Models.Filters.BooksFilterViewModel booksFilter)
         {
+            <!-- Category Dropdown -->
             <select name="SelectedCategory" class="search-bar__dropdown">
                 <option value="">Any Category</option>
                 @foreach (var category in booksFilter.CategoryOptions)
@@ -44,6 +47,7 @@
                     <option value="@category" selected="@(category == booksFilter.SelectedCategory ? "selected" : null)">@category</option>
                 }
             </select>
+            <!-- Author Dropdown -->
             <select name="SelectedAuthor" class="search-bar__dropdown">
                 <option value="">Any Author</option>
                 @foreach (var author in booksFilter.AuthorOptions)
@@ -52,12 +56,21 @@
                 }
             </select>
         }
-        @* 
-            @if (Model is HealingInWriting.Models.Filters. fill in info here)
-            {
-                <!-- Additional filters for other view models can be added here -->
-            }
-        *@
+        <!-- Events Filters -->
+        @if (Model is HealingInWriting.Models.Filters.EventsFilterViewModel eventsFilter)
+        {
+            <!-- Event Type Dropdown -->
+            <select name="SelectedEventType" class="search-bar__dropdown">
+                <option value="">Any Type</option>
+                @foreach (var type in eventsFilter.EventTypeOptions)
+                {
+                    <option value="@type" selected="@(type == eventsFilter.SelectedEventType ? "selected" : null)">@type</option>
+                }
+            </select>
+            <!-- Date Range Selections -->
+            <input type="date" name="StartDate" class="search-bar__dropdown" value="@(eventsFilter.StartDate?.ToString("yyyy-MM-dd") ?? "")" />
+            <input type="date" name="EndDate" class="search-bar__dropdown" value="@(eventsFilter.EndDate?.ToString("yyyy-MM-dd") ?? "")" />
+        }
 
         <!-- Search Button -->
         <button class="search-bar__button" type="submit">
