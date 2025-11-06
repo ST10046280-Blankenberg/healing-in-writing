@@ -199,5 +199,10 @@ namespace HealingInWriting.Controllers
         {
             return View();
         }
+        
+        public IActionResult Accessibility()
+        {
+            return View();
+        }
     }
 }
