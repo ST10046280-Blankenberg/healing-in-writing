@@ -155,7 +155,6 @@
     box-shadow: var(--shadow-soft-md);
 }
 
-
 .header__mobile-toggle {
     display: none;
     background: none;
@@ -163,6 +162,8 @@
     padding: 0.5rem;
     cursor: pointer;
     color: var(--brand-700);
+    /* Ensure toggle button is above nav */
+    z-index: 101;
 }
 
 .header__mobile-toggle-icon {
@@ -170,43 +171,41 @@
     height: 1.5rem;
 }
 
-/* Responsive styles */
+/* =========================================================
+   Responsive Styles
+   ========================================================= */
+
+/* Changed from 768px to 992px to include tablets */
 @media (max-width: 992px) {
     .header__container {
         padding: 1rem 1.5rem;
     }
-
-    .header__nav {
-        gap: 2rem;
-    }
-
-    .header__nav-list {
-        gap: 1.5rem;
-    }
-}
-
-@media (max-width: 768px) {
+    
     .header__mobile-toggle {
         display: block;
     }
 
     .header__nav {
         position: fixed;
-        top: 5rem;
+        /* Adjusted top to match common header height */
+        top: 65px;
         left: 0;
         right: 0;
+        bottom: 0; /* Make it full height */
         flex-direction: column;
         gap: 1rem;
         background: #ffffff;
         border-bottom: 1px solid rgba(75, 85, 99, 0.1);
         padding: 1.5rem 2rem;
         box-shadow: var(--shadow-soft-md);
-        transform: translateY(-150%);
+        transform: translateX(100%); /* Slide from right */
         transition: transform 0.3s ease;
+        /* Enable scrolling on small screens if content overflows */
+        overflow-y: auto;
     }
 
     .header__nav--open {
-        transform: translateY(0);
+        transform: translateX(0);
     }
 
     .header__nav-list {
@@ -217,17 +216,36 @@
 
     .header__nav-item {
         width: 100%;
-        text-align: center;
+        text-align: left; /* Changed from center for a cleaner look */
+    }
+    
+    .header__nav-link {
+        display: block; /* Make link fill the item */
+        padding: 0.5rem;
     }
 
     .header__auth {
         width: 100%;
         flex-direction: column;
+        /* Add space above auth buttons */
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(75, 85, 99, 0.1);
     }
 
     .header__auth-link {
         width: 100%;
         text-align: center;
+    }
+    
+    .header__auth-user {
+        width: 100%;
+        text-align: left;
+        padding: 0.5rem;
+    }
+    
+    .header__auth-logout {
+        width: 100%;
     }
 }
 
@@ -244,4 +262,10 @@
         width: 2.5rem;
         height: 2.5rem;
     }
+    
+    .header__nav {
+        /* Adjust top position for smaller header */
+        top: 57px;
+    }
 }
+

@@ -1,0 +1,114 @@
+/* =========================================================
+   Shared Sub-Navigation
+   Use this for both Admin and User dashboard sub-navs
+   ========================================================= */
+
+/* Wrapper for the sub-navigation */
+.subnav {
+    background: var(--accent-100);
+    border-bottom: 1px solid var(--brand-300);
+    /* Ensure it doesn't shrink */
+    flex-shrink: 0;
+}
+
+/* Navigation bar container */
+.subnav__container {
+    max-width: var(--max-width-container);
+    margin: 0 auto;
+    padding: 0 4rem; /* Remove top/bottom padding */
+}
+
+.subnav__list {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    
+    /* Allow horizontal scrolling on small screens */
+    overflow-x: auto;
+    /* Hide scrollbar for a cleaner look */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari, Opera */
+.subnav__list::-webkit-scrollbar {
+    display: none;
+}
+
+.subnav__item {
+    display: flex;
+    /* Stop items from shrinking */
+    flex-shrink: 0;
+}
+
+.subnav__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    /* Adjusted padding for a taller tap target */
+    padding: 1rem 0;
+    
+    font-family: var(--font-family-base);
+    font-size: 1rem;
+    font-weight: var(--font-weight-medium);
+    color: var(--brand-600);
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+    transition: color var(--transition-base), border-color var(--transition-base);
+    /* Prevents ugly line breaks */
+    white-space: nowrap;
+}
+
+.subnav__link:hover,
+.subnav__link:focus {
+    color: var(--brand-700);
+    border-bottom-color: var(--brand-300);
+    outline: none;
+}
+
+.subnav__link--active {
+    color: var(--brand-700);
+    border-bottom-color: var(--brand-600);
+    font-weight: var(--font-weight-semibold);
+}
+
+.subnav__link:focus-visible {
+    box-shadow: var(--focus-ring);
+    border-radius: var(--radius-sm);
+    outline: none;
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.subnav__label {
+    white-space: nowrap;
+}
+
+/* =========================================================
+   Responsive Design
+   ========================================================= */
+
+@media (max-width: 992px) {
+    .subnav__container {
+        /* Reduced padding for tablet */
+        padding: 0 var(--spacing-xl);
+    }
+}
+
+@media (max-width: 768px) {
+    .subnav__container {
+        /* Reduced padding for mobile */
+        padding: 0 var(--spacing-lg);
+    }
+
+    .subnav__list {
+        gap: 1.25rem; /* Slightly reduce gap */
+    }
+    
+    .subnav__link {
+        font-size: 0.95rem; /* Slightly smaller font */
+    }
+}
+
