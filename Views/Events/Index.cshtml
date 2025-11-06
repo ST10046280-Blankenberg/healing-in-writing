@@ -74,8 +74,8 @@
                     var badgeLabel = eventItem.EventType.ToString();
                     var eventDate = eventItem.StartDateTime.ToString("MMM dd, yyyy");
                     var eventTime = eventItem.StartDateTime.ToString("h:mm tt");
-                    var description = eventItem.Description.Length > 100
-                        ? eventItem.Description.Substring(0, 100) + "..."
+                    var description = eventItem.Description.Length > 30
+                        ? eventItem.Description.Substring(0, 30) + "..."
                         : eventItem.Description;
 
                     <article class="event-card">
