@@ -11,38 +11,29 @@
         </div>
 
         <!-- Date Dropdown -->
-        <div class="search-bar__dropdown">
-            <span class="search-bar__dropdown-label">Date</span>
-            <select name="SelectedDate" class="search-bar__dropdown-select">
-                @foreach (var option in Model.DateOptions)
-                {
-                    <option value="@option" selected="@(option == Model.SelectedDate ? "selected" : null)">@option</option>
-                }
-            </select>
-        </div>
+        <select name="SelectedDate" class="search-bar__dropdown">
+            @foreach (var option in Model.DateOptions)
+            {
+                <option value="@option" selected="@(option == Model.SelectedDate ? "selected" : null)">@option</option>
+            }
+        </select>
 
         <!-- Sort Dropdown -->
-        <div class="search-bar__dropdown">
-            <span class="search-bar__dropdown-label">Sort</span>
-            <select name="SelectedSort" class="search-bar__dropdown-select">
-                @foreach (var sort in Model.SortOptions)
-                {
-                    <option value="@sort" selected="@(sort == Model.SelectedSort ? "selected" : null)">@sort</option>
-                }
-            </select>
-        </div>
+        <select name="SelectedSort" class="search-bar__dropdown">
+            @foreach (var sort in Model.SortOptions)
+            {
+                <option value="@sort" selected="@(sort == Model.SelectedSort ? "selected" : null)">@sort</option>
+            }
+        </select>
 
         <!-- Category Dropdown -->
-        <div class="search-bar__dropdown">
-            <span class="search-bar__dropdown-label">Category</span>
-            <select name="SelectedCategory" class="search-bar__dropdown-select">
-                <option value="">Any</option>
-                @foreach (var category in Model.CategoryOptions)
-                {
-                    <option value="@category" selected="@(category == Model.SelectedCategory ? "selected" : null)">@category.ToString()</option>
-                }
-            </select>
-        </div>
+        <select name="SelectedCategory" class="search-bar__dropdown">
+            <option value="">Any</option>
+            @foreach (var category in Model.CategoryOptions)
+            {
+                <option value="@category" selected="@(category == Model.SelectedCategory ? "selected" : null)">@category.ToString()</option>
+            }
+        </select>
 
         <!-- Search Button -->
         <button class="search-bar__button" type="submit">
