@@ -1,30 +1,57 @@
-@* TODO: Define the admin layout once navigation and styling are confirmed. *@
+@* Admin sub-navigation using unified subnav component with scroll indicators *@
 
-<nav class="admin-navbar" style="background: #FEFAF6; border-bottom: 1px solid var(--brand-300); padding-left: 128px; padding-right: 128px;">
-    <ul class="admin-navbar__list" style="display: flex; gap: 2.5rem; margin: 0; padding: 1.25rem 0 1.25rem 0; list-style: none; font-family: var(--font-family-base); font-size: 1.1rem; font-weight: var(--font-weight-semi); color: var(--brand-700); justify-content: flex-end;">
-        <li>
-            <a class="header__nav-link" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
-        </li>
-        <li>
-            <a class="header__nav-link" asp-area="Admin" asp-controller="Stories" asp-action="Manage">Manage Stories</a>
-        </li>
-        <li>
-            <a class="header__nav-link" asp-area="Admin" asp-controller="Events" asp-action="Manage">Manage Events</a>
-        </li>
-        <li>
-            <a class="header__nav-link" asp-area="Admin" asp-controller="Books" asp-action="Manage">Manage Books</a>
-        </li>
-        <li>
-            <a class="header__nav-link" asp-area="Admin" asp-controller="Reports" asp-action="Index">Reports</a>
-        </li>
-        <li>
-            <a class="header__nav-link" asp-area="Admin" asp-controller="Hours" asp-action="Index">Approve Hours</a>
-        </li>
-        <li>
-            <a class="header__nav-link" asp-area="Admin" asp-controller="SiteSettings" asp-action="Index">Site Settings</a>
-        </li>
-        @* <li>
-            <a class="header__nav-link" asp-controller="admin" asp-action="Index">Site Settings</a>
-        </li> *@
-    </ul>
+<nav class="subnav subnav--scrollable" aria-label="Admin sub-navigation">
+    <button class="subnav__scroll-btn subnav__scroll-btn--left" aria-label="Scroll left" type="button">
+        <svg class="subnav__scroll-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+    </button>
+    
+    <div class="subnav__container">
+        <ul class="subnav__list" id="adminNavList">
+            <li class="subnav__item">
+                <a class="subnav__link" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+                    <span class="subnav__label">Dashboard</span>
+                </a>
+            </li>
+            <li class="subnav__item">
+                <a class="subnav__link" asp-area="Admin" asp-controller="Stories" asp-action="Manage">
+                    <span class="subnav__label">Manage Stories</span>
+                </a>
+            </li>
+            <li class="subnav__item">
+                <a class="subnav__link" asp-area="Admin" asp-controller="Events" asp-action="Manage">
+                    <span class="subnav__label">Manage Events</span>
+                </a>
+            </li>
+            <li class="subnav__item">
+                <a class="subnav__link" asp-area="Admin" asp-controller="Books" asp-action="Manage">
+                    <span class="subnav__label">Manage Books</span>
+                </a>
+            </li>
+            <li class="subnav__item">
+                <a class="subnav__link" asp-area="Admin" asp-controller="Reports" asp-action="Index">
+                    <span class="subnav__label">Reports</span>
+                </a>
+            </li>
+            <li class="subnav__item">
+                <a class="subnav__link" asp-area="Admin" asp-controller="Hours" asp-action="Index">
+                    <span class="subnav__label">Approve Hours</span>
+                </a>
+            </li>
+            <li class="subnav__item">
+                <a class="subnav__link" asp-area="Admin" asp-controller="SiteSettings" asp-action="Index">
+                    <span class="subnav__label">Site Settings</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+    <button class="subnav__scroll-btn subnav__scroll-btn--right" aria-label="Scroll right" type="button">
+        <svg class="subnav__scroll-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+    </button>
 </nav>
+
+

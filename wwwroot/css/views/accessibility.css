@@ -1,0 +1,628 @@
+/* =========================================================
+   Accessibility Page Styles
+   Based on Application Design System
+   Following BEM Naming Convention
+   ========================================================= */
+
+/* =========================================================
+   Main Accessibility Container
+   ========================================================= */
+
+.accessibility {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+
+    /* Visual */
+    background: linear-gradient(165.21deg, #FDF5ED 20.59%, #E9D5EB 77.36%);
+}
+
+/* =========================================================
+   Accessibility Body Section
+   ========================================================= */
+
+.accessibility__body {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 64px 64px 64px;
+    gap: 32px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+/* =========================================================
+   Accessibility Container (Card)
+   ========================================================= */
+
+.accessibility__container {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 48px;
+    gap: 32px;
+    width: 100%;
+
+    /* Visual */
+    background: #FFFFFF;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1), 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* =========================================================
+   Accessibility Introduction
+   ========================================================= */
+
+.accessibility__intro {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    padding-bottom: 24px;
+
+    /* Visual */
+    border-bottom: 2px solid #E9D5EB;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.accessibility__updated {
+    /* Box Model */
+    margin: 0;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #6B7280;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.accessibility__intro-text {
+    /* Box Model */
+    margin: 0;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #4B5563;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* =========================================================
+   Accessibility Content Sections
+   ========================================================= */
+
+.accessibility__content {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: 100%;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* =========================================================
+   Accessibility Section
+   ========================================================= */
+
+.accessibility__section {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.accessibility__section-title {
+    /* Box Model */
+    margin: 0;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 30px;
+    color: #2F1648;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.accessibility__section-content {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.accessibility__paragraph {
+    /* Box Model */
+    margin: 0;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #4B5563;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.accessibility__paragraph strong {
+    font-weight: 600;
+    color: #2F1648;
+}
+
+.accessibility__paragraph em {
+    font-style: italic;
+}
+
+.accessibility__paragraph a {
+    color: #2F1648;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.accessibility__paragraph a:hover {
+    color: #CA9F9D;
+}
+
+/* =========================================================
+   Accessibility Lists
+   ========================================================= */
+
+.accessibility__list {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-left: 24px;
+    margin: 0;
+    width: 100%;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.accessibility__list-item {
+    /* Box Model */
+    margin: 0;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #4B5563;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+.accessibility__list-item strong {
+    font-weight: 600;
+    color: #2F1648;
+}
+
+/* Unordered List */
+.accessibility__list--unordered {
+    list-style-type: disc;
+}
+
+/* Ordered List */
+.accessibility__list--ordered {
+    list-style-type: decimal;
+}
+
+/* =========================================================
+   Accessibility Feature Cards
+   ========================================================= */
+
+.accessibility__features {
+    /* Box Model */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    width: 100%;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.accessibility__feature-card {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    gap: 12px;
+
+    /* Visual */
+    background: #F9FAFB;
+    border-left: 4px solid #CA9F9D;
+    border-radius: 8px;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+.accessibility__feature-icon {
+    /* Box Model */
+    width: 40px;
+    height: 40px;
+
+    /* Visual */
+    color: #2F1648;
+
+    /* Layout */
+    flex: none;
+    flex-shrink: 0;
+}
+
+.accessibility__feature-title {
+    /* Box Model */
+    margin: 0;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 26px;
+    color: #2F1648;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.accessibility__feature-text {
+    /* Box Model */
+    margin: 0;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 22px;
+    color: #4B5563;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* =========================================================
+   Accessibility Highlight Box
+   ========================================================= */
+
+.accessibility__highlight {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px 24px;
+    width: 100%;
+
+    /* Visual */
+    background: #FDF5ED;
+    border-left: 4px solid #CA9F9D;
+    border-radius: 8px;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.accessibility__highlight-title {
+    /* Box Model */
+    margin: 0;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #2F1648;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.accessibility__highlight-text {
+    /* Box Model */
+    margin: 0;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 22px;
+    color: #4B5563;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* =========================================================
+   Accessibility Contact Section
+   ========================================================= */
+
+.accessibility__contact {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px;
+    gap: 16px;
+    width: 100%;
+    margin-top: 16px;
+
+    /* Visual */
+    background: linear-gradient(135deg, #FDF5ED 0%, #E9D5EB 100%);
+    border-radius: 12px;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.accessibility__contact-title {
+    /* Box Model */
+    margin: 0;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 28px;
+    text-align: center;
+    color: #2F1648;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+.accessibility__contact-text {
+    /* Box Model */
+    margin: 0;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #4B5563;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+.accessibility__contact-email {
+    /* Typography */
+    color: #2F1648;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.accessibility__contact-email:hover {
+    color: #CA9F9D;
+}
+
+/* =========================================================
+   Responsive Design
+   ========================================================= */
+
+/* Tablet (768px - 1023px) */
+@media (max-width: 1023px) {
+    .accessibility__body {
+        padding: 32px 32px 48px 32px;
+    }
+
+    .accessibility__container {
+        padding: 32px;
+    }
+
+    .accessibility__section-title {
+        font-size: 20px;
+        line-height: 28px;
+    }
+
+    .accessibility__feature-title {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .accessibility__features {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+}
+
+/* Mobile (max-width: 767px) */
+@media (max-width: 767px) {
+    .accessibility__body {
+        padding: 24px 20px 40px 20px;
+    }
+
+    .accessibility__container {
+        padding: 24px;
+        gap: 24px;
+    }
+
+    .accessibility__intro {
+        padding-bottom: 16px;
+    }
+
+    .accessibility__content {
+        gap: 24px;
+    }
+
+    .accessibility__section {
+        gap: 12px;
+    }
+
+    .accessibility__section-title {
+        font-size: 18px;
+        line-height: 26px;
+    }
+
+    .accessibility__paragraph,
+    .accessibility__list-item {
+        font-size: 15px;
+        line-height: 22px;
+    }
+
+    .accessibility__features {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .accessibility__feature-card {
+        padding: 20px;
+    }
+
+    .accessibility__feature-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+    .accessibility__feature-title {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .accessibility__feature-text {
+        font-size: 14px;
+        line-height: 21px;
+    }
+
+    .accessibility__highlight {
+        padding: 16px 20px;
+    }
+
+    .accessibility__highlight-title {
+        font-size: 15px;
+        line-height: 22px;
+    }
+
+    .accessibility__highlight-text {
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    .accessibility__contact {
+        padding: 24px;
+    }
+
+    .accessibility__contact-title {
+        font-size: 18px;
+        line-height: 26px;
+    }
+
+    .accessibility__contact-text {
+        font-size: 14px;
+        line-height: 21px;
+    }
+}
+
+/* Small Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+    .accessibility__body {
+        padding: 20px 16px 32px 16px;
+    }
+
+    .accessibility__container {
+        padding: 20px;
+    }
+
+    .accessibility__list {
+        padding-left: 20px;
+    }
+
+    .accessibility__feature-card {
+        padding: 16px;
+    }
+
+    .accessibility__highlight {
+        padding: 14px 16px;
+    }
+}
+

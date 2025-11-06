@@ -1,0 +1,332 @@
+﻿
+@{
+    ViewData["Title"] = "Frequently Asked Questions";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/shared/page-hero.css" />
+    <link rel="stylesheet" href="~/css/views/faq.css" />
+}
+
+<div class="faq">
+    <!-- Hero Section -->
+    <section class="page-hero">
+        <div class="page-hero__content">
+            <h1 class="page-hero__title">Frequently Asked Questions</h1>
+            <p class="page-hero__subtitle">Find answers to common questions about our organization and services.</p>
+        </div>
+    </section>
+
+    <!-- Body Section -->
+    <section class="faq__body">
+        <div class="faq__container">
+            <!-- Introduction -->
+            <div class="faq__intro">
+                <p class="faq__intro-text">
+                    Welcome to our FAQ section. Here you'll find answers to the most commonly asked questions about Healing in Writing.
+                    If you can't find what you're looking for, please don't hesitate to contact us directly.
+                </p>
+            </div>
+
+            <!-- FAQ Categories -->
+            <div class="faq__categories">
+                <!-- General Questions -->
+                <div class="faq__category">
+                    <h2 class="faq__category-title">General Questions</h2>
+                    <div class="faq__category-items">
+                        <div class="faq__item">
+                            <button class="faq__question" type="button">
+                                <h3 class="faq__question-text">What is Healing in Writing?</h3>
+                                <svg class="faq__question-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div class="faq__answer">
+                                <p class="faq__answer-text">
+                                    Healing in Writing is a non-profit organization dedicated to empowering survivors of gender-based violence through
+                                    therapeutic writing programs, community support, and advocacy. We provide a safe space for healing, expression,
+                                    and personal growth through the written word.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="faq__item">
+                            <button class="faq__question" type="button">
+                                <h3 class="faq__question-text">Who can participate in your programs?</h3>
+                                <svg class="faq__question-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div class="faq__answer">
+                                <p class="faq__answer-text">
+                                    Our programs are open to all survivors of gender-based violence, regardless of age, gender identity, race,
+                                    or background. We believe everyone deserves a safe space to heal and share their story. All our services
+                                    are provided free of charge.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="faq__item">
+                            <button class="faq__question" type="button">
+                                <h3 class="faq__question-text">Is participation confidential?</h3>
+                                <svg class="faq__question-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div class="faq__answer">
+                                <p class="faq__answer-text">
+                                    <strong>Yes, absolutely.</strong> We take privacy and confidentiality very seriously. All personal information
+                                    shared in our programs remains strictly confidential. When stories are shared publicly, it is always with
+                                    explicit consent from the author, and they have complete control over what is published.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Programs & Workshops -->
+                <div class="faq__category">
+                    <h2 class="faq__category-title">Programs & Workshops</h2>
+                    <div class="faq__category-items">
+                        <div class="faq__item">
+                            <button class="faq__question" type="button">
+                                <h3 class="faq__question-text">What types of workshops do you offer?</h3>
+                                <svg class="faq__question-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div class="faq__answer">
+                                <p class="faq__answer-text">
+                                    We offer various therapeutic writing workshops including creative writing, journaling, poetry, memoir writing,
+                                    and narrative therapy. We also host community events, support groups, and educational sessions about healing
+                                    through writing. Check our <a href="/Events">Events page</a> for upcoming workshops.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="faq__item">
+                            <button class="faq__question" type="button">
+                                <h3 class="faq__question-text">Do I need writing experience to participate?</h3>
+                                <svg class="faq__question-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div class="faq__answer">
+                                <p class="faq__answer-text">
+                                    <strong>No writing experience is necessary!</strong> Our programs are designed for everyone, from complete
+                                    beginners to experienced writers. The focus is on healing and self-expression, not on technical writing skills.
+                                    Our facilitators provide gentle guidance and support throughout the process.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="faq__item">
+                            <button class="faq__question" type="button">
+                                <h3 class="faq__question-text">How do I register for a workshop?</h3>
+                                <svg class="faq__question-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div class="faq__answer">
+                                <p class="faq__answer-text">
+                                    You can register for workshops through our <a href="/Events">Events page</a>. Simply browse the available
+                                    workshops, click on the one you're interested in, and click the "Join Event" button. You'll receive a
+                                    confirmation email with all the details you need.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="faq__item">
+                            <button class="faq__question" type="button">
+                                <h3 class="faq__question-text">Are workshops held online or in-person?</h3>
+                                <svg class="faq__question-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div class="faq__answer">
+                                <p class="faq__answer-text">
+                                    We offer both online and in-person workshops to accommodate different needs and preferences. Each workshop
+                                    listing on our Events page clearly indicates the format. Online workshops are conducted via secure video
+                                    conferencing platforms.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sharing Stories -->
+                <div class="faq__category">
+                    <h2 class="faq__category-title">Sharing Stories</h2>
+                    <div class="faq__category-items">
+                        <div class="faq__item">
+                            <button class="faq__question" type="button">
+                                <h3 class="faq__question-text">How can I submit my story?</h3>
+                                <svg class="faq__question-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div class="faq__answer">
+                                <p class="faq__answer-text">
+                                    You can submit your story through our <a href="/Stories/Submit">Submit Your Story</a> page. The submission
+                                    form allows you to share your narrative, choose whether to remain anonymous, and indicate if you'd like your
+                                    story published. All submissions are reviewed with care and respect.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="faq__item">
+                            <button class="faq__question" type="button">
+                                <h3 class="faq__question-text">Can I submit my story anonymously?</h3>
+                                <svg class="faq__question-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div class="faq__answer">
+                                <p class="faq__answer-text">
+                                    <strong>Absolutely.</strong> You have complete control over your identity when sharing your story. You can
+                                    choose to use your real name, a pseudonym, or remain completely anonymous. Your privacy and safety are
+                                    our top priorities.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="faq__item">
+                            <button class="faq__question" type="button">
+                                <h3 class="faq__question-text">What happens after I submit my story?</h3>
+                                <svg class="faq__question-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div class="faq__answer">
+                                <p class="faq__answer-text">
+                                    After submission, our team will review your story with sensitivity and care. If you've indicated interest in
+                                    publication, we'll contact you to discuss next steps and ensure you're comfortable with everything before
+                                    publishing. The review process typically takes 1-2 weeks.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Volunteering -->
+                <div class="faq__category">
+                    <h2 class="faq__category-title">Volunteering</h2>
+                    <div class="faq__category-items">
+                        <div class="faq__item">
+                            <button class="faq__question" type="button">
+                                <h3 class="faq__question-text">How can I volunteer with your organization?</h3>
+                                <svg class="faq__question-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div class="faq__answer">
+                                <p class="faq__answer-text">
+                                    We welcome volunteers! To get started, create an account and select "Volunteer" as your role during
+                                    registration. You'll gain access to volunteer opportunities, training materials, and can track your
+                                    volunteer hours through your dashboard.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="faq__item">
+                            <button class="faq__question" type="button">
+                                <h3 class="faq__question-text">What kind of volunteer opportunities are available?</h3>
+                                <svg class="faq__question-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div class="faq__answer">
+                                <p class="faq__answer-text">
+                                    Volunteer opportunities include workshop facilitation, event support, content moderation, administrative
+                                    assistance, social media management, and community outreach. We match volunteers with roles based on their
+                                    skills, interests, and availability.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="faq__item">
+                            <button class="faq__question" type="button">
+                                <h3 class="faq__question-text">Is training provided for volunteers?</h3>
+                                <svg class="faq__question-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div class="faq__answer">
+                                <p class="faq__answer-text">
+                                    <strong>Yes!</strong> All volunteers receive comprehensive training appropriate to their role. This includes
+                                    trauma-informed care training, confidentiality protocols, and role-specific skills development. We believe
+                                    in equipping our volunteers with the knowledge and support they need to make a meaningful impact.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Support & Donations -->
+                <div class="faq__category">
+                    <h2 class="faq__category-title">Support & Donations</h2>
+                    <div class="faq__category-items">
+                        <div class="faq__item">
+                            <button class="faq__question" type="button">
+                                <h3 class="faq__question-text">How can I support your organization financially?</h3>
+                                <svg class="faq__question-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div class="faq__answer">
+                                <p class="faq__answer-text">
+                                    You can make a financial contribution through our <a href="/Donate">Donate page</a>. We accept one-time
+                                    donations and recurring contributions. All donations directly support our programs, workshops, and services
+                                    for survivors. We are deeply grateful for your generosity.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="faq__item">
+                            <button class="faq__question" type="button">
+                                <h3 class="faq__question-text">Are donations tax-deductible?</h3>
+                                <svg class="faq__question-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div class="faq__answer">
+                                <p class="faq__answer-text">
+                                    Yes, Healing in Writing is a registered non-profit organization, and donations are tax-deductible to the
+                                    extent permitted by law. You will receive a receipt for your donation for tax purposes.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="faq__item">
+                            <button class="faq__question" type="button">
+                                <h3 class="faq__question-text">Can I donate books or other materials?</h3>
+                                <svg class="faq__question-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div class="faq__answer">
+                                <p class="faq__answer-text">
+                                    We gratefully accept donations of books, writing materials, and other resources that support our mission.
+                                    Please <a href="/Home/Contact">contact us</a> to discuss in-kind donations and arrange delivery or pickup.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="faq__contact">
+                <h2 class="faq__contact-title">Still Have Questions?</h2>
+                <p class="faq__contact-text">
+                    If you couldn't find the answer you were looking for, please don't hesitate to reach out to us directly.
+                </p>
+                <a href="/Home/Contact" class="faq__contact-button">Contact Us</a>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section Scripts {
+    <script src="~/js/views/faq.js" asp-append-version="true"></script>
+}

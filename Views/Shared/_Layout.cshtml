@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/shared/header.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/shared/footer.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/shared/dashboard-subnav.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/shared/subnav.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/HealingInWriting.styles.css" asp-append-version="true" />
     @await RenderSectionAsync("Styles", required: false)
 </head>
@@ -179,7 +179,7 @@
                             <a class="footer__link" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
                         </li>
                         <li class="footer__list-item">
-                            <a class="footer__link" asp-area="" asp-controller="Home" asp-action="Faq">FAQ</a>
+                            <a class="footer__link" asp-area="" asp-controller="Home" asp-action="FAQ">FAQ</a>
                         </li>
                     </ul>
                 </section>
@@ -223,7 +223,7 @@
                         <a class="footer__policy-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
                     </li>
                     <li>
-                        <a class="footer__policy-link" asp-area="" asp-controller="Home" asp-action="Terms">Terms of Service</a>
+                        <a class="footer__policy-link" asp-area="" asp-controller="Home" asp-action="TermsOfService">Terms of Service</a>
                     </li>
                     <li>
                         <a class="footer__policy-link" asp-area="" asp-controller="Home" asp-action="Accessibility">Accessibility</a>
@@ -236,6 +236,13 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    
+    @* Admin navigation scroll script - only load for admin users *@
+    @if (isAdmin)
+    {
+        <script src="~/js/admin/admin-nav-scroll.js" asp-append-version="true"></script>
+    }
+    
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
