@@ -189,5 +189,15 @@ namespace HealingInWriting.Controllers
         {
             return View();
         } 
+        
+        public IActionResult TermsOfService()
+        {
+            return View();
+        }
+        
+        public IActionResult FAQ()
+        {
+            return View();
+        }
     }
 }
