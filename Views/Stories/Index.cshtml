@@ -1,4 +1,4 @@
-@model HealingInWriting.Models.Stories.StoryListViewModel
+@model HealingInWriting.Models.Stories.StoryListWithFilterViewModel
 
 @{
     ViewData["Title"] = "Community Stories";
@@ -21,16 +21,16 @@
 
         <!-- Combined Navigation and Search Section -->
         <section class="stories__search-section">
-            <partial name="_StoriesSearchBar" />
+            <partial name="_StoriesSearchBar" model="Model.Filter" />
         </section>
     </section>
 
     <!-- Stories Masonry Grid -->
     <section class="stories__content">
         <div class="stories__masonry">
-            @if (Model?.Stories?.Any() == true)
+            @if (Model?.StoryList?.Stories?.Any() == true)
             {
-                var stories = Model.Stories;
+                var stories = Model.StoryList.Stories;
                 int storyIndex = 0;
 
                 while (storyIndex < stories.Count)
