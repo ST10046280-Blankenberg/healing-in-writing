@@ -1,6 +1,7 @@
-using HealingInWriting.Domain.Shared;
 using HealingInWriting.Domain.Stories;
 using HealingInWriting.Interfaces.Services;
+using HealingInWriting.Mapping;
+using HealingInWriting.Models.Filters;
 using HealingInWriting.Models.Stories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
@@ -18,24 +19,58 @@ namespace HealingInWriting.Controllers
             _storyService = storyService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+            string? SearchText,
+            string? SelectedDate,
+            string? SelectedSort,
+            string? SelectedCategory)
         {
+            // Parse selectedCategory from query string to nullable StoryCategory
+            StoryCategory? selectedCategory = null;
+            if (!string.IsNullOrWhiteSpace(SelectedCategory) && Enum.TryParse<StoryCategory>(SelectedCategory, out var parsedCategory))
+            {
+                selectedCategory = parsedCategory;
+            }
+
+            var filter = ViewModelMappers.ToStoriesFilterViewModel(
+                categoryOptions: Enum.GetValues(typeof(StoryCategory)).Cast<StoryCategory>(),
+                selectedDate: SelectedDate,
+                selectedSort: SelectedSort,
+                selectedCategory: selectedCategory,
+                searchText: SearchText
+            );
+
+            // Get all published stories
             var stories = await _storyService.GetPublishedAsync();
 
-            var viewModel = new StoryListViewModel
+            // Apply filtering
+            if (!string.IsNullOrWhiteSpace(SearchText))
+                stories = stories.Where(s => s.Title.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+                                             s.Summary.Contains(SearchText, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            if (selectedCategory.HasValue)
+                stories = stories.Where(s => s.Category == selectedCategory.Value).ToList();
+
+            // You can add more filtering for date and sort as needed
+
+            // Sorting example
+            if (SelectedSort == "Oldest")
+                stories = stories.OrderBy(s => s.CreatedAt).ToList();
+            else // Default to Newest
+                stories = stories.OrderByDescending(s => s.CreatedAt).ToList();
+
+            var storyList = new StoryListViewModel
             {
-                Stories = stories.Select(story => new StorySummaryViewModel
-                {
-                    StoryId = story.StoryId,
-                    Title = story.Title,
-                    Summary = story.Summary,
-                    CreatedAt = story.CreatedAt,
-                    AuthorName = story.Author?.UserId ?? string.Empty,
-                    Tags = story.Tags.Select(tag => tag.Name).ToList()
-                }).ToList()
+                Stories = stories.Select(s => s.ToStorySummaryViewModel()).ToList()
             };
 
-            return View(viewModel);
+            var model = new StoryListWithFilterViewModel
+            {
+                StoryList = storyList,
+                Filter = filter
+            };
+
+            return View(model);
         }
 
         public async Task<IActionResult> Details(int id, string? returnUrl)

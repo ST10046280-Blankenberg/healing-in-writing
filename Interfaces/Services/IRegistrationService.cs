@@ -66,6 +66,7 @@ public interface IRegistrationService
     /// Gets registration count and capacity info for an event.
     /// </summary>
     Task<RegistrationCapacityInfo> GetCapacityInfoAsync(int eventId);
+    Task<IEnumerable<Registration>> GetFilteredUserRegistrationsAsync(int userId, string? searchText, EventType? selectedEventType, DateTime? startDate, DateTime? endDate);
 }
 
 /// <summary>

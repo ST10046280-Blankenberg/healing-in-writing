@@ -1,5 +1,7 @@
+using HealingInWriting.Domain.Events;
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Events;
+using HealingInWriting.Models.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -17,33 +19,34 @@ namespace HealingInWriting.Controllers
             _registrationService = registrationService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+            string? SearchText,
+            EventType? SelectedEventType,
+            DateTime? StartDate,
+            DateTime? EndDate)
         {
-            var events = await _eventService.GetAllEventsAsync();
-
-            // Map to view model
-            var viewModel = new EventsIndexViewModel
+            var filter = new EventsFilterViewModel
             {
-                Events = events
-                    .Where(e => e.EventStatus == Domain.Events.EventStatus.Published)
-                    .OrderBy(e => e.StartDateTime)
-                    .Select(e => new EventCardViewModel
-                    {
-                        Id = e.EventId,
-                        Title = e.Title,
-                        Description = e.Description,
-                        EventType = e.EventType,
-                        StartDateTime = e.StartDateTime,
-                        LocationSummary = string.Join(", ", new[]
-                        {
-                            e.Address?.City,
-                            e.Address?.Province
-                        }.Where(part => !string.IsNullOrWhiteSpace(part)))
-                    })
-                    .ToList()
+                EventTypeOptions = Enum.GetValues(typeof(EventType)).Cast<EventType>().ToList(),
+                SelectedEventType = SelectedEventType,
+                StartDate = StartDate,
+                EndDate = EndDate,
+                SearchText = SearchText
             };
 
-            return View(viewModel);
+            var eventsList = await _eventService.GetFilteredEventsAsync(
+                SearchText,
+                SelectedEventType,
+                StartDate,
+                EndDate);
+
+            var model = new EventsListWithFiltersViewModel
+            {
+                EventsList = eventsList,
+                Filter = filter
+            };
+
+            return View(model);
         }
 
         public async Task<IActionResult> Details(int id)

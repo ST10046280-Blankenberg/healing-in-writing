@@ -1,11 +1,10 @@
-using System.Collections.Generic;
-using System.Linq;
 using HealingInWriting.Data;
 using HealingInWriting.Domain.Events;
 using HealingInWriting.Domain.Shared;
 using HealingInWriting.Interfaces.Repository;
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Events;
+using HealingInWriting.Mapping;
 using Microsoft.EntityFrameworkCore;
 
 namespace HealingInWriting.Services.Events;
@@ -260,5 +259,25 @@ public class EventService : IEventService
             .ToListAsync();
 
         return registrations;
+    }
+
+    public async Task<EventsIndexViewModel> GetFilteredEventsAsync(
+        string? searchText,
+        EventType? selectedEventType,
+        DateTime? startDate,
+        DateTime? endDate)
+    {
+        var events = await _eventRepository.GetFilteredAsync(
+            searchText,
+            selectedEventType,
+            startDate,
+            endDate);
+
+        return new EventsIndexViewModel
+        {
+            Events = events
+                .Select(e => e.ToEventCardViewModel())
+                .ToList()
+        };
     }
 }

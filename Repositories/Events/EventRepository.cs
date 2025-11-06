@@ -107,4 +107,35 @@ public class EventRepository : IEventRepository
             await _context.SaveChangesAsync();
         }
     }
+
+    public async Task<IEnumerable<Event>> GetFilteredAsync(
+        string? searchText,
+        EventType? selectedEventType,
+        DateTime? startDate,
+        DateTime? endDate)
+    {
+        var query = _context.Events
+            .Include(e => e.Address)
+            .Include(e => e.EventTags)
+            .Include(e => e.User)
+            .AsQueryable();
+
+        query = query.Where(e => e.EventStatus == EventStatus.Published);
+
+        if (!string.IsNullOrWhiteSpace(searchText))
+            query = query.Where(e => e.Title.Contains(searchText) || e.Description.Contains(searchText));
+
+        if (selectedEventType.HasValue)
+            query = query.Where(e => e.EventType == selectedEventType.Value);
+
+        if (startDate.HasValue)
+            query = query.Where(e => e.StartDateTime >= startDate.Value);
+
+        if (endDate.HasValue)
+            query = query.Where(e => e.EndDateTime <= endDate.Value);
+
+        return await query
+            .OrderBy(e => e.StartDateTime)
+            .ToListAsync();
+    }
 }

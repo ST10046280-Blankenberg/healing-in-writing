@@ -84,7 +84,8 @@ public class RegistrationService : IRegistrationService
         {
             return new RegistrationResult
             {
-                Success = false, Message = "This email is already registered for this event."
+                Success = false,
+                Message = "This email is already registered for this event."
             };
         }
 
@@ -155,7 +156,8 @@ public class RegistrationService : IRegistrationService
             {
                 return new RegistrationResult
                 {
-                    Success = false, Message = "You can only cancel your own registrations."
+                    Success = false,
+                    Message = "You can only cancel your own registrations."
                 };
             }
         }
@@ -210,7 +212,10 @@ public class RegistrationService : IRegistrationService
         {
             return new RegistrationCapacityInfo
             {
-                Capacity = 0, RegisteredCount = 0, CanRegister = false, StatusMessage = "Event not found."
+                Capacity = 0,
+                RegisteredCount = 0,
+                CanRegister = false,
+                StatusMessage = "Event not found."
             };
         }
 
@@ -229,6 +234,21 @@ public class RegistrationService : IRegistrationService
             CanRegister = canRegister,
             StatusMessage = statusMessage
         };
+    }
+
+    public async Task<IEnumerable<Registration>> GetFilteredUserRegistrationsAsync(
+        int userId,
+        string? searchText,
+        EventType? selectedEventType,
+        DateTime? startDate,
+        DateTime? endDate)
+    {
+        return await _registrationRepository.GetFilteredUserRegistrationsAsync(
+            userId,
+            searchText,
+            selectedEventType,
+            startDate,
+            endDate);
     }
 
     #region Private Helper Methods
