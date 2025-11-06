@@ -1,4 +1,6 @@
 using HealingInWriting.Interfaces.Services;
+using HealingInWriting.Models.Books;
+using HealingInWriting.Models.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
@@ -16,34 +18,54 @@ namespace HealingInWriting.Controllers
         }
 
         // For regular users: only visible books, paged
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+            string? SearchText,
+            string? SelectedCategory,
+            string? SelectedAuthor)
         {
-            var books = await _bookService.GetPagedForUserAsync(
-                searchTerm: null,
-                selectedAuthor: null,
-                selectedCategory: null,
-                selectedTag: null,
-                skip: 0,
-                take: 10);
-
+            // Prepare filter options
             var allAuthors = await _bookService.GetAllAuthorsAsync(onlyVisible: true);
             var allCategories = await _bookService.GetAllCategoriesAsync(onlyVisible: true);
 
-            var viewModel = _bookService.ToBookListViewModel(books);
-            viewModel.AvailableAuthors = allAuthors;
-            viewModel.AvailableCategories = allCategories;
+            var filter = new BooksFilterViewModel
+            {
+                AuthorOptions = allAuthors,
+                CategoryOptions = allCategories,
+                SelectedAuthor = SelectedAuthor,
+                SelectedCategory = SelectedCategory,
+                SearchText = SearchText
+            };
 
-            // Get the total count for initial pagination
+            // Get all books (paged or not, as needed)
+            var books = await _bookService.GetPagedForUserAsync(
+                searchTerm: SearchText,
+                selectedAuthor: SelectedAuthor,
+                selectedCategory: SelectedCategory,
+                selectedTag: null,
+                skip: 0,
+                take: 20);
+
+            // Optionally, apply further filtering here if needed
+
+            var bookList = _bookService.ToBookListViewModel(books);
+
+            var model = new BookListWithFilterViewModel
+            {
+                BookList = bookList,
+                Filter = filter
+            };
+
+            // For pagination, set ViewBag.TotalCount, etc. as before
             var totalCount = await _bookService.GetCountForUserAsync(
-                searchTerm: null,
-                selectedAuthor: null,
-                selectedCategory: null,
+                searchTerm: SearchText,
+                selectedAuthor: SelectedAuthor,
+                selectedCategory: SelectedCategory,
                 selectedTag: null);
 
             ViewBag.TotalCount = totalCount;
             ViewBag.PageSize = 20;
 
-            return View(viewModel);
+            return View(model);
         }
 
         public async Task<IActionResult> Details(int BookId)

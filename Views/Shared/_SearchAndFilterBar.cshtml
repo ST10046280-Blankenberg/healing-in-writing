@@ -1,6 +1,6 @@
 ﻿@model HealingInWriting.Models.Filters.BaseFilterViewModel
 
-<form asp-action="Index" method="get" class="search-bar search-bar--with-nav">
+<form asp-area="" asp-action="Index" method="get" class="search-bar search-bar--with-nav">
     <div class="search-bar__filters-row">
         <!-- Search Input with Icon -->
         <div class="search-bar__input-container">
@@ -32,6 +32,23 @@
                 @foreach (var category in storiesFilter.CategoryOptions)
                 {
                     <option value="@category" selected="@(category == storiesFilter.SelectedCategory ? "selected" : null)">@category.ToString()</option>
+                }
+            </select>
+        }
+        @if (Model is HealingInWriting.Models.Filters.BooksFilterViewModel booksFilter)
+        {
+            <select name="SelectedCategory" class="search-bar__dropdown">
+                <option value="">Any Category</option>
+                @foreach (var category in booksFilter.CategoryOptions)
+                {
+                    <option value="@category" selected="@(category == booksFilter.SelectedCategory ? "selected" : null)">@category</option>
+                }
+            </select>
+            <select name="SelectedAuthor" class="search-bar__dropdown">
+                <option value="">Any Author</option>
+                @foreach (var author in booksFilter.AuthorOptions)
+                {
+                    <option value="@author" selected="@(author == booksFilter.SelectedAuthor ? "selected" : null)">@author</option>
                 }
             </select>
         }
