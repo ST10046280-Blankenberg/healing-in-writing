@@ -1,8 +1,14 @@
-@* Admin sub-navigation using unified subnav component *@
+@* Admin sub-navigation using unified subnav component with scroll indicators *@
 
-<nav class="subnav" aria-label="Admin sub-navigation">
+<nav class="subnav subnav--scrollable" aria-label="Admin sub-navigation">
+    <button class="subnav__scroll-btn subnav__scroll-btn--left" aria-label="Scroll left" type="button">
+        <svg class="subnav__scroll-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+    </button>
+    
     <div class="subnav__container">
-        <ul class="subnav__list">
+        <ul class="subnav__list" id="adminNavList">
             <li class="subnav__item">
                 <a class="subnav__link" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
                     <span class="subnav__label">Dashboard</span>
@@ -40,4 +46,12 @@
             </li>
         </ul>
     </div>
+    
+    <button class="subnav__scroll-btn subnav__scroll-btn--right" aria-label="Scroll right" type="button">
+        <svg class="subnav__scroll-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+    </button>
 </nav>
+
+

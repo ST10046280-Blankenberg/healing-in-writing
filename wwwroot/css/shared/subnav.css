@@ -9,13 +9,79 @@
     border-bottom: 1px solid var(--brand-300);
     /* Ensure it doesn't shrink */
     flex-shrink: 0;
+    position: relative;
+}
+
+/* Scrollable variant with chevrons */
+.subnav--scrollable {
+    display: flex;
+    align-items: center;
+}
+
+/* Scroll indicator buttons */
+.subnav__scroll-btn {
+    /* Positioning */
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    
+    /* Box Model */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    
+    /* Visual */
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid var(--brand-300);
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    
+    /* Animation */
+    transition: all 0.3s ease;
+    opacity: 1;
+}
+
+.subnav__scroll-btn:hover {
+    background: #FFFFFF;
+    border-color: var(--brand-600);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.subnav__scroll-btn:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.subnav__scroll-btn--left {
+    left: 1rem;
+}
+
+.subnav__scroll-btn--right {
+    right: 1rem;
+}
+
+.subnav__scroll-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--brand-700);
 }
 
 /* Navigation bar container */
 .subnav__container {
     max-width: var(--max-width-container);
     margin: 0 auto;
-    padding: 0 4rem; /* Remove top/bottom padding */
+    padding: 0 4rem;
+    width: 100%;
+    overflow: hidden;
+}
+
+.subnav--scrollable .subnav__container {
+    /* Add padding for scroll buttons */
+    padding: 0 5rem;
 }
 
 .subnav__list {
@@ -28,9 +94,14 @@
     
     /* Allow horizontal scrolling on small screens */
     overflow-x: auto;
+    overflow-y: hidden;
     /* Hide scrollbar for a cleaner look */
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
+    scroll-behavior: smooth;
+    
+    /* Ensure items don't wrap */
+    flex-wrap: nowrap;
 }
 
 /* Hide scrollbar for Chrome, Safari, Opera */
@@ -95,12 +166,30 @@
         /* Reduced padding for tablet */
         padding: 0 var(--spacing-xl);
     }
+    
+    .subnav--scrollable .subnav__container {
+        padding: 0 4.5rem;
+    }
+    
+    .subnav__scroll-btn {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .subnav__scroll-icon {
+        width: 18px;
+        height: 18px;
+    }
 }
 
 @media (max-width: 768px) {
     .subnav__container {
         /* Reduced padding for mobile */
         padding: 0 var(--spacing-lg);
+    }
+    
+    .subnav--scrollable .subnav__container {
+        padding: 0 4rem;
     }
 
     .subnav__list {
@@ -109,6 +198,24 @@
     
     .subnav__link {
         font-size: 0.95rem; /* Slightly smaller font */
+    }
+    
+    .subnav__scroll-btn {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .subnav__scroll-btn--left {
+        left: 0.5rem;
+    }
+    
+    .subnav__scroll-btn--right {
+        right: 0.5rem;
+    }
+    
+    .subnav__scroll-icon {
+        width: 16px;
+        height: 16px;
     }
 }
 
