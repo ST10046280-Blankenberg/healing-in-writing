@@ -343,12 +343,54 @@
         font-size: 16px;
         line-height: 24px;
     }
+    
+    /* Search bar adjustments */
+    .hours-approval .search-bar {
+        padding: 24px;
+        flex-wrap: wrap;
+    }
+    
+    .hours-approval .search-bar__dropdown {
+        min-width: 140px;
+    }
 }
 
 /* Mobile landscape and below (768px) */
 @media (max-width: 768px) {
     .hours-approval {
-        padding: 24px 32px;
+        padding: 20px;
+        gap: 24px;
+    }
+    
+    /* Search bar mobile stacking */
+    .hours-approval .search-bar {
+        padding: 20px;
+        gap: 12px;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .hours-approval .search-bar__input-container,
+    .hours-approval .search-bar__dropdown,
+    .hours-approval .search-bar__button {
+        width: 100%;
+        min-width: 100%;
+    }
+    
+    .hours-approval .search-bar__dropdown {
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
+        gap: 8px;
+        padding: 12px;
+    }
+    
+    .hours-approval .search-bar__dropdown input[type="date"] {
+        width: 100%;
+    }
+    
+    .hours-approval .search-bar__dropdown span {
+        display: none;
     }
     
     .hours-approval__title {
@@ -363,6 +405,7 @@
     
     .hours-approval__table-wrapper {
         overflow-x: auto;
+        padding: 16px;
     }
     
     .hours-approval__table {
@@ -374,6 +417,13 @@
 @media (max-width: 480px) {
     .hours-approval {
         padding: 16px;
+        gap: 20px;
+    }
+    
+    /* Search bar smaller padding */
+    .hours-approval .search-bar {
+        padding: 16px;
+        gap: 12px;
     }
     
     .hours-approval__title {
@@ -383,6 +433,11 @@
     
     .hours-approval__header {
         gap: 8px;
+        padding: 16px;
+    }
+    
+    .hours-approval__table-wrapper {
+        padding: 12px;
     }
 }
 

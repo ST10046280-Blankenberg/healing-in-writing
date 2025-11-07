@@ -2,6 +2,9 @@
    Books Index Page Styles
    ========================================================= */
 
+/* Import Global Button Component */
+@import url('../base/buttons.css');
+
 /* Page Container */
 /* Page Container */
 .books {
@@ -272,6 +275,7 @@
     box-sizing: border-box;
 }
 
+/* Old button styles - replaced with global .btn component
 .pagination__btn {
     -webkit-appearance: none;
     appearance: none;
@@ -282,8 +286,8 @@
     padding: 10px 18px;
     min-width: 88px;
     border-radius: 10px;
-    border: 1px solid #2F1648; /* primary brand color used elsewhere */
-    background: #2F1648; /* filled primary */
+    border: 1px solid #2F1648;
+    background: #2F1648;
     color: #FFFFFF;
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
@@ -310,6 +314,7 @@
     transform: none;
     box-shadow: none;
 }
+*/
 
 #pagination-current,
 #pagination-total {
@@ -406,9 +411,11 @@
         margin: 24px 0;
     }
 
+    /* Old button class - no longer used
     .pagination__btn {
         padding: 8px 12px;
         min-width: 72px;
         font-size: 13px;
     }
+    */
 }

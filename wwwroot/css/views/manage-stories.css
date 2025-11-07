@@ -330,7 +330,7 @@
     color: #1E40AF;
 }
 
-/* Review Button */
+/* Review Button - Inverse hover effect (swap background and text colors) */
 .manage-stories__review-btn {
     /* Box Model */
     display: inline-flex;
@@ -352,22 +352,27 @@
     
     /* Visual */
     background: #2F1648;
-    border: none;
+    border: 2px solid #2F1648;
     border-radius: 8px;
     
     /* Animation */
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    transition: all 0.2s ease;
 }
 
 .manage-stories__review-btn:hover {
-    background: #3d1d5a;
+    background: #FFFFFF;
+    color: #2F1648;
+    border-color: #2F1648;
     transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(47, 22, 72, 0.15);
 }
 
 .manage-stories__review-btn:active {
-    background: #251038;
-    transform: scale(0.98);
+    background: #FFFFFF;
+    color: #2F1648;
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(47, 22, 72, 0.1);
 }
 
 .manage-stories__review-btn:focus {

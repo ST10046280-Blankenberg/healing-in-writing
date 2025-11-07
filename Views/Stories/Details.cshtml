@@ -34,16 +34,16 @@
                                 @Html.AntiForgeryToken()
                                 <input type="hidden" name="id" value="@Model.StoryId" />
                                 <input type="hidden" name="returnUrl" value="@backLink" />
-                                <button class="story-details__btn story-details__btn--primary" type="submit">
-                                    <span class="story-details__btn-text">Approve</span>
+                                <button class="btn btn--primary" type="submit">
+                                    Approve
                                 </button>
                             </form>
                             <form asp-area="Admin" asp-controller="Stories" asp-action="Reject" method="post" class="story-details__action-form">
                                 @Html.AntiForgeryToken()
                                 <input type="hidden" name="id" value="@Model.StoryId" />
                                 <input type="hidden" name="returnUrl" value="@backLink" />
-                                <button class="story-details__btn story-details__btn--secondary" type="submit">
-                                    <span class="story-details__btn-text">Reject</span>
+                                <button class="btn btn--secondary" type="submit">
+                                    Reject
                                 </button>
                             </form>
                         </div>

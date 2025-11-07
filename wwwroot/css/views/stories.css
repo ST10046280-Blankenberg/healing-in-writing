@@ -2,6 +2,10 @@
    Community Stories Page Styles
    ========================================================= */
 
+/* Import Global Button Component */
+@import url('../base/buttons.css');
+@import url('../base/_variables.css');
+
 /* Page Container */
 .stories {
     display: flex;
@@ -368,7 +372,7 @@
     flex-grow: 1;
 }
 
-/* Story Card Button */
+/* Old button styles - replaced with global .btn component
 .story-card__button {
     display: flex;
     flex-direction: row;
@@ -402,6 +406,7 @@
 .story-card__button:active {
     background: #251038;
 }
+*/
 
 /* Responsive Design */
 @media (max-width: 1440px) {
@@ -505,10 +510,12 @@
         width: 100%;
     }
     
+    /* Old button class - no longer used
     .story-card__button {
         width: 100%;
         padding: 8px 24px;
     }
+    */
 }
 
 @media (max-width: 480px) {
@@ -663,9 +670,8 @@
     margin: 0;
 }
 
-/* Button Base */
+/* Old button styles - replaced with global .btn component
 .story-details__btn {
-    /* Auto layout */
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -675,18 +681,15 @@
     width: 182px;
     height: 56px;
     
-    /* Visual */
     border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
     
-    /* Inside auto layout */
     flex: none;
     flex-grow: 1;
 }
 
-/* Primary Button (Approve) */
 .story-details__btn--primary {
     background: #2E1646;
 }
@@ -702,7 +705,6 @@
     transform: scale(0.98);
 }
 
-/* Secondary Button (Reject) */
 .story-details__btn--secondary {
     background: #C99F9C;
 }
@@ -718,9 +720,7 @@
     transform: scale(0.98);
 }
 
-/* Button Text */
 .story-details__btn-text {
-    /* Typography */
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-style: normal;
     font-weight: 500;
@@ -729,11 +729,11 @@
     text-align: center;
     color: #F6FAF9;
     
-    /* Inside auto layout */
     flex: none;
     order: 0;
     flex-grow: 0;
 }
+*/
 
 /* Hero Image */
 .story-details__image {
@@ -1388,6 +1388,7 @@
     width: 100%;
 }
 
+/* Old button styles - replaced with global .btn component
 .story-submit__button {
     display: flex;
     flex-direction: row;
@@ -1429,6 +1430,7 @@
 .story-submit__button--primary:hover {
     background: #3d1d5a;
 }
+*/
 
 /* Sidebar */
 .story-submit__sidebar {
@@ -1555,6 +1557,7 @@
     margin: 0;
 }
 
+/* Old button styles - replaced with global .btn component
 .story-submit__help-button {
     display: flex;
     flex-direction: row;
@@ -1572,6 +1575,7 @@
     text-align: center;
     color: #2F1648;
 }
+*/
 
 .story-submit__help-icon {
     width: 14px;
@@ -1635,10 +1639,12 @@
         gap: 16px;
     }
 
+    /* Old button classes - no longer used
     .story-submit__button--secondary,
     .story-submit__button--primary {
         width: 100%;
     }
+    */
 }
 
 @media (max-width: 480px) {
@@ -1807,6 +1813,7 @@
     margin-bottom: var(--spacing-lg);
 }
 
+/* Old button styles - replaced with global .btn component
 .stories__empty-button {
     display: inline-flex;
     align-items: center;
@@ -1832,3 +1839,4 @@
     width: 16px;
     height: 16px;
 }
+*/

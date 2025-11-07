@@ -3,6 +3,110 @@
    Configure site-wide settings, donations, privacy, and impact metrics
    ========================================================= */
 
+/* =========================================================
+   Standardized Button Classes
+   ========================================================= */
+
+/* Button Base - Shared styles for all buttons */
+.admin-settings-btn {
+    /* Box Model */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    height: 48px;
+    box-sizing: border-box;
+    
+    /* Typography */
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    text-decoration: none;
+    
+    /* Visual */
+    border: 2px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    
+    /* Animation */
+    transition: all 0.2s ease;
+    
+    /* Layout */
+    flex: none;
+    flex-shrink: 0;
+}
+
+/* Primary Button - Purple background, white text */
+.admin-settings-btn--primary {
+    background: #2F1648;
+    border-color: #2F1648;
+    color: #FFFFFF;
+}
+
+.admin-settings-btn--primary:hover {
+    background: #FFFFFF;
+    color: #2F1648;
+    border-color: #2F1648;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(47, 22, 72, 0.15);
+}
+
+.admin-settings-btn--primary:active {
+    background: #FFFFFF;
+    color: #2F1648;
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(47, 22, 72, 0.1);
+}
+
+/* Secondary Button - White background, purple text */
+.admin-settings-btn--secondary {
+    background: #FFFFFF;
+    border-color: #2F1648;
+    color: #2F1648;
+}
+
+.admin-settings-btn--secondary:hover {
+    background: #2F1648;
+    color: #FFFFFF;
+    border-color: #2F1648;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(47, 22, 72, 0.15);
+}
+
+.admin-settings-btn--secondary:active {
+    background: #2F1648;
+    color: #FFFFFF;
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(47, 22, 72, 0.1);
+}
+
+/* Danger Button - Red background, white text (for Delete actions) */
+.admin-settings-btn--danger {
+    background: rgba(239, 68, 68, 0.9);
+    border-color: rgba(239, 68, 68, 0.9);
+    color: #FFFFFF;
+    padding: 4px 8px;
+    height: auto;
+    font-size: 0.75rem;
+    line-height: 1rem;
+}
+
+.admin-settings-btn--danger:hover {
+    background: #FFFFFF;
+    color: #EF4444;
+    border-color: #EF4444;
+    transform: scale(1.05);
+}
+
+.admin-settings-btn--danger:active {
+    background: #FFFFFF;
+    color: #EF4444;
+    transform: scale(1);
+}
+
 /* Base Container */
 .admin-site-settings {
     /* Box Model */
@@ -30,8 +134,8 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    padding: 16px 24px;
-    gap: 24px;
+    padding: 32px;
+    gap: 22px;
     width: 100%;
     
     /* Visual */
@@ -71,7 +175,7 @@
     font-size: 24px;
     line-height: 32px;
     color: #111827;
-    margin: 0;
+    margin: 0 0 4px 0;
     
     /* Layout */
     flex: none;
@@ -79,26 +183,16 @@
     flex-grow: 0;
 }
 
-/* Edit Bank Details Button */
-.donation-settings__btn-edit {
-    /* Box Model */
-    padding: 12px 24px;
-    height: 48px;
-    
+/* Donation Settings Description */
+.donation-settings__description {
     /* Typography */
     font-family: 'Poppins', sans-serif;
     font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 24px;
-    text-align: center;
-    color: #FFFFFF;
-    
-    /* Visual */
-    background: #2F1648;
-    border: none;
-    border-radius: 9999px;
-    cursor: pointer;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #6B7280;
+    margin: 0;
     
     /* Layout */
     flex: none;
@@ -106,11 +200,24 @@
     flex-grow: 0;
 }
 
-.donation-settings__btn-edit:hover {
-    background: #3A1F53;
+/* Donation Settings Actions */
+.donation-settings__actions {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    margin-top: 24px;
+    
+    /* Layout */
+    flex: none;
+    order: 2;
+    flex-grow: 0;
 }
 
-/* Donation Settings Form Grid */
+/* Donation Settings Form Grid - Matches Our Impact grid styling */
 .donation-settings__form-grid {
     /* Box Model */
     display: flex;
@@ -193,53 +300,6 @@
     border-color: #2F1648;
 }
 
-/* Donation Settings Actions */
-.donation-settings__actions {
-    /* Box Model */
-    display: flex;
-    flex-direction: row;
-    gap: 16px;
-    justify-content: flex-end;
-    align-items: center;
-    width: 100%;
-    
-    /* Layout */
-    flex: none;
-    order: 2;
-    flex-grow: 0;
-}
-
-/* Save Button */
-.donation-settings__btn-save {
-    /* Box Model */
-    padding: 12px 24px;
-    height: 48px;
-    
-    /* Typography */
-    font-family: 'Poppins', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 24px;
-    text-align: center;
-    color: #FFFFFF;
-    
-    /* Visual */
-    background: #16A34A;
-    border: none;
-    border-radius: 9999px;
-    cursor: pointer;
-    
-    /* Layout */
-    flex: none;
-    order: 1;
-    flex-grow: 0;
-}
-
-.donation-settings__btn-save:hover {
-    background: #15803D;
-}
-
 /* Hidden Utility Class */
 .hidden {
     display: none !important;
@@ -299,11 +359,36 @@
     font-size: 24px;
     line-height: 32px;
     color: #111827;
-    margin: 0;
+    margin: 0 0 4px 0;
     
     /* Layout */
     flex: none;
     order: 0;
+    flex-grow: 0;
+}
+
+/* Privacy Editor Header */
+.privacy-editor__header {
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+/* Privacy Editor Description */
+.privacy-editor__description {
+    /* Typography */
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #6B7280;
+    margin: 0;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
     flex-grow: 0;
 }
 
@@ -425,6 +510,7 @@
     flex-direction: row;
     gap: 10px;
     width: 100%;
+    margin-top: 24px;
     
     /* Layout */
     flex: none;
@@ -433,66 +519,11 @@
     flex-grow: 0;
 }
 
-/* Privacy Editor Buttons */
-.privacy-editor__btn-save {
-    /* Box Model */
-    padding: 16px 36px;
-    height: 56px;
-    
-    /* Typography */
-    font-family: 'Poppins', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 24px;
-    text-align: center;
-    color: #FFFFFF;
-    
-    /* Visual */
-    background: #2F1648;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    
-    /* Layout */
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-}
-
-.privacy-editor__btn-save:hover {
-    background: #3A1F53;
-}
-
+/* Privacy Editor button specifics - Override padding for larger buttons */
+.privacy-editor__btn-save,
 .privacy-editor__btn-discard {
-    /* Box Model */
-    box-sizing: border-box;
     padding: 16px 36px;
     height: 56px;
-    
-    /* Typography */
-    font-family: 'Poppins', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 24px;
-    text-align: center;
-    color: #2F1648;
-    
-    /* Visual */
-    background: #FFFFFF;
-    border: 1px solid #4B5563;
-    border-radius: 8px;
-    cursor: pointer;
-    
-    /* Layout */
-    flex: none;
-    order: 1;
-    flex-grow: 0;
-}
-
-.privacy-editor__btn-discard:hover {
-    background: #F9FAFB;
 }
 
 /* =========================================================
@@ -545,11 +576,28 @@
     font-size: 20px;
     line-height: 28px;
     color: #2F1648;
-    margin: 0;
+    margin: 0 0 4px 0;
     
     /* Layout */
     flex: none;
     order: 0;
+    flex-grow: 0;
+}
+
+/* Gallery Page Description */
+.gallery-page__description {
+    /* Typography */
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #6B7280;
+    margin: 0;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
     flex-grow: 0;
 }
 
@@ -818,6 +866,7 @@
     align-items: center;
     gap: 16px;
     width: 100%;
+    margin-top: 24px;
     
     /* Layout */
     flex: none;
@@ -826,67 +875,12 @@
     flex-grow: 0;
 }
 
-/* Gallery Page Button - Add Photo */
-.gallery-page__btn-add {
-    /* Box Model */
-    padding: 11px 24px;
-    height: 42px;
-    
-    /* Typography */
-    font-family: 'Inter', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 19px;
-    text-align: center;
-    color: #FFFFFF;
-    
-    /* Visual */
-    background: #2F1648;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    
-    /* Layout */
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-}
-
-.gallery-page__btn-add:hover {
-    background: #3A1F53;
-}
-
-/* Gallery Page Button - Cancel */
+/* Gallery Page Button size overrides - Smaller buttons for gallery */
+.gallery-page__btn-add,
 .gallery-page__btn-cancel {
-    /* Box Model */
-    box-sizing: border-box;
-    padding: 11px 24px;
     height: 42px;
-    
-    /* Typography */
     font-family: 'Inter', sans-serif;
-    font-style: normal;
     font-weight: 400;
-    font-size: 16px;
-    line-height: 19px;
-    text-align: center;
-    color: #374151;
-    
-    /* Visual */
-    background: #FFFFFF;
-    border: 1px solid #D1D5DB;
-    border-radius: 8px;
-    cursor: pointer;
-    
-    /* Layout */
-    flex: none;
-    order: 1;
-    flex-grow: 0;
-}
-
-.gallery-page__btn-cancel:hover {
-    background: #F9FAFB;
 }
 
 /* =========================================================
@@ -924,11 +918,36 @@
     font-size: 24px;
     line-height: 32px;
     color: #111827;
-    margin: 0;
+    margin: 0 0 4px 0;
     
     /* Layout */
     flex: none;
     order: 0;
+    flex-grow: 0;
+}
+
+/* Our Impact Header */
+.our-impact__header {
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+/* Our Impact Description */
+.our-impact__description {
+    /* Typography */
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #6B7280;
+    margin: 0;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
     flex-grow: 0;
 }
 
@@ -1013,6 +1032,19 @@
 .our-impact__input:focus {
     outline: none;
     border-color: #2F1648;
+}
+
+/* Our Impact Actions */
+.our-impact__actions {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    margin-top: 24px;
+    
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
 }
 
 /* =========================================================

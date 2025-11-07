@@ -19,10 +19,12 @@
                 and build resilience together. You're not alone in your journey.
             </p>
             <div class="home-hero__actions">
-                <a class="home-hero__btn" asp-area="" asp-controller="Auth" asp-action="Auth" asp-route-mode="register">
+                <a class="btn btn--primary btn--large" 
+                   asp-area="" asp-controller="Auth" asp-action="Auth" asp-route-mode="register">
                     Join Our Community
                 </a>
-                <a class="home-hero__btn home-hero__btn--secondary" asp-area="" asp-controller="Home" asp-action="About">
+                <a class="btn btn--secondary btn--large" 
+                   asp-area="" asp-controller="Home" asp-action="About">
                     Learn More
                 </a>
             </div>
@@ -67,7 +69,7 @@
                             <div class="home-stories__author">
                                 <span class="home-stories__author-name">@story.AuthorName</span>
                             </div>
-                            <a class="home-stories__read-more" asp-area="" asp-controller="Stories" asp-action="Details" asp-route-id="@story.StoryId">
+                            <a class="btn home-stories__read-more-btn" asp-area="" asp-controller="Stories" asp-action="Details" asp-route-id="@story.StoryId">
                                 Read More
                             </a>
                         </div>
@@ -85,7 +87,7 @@
                         <div class="home-stories__author">
                             <span class="home-stories__author-name">Healing in Writing</span>
                         </div>
-                        <a class="home-stories__read-more" asp-area="" asp-controller="Stories" asp-action="Submit">
+                        <a class="btn home-stories__read-more-btn" asp-area="" asp-controller="Stories" asp-action="Submit">
                             Share Your Story
                         </a>
                     </div>
@@ -95,7 +97,8 @@
         
         <!-- View All CTA -->
         <div class="home-stories__cta">
-            <a class="home-stories__btn" asp-area="" asp-controller="Stories" asp-action="Index">
+            <a class="btn btn--secondary" 
+               asp-area="" asp-controller="Stories" asp-action="Index">
                 View All Stories
             </a>
         </div>
@@ -156,7 +159,8 @@
                         </div>
                     </div>
 
-                    <a class="home-events__btn" asp-area="" asp-controller="Events" asp-action="Details" asp-route-id="@Model.FeaturedEvent.Id">
+                    <a class="btn btn--primary" 
+                       asp-area="" asp-controller="Events" asp-action="Details" asp-route-id="@Model.FeaturedEvent.Id">
                         Join Event
                     </a>
                 </div>
@@ -216,7 +220,7 @@
                             }
                         </div>
 
-                        <a class="home-events__card-btn" asp-area="" asp-controller="Events" asp-action="Details" asp-route-id="@eventItem.Id">
+                        <a class="btn btn--secondary btn--small" asp-area="" asp-controller="Events" asp-action="Details" asp-route-id="@eventItem.Id">
                             Learn More
                         </a>
                     </article>

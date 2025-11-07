@@ -618,6 +618,8 @@
     width: 100%;
 }
 
+/* About CTA Buttons - Custom styling for CTA section 
+   These buttons appear on a colored background, so they need special colors */
 .about-cta__btn {
     /* Box model */
     display: inline-flex;
@@ -641,30 +643,48 @@
     transition: all 0.3s ease;
 }
 
+/* Primary Button - Join Our Community 
+   Default: White background, dark purple text
+   Hover: Dark purple background, white text */
 .about-cta__btn--primary {
-    /* Visual */
     background: #FFFFFF;
     color: #2F1648;
-    border: none;
+    border: 2px solid #FFFFFF;
 }
 
 .about-cta__btn--primary:hover {
-    /* Visual */
-    background: rgba(255, 255, 255, 0.9);
+    background: #2F1648;
+    color: #FFFFFF;
+    border-color: #2F1648;
     transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(47, 22, 72, 0.3);
 }
 
+.about-cta__btn--primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(47, 22, 72, 0.2);
+}
+
+/* Secondary Button - Read Stories 
+   Default: Transparent background, white text/border
+   Hover: White background, dark purple text */
 .about-cta__btn--secondary {
-    /* Visual */
     background: transparent;
     color: #FFFFFF;
     border: 2px solid #FFFFFF;
 }
 
 .about-cta__btn--secondary:hover {
-    /* Visual */
-    background: rgba(255, 255, 255, 0.1);
+    background: #FFFFFF;
+    color: #2F1648;
+    border-color: #FFFFFF;
     transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(255, 255, 255, 0.3);
+}
+
+.about-cta__btn--secondary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.2);
 }
 
 /* =========================================================

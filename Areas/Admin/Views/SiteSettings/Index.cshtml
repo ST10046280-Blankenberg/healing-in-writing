@@ -12,7 +12,10 @@
     <!-- Donation Settings Section -->
     <section class="donation-settings">
         <div class="donation-settings__header">
-            <h2 class="donation-settings__title">Donation Settings</h2>
+            <div>
+                <h2 class="donation-settings__title">Bank Account Details</h2>
+                <p class="donation-settings__description">Manage the bank account information displayed on the donation page</p>
+            </div>
         </div>
         
         @if (TempData["Success"] != null)
@@ -67,8 +70,8 @@
             </div>
             
             <div class="donation-settings__actions">
-                <button type="button" id="editBtn" class="donation-settings__btn-edit">Edit</button>
-                <button type="submit" id="saveBtn" class="donation-settings__btn-save hidden">Save</button>
+                <button type="button" id="editBtn" class="admin-settings-btn admin-settings-btn--primary donation-settings__btn-edit">Edit</button>
+                <button type="submit" id="saveBtn" class="admin-settings-btn admin-settings-btn--primary donation-settings__btn-save hidden">Save</button>
             </div>
         </form>
     </section>
@@ -78,7 +81,10 @@
         
         <!-- Privacy & Terms Editor -->
         <section class="privacy-editor">
-            <h2 class="privacy-editor__title">Privacy & Terms Editor</h2>
+            <div class="privacy-editor__header">
+                <h2 class="privacy-editor__title">Privacy & Terms Editor</h2>
+                <p class="privacy-editor__description">Edit the privacy policy and terms of service content</p>
+            </div>
             @if (TempData["PrivacySuccess"] != null)
             {
                 <div class="alert alert-success" style="padding: 12px; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 8px; color: #155724; margin-bottom: 16px;">
@@ -113,8 +119,8 @@
                     <span asp-validation-for="PrivacyPolicy.Content" class="text-danger"></span>
                 </div>
                 <div class="privacy-editor__actions">
-                    <button type="submit" class="privacy-editor__btn-save">Save</button>
-                    <button type="reset" class="privacy-editor__btn-discard">Discard</button>
+                    <button type="submit" class="admin-settings-btn admin-settings-btn--primary privacy-editor__btn-save">Save</button>
+                    <button type="reset" class="admin-settings-btn admin-settings-btn--secondary privacy-editor__btn-discard">Discard</button>
                 </div>
             </form>
         </section>
@@ -122,7 +128,10 @@
         <!-- Gallery Page -->
         <section class="gallery-page">
             <div class="gallery-page__header">
-                <h3 class="gallery-page__title">Gallery Management</h3>
+                <div>
+                    <h3 class="gallery-page__title">Gallery Management</h3>
+                    <p class="gallery-page__description">Upload and manage photos for the gallery page</p>
+                </div>
             </div>
             
             @if (TempData["GallerySuccess"] != null)
@@ -207,8 +216,8 @@
                 </div>
                 
                 <div class="gallery-page__actions">
-                    <button type="submit" class="gallery-page__btn-add">Add Photo</button>
-                    <button type="reset" class="gallery-page__btn-cancel">Clear</button>
+                    <button type="submit" class="admin-settings-btn admin-settings-btn--primary gallery-page__btn-add">Add Photo</button>
+                    <button type="reset" class="admin-settings-btn admin-settings-btn--secondary gallery-page__btn-cancel">Clear</button>
                 </div>
             </form>
             
@@ -236,7 +245,7 @@
                                 <form asp-area="Admin" asp-controller="SiteSettings" asp-action="DeleteGalleryItem" method="post" style="position: absolute; top: 8px; right: 8px;">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="id" value="@item.Id" />
-                                    <button type="submit" onclick="return confirm('Delete this photo?')" style="background: rgba(239, 68, 68, 0.9); color: white; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer; font-size: 0.75rem;">Delete</button>
+                                    <button type="submit" onclick="return confirm('Delete this photo?')" class="admin-settings-btn admin-settings-btn--danger gallery-item__btn-delete">Delete</button>
                                 </form>
                             </div>
                         }
@@ -249,7 +258,10 @@
     
     <!-- Our Impact Section -->
     <section class="our-impact">
-        <h2 class="our-impact__title">Our Impact</h2>
+        <div class="our-impact__header">
+            <h2 class="our-impact__title">Our Impact Metrics</h2>
+            <p class="our-impact__description">Update the impact statistics displayed on the home page</p>
+        </div>
         
         @if (TempData["OurImpactSuccess"] != null)
         {
@@ -289,103 +301,103 @@
                 </div>
             </div>
             
-            <div class="our-impact__actions" style="margin-top: 16px; display: flex; gap: 12px;">
-                <button type="submit" class="our-impact__btn-save" style="padding: 10px 20px; background: #4f46e5; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Save</button>
+            <div class="our-impact__actions">
+                <button type="submit" class="admin-settings-btn admin-settings-btn--primary our-impact__btn-save">Save</button>
             </div>
         </form>
     </section>
     
-    <!-- Featured Stories Section -->
-    <section class="featured-stories">
-        <h2 class="featured-stories__title">Featured Stories</h2>
-        
-        <!-- Search Bar Component -->
-        <div class="search-bar">
-            <div class="search-bar__filters-row">
-                <div class="search-bar__input-container">
-                    <svg class="search-bar__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path fill="#9CA3AF" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-                    </svg>
-                    <input type="text" class="search-bar__input" placeholder="Search..." />
-                </div>
-                
-                <div class="search-bar__dropdown">
-                    <span class="search-bar__dropdown-label">Any Date</span>
-                    <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path fill="#000000" d="M7 10l5 5 5-5z"/>
-                    </svg>
-                </div>
-                
-                <div class="search-bar__dropdown">
-                    <span class="search-bar__dropdown-label">Any Tags</span>
-                    <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path fill="#000000" d="M7 10l5 5 5-5z"/>
-                    </svg>
-                </div>
-                
-                <div class="search-bar__dropdown">
-                    <span class="search-bar__dropdown-label">Newest</span>
-                    <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path fill="#000000" d="M7 10l5 5 5-5z"/>
-                    </svg>
-                </div>
-                
-                <button class="search-bar__button">
-                    <svg class="search-bar__button-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path fill="#FFFFFF" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-                    </svg>
-                    <span class="search-bar__button-label">Search</span>
-                </button>
-            </div>
-        </div>
-        
-        <div class="featured-stories__list">
-            <div class="featured-stories__checkbox-item">
-                <input type="checkbox" class="featured-stories__checkbox" id="story1" />
-                <label for="story1" class="featured-stories__checkbox-label">Sarah's Journey to Recovery</label>
-            </div>
-            
-            <div class="featured-stories__checkbox-item">
-                <input type="checkbox" class="featured-stories__checkbox" id="story2" />
-                <label for="story2" class="featured-stories__checkbox-label">Sarah's Journey to Recovery</label>
-            </div>
-            
-            <div class="featured-stories__checkbox-item">
-                <input type="checkbox" class="featured-stories__checkbox" id="story3" />
-                <label for="story3" class="featured-stories__checkbox-label">Sarah's Journey to Recovery</label>
-            </div>
-            
-            <div class="featured-stories__checkbox-item">
-                <input type="checkbox" class="featured-stories__checkbox" id="story4" />
-                <label for="story4" class="featured-stories__checkbox-label">Sarah's Journey to Recovery</label>
-            </div>
-            
-            <div class="featured-stories__checkbox-item">
-                <input type="checkbox" class="featured-stories__checkbox" id="story5" />
-                <label for="story5" class="featured-stories__checkbox-label">Sarah's Journey to Recovery</label>
-            </div>
-            
-            <div class="featured-stories__checkbox-item">
-                <input type="checkbox" class="featured-stories__checkbox" id="story6" />
-                <label for="story6" class="featured-stories__checkbox-label">Sarah's Journey to Recovery</label>
-            </div>
-            
-            <div class="featured-stories__checkbox-item">
-                <input type="checkbox" class="featured-stories__checkbox" id="story7" />
-                <label for="story7" class="featured-stories__checkbox-label">Sarah's Journey to Recovery</label>
-            </div>
-            
-            <div class="featured-stories__checkbox-item">
-                <input type="checkbox" class="featured-stories__checkbox" id="story8" />
-                <label for="story8" class="featured-stories__checkbox-label">Sarah's Journey to Recovery</label>
-            </div>
-            
-            <div class="featured-stories__checkbox-item">
-                <input type="checkbox" class="featured-stories__checkbox" id="story9" />
-                <label for="story9" class="featured-stories__checkbox-label">Sarah's Journey to Recovery</label>
-            </div>
-        </div>
-    </section>
+    @* <!-- Featured Stories Section --> *@
+    @* <section class="featured-stories"> *@
+    @*     <h2 class="featured-stories__title">Featured Stories</h2> *@
+    @*      *@
+    @*     <!-- Search Bar Component --> *@
+    @*     <div class="search-bar"> *@
+    @*         <div class="search-bar__filters-row"> *@
+    @*             <div class="search-bar__input-container"> *@
+    @*                 <svg class="search-bar__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> *@
+    @*                     <path fill="#9CA3AF" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/> *@
+    @*                 </svg> *@
+    @*                 <input type="text" class="search-bar__input" placeholder="Search..." /> *@
+    @*             </div> *@
+    @*              *@
+    @*             <div class="search-bar__dropdown"> *@
+    @*                 <span class="search-bar__dropdown-label">Any Date</span> *@
+    @*                 <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> *@
+    @*                     <path fill="#000000" d="M7 10l5 5 5-5z"/> *@
+    @*                 </svg> *@
+    @*             </div> *@
+    @*              *@
+    @*             <div class="search-bar__dropdown"> *@
+    @*                 <span class="search-bar__dropdown-label">Any Tags</span> *@
+    @*                 <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> *@
+    @*                     <path fill="#000000" d="M7 10l5 5 5-5z"/> *@
+    @*                 </svg> *@
+    @*             </div> *@
+    @*              *@
+    @*             <div class="search-bar__dropdown"> *@
+    @*                 <span class="search-bar__dropdown-label">Newest</span> *@
+    @*                 <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> *@
+    @*                     <path fill="#000000" d="M7 10l5 5 5-5z"/> *@
+    @*                 </svg> *@
+    @*             </div> *@
+    @*              *@
+    @*             <button class="search-bar__button"> *@
+    @*                 <svg class="search-bar__button-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> *@
+    @*                     <path fill="#FFFFFF" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/> *@
+    @*                 </svg> *@
+    @*                 <span class="search-bar__button-label">Search</span> *@
+    @*             </button> *@
+    @*         </div> *@
+    @*     </div> *@
+    @*      *@
+    @*     <div class="featured-stories__list"> *@
+    @*         <div class="featured-stories__checkbox-item"> *@
+    @*             <input type="checkbox" class="featured-stories__checkbox" id="story1" /> *@
+    @*             <label for="story1" class="featured-stories__checkbox-label">Sarah's Journey to Recovery</label> *@
+    @*         </div> *@
+    @*          *@
+    @*         <div class="featured-stories__checkbox-item"> *@
+    @*             <input type="checkbox" class="featured-stories__checkbox" id="story2" /> *@
+    @*             <label for="story2" class="featured-stories__checkbox-label">Sarah's Journey to Recovery</label> *@
+    @*         </div> *@
+    @*          *@
+    @*         <div class="featured-stories__checkbox-item"> *@
+    @*             <input type="checkbox" class="featured-stories__checkbox" id="story3" /> *@
+    @*             <label for="story3" class="featured-stories__checkbox-label">Sarah's Journey to Recovery</label> *@
+    @*         </div> *@
+    @*          *@
+    @*         <div class="featured-stories__checkbox-item"> *@
+    @*             <input type="checkbox" class="featured-stories__checkbox" id="story4" /> *@
+    @*             <label for="story4" class="featured-stories__checkbox-label">Sarah's Journey to Recovery</label> *@
+    @*         </div> *@
+    @*          *@
+    @*         <div class="featured-stories__checkbox-item"> *@
+    @*             <input type="checkbox" class="featured-stories__checkbox" id="story5" /> *@
+    @*             <label for="story5" class="featured-stories__checkbox-label">Sarah's Journey to Recovery</label> *@
+    @*         </div> *@
+    @*          *@
+    @*         <div class="featured-stories__checkbox-item"> *@
+    @*             <input type="checkbox" class="featured-stories__checkbox" id="story6" /> *@
+    @*             <label for="story6" class="featured-stories__checkbox-label">Sarah's Journey to Recovery</label> *@
+    @*         </div> *@
+    @*          *@
+    @*         <div class="featured-stories__checkbox-item"> *@
+    @*             <input type="checkbox" class="featured-stories__checkbox" id="story7" /> *@
+    @*             <label for="story7" class="featured-stories__checkbox-label">Sarah's Journey to Recovery</label> *@
+    @*         </div> *@
+    @*          *@
+    @*         <div class="featured-stories__checkbox-item"> *@
+    @*             <input type="checkbox" class="featured-stories__checkbox" id="story8" /> *@
+    @*             <label for="story8" class="featured-stories__checkbox-label">Sarah's Journey to Recovery</label> *@
+    @*         </div> *@
+    @*          *@
+    @*         <div class="featured-stories__checkbox-item"> *@
+    @*             <input type="checkbox" class="featured-stories__checkbox" id="story9" /> *@
+    @*             <label for="story9" class="featured-stories__checkbox-label">Sarah's Journey to Recovery</label> *@
+    @*         </div> *@
+    @*     </div> *@
+    @* </section> *@
     
 </main>
 @section Scripts {
