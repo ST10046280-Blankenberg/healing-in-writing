@@ -134,8 +134,8 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    padding: 16px 24px;
-    gap: 24px;
+    padding: 32px;
+    gap: 22px;
     width: 100%;
     
     /* Visual */
@@ -175,11 +175,28 @@
     font-size: 24px;
     line-height: 32px;
     color: #111827;
-    margin: 0;
+    margin: 0 0 4px 0;
     
     /* Layout */
     flex: none;
     order: 0;
+    flex-grow: 0;
+}
+
+/* Donation Settings Description */
+.donation-settings__description {
+    /* Typography */
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #6B7280;
+    margin: 0;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
     flex-grow: 0;
 }
 
@@ -192,11 +209,95 @@
     justify-content: flex-end;
     align-items: center;
     width: 100%;
+    margin-top: 24px;
     
     /* Layout */
     flex: none;
     order: 2;
     flex-grow: 0;
+}
+
+/* Donation Settings Form Grid - Matches Our Impact grid styling */
+.donation-settings__form-grid {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 24px;
+    width: 100%;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+/* Form Field */
+.donation-settings__field {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: calc(50% - 12px);
+    min-width: 300px;
+    
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+/* Field Label */
+.donation-settings__label {
+    /* Typography */
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    color: #374151;
+    margin: 0;
+    
+    /* Layout */
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* Field Input */
+.donation-settings__input {
+    /* Box Model */
+    box-sizing: border-box;
+    padding: 16px;
+    height: 56px;
+    
+    /* Typography */
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #6B7280;
+    
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid #D1D5DB;
+    border-radius: 12px;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.donation-settings__input::placeholder {
+    color: #ADAEBC;
+}
+
+.donation-settings__input:focus {
+    outline: none;
+    border-color: #2F1648;
 }
 
 /* Hidden Utility Class */
@@ -258,11 +359,36 @@
     font-size: 24px;
     line-height: 32px;
     color: #111827;
-    margin: 0;
+    margin: 0 0 4px 0;
     
     /* Layout */
     flex: none;
     order: 0;
+    flex-grow: 0;
+}
+
+/* Privacy Editor Header */
+.privacy-editor__header {
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+/* Privacy Editor Description */
+.privacy-editor__description {
+    /* Typography */
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #6B7280;
+    margin: 0;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
     flex-grow: 0;
 }
 
@@ -384,6 +510,7 @@
     flex-direction: row;
     gap: 10px;
     width: 100%;
+    margin-top: 24px;
     
     /* Layout */
     flex: none;
@@ -449,11 +576,28 @@
     font-size: 20px;
     line-height: 28px;
     color: #2F1648;
-    margin: 0;
+    margin: 0 0 4px 0;
     
     /* Layout */
     flex: none;
     order: 0;
+    flex-grow: 0;
+}
+
+/* Gallery Page Description */
+.gallery-page__description {
+    /* Typography */
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #6B7280;
+    margin: 0;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
     flex-grow: 0;
 }
 
@@ -722,6 +866,7 @@
     align-items: center;
     gap: 16px;
     width: 100%;
+    margin-top: 24px;
     
     /* Layout */
     flex: none;
@@ -773,11 +918,36 @@
     font-size: 24px;
     line-height: 32px;
     color: #111827;
-    margin: 0;
+    margin: 0 0 4px 0;
     
     /* Layout */
     flex: none;
     order: 0;
+    flex-grow: 0;
+}
+
+/* Our Impact Header */
+.our-impact__header {
+    /* Layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+/* Our Impact Description */
+.our-impact__description {
+    /* Typography */
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #6B7280;
+    margin: 0;
+    
+    /* Layout */
+    flex: none;
+    order: 1;
     flex-grow: 0;
 }
 
@@ -862,6 +1032,19 @@
 .our-impact__input:focus {
     outline: none;
     border-color: #2F1648;
+}
+
+/* Our Impact Actions */
+.our-impact__actions {
+    /* Box Model */
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    margin-top: 24px;
+    
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
 }
 
 /* =========================================================
