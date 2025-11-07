@@ -1,4 +1,5 @@
 @model HealingInWriting.Models.Admin.ReportsDashboardViewModel
+@using HealingInWriting.Models.Shared
 
 @{
     ViewData["Title"] = "Admin Reports";
@@ -9,7 +10,42 @@
 <main>
     <div class="admin-reports">
         <!-- Search and Filter Bar -->
-        <partial name="_ReportsSearchBar" model="Model.Filters" />
+        @{
+            var searchConfig = new AdminSearchBarConfig
+            {
+                Controller = "Reports",
+                Action = "Index",
+                SearchPlaceholder = "Search events or categories...",
+                SearchInputName = "SearchText",
+                Dropdowns = new List<AdminFilterDropdown>
+                {
+                    new()
+                    {
+                        Name = "StockStatus",
+                        Label = "All Stock Levels",
+                        Options = new List<AdminDropdownOption>
+                        {
+                            new() { Value = "critical", Text = "Critical (<50)", Selected = Model.Filters.StockStatus == "critical" },
+                            new() { Value = "low", Text = "Low (50-99)", Selected = Model.Filters.StockStatus == "low" },
+                            new() { Value = "good", Text = "Good (100+)", Selected = Model.Filters.StockStatus == "good" }
+                        }
+                    },
+                    new()
+                    {
+                        Name = "SortBy",
+                        Label = "Sort By",
+                        Options = new List<AdminDropdownOption>
+                        {
+                            new() { Value = "attendance-desc", Text = "Attendance ↓", Selected = Model.Filters.SortBy == "attendance-desc" },
+                            new() { Value = "attendance-asc", Text = "Attendance ↑", Selected = Model.Filters.SortBy == "attendance-asc" },
+                            new() { Value = "stock-desc", Text = "Stock ↓", Selected = Model.Filters.SortBy == "stock-desc" },
+                            new() { Value = "stock-asc", Text = "Stock ↑", Selected = Model.Filters.SortBy == "stock-asc" }
+                        }
+                    }
+                }
+            };
+        }
+        <partial name="_AdminSearchBar" model="(searchConfig, Model.Filters.SearchText ?? string.Empty)" />
 
         <!-- Event Attendance Chart -->
         @{
