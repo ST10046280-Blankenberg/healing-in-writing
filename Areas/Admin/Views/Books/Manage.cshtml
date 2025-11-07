@@ -45,12 +45,12 @@
         </div>@* TODO: Remove in production. *@
     </header>
 
-    <!-- Search Bar with AJAX Filter -->
+    <!-- Search Bar with Filter -->
     @{
         var searchConfig = new AdminSearchBarConfig
         {
             Controller = "Books",
-            SearchPlaceholder = "Search books...",
+            SearchPlaceholder = "Search by title, author, or ISBN...",
             SearchInputName = "searchTerm",
             Dropdowns = new List<AdminFilterDropdown>
             {
@@ -58,6 +58,7 @@
                 {
                     Name = "selectedCategory",
                     Label = "Any Category",
+                    SelectedValue = Model.SelectedCategory,
                     Options = Model.AvailableCategories.Select(c => new AdminDropdownOption
                     {
                         Value = c,
@@ -69,6 +70,7 @@
                 {
                     Name = "selectedAuthor",
                     Label = "Any Author",
+                    SelectedValue = Model.SelectedAuthor,
                     Options = Model.AvailableAuthors.Select(a => new AdminDropdownOption
                     {
                         Value = a,
@@ -79,39 +81,49 @@
             }
         };
     }
-    <partial name="_AdminSearchBar" model="(searchConfig, Model.SelectedCategory ?? string.Empty)" />
+    <partial name="_AdminSearchBar" model="(searchConfig, Model.SearchTerm ?? string.Empty)" />
 
     <!-- Book Inventory Section -->
     <main class="manage-books__inventory">
-        <div class="manage-books__inventory-container">
-            <div class="manage-books__inventory-header">
-                <h2 class="manage-books__inventory-title">Book Inventory</h2>
+        @if (!Model.Books.Any())
+        {
+            <div class="manage-books__empty">
+                <p class="manage-books__empty-text">No books found matching your criteria.</p>
             </div>
+        }
+        else
+        {
+            <div class="manage-books__inventory-container">
+                <div class="manage-books__inventory-header">
+                    <h2 class="manage-books__inventory-title">Book Inventory</h2>
+                </div>
 
-            <table class="manage-books__table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Author</th>
-                        <th>Category</th>
-                        <th>Quantity</th>
-                        <th>Condition</th>
-                        <th>Visible</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="books-list-container">
-                    @Html.Partial("_BookInventoryRow", Model.Books)
-                </tbody>
-            </table>
-        </div>
-        <!-- Pagination Controls -->
-        <div id="books-pagination"
-             data-total-count="@ViewBag.TotalCount"
-             data-page-size="@ViewBag.PageSize">
-            <button class="pagination__btn" data-page="prev">Prev</button>
-            <span id="pagination-current">1</span> / <span id="pagination-total">1</span>
-            <button class="pagination__btn" data-page="next">Next</button>
-        </div>
+                <table class="manage-books__table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Author</th>
+                            <th>Category</th>
+                            <th>Quantity</th>
+                            <th>Condition</th>
+                            <th>Visible</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="books-list-container">
+                        @Html.Partial("_BookInventoryRow", Model.Books)
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination Controls -->
+            <div id="books-pagination"
+                 data-total-count="@ViewBag.TotalCount"
+                 data-page-size="@ViewBag.PageSize">
+                <button class="pagination__btn" data-page="prev">Prev</button>
+                <span id="pagination-current">@ViewBag.CurrentPage</span> / <span id="pagination-total">@Math.Ceiling((double)ViewBag.TotalCount / ViewBag.PageSize)</span>
+                <button class="pagination__btn" data-page="next">Next</button>
+            </div>
+        }
     </main>
 </div>
