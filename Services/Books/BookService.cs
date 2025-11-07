@@ -27,6 +27,7 @@ public class BookService : IBookService
     "9780765326355", // The Way of Kings
     "9780399590504", // Educated
     "9780735211292", // Atomic Habits
+    /*
     "9780062316097", // Sapiens
     "9780143127741", // The Martian
     "9781501124020", // The Power of Habit
@@ -126,6 +127,7 @@ public class BookService : IBookService
     "9780307277671", // The Night Circus
     "9781451673319", // Fahrenheit 451
     "9780307743657"  // The Silent Patient (duplicate allowed for real datasets, but can be replaced)
+    */
 };
 
     public BookService(
