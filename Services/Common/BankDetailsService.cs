@@ -23,7 +23,9 @@ namespace HealingInWriting.Services.Common
                 entity = new BankDetails
                 {
                     BankName = "Not Set",
+                    AccountName = "Not Set",
                     AccountNumber = "Not Set",
+                    AccountType = "Not Set",
                     Branch = "Not Set",
                     BranchCode = "Not Set",
                     UpdatedBy = "System",

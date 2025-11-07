@@ -10,7 +10,9 @@ public static class BankDetailsMappingExtensions
         {
             Id = entity.Id,
             BankName = entity.BankName,
+            AccountName = entity.AccountName,
             AccountNumber = entity.AccountNumber,
+            AccountType = entity.AccountType,
             Branch = entity.Branch ?? string.Empty,
             BranchCode = entity.BranchCode ?? string.Empty,
             RowVersion = entity.RowVersion
@@ -23,7 +25,9 @@ public static class BankDetailsMappingExtensions
         {
             Id = vm.Id,
             BankName = vm.BankName,
+            AccountName = vm.AccountName,
             AccountNumber = vm.AccountNumber,
+            AccountType = vm.AccountType,
             Branch = vm.Branch,
             BranchCode = vm.BranchCode,
             RowVersion = vm.RowVersion

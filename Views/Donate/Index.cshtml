@@ -37,6 +37,16 @@
                 </div>
 
                 <div class="donate__field">
+                    <label class="donate__label">Account Name</label>
+                    <div class="donate__value-wrapper">
+                        <span class="donate__value">@Model.AccountName</span>
+                        <button class="donate__copy-btn" data-copy="@Model.AccountName" aria-label="Copy account name">
+                            <i class="fa-regular fa-copy" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="donate__field">
                     <label class="donate__label">Account Number</label>
                     <div class="donate__value-wrapper">
                         <span class="donate__value">@Model.AccountNumber</span>
@@ -47,20 +57,30 @@
                 </div>
 
                 <div class="donate__field">
-                    <label class="donate__label">Branch</label>
+                    <label class="donate__label">Branch Code</label>
                     <div class="donate__value-wrapper">
-                        <span class="donate__value">@Model.Branch</span>
-                        <button class="donate__copy-btn" data-copy="@Model.Branch" aria-label="Copy branch">
+                        <span class="donate__value">@Model.BranchCode</span>
+                        <button class="donate__copy-btn" data-copy="@Model.BranchCode" aria-label="Copy branch code">
                             <i class="fa-regular fa-copy" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
 
                 <div class="donate__field">
-                    <label class="donate__label">Branch Code</label>
+                    <label class="donate__label">Account Type</label>
                     <div class="donate__value-wrapper">
-                        <span class="donate__value">@Model.BranchCode</span>
-                        <button class="donate__copy-btn" data-copy="@Model.BranchCode" aria-label="Copy branch code">
+                        <span class="donate__value">@Model.AccountType</span>
+                        <button class="donate__copy-btn" data-copy="@Model.AccountType" aria-label="Copy account type">
+                            <i class="fa-regular fa-copy" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="donate__field">
+                    <label class="donate__label">Branch</label>
+                    <div class="donate__value-wrapper">
+                        <span class="donate__value">@Model.Branch</span>
+                        <button class="donate__copy-btn" data-copy="@Model.Branch" aria-label="Copy branch">
                             <i class="fa-regular fa-copy" aria-hidden="true"></i>
                         </button>
                     </div>
@@ -141,4 +161,3 @@
 @section Scripts {
     <script src="~/js/donate.js" asp-append-version="true"></script>
 }
-
