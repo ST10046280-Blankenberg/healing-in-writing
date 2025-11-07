@@ -1,109 +1,609 @@
-/* Privacy Policy Page Styles */
-.privacy-policy {
+/* =========================================================
+   Privacy Policy Page Styles
+   Based on Application Design System
+   Following BEM Naming Convention
+   ========================================================= */
+
+/* =========================================================
+   Main Privacy Container
+   ========================================================= */
+
+.privacy {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+
+    /* Visual */
+    background: linear-gradient(165.21deg, #FDF5ED 20.59%, #E9D5EB 77.36%);
+}
+
+/* =========================================================
+   Privacy Body Section
+   ========================================================= */
+
+.privacy__body {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 64px 64px 64px;
+    gap: 32px;
+    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 40px 20px;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
 }
 
-.privacy-policy__container {
-    background: #ffffff;
-    border-radius: 12px;
+/* =========================================================
+   Privacy Container (Card)
+   ========================================================= */
+
+.privacy__container {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     padding: 48px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    gap: 32px;
+    width: 100%;
+
+    /* Visual */
+    background: #FFFFFF;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1), 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
 }
 
-.privacy-policy__title {
-    font-size: 2.5rem;
+/* =========================================================
+   Privacy Introduction
+   ========================================================= */
+
+.privacy__intro {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    padding-bottom: 24px;
+
+    /* Visual */
+    border-bottom: 2px solid #E9D5EB;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.privacy__effective-date {
+    /* Box Model */
+    margin: 0;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #6B7280;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.privacy__intro-text {
+    /* Box Model */
+    margin: 0;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #4B5563;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* =========================================================
+   Privacy Content Sections
+   ========================================================= */
+
+.privacy__content {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: 100%;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* =========================================================
+   Privacy Section
+   ========================================================= */
+
+.privacy__section {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.privacy__section-title {
+    /* Box Model */
+    margin: 0;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
     font-weight: 700;
-    color: #1a202c;
-    margin-bottom: 24px;
-    border-bottom: 3px solid #4f46e5;
-    padding-bottom: 16px;
+    font-size: 22px;
+    line-height: 30px;
+    color: #2F1648;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
 }
 
-.privacy-policy__content {
-    font-size: 1rem;
-    line-height: 1.8;
-    color: #4a5568;
-    margin-bottom: 32px;
+.privacy__section-content {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
 }
 
-.privacy-policy__content h2 {
-    font-size: 1.75rem;
+.privacy__paragraph {
+    /* Box Model */
+    margin: 0;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #4B5563;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.privacy__paragraph strong {
     font-weight: 600;
-    color: #2d3748;
-    margin-top: 32px;
-    margin-bottom: 16px;
+    color: #2F1648;
 }
 
-.privacy-policy__content h3 {
-    font-size: 1.375rem;
-    font-weight: 600;
-    color: #2d3748;
-    margin-top: 24px;
-    margin-bottom: 12px;
-}
-
-.privacy-policy__content p {
-    margin-bottom: 16px;
-}
-
-.privacy-policy__content ul,
-.privacy-policy__content ol {
-    margin-left: 24px;
-    margin-bottom: 16px;
-}
-
-.privacy-policy__content li {
-    margin-bottom: 8px;
-}
-
-.privacy-policy__content strong {
-    font-weight: 600;
-    color: #2d3748;
-}
-
-.privacy-policy__content em {
+.privacy__paragraph em {
     font-style: italic;
 }
 
-.privacy-policy__content a {
-    color: #4f46e5;
+.privacy__paragraph a {
+    color: #2F1648;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.privacy__paragraph a:hover {
+    color: #CA9F9D;
+}
+
+/* =========================================================
+   Privacy Lists
+   ========================================================= */
+
+.privacy__list {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-left: 24px;
+    margin: 0;
+    width: 100%;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.privacy__list-item {
+    /* Box Model */
+    margin: 0;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #4B5563;
+
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
+}
+
+.privacy__list-item strong {
+    font-weight: 600;
+    color: #2F1648;
+}
+
+/* Ordered List */
+.privacy__list--ordered {
+    list-style-type: decimal;
+}
+
+/* Unordered List */
+.privacy__list--unordered {
+    list-style-type: disc;
+}
+
+/* =========================================================
+   Privacy Subsection
+   ========================================================= */
+
+.privacy__subsection {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-left: 20px;
+    width: 100%;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.privacy__subsection-title {
+    /* Box Model */
+    margin: 0;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 26px;
+    color: #2F1648;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* =========================================================
+   Privacy Highlight Box
+   ========================================================= */
+
+.privacy__highlight {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px 24px;
+    width: 100%;
+
+    /* Visual */
+    background: #FDF5ED;
+    border-left: 4px solid #CA9F9D;
+    border-radius: 8px;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.privacy__highlight-title {
+    /* Box Model */
+    margin: 0;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #2F1648;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.privacy__highlight-text {
+    /* Box Model */
+    margin: 0;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 22px;
+    color: #4B5563;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+/* =========================================================
+   Privacy Footer
+   ========================================================= */
+
+.privacy__footer {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 24px;
+    width: 100%;
+    margin-top: 8px;
+
+    /* Visual */
+    border-top: 1px solid #E5E7EB;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.privacy__footer-text {
+    /* Box Model */
+    margin: 0;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #6B7280;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.privacy__contact-info {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 20px 24px;
+    width: 100%;
+
+    /* Visual */
+    background: #F9FAFB;
+    border-radius: 8px;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.privacy__contact-title {
+    /* Box Model */
+    margin: 0;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #2F1648;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.privacy__contact-detail {
+    /* Box Model */
+    margin: 0;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #4B5563;
+
+    /* Layout */
+    flex: none;
+    align-self: stretch;
+    flex-grow: 0;
+}
+
+.privacy__contact-detail a {
+    color: #2F1648;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.privacy__contact-detail a:hover {
+    color: #CA9F9D;
     text-decoration: underline;
 }
 
-.privacy-policy__content a:hover {
-    color: #4338ca;
+/* =========================================================
+   Responsive Design
+   ========================================================= */
+
+/* Tablet (768px - 1023px) */
+@media (max-width: 1023px) {
+    .privacy__body {
+        padding: 32px 32px 48px 32px;
+    }
+
+    .privacy__container {
+        padding: 32px;
+    }
+
+    .privacy__section-title {
+        font-size: 20px;
+        line-height: 28px;
+    }
+
+    .privacy__subsection-title {
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .privacy__paragraph,
+    .privacy__list-item {
+        font-size: 15px;
+        line-height: 22px;
+    }
 }
 
-.privacy-policy__footer {
-    border-top: 1px solid #e2e8f0;
-    padding-top: 24px;
-    margin-top: 32px;
-}
+/* Mobile (max-width: 767px) */
+@media (max-width: 767px) {
+    .privacy__body {
+        padding: 24px 20px 40px 20px;
+    }
 
-.privacy-policy__updated {
-    font-size: 0.875rem;
-    color: #718096;
-    font-style: italic;
-    margin: 0;
-}
-
-@media (max-width: 768px) {
-    .privacy-policy__container {
+    .privacy__container {
         padding: 24px;
+        gap: 24px;
     }
-    
-    .privacy-policy__title {
-        font-size: 2rem;
+
+    .privacy__intro {
+        padding-bottom: 16px;
     }
-    
-    .privacy-policy__content h2 {
-        font-size: 1.5rem;
+
+    .privacy__content {
+        gap: 24px;
     }
-    
-    .privacy-policy__content h3 {
-        font-size: 1.25rem;
+
+    .privacy__section {
+        gap: 12px;
+    }
+
+    .privacy__section-title {
+        font-size: 18px;
+        line-height: 26px;
+    }
+
+    .privacy__subsection {
+        padding-left: 16px;
+    }
+
+    .privacy__subsection-title {
+        font-size: 15px;
+        line-height: 22px;
+    }
+
+    .privacy__paragraph,
+    .privacy__list-item {
+        font-size: 14px;
+        line-height: 21px;
+    }
+
+    .privacy__list {
+        padding-left: 20px;
+    }
+
+    .privacy__highlight {
+        padding: 16px 20px;
+    }
+
+    .privacy__highlight-title {
+        font-size: 15px;
+        line-height: 22px;
+    }
+
+    .privacy__highlight-text {
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    .privacy__contact-info {
+        padding: 16px 20px;
+    }
+
+    .privacy__contact-title {
+        font-size: 15px;
+        line-height: 22px;
+    }
+
+    .privacy__contact-detail {
+        font-size: 13px;
+        line-height: 19px;
     }
 }
 
+/* Small Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+    .privacy__body {
+        padding: 20px 16px 32px 16px;
+    }
+
+    .privacy__container {
+        padding: 20px;
+    }
+
+    .privacy__subsection {
+        padding-left: 12px;
+    }
+
+    .privacy__list {
+        padding-left: 16px;
+    }
+
+    .privacy__highlight {
+        padding: 14px 16px;
+    }
+
+    .privacy__contact-info {
+        padding: 14px 16px;
+    }
+}

@@ -14,20 +14,17 @@ namespace HealingInWriting.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IEventService _eventService;
         private readonly IStoryService _storyService;
-        private readonly IPrivacyPolicyService _privacyPolicyService;
         private readonly IOurImpactService _ourImpactService;
 
         public HomeController(
             ILogger<HomeController> logger,
             IEventService eventService,
             IStoryService storyService,
-            IPrivacyPolicyService privacyPolicyService,
             IOurImpactService ourImpactService)
         {
             _logger = logger;
             _eventService = eventService;
             _storyService = storyService;
-            _privacyPolicyService = privacyPolicyService;
             _ourImpactService = ourImpactService;
         }
 
@@ -166,11 +163,9 @@ namespace HealingInWriting.Controllers
             return View(ourImpact != null ? ourImpact.ToViewModel() : new OurImpactViewModel());
         }
 
-        // TODO: Keep privacy content generation inside the service layer.
-        public async Task<IActionResult> Privacy()
+        public IActionResult Privacy()
         {
-            var privacyPolicy = await _privacyPolicyService.GetAsync();
-            return View(privacyPolicy != null ? privacyPolicy.ToViewModel() : new PrivacyPolicyViewModel());
+            return View();
         }
 
         // TODO: Let the service surface diagnostics while the controller returns the view.
