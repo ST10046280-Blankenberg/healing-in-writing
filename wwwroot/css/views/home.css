@@ -1,5 +1,6 @@
 /* Import Global Variables */
 @import url('../base/_variables.css');
+@import url('../base/buttons.css');
 
 /* =========================================================
    Home Page - Hero Section
@@ -69,71 +70,70 @@
 }
 
 .home-hero__actions {
-    /* Box model */
     display: flex;
     gap: 1rem;
     margin-top: 1.5rem;
 }
 
 /* Primary Button */
-.home-hero__btn {
-    /* Box model */
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.1875rem 2rem;
-    min-height: 4rem;
-    
-    /* Typography */
-    font-family: var(--font-family-heading);
-    font-style: normal;
-    font-weight: var(--font-weight-semibold);
-    font-size: 1.125rem;
-    line-height: 1.6875rem;
-    text-align: center;
-    text-decoration: none;
-    
-    /* Visual */
-    background: var(--brand-700);
-    color: #FFFFFF;
-    border: none;
-    border-radius: 0.75rem;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 10px 15px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    
-    /* Animation */
-    transition: all var(--transition-base);
-}
+/*.home-hero__btn {*/
+/*    !* Box model *!*/
+/*    display: inline-flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    padding: 1.1875rem 2rem;*/
+/*    min-height: 4rem;*/
+/*    */
+/*    !* Typography *!*/
+/*    font-family: var(--font-family-heading);*/
+/*    font-style: normal;*/
+/*    font-weight: var(--font-weight-semibold);*/
+/*    font-size: 1.125rem;*/
+/*    line-height: 1.6875rem;*/
+/*    text-align: center;*/
+/*    text-decoration: none;*/
+/*    */
+/*    !* Visual *!*/
+/*    background: var(--brand-700);*/
+/*    color: #FFFFFF;*/
+/*    border: none;*/
+/*    border-radius: 0.75rem;*/
+/*    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 10px 15px rgba(0, 0, 0, 0.1);*/
+/*    cursor: pointer;*/
+/*    */
+/*    !* Animation *!*/
+/*    transition: all var(--transition-base);*/
+/*}*/
 
-.home-hero__btn:hover,
-.home-hero__btn:focus {
-    background: var(--brand-600);
-    transform: translateY(-2px);
-    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.12), 0px 12px 20px rgba(0, 0, 0, 0.12);
-}
+/*.home-hero__btn:hover,*/
+/*.home-hero__btn:focus {*/
+/*    background: var(--brand-600);*/
+/*    transform: translateY(-2px);*/
+/*    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.12), 0px 12px 20px rgba(0, 0, 0, 0.12);*/
+/*}*/
 
-.home-hero__btn:active {
-    transform: translateY(0);
-}
+/*.home-hero__btn:active {*/
+/*    transform: translateY(0);*/
+/*}*/
 
-/* Secondary Button */
-.home-hero__btn--secondary {
-    /* Box model */
-    padding: calc(1.1875rem - 2px) calc(2rem - 2px);
-    
-    /* Visual */
-    background: transparent;
-    color: var(--brand-700);
-    border: 2px solid var(--brand-700);
-    box-shadow: none;
-}
+/*!* Secondary Button *!*/
+/*.home-hero__btn--secondary {*/
+/*    !* Box model *!*/
+/*    padding: calc(1.1875rem - 2px) calc(2rem - 2px);*/
+/*    */
+/*    !* Visual *!*/
+/*    background: transparent;*/
+/*    color: var(--brand-700);*/
+/*    border: 2px solid var(--brand-700);*/
+/*    box-shadow: none;*/
+/*}*/
 
-.home-hero__btn--secondary:hover,
-.home-hero__btn--secondary:focus {
-    background: var(--brand-700);
-    color: #FFFFFF;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 10px 15px rgba(0, 0, 0, 0.1);
-}
+/*.home-hero__btn--secondary:hover,*/
+/*.home-hero__btn--secondary:focus {*/
+/*    background: var(--brand-700);*/
+/*    color: #FFFFFF;*/
+/*    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 10px 15px rgba(0, 0, 0, 0.1);*/
+/*}*/
 
 /* Right Column - Image */
 .home-hero__image-wrapper {
@@ -393,15 +393,14 @@
     justify-content: center;
 }
 
+/* Old button styles - replaced with global .btn component
 .home-stories__btn {
-    /* Box model */
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: calc(0.875rem - 2px) calc(2.125rem - 2px);
     min-height: 3.25rem;
     
-    /* Typography */
     font-family: var(--font-family-heading);
     font-style: normal;
     font-weight: var(--font-weight-semibold);
@@ -410,14 +409,12 @@
     text-align: center;
     text-decoration: none;
     
-    /* Visual */
     background: transparent;
     color: var(--brand-700);
     border: 2px solid var(--brand-700);
     border-radius: 0.75rem;
     cursor: pointer;
     
-    /* Animation */
     transition: all var(--transition-base);
 }
 
@@ -432,6 +429,7 @@
 .home-stories__btn:active {
     transform: translateY(0);
 }
+*/
 
 /* =========================================================
    Home Page - Events Section
@@ -726,15 +724,14 @@
     flex-grow: 1;
 }
 
+/* Old button styles - replaced with global .btn component
 .home-events__card-btn {
-    /* Box model */
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: calc(0.5625rem - 1px) calc(2rem - 1px);
     min-height: 2.625rem;
     
-    /* Typography */
     font-family: var(--font-family-heading);
     font-style: normal;
     font-weight: var(--font-weight-medium);
@@ -743,14 +740,12 @@
     text-align: center;
     text-decoration: none;
     
-    /* Visual */
     background: transparent;
     color: var(--brand-700);
     border: 1px solid var(--brand-700);
     border-radius: 0.5rem;
     cursor: pointer;
     
-    /* Animation */
     transition: all var(--transition-base);
 }
 
@@ -764,6 +759,7 @@
 .home-events__card-btn:active {
     transform: translateY(0);
 }
+*/
 
 /* =========================================================
    Responsive Design
@@ -869,9 +865,11 @@
         max-width: 20rem;
     }
     
+    /* Old button class - no longer used
     .home-hero__btn {
         width: 100%;
     }
+    */
     
     .home-hero__image-wrapper {
         max-width: 100%;
@@ -959,10 +957,12 @@
         line-height: 1.5rem;
     }
     
+    /* Old button class - no longer used
     .home-hero__btn {
         font-size: 1rem;
         padding: 1rem 1.5rem;
     }
+    */
     
     .home-hero__image-card {
         padding: 1.5rem;
@@ -997,10 +997,12 @@
         line-height: 1.625rem;
     }
     
+    /* Old button class - no longer used
     .home-stories__btn {
         width: 100%;
         max-width: 20rem;
     }
+    */
     
     .home-events {
         padding: 2rem 1rem;
@@ -1028,7 +1030,9 @@
         width: 100%;
     }
     
+    /* Old button class - no longer used
     .home-events__card-btn {
         width: 100%;
     }
+    */
 }
