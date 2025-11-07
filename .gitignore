@@ -85,6 +85,7 @@ scripts/
 !scripts/
 scripts/*
 !scripts/setup-google-books-key.sh
+!scripts/verify-google-books-key.sh
 
 ## OS generated files
 [Tt]humbs.db
