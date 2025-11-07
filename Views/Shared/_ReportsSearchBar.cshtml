@@ -1,0 +1,57 @@
+@model HealingInWriting.Models.Filters.ReportsFilterViewModel
+
+<div class="search-bar">
+    <form asp-area="Admin" asp-controller="Reports" asp-action="Index" method="get" class="search-bar__filters-row">
+        <!-- Search Input -->
+        <div class="search-bar__input-container">
+            <svg class="search-bar__icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#6B7280" stroke-width="2"/>
+                <path d="M21 21L16.65 16.65" stroke="#6B7280" stroke-width="2"/>
+            </svg>
+            <input type="text"
+                   name="SearchText"
+                   value="@Model.SearchText"
+                   class="search-bar__input"
+                   placeholder="Search events or categories..." />
+        </div>
+
+        <!-- Date Range -->
+        <input type="date"
+               name="StartDate"
+               value="@Model.StartDate?.ToString("yyyy-MM-dd")"
+               class="search-bar__dropdown"
+               placeholder="Start Date" />
+
+        <input type="date"
+               name="EndDate"
+               value="@Model.EndDate?.ToString("yyyy-MM-dd")"
+               class="search-bar__dropdown"
+               placeholder="End Date" />
+
+        <!-- Stock Status Filter -->
+        <select name="StockStatus" class="search-bar__dropdown">
+            <option value="">All Stock Levels</option>
+            <option value="critical" selected="@(Model.StockStatus == "critical")">Critical (&lt;50)</option>
+            <option value="low" selected="@(Model.StockStatus == "low")">Low (50-99)</option>
+            <option value="good" selected="@(Model.StockStatus == "good")">Good (100+)</option>
+        </select>
+
+        <!-- Sort By -->
+        <select name="SortBy" class="search-bar__dropdown">
+            <option value="attendance-desc" selected="@(Model.SortBy == "attendance-desc")">Attendance ↓</option>
+            <option value="attendance-asc" selected="@(Model.SortBy == "attendance-asc")">Attendance ↑</option>
+            <option value="stock-desc" selected="@(Model.SortBy == "stock-desc")">Stock ↓</option>
+            <option value="stock-asc" selected="@(Model.SortBy == "stock-asc")">Stock ↑</option>
+        </select>
+
+        <!-- Search Button -->
+        <button type="submit" class="search-bar__button">
+            <svg class="search-bar__button-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="white" stroke-width="2"/>
+                <path d="M21 21L16.65 16.65" stroke="white" stroke-width="2"/>
+            </svg>
+            <span class="search-bar__button-label">Search</span>
+        </button>
+    </form>
+</div>
+
