@@ -345,42 +345,69 @@
     border-color: var(--brand-700);
 }
 
+/* Update Status Submit Button - Standardized with Edit button styling */
 .event-item__status-submit {
     /* Box Model */
-    padding: 6px 12px;
-    height: 32px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 11px;
+    gap: 10px;
+    height: 36px;
 
     /* Visual */
-    background: var(--brand-700);
-    border: none;
+    background: #2F1648;
+    border: 2px solid #2F1648;
     border-radius: 6px;
 
     /* Typography */
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-style: normal;
-    font-weight: 500;
+    font-weight: 400;
     font-size: 14px;
-    line-height: 20px;
+    line-height: 21px;
+    text-align: center;
     color: #FFFFFF;
 
     /* Animation */
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    transition: all 0.2s ease;
+    
+    /* Layout */
+    flex: none;
+    flex-grow: 0;
 }
 
 .event-item__status-submit:hover {
-    background: var(--brand-600);
+    background: #FFFFFF;
+    color: #2F1648;
+    border-color: #2F1648;
 }
 
 .event-item__status-submit:active {
-    background: #251038;
+    background: #FFFFFF;
+    color: #2F1648;
     transform: scale(0.98);
 }
 
 .event-item__btn--delete {
     background: #DC2626;
-    border: none;
+    border: 2px solid #DC2626;
     color: #FFFFFF;
+    transition: all 0.2s ease;
+}
+
+.event-item__btn--delete:hover {
+    background: #FFFFFF;
+    color: #DC2626;
+    border-color: #DC2626;
+}
+
+.event-item__btn--delete:active {
+    background: #FFFFFF;
+    color: #DC2626;
+    transform: scale(0.98);
 }
 
 .event-item__actions {
@@ -439,19 +466,41 @@
     box-sizing: border-box;
 
     /* Visual */
-    background: transparent;
-    border: 1px solid var(--brand-700);
-    color: var(--brand-700);
+    background: #2F1648;
+    border: 2px solid #2F1648;
+    color: #FFFFFF;
+    transition: all 0.2s ease;
 }
 
 .event-item__btn--registrations:hover {
-    background: var(--brand-300);
+    background: #FFFFFF;
+    color: #2F1648;
+    border-color: #2F1648;
+}
+
+.event-item__btn--registrations:active {
+    background: #FFFFFF;
+    color: #2F1648;
+    transform: scale(0.98);
 }
 
 .event-item__btn--edit {
     background: #2F1648;
-    border: none;
+    border: 2px solid #2F1648;
     color: #FFFFFF;
+    transition: all 0.2s ease;
+}
+
+.event-item__btn--edit:hover {
+    background: #FFFFFF;
+    color: #2F1648;
+    border-color: #2F1648;
+}
+
+.event-item__btn--edit:active {
+    background: #FFFFFF;
+    color: #2F1648;
+    transform: scale(0.98);
 }
 
 .event-item__btn--cancel {
@@ -1072,7 +1121,7 @@
     color: #ADAEBC;
 }
 
-/* Submit Button */
+/* Submit Button - Inverse hover effect */
 .event-details__submit-btn {
     /* Box Model */
     display: flex;
@@ -1086,12 +1135,21 @@
 
     /* Visual */
     background: #2F1648;
-    border: none;
+    border: 2px solid #2F1648;
     border-radius: 8px;
+
+    /* Typography */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #FFFFFF;
 
     /* Animation */
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    transition: all 0.2s ease;
 
     /* Layout */
     flex: none;
@@ -1099,12 +1157,18 @@
 }
 
 .event-details__submit-btn:hover {
-    background: #3d1d5a;
+    background: #FFFFFF;
+    color: #2F1648;
+    border-color: #2F1648;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(47, 22, 72, 0.15);
 }
 
 .event-details__submit-btn:active {
-    background: #251038;
-    transform: scale(0.98);
+    background: #FFFFFF;
+    color: #2F1648;
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(47, 22, 72, 0.1);
 }
 
 .event-details__submit-text {

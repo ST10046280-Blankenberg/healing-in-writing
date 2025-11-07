@@ -113,7 +113,7 @@
 }
 
 /* =========================================================
-   Primary Action Button
+   Primary Action Button - Inverse hover effect
    ========================================================= */
 .admin-header__action-btn {
     /* Box Model */
@@ -126,7 +126,7 @@
     
     /* Visual */
     background: #2F1648;
-    border: none;
+    border: 2px solid #2F1648;
     border-radius: 8px;
     
     /* Typography */
@@ -134,7 +134,7 @@
     
     /* Animation */
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    transition: all 0.2s ease;
     
     /* Layout */
     flex: none;
@@ -142,12 +142,29 @@
 }
 
 .admin-header__action-btn:hover {
-    background: #3d1d5a;
+    background: #FFFFFF;
+    color: #2F1648;
+    border-color: #2F1648;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(47, 22, 72, 0.15);
+}
+
+.admin-header__action-btn:hover .admin-header__action-icon path,
+.admin-header__action-btn:hover .admin-header__action-icon line,
+.admin-header__action-btn:hover .admin-manage-events__create-icon path,
+.admin-header__action-btn:hover .admin-manage-events__create-icon line {
+    stroke: #2F1648;
+}
+
+.admin-header__action-btn:hover .admin-header__action-label {
+    color: #2F1648;
 }
 
 .admin-header__action-btn:active {
-    background: #251038;
-    transform: scale(0.98);
+    background: #FFFFFF;
+    color: #2F1648;
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(47, 22, 72, 0.1);
 }
 
 /* =========================================================

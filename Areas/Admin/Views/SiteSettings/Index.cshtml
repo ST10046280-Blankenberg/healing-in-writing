@@ -55,8 +55,8 @@
             </div>
             
             <div class="donation-settings__actions">
-                <button type="button" id="editBtn" class="donation-settings__btn-edit">Edit</button>
-                <button type="submit" id="saveBtn" class="donation-settings__btn-save hidden">Save</button>
+                <button type="button" id="editBtn" class="admin-settings-btn admin-settings-btn--primary donation-settings__btn-edit">Edit</button>
+                <button type="submit" id="saveBtn" class="admin-settings-btn admin-settings-btn--primary donation-settings__btn-save hidden">Save</button>
             </div>
         </form>
     </section>
@@ -101,8 +101,8 @@
                     <span asp-validation-for="PrivacyPolicy.Content" class="text-danger"></span>
                 </div>
                 <div class="privacy-editor__actions">
-                    <button type="submit" class="privacy-editor__btn-save">Save</button>
-                    <button type="reset" class="privacy-editor__btn-discard">Discard</button>
+                    <button type="submit" class="admin-settings-btn admin-settings-btn--primary privacy-editor__btn-save">Save</button>
+                    <button type="reset" class="admin-settings-btn admin-settings-btn--secondary privacy-editor__btn-discard">Discard</button>
                 </div>
             </form>
         </section>
@@ -195,8 +195,8 @@
                 </div>
                 
                 <div class="gallery-page__actions">
-                    <button type="submit" class="gallery-page__btn-add">Add Photo</button>
-                    <button type="reset" class="gallery-page__btn-cancel">Clear</button>
+                    <button type="submit" class="admin-settings-btn admin-settings-btn--primary gallery-page__btn-add">Add Photo</button>
+                    <button type="reset" class="admin-settings-btn admin-settings-btn--secondary gallery-page__btn-cancel">Clear</button>
                 </div>
             </form>
             
@@ -224,7 +224,7 @@
                                 <form asp-area="Admin" asp-controller="SiteSettings" asp-action="DeleteGalleryItem" method="post" style="position: absolute; top: 8px; right: 8px;">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="id" value="@item.Id" />
-                                    <button type="submit" onclick="return confirm('Delete this photo?')" style="background: rgba(239, 68, 68, 0.9); color: white; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer; font-size: 0.75rem;">Delete</button>
+                                    <button type="submit" onclick="return confirm('Delete this photo?')" class="admin-settings-btn admin-settings-btn--danger gallery-item__btn-delete">Delete</button>
                                 </form>
                             </div>
                         }
@@ -278,7 +278,7 @@
             </div>
             
             <div class="our-impact__actions" style="margin-top: 16px; display: flex; gap: 12px;">
-                <button type="submit" class="our-impact__btn-save" style="padding: 10px 20px; background: #4f46e5; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Save</button>
+                <button type="submit" class="admin-settings-btn admin-settings-btn--primary our-impact__btn-save">Save</button>
             </div>
         </form>
     </section>
