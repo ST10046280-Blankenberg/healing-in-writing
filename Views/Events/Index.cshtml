@@ -70,7 +70,7 @@
                                 </div>
                             </div>
                             <p class="event-card__description-text">@description</p>
-                            <a asp-area="" asp-controller="Events" asp-action="Details" asp-route-id="@eventItem.Id" class="event-card__button">View More</a>
+                            <a asp-area="" asp-controller="Events" asp-action="Details" asp-route-id="@eventItem.Id" class="btn btn--primary">View More</a>
                         </div>
                     </article>
                 }
@@ -81,7 +81,7 @@
         @if (Model.EventsList.Events.Any())
         {
             <div class="events__load-more">
-                <button class="events__load-more-button" type="button" disabled>Load More Events</button>
+                <button class="btn btn--secondary" type="button" disabled>Load More Events</button>
             </div>
         }
     </section>

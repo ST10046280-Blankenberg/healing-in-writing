@@ -4,6 +4,7 @@
 
 /* Import Global Button Component */
 @import url('../base/buttons.css');
+@import url('../base/_variables.css');
 
 /* Page Container */
 .stories {
