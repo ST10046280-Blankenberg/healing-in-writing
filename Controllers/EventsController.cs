@@ -20,25 +20,25 @@ namespace HealingInWriting.Controllers
         }
 
         public async Task<IActionResult> Index(
-            string? SearchText,
-            EventType? SelectedEventType,
-            DateTime? StartDate,
-            DateTime? EndDate)
+            string? searchText,
+            EventType? selectedEventType,
+            DateTime? startDate,
+            DateTime? endDate)
         {
             var filter = new EventsFilterViewModel
             {
                 EventTypeOptions = Enum.GetValues(typeof(EventType)).Cast<EventType>().ToList(),
-                SelectedEventType = SelectedEventType,
-                StartDate = StartDate,
-                EndDate = EndDate,
-                SearchText = SearchText
+                SelectedEventType = selectedEventType,
+                StartDate = startDate,
+                EndDate = endDate,
+                SearchText = searchText
             };
 
             var eventsList = await _eventService.GetFilteredEventsAsync(
-                SearchText,
-                SelectedEventType,
-                StartDate,
-                EndDate);
+                searchText,
+                selectedEventType,
+                startDate,
+                endDate);
 
             var model = new EventsListWithFiltersViewModel
             {
