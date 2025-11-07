@@ -7,7 +7,7 @@
 @section Styles {
     <link rel="stylesheet" href="~/css/shared/page-hero.css" />
     <link rel="stylesheet" href="~/css/shared/search-bar.css" />
-    <link rel="stylesheet" href="~/css/views/events.css" />
+    <link rel="stylesheet" href="~/css/views/events.css" asp-append-version="true" />
 }
 
 <div class="events">
@@ -44,8 +44,8 @@
                     var badgeLabel = eventItem.EventType.ToString();
                     var eventDate = eventItem.StartDateTime.ToString("MMM dd, yyyy");
                     var eventTime = eventItem.StartDateTime.ToString("h:mm tt");
-                    var description = eventItem.Description.Length > 100
-                    ? eventItem.Description.Substring(0, 100) + "..."
+                    var description = eventItem.Description.Length > 150
+                    ? eventItem.Description.Substring(0, 150) + "..."
                     : eventItem.Description;
 
                     <article class="event-card">
@@ -69,7 +69,7 @@
                                     <span class="event-card__meta-text">@eventTime</span>
                                 </div>
                             </div>
-                            <p class="event-card__description">@description</p>
+                            <p class="event-card__description-text">@description</p>
                             <a asp-area="" asp-controller="Events" asp-action="Details" asp-route-id="@eventItem.Id" class="event-card__button">View More</a>
                         </div>
                     </article>
