@@ -95,6 +95,29 @@
     flex-grow: 0;
 }
 
+/* Empty State */
+.admin-manage-events__empty {
+    /* Box Model */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 48px 24px;
+    width: 100%;
+
+    /* Visual */
+    background: #FFFFFF;
+    border-radius: 8px;
+}
+
+.admin-manage-events__empty-text {
+    /* Typography */
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-body);
+    color: var(--neutral-400);
+    text-align: center;
+    margin: 0;
+}
+
 /* =========================================================
    Event Item Component
    ========================================================= */

@@ -53,7 +53,6 @@
 
     <!-- Search Bar -->
     @{
-        // TODO: Add proper filter options when Events filtering is implemented
         var searchConfig = new AdminSearchBarConfig
         {
             Controller = "Events",
@@ -61,14 +60,32 @@
             SearchInputName = "searchTerm",
             Dropdowns = new List<AdminFilterDropdown>
             {
-                // Placeholder dropdowns - will be populated when filtering is implemented
-                new() { Name = "location", Label = "Any Location", Options = new List<AdminDropdownOption>() },
-                new() { Name = "dateRange", Label = "Any Date", Options = new List<AdminDropdownOption>() },
-                new() { Name = "sortBy", Label = "Newest", Options = new List<AdminDropdownOption>() }
+                new()
+                {
+                    Name = "status",
+                    Label = "Any Status",
+                    Options = Model.StatusOptions
+                },
+                new()
+                {
+                    Name = "dateRange",
+                    Label = "Any Date",
+                    Options = Model.DateOptions
+                },
+                new()
+                {
+                    Name = "sortOrder",
+                    Label = "Sort By",
+                    Options = Model.SortOptions
+                }
+            },
+            HiddenFields = new Dictionary<string, string>
+            {
+                { "page", Model.CurrentPage.ToString() }
             }
         };
     }
-    <partial name="_AdminSearchBar" model="(searchConfig, string.Empty)" />
+    <partial name="_AdminSearchBar" model="(searchConfig, Model.Filters.SearchText ?? string.Empty)" />
 
     <!-- Events List Container -->
     <section class="admin-manage-events__events">
@@ -79,16 +96,13 @@
         <div class="admin-manage-events__events-list">
             @if (!Model.Events.Any())
             {
-                <article class="event-item event-item--empty">
-                    <div class="event-item__content" style="justify-content: center; text-align: center; padding: 2rem;">
-                        <h3 class="event-item__title">No events yet</h3>
-                        <p class="event-item__meta-text">Create your first event to see it listed here.</p>
-                    </div>
-                </article>
+                <div class="admin-manage-events__empty">
+                    <p class="admin-manage-events__empty-text">No events found matching your criteria.</p>
+                </div>
             }
             else
             {
-                foreach (var eventItem in Model.Events)
+                @foreach (var eventItem in Model.Events)
                 {
                     // Status badge styling
                     var statusBadgeClass = eventItem.Status switch
