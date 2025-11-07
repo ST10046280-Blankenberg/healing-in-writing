@@ -1,7 +1,9 @@
+using HealingInWriting.Models.Admin;
+using HealingInWriting.Models.Filters;
+
 namespace HealingInWriting.Interfaces.Services;
 
-// TODO: Define reporting operations aggregating data for dashboards.
 public interface IReportService
 {
-    // TODO: Add methods for generating admin and volunteer reports.
+    Task<ReportsDashboardViewModel> GetDashboardDataAsync(ReportsFilterViewModel filters);
 }
