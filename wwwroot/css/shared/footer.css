@@ -103,14 +103,16 @@ text-wrap: wrap;
     color: var(--neutral-100);
     text-decoration: none;
     opacity: 0.85;
-    transition: opacity var(--transition-base);
+    transition: all var(--transition-base);
     line-height: 1.5;
 }
 
 .footer__link:hover,
 .footer__link:focus {
+    color: #E9D5EB; /* Light lavender color that stands out on dark background */
     opacity: 1;
     text-decoration: underline;
+    transform: translateX(2px); /* Subtle shift to indicate interactivity */
 }
 
 .footer__social {

@@ -366,8 +366,47 @@
     margin: 0;
 }
 
-.home-stories__read-more {
+/* Read More Button - Rose colored with inverse hover 
+   Default: White background, rose text/border
+   Hover: Rose background, white text/border */
+.home-stories__read-more-btn {
+    /* Box model */
+    padding: 8px 16px;
+    min-height: auto;
+    
+    /* Visual */
+    background: #FFFFFF;
+    color: #CA9F9D;
+    border: 2px solid #CA9F9D;
+    
     /* Typography */
+    font-family: var(--font-family-heading);
+    font-weight: var(--font-weight-medium);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    text-decoration: none;
+    
+    /* Animation */
+    transition: all var(--transition-base);
+}
+
+.home-stories__read-more-btn:hover,
+.home-stories__read-more-btn:focus {
+    background: #CA9F9D;
+    color: #FFFFFF;
+    border-color: #CA9F9D;
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(202, 159, 157, 0.2);
+}
+
+.home-stories__read-more-btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* Old read more link styles - replaced with button
+.home-stories__read-more {
     font-family: var(--font-family-heading);
     font-style: normal;
     font-weight: var(--font-weight-medium);
@@ -376,7 +415,6 @@
     color: #CA9F9D;
     text-decoration: none;
     
-    /* Animation */
     transition: color var(--transition-base);
 }
 
@@ -385,6 +423,7 @@
     color: var(--accent-200);
     text-decoration: underline;
 }
+*/
 
 /* View All Button */
 .home-stories__cta {
