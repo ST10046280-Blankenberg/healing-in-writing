@@ -161,7 +161,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         {
             b.HasKey(x => x.Id);
             b.Property(x => x.BankName).HasMaxLength(100).IsRequired();
+            b.Property(x => x.AccountName).HasMaxLength(150).IsRequired();
             b.Property(x => x.AccountNumber).HasMaxLength(50).IsRequired();
+            b.Property(x => x.AccountType).HasMaxLength(50).IsRequired();
             b.Property(x => x.Branch).HasMaxLength(100);
             b.Property(x => x.BranchCode).HasMaxLength(20);
             b.Property(x => x.UpdatedBy).HasMaxLength(200);

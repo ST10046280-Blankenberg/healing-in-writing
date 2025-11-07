@@ -11,9 +11,17 @@ namespace HealingInWriting.Models.Common
         [Display(Name = "Bank Name")]
         public string BankName { get; set; }
 
+        [Required(ErrorMessage = "Account Name is required")]
+        [Display(Name = "Account Name")]
+        public string AccountName { get; set; }
+
         [Required(ErrorMessage = "Account Number is required")]
         [Display(Name = "Account Number")]
         public string AccountNumber { get; set; }
+
+        [Required(ErrorMessage = "Account Type is required")]
+        [Display(Name = "Account Type")]
+        public string AccountType { get; set; }
 
         [Display(Name = "Branch")]
         public string Branch { get; set; }
