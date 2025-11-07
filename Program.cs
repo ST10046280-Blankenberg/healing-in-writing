@@ -243,6 +243,14 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var logger = services.GetRequiredService<ILogger<Program>>();
     var context = services.GetRequiredService<ApplicationDbContext>();
+    var configuration = services.GetRequiredService<IConfiguration>();
+
+    // Surface missing Google Books key early so devs/operators notice
+    var googleBooksKey = configuration["ApiKeys:GoogleBooks"];
+    if (string.IsNullOrWhiteSpace(googleBooksKey))
+    {
+        logger.LogWarning("Google Books API key is not configured. Admin ISBN import and book seeding will be disabled until ApiKeys:GoogleBooks is provided via user secrets or environment configuration.");
+    }
 
     try
     {
@@ -285,22 +293,29 @@ using (var scope = app.Services.CreateScope())
             var bookService = services.GetRequiredService<IBookService>() as BookService;
             if (bookService != null)
             {
-                var existingBooks = await bookService.GetPagedForAdminAsync(
-                    searchTerm: null,
-                    selectedAuthor: null,
-                    selectedCategory: null,
-                    selectedTag: null,
-                    skip: 0,
-                    take: 20);
-                if (!existingBooks.Any())
+                if (string.IsNullOrWhiteSpace(googleBooksKey))
                 {
-                    logger.LogInformation("Database is empty. Seeding books...");
-                    await bookService.SeedBooksAsync();
-                    logger.LogInformation("Book seeding completed.");
+                    logger.LogInformation("Skipping book seeding because Google Books API key is missing in development.");
                 }
                 else
                 {
-                    logger.LogInformation("Books already exist in database. Skipping seeding.");
+                    var existingBooks = await bookService.GetPagedForAdminAsync(
+                        searchTerm: null,
+                        selectedAuthor: null,
+                        selectedCategory: null,
+                        selectedTag: null,
+                        skip: 0,
+                        take: 20);
+                    if (!existingBooks.Any())
+                    {
+                        logger.LogInformation("Database is empty. Seeding books...");
+                        await bookService.SeedBooksAsync();
+                        logger.LogInformation("Book seeding completed.");
+                    }
+                    else
+                    {
+                        logger.LogInformation("Books already exist in database. Skipping seeding.");
+                    }
                 }
             }
         }

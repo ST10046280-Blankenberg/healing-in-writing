@@ -98,6 +98,16 @@ Domain          -> entities, value objects, invariants
 - Configure user secrets or appsettings overrides without checking sensitive data into source control.
 - Use the mapping helpers to avoid duplicating projection logic in controllers.
 
+### Setting the Google Books API key (local)
+
+- Run `./scripts/setup-google-books-key.sh` from the repo root and paste your Google Books API key when prompted. The script stores the key in `.NET` user secrets (no angle brackets) so the Admin → Books import feature can call the Google Books API without touching committed config files.
+- If you keep a custom `DOTNET_ROOT`, export it before running the script so it can invoke the correct `dotnet` binary.
+- On startup, the app now logs a warning (and skips dev seeding) whenever `ApiKeys:GoogleBooks` is missing, so check console output if the import UI reports missing data.
+
+### CI/CD verification
+
+- Pipelines should call `./scripts/verify-google-books-key.sh` (with `ApiKeys__GoogleBooks` or `GOOGLE_BOOKS_API_KEY` supplied via secure variables). The script exits non-zero if the key is absent, preventing deployments that would break the ISBN import flow.
+
 </details>
 
 ## Contribution Notes
