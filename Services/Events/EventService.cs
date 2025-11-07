@@ -280,4 +280,90 @@ public class EventService : IEventService
                 .ToList()
         };
     }
+
+    public async Task<(IEnumerable<Event> Events, int TotalCount)> GetFilteredEventsForAdminAsync(
+        string? searchTerm,
+        EventStatus? status,
+        string? dateRange,
+        string sortOrder,
+        int page,
+        int pageSize)
+    {
+        var query = _context.Events
+            .Include(e => e.Address)
+            .Include(e => e.EventTags)
+            .AsQueryable();
+
+        // Apply search filter
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            var term = searchTerm.Trim().ToLower();
+            query = query.Where(e =>
+                e.Title.ToLower().Contains(term) ||
+                (e.Description != null && e.Description.ToLower().Contains(term)));
+        }
+
+        // Apply status filter
+        if (status.HasValue)
+        {
+            query = query.Where(e => e.EventStatus == status.Value);
+        }
+
+        // Apply date range filter
+        var dateFilter = ParseEventDateRange(dateRange);
+        if (dateFilter.HasValue)
+        {
+            var (startDateTime, endDateTime) = dateFilter.Value;
+            query = query.Where(e =>
+                e.StartDateTime >= startDateTime &&
+                (endDateTime == null || e.StartDateTime <= endDateTime));
+        }
+
+        // Apply sorting
+        query = sortOrder?.ToLower() switch
+        {
+            "oldest" => query.OrderBy(e => e.EventId),
+            "newest" => query.OrderByDescending(e => e.EventId),
+            "date-desc" => query.OrderByDescending(e => e.StartDateTime),
+            "date-asc" => query.OrderBy(e => e.StartDateTime),
+            _ => query.OrderBy(e => e.StartDateTime)
+        };
+
+        // Get total count before pagination
+        var totalCount = await query.CountAsync();
+
+        // Apply pagination
+        var events = await query
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (events, totalCount);
+    }
+
+    private static (DateTime StartDate, DateTime? EndDate)? ParseEventDateRange(string? dateRange)
+    {
+        if (string.IsNullOrWhiteSpace(dateRange) ||
+            dateRange.Equals("any", StringComparison.OrdinalIgnoreCase))
+        {
+            return null;
+        }
+
+        var now = DateTime.UtcNow;
+        
+        // Calculate start of week inline (Monday as start of week)
+        var diff = (7 + (now.DayOfWeek - DayOfWeek.Monday)) % 7;
+        var startOfWeek = now.AddDays(-1 * diff).Date;
+
+        return dateRange.ToLowerInvariant() switch
+        {
+            "upcoming" => (now, null),
+            "past" => (DateTime.MinValue, now.AddDays(-1)),
+            "this-week" => (startOfWeek, startOfWeek.AddDays(7)),
+            "this-month" => (new DateTime(now.Year, now.Month, 1, 0, 0, 0, DateTimeKind.Utc),
+                            new DateTime(now.Year, now.Month, 1, 0, 0, 0, DateTimeKind.Utc).AddMonths(1).AddDays(-1)),
+            "next-30" => (now, now.AddDays(30)),
+            _ => null
+        };
+    }
 }
