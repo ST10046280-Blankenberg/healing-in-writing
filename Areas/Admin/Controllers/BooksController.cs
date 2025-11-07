@@ -38,36 +38,54 @@ namespace HealingInWriting.Areas.Admin.Controllers
         #region HTTP GET: Views (Page Initialization)
 
         /// <summary>
-        /// Displays the book inventory management view.
+        /// Displays the book inventory management view with search and filter support.
         /// </summary>
-        /// <returns>The Manage view with a list of featured books.</returns>
+        /// <param name="searchTerm">Search term for book title, author, or ISBN.</param>
+        /// <param name="selectedCategory">Filter by book category.</param>
+        /// <param name="selectedAuthor">Filter by book author.</param>
+        /// <param name="page">Current page number (1-based).</param>
+        /// <returns>The Manage view with filtered and paginated books.</returns>
         [HttpGet]
-        public async Task<IActionResult> Manage()
+        public async Task<IActionResult> Manage(
+            string? searchTerm,
+            string? selectedCategory,
+            string? selectedAuthor,
+            int page = 1)
         {
-            var books = await _bookService.GetPagedForAdminAsync(
-                searchTerm: null,
-                selectedAuthor: null,
-                selectedCategory: null,
-                selectedTag: null,
-                skip: 0,
-                take: 20);
+            const int pageSize = 20;
+            var skip = (page - 1) * pageSize;
 
+            // Get filtered books
+            var books = await _bookService.GetPagedForAdminAsync(
+                searchTerm: searchTerm,
+                selectedAuthor: selectedAuthor,
+                selectedCategory: selectedCategory,
+                selectedTag: null,
+                skip: skip,
+                take: pageSize);
+
+            // Get dropdown options
             var allAuthors = await _bookService.GetAllAuthorsAsync(onlyVisible: false);
             var allCategories = await _bookService.GetAllCategoriesAsync(onlyVisible: false);
 
+            // Build view model
             var viewModel = _bookService.ToBookInventoryViewModel(books);
             viewModel.AvailableAuthors = allAuthors;
             viewModel.AvailableCategories = allCategories;
+            viewModel.SelectedCategory = selectedCategory ?? string.Empty;
+            viewModel.SelectedAuthor = selectedAuthor ?? string.Empty;
+            viewModel.SearchTerm = searchTerm;
 
-            // Get the total count for initial pagination
+            // Get total count for pagination
             var totalCount = await _bookService.GetCountForAdminAsync(
-                searchTerm: null,
-                selectedAuthor: null,
-                selectedCategory: null,
+                searchTerm: searchTerm,
+                selectedAuthor: selectedAuthor,
+                selectedCategory: selectedCategory,
                 selectedTag: null);
 
             ViewBag.TotalCount = totalCount;
-            ViewBag.PageSize = 20;
+            ViewBag.PageSize = pageSize;
+            ViewBag.CurrentPage = page;
 
             return View(viewModel);
         }

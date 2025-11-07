@@ -543,6 +543,15 @@
         padding: 32px 48px;
     }
     
+    /* Search bar adjustments */
+    .admin-reports .search-bar {
+        padding: 24px;
+    }
+    
+    .admin-reports .search-bar__dropdown {
+        min-width: 140px;
+    }
+    
     .admin-reports__stats-row {
         flex-wrap: wrap;
     }
@@ -560,6 +569,18 @@
 @media (max-width: 768px) {
     .admin-reports {
         padding: 24px 32px;
+    }
+    
+    /* Search bar mobile stacking */
+    .admin-reports .search-bar__filters-row {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .admin-reports .search-bar__input-container,
+    .admin-reports .search-bar__dropdown,
+    .admin-reports .search-bar__button {
+        width: 100%;
     }
     
     .admin-reports__stats-row {
@@ -607,6 +628,11 @@
 /* Mobile portrait (480px) */
 @media (max-width: 480px) {
     .admin-reports {
+        padding: 16px;
+    }
+    
+    /* Search bar smaller padding */
+    .admin-reports .search-bar {
         padding: 16px;
     }
     

@@ -1,4 +1,5 @@
 @model HealingInWriting.Models.Admin.AdminManageStoriesViewModel
+@using HealingInWriting.Models.Shared
 
 @{
     ViewData["Title"] = "Manage Stories";
@@ -27,112 +28,67 @@
         <div class="manage-stories__alert" role="status">@statusMessage</div>
     }
 
-    <form method="get" class="search-bar" novalidate>
-        <input type="hidden" name="page" value="1" />
-
-        <div class="search-bar__filters-row">
-            <!-- Search Input with Icon -->
-            <div class="search-bar__input-container">
-                <svg class="search-bar__icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <input type="text"
-                       name="searchTerm"
-                       value="@Model.Filters.SearchTerm"
-                       class="search-bar__input"
-                       placeholder="Search..."
-                       aria-label="Search stories" />
-            </div>
-
-            <!-- Date Dropdown -->
-            <div class="search-bar__dropdown">
-                <select name="dateRange" class="search-bar__select" aria-label="Filter by date">
-                    @foreach (var option in Model.DateOptions)
+    @{
+        var searchConfig = new AdminSearchBarConfig
+        {
+            Controller = "Stories",
+            SearchPlaceholder = "Search stories...",
+            SearchInputName = "searchTerm",
+            Dropdowns = new List<AdminFilterDropdown>
+            {
+                new()
+                {
+                    Name = "dateRange",
+                    Label = "Any Date",
+                    Options = Model.DateOptions.Select(o => new AdminDropdownOption
                     {
-                        if (option.Selected)
-                        {
-                            <option value="@option.Value" selected>@option.Label</option>
-                        }
-                        else
-                        {
-                            <option value="@option.Value">@option.Label</option>
-                        }
-                    }
-                </select>
-                <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </div>
-
-            <!-- Status Dropdown -->
-            <div class="search-bar__dropdown">
-                <select name="status" class="search-bar__select" aria-label="Filter by status">
-                    @foreach (var option in Model.StatusOptions)
+                        Value = o.Value,
+                        Text = o.Label,
+                        Selected = o.Selected
+                    }).ToList()
+                },
+                new()
+                {
+                    Name = "status",
+                    Label = "Any Status",
+                    Options = Model.StatusOptions.Select(o => new AdminDropdownOption
                     {
-                        if (option.Selected)
-                        {
-                            <option value="@option.Value" selected>@option.Label</option>
-                        }
-                        else
-                        {
-                            <option value="@option.Value">@option.Label</option>
-                        }
-                    }
-                </select>
-                <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </div>
-
-            <!-- Tags Dropdown -->
-            <div class="search-bar__dropdown">
-                <select name="tag" class="search-bar__select" aria-label="Filter by tag">
-                    @foreach (var option in Model.TagOptions)
+                        Value = o.Value,
+                        Text = o.Label,
+                        Selected = o.Selected
+                    }).ToList()
+                },
+                new()
+                {
+                    Name = "tag",
+                    Label = "Any Tag",
+                    Options = Model.TagOptions.Select(o => new AdminDropdownOption
                     {
-                        if (option.Selected)
-                        {
-                            <option value="@option.Value" selected>@option.Label</option>
-                        }
-                        else
-                        {
-                            <option value="@option.Value">@option.Label</option>
-                        }
-                    }
-                </select>
-                <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </div>
-
-            <!-- Sort Dropdown -->
-            <div class="search-bar__dropdown">
-                <select name="sortOrder" class="search-bar__select" aria-label="Sort by">
-                    @foreach (var option in Model.SortOptions)
+                        Value = o.Value,
+                        Text = o.Label,
+                        Selected = o.Selected
+                    }).ToList()
+                },
+                new()
+                {
+                    Name = "sortOrder",
+                    Label = "Sort By",
+                    Options = Model.SortOptions.Select(o => new AdminDropdownOption
                     {
-                        if (option.Selected)
-                        {
-                            <option value="@option.Value" selected>@option.Label</option>
-                        }
-                        else
-                        {
-                            <option value="@option.Value">@option.Label</option>
-                        }
-                    }
-                </select>
-                <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </div>
+                        Value = o.Value,
+                        Text = o.Label,
+                        Selected = o.Selected
+                    }).ToList()
+                }
+            },
+            HiddenFields = new Dictionary<string, string>
+            {
+                { "page", "1" }
+            }
+        };
+    }
 
-            <!-- Search Button -->
-            <button class="search-bar__button" type="submit">
-                <svg class="search-bar__button-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span class="search-bar__button-label">Search</span>
-            </button>
-        </div>
-    </form>
+    <partial name="_AdminSearchBar" model="(searchConfig, Model.Filters.SearchTerm)" />
 
     <!-- Status Summary -->
     <section class="manage-stories__metrics">

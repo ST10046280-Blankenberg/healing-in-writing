@@ -197,6 +197,29 @@
     flex-grow: 0;
 }
 
+/* Empty State */
+.manage-books__empty {
+    /* Box Model */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 48px 24px;
+    width: 100%;
+
+    /* Visual */
+    background: #FFFFFF;
+    border-radius: 8px;
+}
+
+.manage-books__empty-text {
+    /* Typography */
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-body);
+    color: #6B7280;
+    text-align: center;
+    margin: 0;
+}
+
 .manage-books__inventory-container {
     /* Box Model */
     display: flex;

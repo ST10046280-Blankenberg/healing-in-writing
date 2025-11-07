@@ -28,5 +28,17 @@ public interface IEventService
     /// Gets all event registrations for a specific user.
     /// </summary>
     Task<IReadOnlyCollection<Registration>> GetUserRegistrationsAsync(string userId);
+    
     Task<EventsIndexViewModel> GetFilteredEventsAsync(string? searchText, EventType? selectedEventType, DateTime? startDate, DateTime? endDate);
+
+    /// <summary>
+    /// Retrieves filtered and paginated events for admin management
+    /// </summary>
+    Task<(IEnumerable<Event> Events, int TotalCount)> GetFilteredEventsForAdminAsync(
+        string? searchTerm,
+        EventStatus? status,
+        string? dateRange,
+        string sortOrder,
+        int page,
+        int pageSize);
 }

@@ -1,9 +1,14 @@
 ﻿using HealingInWriting.Domain.Stories;
+using HealingInWriting.Models.Filters;
 
 namespace HealingInWriting.Models.Admin
 {
     public class ReportsDashboardViewModel
     {
+        // Filter State
+        public ReportsFilterViewModel Filters { get; set; } = new();
+
+        
         // Event Attendance
         public List<EventAttendanceReportItem> EventAttendance { get; set; } = new();
 
@@ -21,6 +26,8 @@ namespace HealingInWriting.Models.Admin
     {
         public string EventTitle { get; set; }
         public int AttendanceCount { get; set; }
+        public DateTime EventDate { get; set; } 
+
     }
 
     public class StoryTableRow
