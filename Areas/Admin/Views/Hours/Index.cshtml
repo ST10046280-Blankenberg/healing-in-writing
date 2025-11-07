@@ -26,31 +26,26 @@
         <div class="search-bar__input-container">
             <input class="search-bar__input" type="text" name="search" placeholder="Search..." value="@Model.Search" />
         </div>
-        <div class="search-bar__dropdown">
-            <input type="date" name="startDate" value="@(Model.StartDate?.ToString("yyyy-MM-dd") ?? "")" />
-            <span>to</span>
-            <input type="date" name="endDate" value="@(Model.EndDate?.ToString("yyyy-MM-dd") ?? "")" />
-        </div>
-        <div class="search-bar__dropdown">
-            <select name="status" class="search-bar__dropdown-select">
-                <option value="">Any Status</option>
-                @foreach (var status in statusOptions)
-                {
-                    var selected = Model.Status == status ? "selected" : null;
-                    <option value="@status" selected="@selected">@status</option>
-                }
-            </select>
-        </div>
-        <div class="search-bar__dropdown">
-            <select name="orderBy" class="search-bar__dropdown-select">
-                @{
-                    var newestSelected = Model.OrderBy == "Newest" ? "selected" : null;
-                    var oldestSelected = Model.OrderBy == "Oldest" ? "selected" : null;
-                }
-                <option value="Newest" selected="@newestSelected">Newest</option>
-                <option value="Oldest" selected="@oldestSelected">Oldest</option>
-            </select>
-        </div>
+        <!-- Date Range -->
+        <input type="date" name="startDate" class="search-bar__dropdown" value="@(Model.StartDate?.ToString("yyyy-MM-dd") ?? "")" />
+        <span>to</span>
+        <input type="date" name="endDate" class="search-bar__dropdown" value="@(Model.EndDate?.ToString("yyyy-MM-dd") ?? "")" />
+        <select name="status" class="search-bar__dropdown-">
+            <option value="">Any Status</option>
+            @foreach (var status in statusOptions)
+            {
+                var selected = Model.Status == status ? "selected" : null;
+                <option value="@status" selected="@selected">@status</option>
+            }
+        </select>
+        <select name="orderBy" class="search-bar__dropdown">
+            @{
+                var newestSelected = Model.OrderBy == "Newest" ? "selected" : null;
+                var oldestSelected = Model.OrderBy == "Oldest" ? "selected" : null;
+            }
+            <option value="Newest" selected="@newestSelected">Newest</option>
+            <option value="Oldest" selected="@oldestSelected">Oldest</option>
+        </select>
         <button class="search-bar__button" type="submit">
             <span class="search-bar__button-label">Search</span>
         </button>
