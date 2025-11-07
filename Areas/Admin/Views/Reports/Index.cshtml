@@ -8,54 +8,8 @@
 <link rel="stylesheet" href="~/css/shared/search-bar.css" asp-append-version="true" />
 <main>
     <div class="admin-reports">
-        <!-- Search Bar Component -->
-        <div class="search-bar">
-            <div class="search-bar__filters-row">
-                <div class="search-bar__input-container">
-                    <svg class="search-bar__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M21 21L16.65 16.65" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <input type="text" class="search-bar__input" placeholder="Search..." />
-                </div>
-
-                <div class="search-bar__dropdown">
-                    <span class="search-bar__dropdown-label">Any Location</span>
-                    <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 9L12 15L18 9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </div>
-
-                <div class="search-bar__dropdown">
-                    <span class="search-bar__dropdown-label">Any Date</span>
-                    <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 9L12 15L18 9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </div>
-
-                <div class="search-bar__dropdown">
-                    <span class="search-bar__dropdown-label">Any Tags</span>
-                    <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 9L12 15L18 9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </div>
-
-                <div class="search-bar__dropdown">
-                    <span class="search-bar__dropdown-label">Newest</span>
-                    <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 9L12 15L18 9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </div>
-
-                <button class="search-bar__button">
-                    <svg class="search-bar__button-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M21 21L16.65 16.65" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <span class="search-bar__button-label">Search</span>
-                </button>
-            </div>
-        </div>
+        <!-- Search and Filter Bar -->
+        <partial name="_ReportsSearchBar" model="Model.Filters" />
 
         <!-- Event Attendance Chart -->
         @{
