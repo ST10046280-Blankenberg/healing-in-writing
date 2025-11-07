@@ -64,7 +64,7 @@
                 </div>
                 <div class="admin-reports__chart-area">
                     <div class="admin-reports__chart-grid">
-                        @for (int i = 0; i <= 10; i++)
+                        @for (int i = 0; i <= 4; i++)
                         {
                             <div class="admin-reports__chart-grid-line"></div>
                         }
@@ -82,11 +82,13 @@
                         }
                     </div>
                     <div class="admin-reports__chart-x-axis">
-                        @for (int i = 0; i <= 10; i++)
+                        @for (int i = 0; i <= 4; i++)
                         {
-                            <span class="admin-reports__chart-x-label">@(i * (maxAttendance / 10))</span>
+                            var labelValue = (int)Math.Round(i * (maxAttendance / 4.0));
+                            <span class="admin-reports__chart-x-label">@labelValue</span>
                         }
                     </div>
+
                 </div>
             </div>
         </div>
