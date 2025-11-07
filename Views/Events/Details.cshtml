@@ -89,8 +89,8 @@
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="registrationId" value="@Model.UserRegistrationId" />
                     <input type="hidden" name="eventId" value="@Model.Id" />
-                    <button type="submit" class="event-details__button event-details__button--cancel">
-                        <span class="event-details__button-text">Cancel Registration</span>
+                    <button type="submit" class="btn btn--secondary">
+                        Cancel Registration
                     </button>
                 </form>
                 <p class="event-details__registered-message">You are registered for this event</p>
@@ -102,22 +102,22 @@
                     <form asp-area="" asp-controller="Events" asp-action="Register" method="post">
                         @Html.AntiForgeryToken()
                         <input type="hidden" name="eventId" value="@Model.Id" />
-                        <button type="submit" class="event-details__button">
-                            <span class="event-details__button-text">Register for Event</span>
+                        <button type="submit" class="btn btn--primary">
+                            Register for Event
                         </button>
                     </form>
                 }
                 else
                 {
-                    <button type="button" class="event-details__button" data-modal-open="guestRegistrationModal">
-                        <span class="event-details__button-text">Register as Guest</span>
+                    <button type="button" class="btn btn--primary" data-modal-open="guestRegistrationModal">
+                        Register as Guest
                     </button>
                 }
             }
             else
             {
-                <button type="button" class="event-details__button event-details__button--disabled" disabled>
-                    <span class="event-details__button-text">@Model.RegistrationStatusMessage</span>
+                <button type="button" class="btn btn--secondary" disabled>
+                    @Model.RegistrationStatusMessage
                 </button>
             }
         </article>
@@ -157,8 +157,8 @@
             </div>
 
             <div class="modal__actions">
-                <button type="button" class="modal__button modal__button--secondary" data-modal-close>Cancel</button>
-                <button type="submit" class="modal__button modal__button--primary">Register</button>
+                <button type="button" class="btn btn--secondary" data-modal-close>Cancel</button>
+                <button type="submit" class="btn btn--primary">Register</button>
             </div>
         </form>
     </div>

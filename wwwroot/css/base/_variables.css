@@ -105,6 +105,10 @@
     --transition-fast: 0.15s ease;
     --transition-base: 0.2s ease;
     --transition-slow: 0.3s ease;
+    
+    /*====== Button Styles =====*/
+    --brand-700-hover: #FFFFFF;
+    --brand-700-text-hover: #2F1648;
 }
 
 /* =========================================================
