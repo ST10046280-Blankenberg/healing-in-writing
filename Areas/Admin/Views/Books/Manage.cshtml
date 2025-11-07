@@ -1,4 +1,5 @@
 @model HealingInWriting.Models.Books.BookInventoryListViewModel
+@using HealingInWriting.Models.Shared
 
 @{
     ViewData["Title"] = "Manage Books";
@@ -45,41 +46,40 @@
     </header>
 
     <!-- Search Bar with AJAX Filter -->
-    <form id="book-filter-form" class="search-bar" autocomplete="off">
-        <!-- Search Input with Icon -->
-        <div class="search-bar__input-container">
-            <svg class="search-bar__icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-            <input type="text" name="searchTerm" class="search-bar__input" placeholder="Search..." value="@Model.SelectedCategory" />
-        </div>
-
-        <!-- Category Filter Dropdown -->
-        <select name="selectedCategory" class="search-bar__dropdown">
-            <option value="">Any Category</option>
-            @foreach (var category in Model.AvailableCategories)
+    @{
+        var searchConfig = new AdminSearchBarConfig
+        {
+            Controller = "Books",
+            SearchPlaceholder = "Search books...",
+            SearchInputName = "searchTerm",
+            Dropdowns = new List<AdminFilterDropdown>
             {
-                <option value="@category" selected="@(category == Model.SelectedCategory ? "selected" : null)">@category</option>
+                new()
+                {
+                    Name = "selectedCategory",
+                    Label = "Any Category",
+                    Options = Model.AvailableCategories.Select(c => new AdminDropdownOption
+                    {
+                        Value = c,
+                        Text = c,
+                        Selected = c == Model.SelectedCategory
+                    }).ToList()
+                },
+                new()
+                {
+                    Name = "selectedAuthor",
+                    Label = "Any Author",
+                    Options = Model.AvailableAuthors.Select(a => new AdminDropdownOption
+                    {
+                        Value = a,
+                        Text = a,
+                        Selected = a == Model.SelectedAuthor
+                    }).ToList()
+                }
             }
-        </select>
-
-        <!-- Author Filter Dropdown -->
-        <select name="selectedAuthor" class="search-bar__dropdown">
-            <option value="">Any Author</option>
-            @foreach (var author in Model.AvailableAuthors)
-            {
-                <option value="@author" selected="@(author == Model.SelectedAuthor ? "selected" : null)">@author</option>
-            }
-        </select>
-
-        <!-- Search Button -->
-        <button class="search-bar__button" type="submit">
-            <svg class="search-bar__button-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-            <span class="search-bar__button-label">Search</span>
-        </button>
-    </form>
+        };
+    }
+    <partial name="_AdminSearchBar" model="(searchConfig, Model.SelectedCategory ?? string.Empty)" />
 
     <!-- Book Inventory Section -->
     <main class="manage-books__inventory">
