@@ -532,37 +532,40 @@
    Responsive Design
    ========================================================= */
 
+/* Tablet and below (1024px) */
+@media (max-width: 1024px) {
+    .admin-manage-events {
+        padding: 24px 32px;
+    }
+    
+    .admin-manage-events__events {
+        padding: 20px;
+    }
+    
+    .admin-manage-events__events-header {
+        padding: 20px;
+    }
+    
+    .event-item {
+        padding: 20px;
+    }
+    
+    /* Search bar adjustments */
+    .admin-manage-events .search-bar {
+        padding: 24px;
+        flex-wrap: wrap;
+    }
+    
+    .admin-manage-events .search-bar__dropdown {
+        min-width: 140px;
+        width: 140px;
+    }
+}
+
 /* Tablet (768px - 1023px) */
 @media (max-width: 1023px) {
     .admin-manage-events {
         padding: 32px 32px;
-    }
-
-    .admin-manage-events__header-content {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
-    }
-
-    .admin-manage-events__create-btn {
-        width: 100%;
-    }
-}
-
-/* Mobile (max-width: 767px) */
-@media (max-width: 767px) {
-    .admin-manage-events {
-        padding: 24px 20px;
-    }
-
-    .admin-manage-events__title {
-        font-size: 24px;
-        line-height: 32px;
-    }
-
-    .admin-manage-events__subtitle {
-        font-size: 14px;
-        line-height: 22px;
     }
 
     .event-item__content {
@@ -571,36 +574,181 @@
         gap: 16px;
     }
 
+    .event-item__actions {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .event-item__status-form {
+        flex: 1;
+        min-width: calc(50% - 4px);
+    }
+
+    .event-item__btn {
+        flex: 1;
+        min-width: calc(50% - 4px);
+    }
+}
+
+/* Mobile landscape and below (768px) */
+@media (max-width: 768px) {
+    .admin-manage-events {
+        padding: 20px;
+        gap: 24px;
+    }
+    
+    /* Search bar mobile stacking */
+    .admin-manage-events .search-bar {
+        padding: 20px;
+        gap: 12px;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .admin-manage-events .search-bar__input-container,
+    .admin-manage-events .search-bar__dropdown,
+    .admin-manage-events .search-bar__button {
+        width: 100%;
+        min-width: 100%;
+    }
+    
+    .admin-manage-events__events {
+        padding: 16px;
+    }
+    
+    .admin-manage-events__events-header {
+        padding: 16px;
+    }
+    
+    .admin-manage-events__events-title {
+        font-size: 16px;
+        line-height: 24px;
+    }
+    
+    .event-item {
+        padding: 16px;
+    }
+    
+    .event-item__content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+    
+    .event-item__title {
+        font-size: 16px;
+        line-height: 24px;
+    }
+    
     .event-item__meta {
         flex-direction: column;
         align-items: flex-start;
         gap: 8px;
     }
-
+    
+    .event-item__meta-item {
+        white-space: normal;
+    }
+    
+    .event-item__meta-text {
+        white-space: normal;
+        word-break: break-word;
+    }
+    
     .event-item__actions {
         width: 100%;
         flex-direction: column;
+        gap: 8px;
     }
-
+    
+    .event-item__status-form {
+        width: 100%;
+        min-width: 100%;
+    }
+    
+    .event-item__status-select {
+        flex: 1;
+    }
+    
     .event-item__btn {
+        width: 100%;
+        min-width: 100%;
+    }
+    
+    .event-item__btn--registrations,
+    .event-item__btn--edit,
+    .event-item__btn--delete {
         width: 100%;
     }
 }
 
-/* Small Mobile (max-width: 480px) */
+/* Mobile portrait (480px) */
 @media (max-width: 480px) {
     .admin-manage-events {
-        padding: 20px 16px;
+        padding: 16px;
+        gap: 20px;
     }
-
-    .admin-manage-events__title {
-        font-size: 22px;
-        line-height: 28px;
+    
+    /* Search bar smaller padding */
+    .admin-manage-events .search-bar {
+        padding: 16px;
+        gap: 12px;
     }
-
+    
+    .admin-manage-events__events {
+        padding: 12px;
+    }
+    
+    .admin-manage-events__events-header {
+        padding: 12px 12px 16px;
+    }
+    
+    .admin-manage-events__events-title {
+        font-size: 14px;
+        line-height: 20px;
+    }
+    
+    .event-item {
+        padding: 12px;
+    }
+    
     .event-item__title {
-        font-size: 16px;
-        line-height: 24px;
+        font-size: 14px;
+        line-height: 20px;
+    }
+    
+    .event-item__meta-text {
+        font-size: 12px;
+        line-height: 18px;
+    }
+    
+    .event-item__badge {
+        font-size: 11px;
+        line-height: 16px;
+        padding: 2px 10px;
+        height: 20px;
+    }
+    
+    .event-item__status {
+        font-size: 11px;
+        line-height: 14px;
+        padding: 3px 10px;
+        height: 20px;
+    }
+    
+    .event-item__btn,
+    .event-item__status-submit {
+        font-size: 13px;
+        line-height: 18px;
+        padding: 8px 12px;
+        height: 34px;
+    }
+    
+    .event-item__status-select {
+        font-size: 13px;
+        line-height: 18px;
+        padding: 6px 10px;
+        height: 30px;
     }
 }
 
