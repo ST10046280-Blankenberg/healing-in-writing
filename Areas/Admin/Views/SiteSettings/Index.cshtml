@@ -34,23 +34,35 @@
                     <input asp-for="BankDetails.BankName" class="donation-settings__input" readonly />
                     <span asp-validation-for="BankDetails.BankName" class="text-danger"></span>
                 </div>
-                
+
+                <div class="donation-settings__field">
+                    <label asp-for="BankDetails.AccountName" class="donation-settings__label">Account Name</label>
+                    <input asp-for="BankDetails.AccountName" class="donation-settings__input" readonly />
+                    <span asp-validation-for="BankDetails.AccountName" class="text-danger"></span>
+                </div>
+
                 <div class="donation-settings__field">
                     <label asp-for="BankDetails.AccountNumber" class="donation-settings__label">Account Number</label>
                     <input asp-for="BankDetails.AccountNumber" class="donation-settings__input" readonly />
                     <span asp-validation-for="BankDetails.AccountNumber" class="text-danger"></span>
                 </div>
-                
-                <div class="donation-settings__field">
-                    <label asp-for="BankDetails.Branch" class="donation-settings__label">Branch</label>
-                    <input asp-for="BankDetails.Branch" class="donation-settings__input" readonly />
-                    <span asp-validation-for="BankDetails.Branch" class="text-danger"></span>
-                </div>
-                
+
                 <div class="donation-settings__field">
                     <label asp-for="BankDetails.BranchCode" class="donation-settings__label">Branch Code:</label>
                     <input asp-for="BankDetails.BranchCode" class="donation-settings__input" readonly />
                     <span asp-validation-for="BankDetails.BranchCode" class="text-danger"></span>
+                </div>
+
+                <div class="donation-settings__field">
+                    <label asp-for="BankDetails.AccountType" class="donation-settings__label">Account Type</label>
+                    <input asp-for="BankDetails.AccountType" class="donation-settings__input" readonly />
+                    <span asp-validation-for="BankDetails.AccountType" class="text-danger"></span>
+                </div>
+
+                <div class="donation-settings__field">
+                    <label asp-for="BankDetails.Branch" class="donation-settings__label">Branch</label>
+                    <input asp-for="BankDetails.Branch" class="donation-settings__input" readonly />
+                    <span asp-validation-for="BankDetails.Branch" class="text-danger"></span>
                 </div>
             </div>
             

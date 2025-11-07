@@ -11,8 +11,14 @@ namespace HealingInWriting.Domain.Common
         [Required, StringLength(100)]
         public string BankName { get; set; }
 
+        [Required, StringLength(150)]
+        public string AccountName { get; set; }
+
         [Required, StringLength(50)]
         public string AccountNumber { get; set; }
+
+        [Required, StringLength(50)]
+        public string AccountType { get; set; }
 
         [StringLength(100)]
         public string Branch { get; set; }
