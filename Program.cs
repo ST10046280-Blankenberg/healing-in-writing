@@ -363,6 +363,7 @@ app.Use(async (context, next) =>
         "img-src 'self' data: https: http://books.google.com",
 
         "connect-src 'self'",
+        "frame-src 'self' https://www.google.com", // Allow Google Maps iframes
         "frame-ancestors 'none'",
         "base-uri 'self'",
         "form-action 'self'"

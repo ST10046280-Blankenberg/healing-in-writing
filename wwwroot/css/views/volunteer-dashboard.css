@@ -417,7 +417,71 @@
 }
 
 /* =========================================================
-   Action Buttons
+   Dashboard Action Buttons - Tailored Hover Effects
+   ========================================================= */
+
+/* Base styling for all dashboard action buttons */
+.dashboard-action-btn {
+    width: 100%;
+    min-height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+}
+
+/* Primary button (Submit a Story) - Brand Purple #2F1648 
+   Default: Dark background, white text
+   Hover: White background, dark text, dark border */
+.dashboard-action-btn.btn--primary {
+    background: #2F1648;
+    color: #FFFFFF;
+    border: 2px solid #2F1648;
+}
+
+.dashboard-action-btn.btn--primary:hover {
+    background: #FFFFFF;
+    color: #2F1648;
+    border-color: #2F1648;
+}
+
+/* Rose button (My Stories) - Custom Rose #CA9F9D 
+   Default: Rose background, white text
+   Hover: White background, rose text, rose border */
+.dashboard-action-btn--rose {
+    background: #CA9F9D;
+    color: #FFFFFF;
+    border: 2px solid #CA9F9D;
+}
+
+.dashboard-action-btn--rose:hover {
+    background: #FFFFFF;
+    color: #CA9F9D;
+    border-color: #CA9F9D;
+}
+
+.dashboard-action-btn--rose:active {
+    background: #F5F5F5;
+    transform: scale(0.98);
+}
+
+/* Secondary/Outline buttons (Browse Events, Log Hours) 
+   Default: Transparent/white background, dark text, dark border
+   Hover: Dark background, white text, dark border */
+.dashboard-action-btn.btn--secondary {
+    background: transparent;
+    color: #2F1648;
+    border: 2px solid #2F1648;
+}
+
+.dashboard-action-btn.btn--secondary:hover {
+    background: #2F1648;
+    color: #FFFFFF;
+    border-color: #2F1648;
+}
+
+/* =========================================================
+   Action Buttons - OLD STYLES
    ========================================================= */
 
 .action-button {

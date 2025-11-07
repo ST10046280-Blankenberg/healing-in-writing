@@ -238,7 +238,7 @@
     flex-grow: 0;
 }
 
-/* Import Details Button */
+/* Import Details Button - Inverse hover effect */
 .add-book__import-btn {
     /* Box Model */
     display: flex;
@@ -252,7 +252,7 @@
     
     /* Visual */
     background: #2F1648;
-    border: none;
+    border: 2px solid #2F1648;
     border-radius: 8px;
     
     /* Typography */
@@ -271,17 +271,22 @@
     
     /* Animation */
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    transition: all 0.2s ease;
 }
 
 .add-book__import-btn:hover {
-    background: #3d1d5a;
+    background: #FFFFFF;
+    color: #2F1648;
+    border-color: #2F1648;
     transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(47, 22, 72, 0.15);
 }
 
 .add-book__import-btn:active {
-    background: #251038;
-    transform: scale(0.98);
+    background: #FFFFFF;
+    color: #2F1648;
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(47, 22, 72, 0.1);
 }
 
 /* Two Column Row */
@@ -468,7 +473,7 @@
     flex-grow: 0;
 }
 
-/* Submit Button */
+/* Submit Button (Add Book / Save Changes) - Inverse hover effect */
 .add-book__submit-btn {
     /* Box Model */
     display: flex;
@@ -482,7 +487,7 @@
     
     /* Visual */
     background: #2F1648;
-    border: none;
+    border: 2px solid #2F1648;
     border-radius: 8px;
     
     /* Typography */
@@ -501,21 +506,25 @@
     
     /* Animation */
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    transition: all 0.2s ease;
 }
 
 .add-book__submit-btn:hover {
-    background: #3d1d5a;
+    background: #FFFFFF;
+    color: #2F1648;
+    border-color: #2F1648;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(47, 22, 72, 0.3);
 }
 
 .add-book__submit-btn:active {
-    background: #251038;
-    transform: scale(0.98);
+    background: #FFFFFF;
+    color: #2F1648;
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(47, 22, 72, 0.2);
 }
 
-/* Discard Button */
+/* Discard Button - Inverse hover effect */
 .add-book__discard-btn {
     /* Box Model */
     display: flex;
@@ -554,18 +563,18 @@
 }
 
 .add-book__discard-btn:hover {
-    background: #F9FAFB;
-    border-color: #3d1d5a;
-    color: #3d1d5a;
+    background: #2F1648;
+    color: #FFFFFF;
+    border-color: #2F1648;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(47, 22, 72, 0.15);
 }
 
 .add-book__discard-btn:active {
-    background: #E5E7EB;
-    border-color: #251038;
-    color: #251038;
-    transform: scale(0.98);
+    background: #2F1648;
+    color: #FFFFFF;
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(47, 22, 72, 0.1);
 }
 
 /* ========================================

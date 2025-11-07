@@ -4,6 +4,9 @@
    Following BEM Naming Convention
    ========================================================= */
 
+/* Import Global Button Component */
+@import url('../base/buttons.css');
+
 /* =========================================================
    Main Events Container
    ========================================================= */
@@ -78,28 +81,26 @@
 
 
 /* =========================================================
-   Event Card Component
+   Event Card Component - Fixed Heights
    ========================================================= */
 
 .event-card {
     /* Box Model */
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     padding: 0;
     width: 304px;
-    height: 523px;
-    
+    height: 554px; /* Reduced from 577px for 2-line description */
+
     /* Visual */
     background: #FFFFFF;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1), 0px 10px 15px rgba(0, 0, 0, 0.1);
     border-radius: 16px;
     overflow: hidden;
-    
+
     /* Animation */
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    
+
     /* Layout */
     flex: none;
     flex-grow: 0;
@@ -110,68 +111,48 @@
     box-shadow: 0px 8px 12px rgba(0, 0, 0, 0.15), 0px 16px 24px rgba(0, 0, 0, 0.15);
 }
 
-/* Event Card Image */
+/* Event Card Image - Fixed Height */
 .event-card__image {
     /* Box Model */
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    width: 304px;
-    height: 261.5px;
-    
+    width: 100%;
+    height: 200px; /* Fixed height */
+    flex-shrink: 0;
+
     /* Visual */
     object-fit: cover;
-    
-    /* Layout */
-    flex: none;
-    align-self: stretch;
-    flex-grow: 1;
 }
 
-/* Event Card Content */
+/* Event Card Content - Fixed Structure */
 .event-card__content {
     /* Box Model */
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding: 24px 24px 10px 24px; /* Top, Right, Bottom, Left - Bottom is 10px for button spacing */
-    gap: 16px;
-    width: 304px;
-    height: 261.5px;
-    
-    /* Layout */
-    flex: none;
-    align-self: stretch;
-    flex-grow: 1;
+    padding: 24px;
+    height: 354px; /* Reduced from 377px for 2-line description */
+    flex-shrink: 0;
 }
 
-/* Event Card Badge */
+/* Event Card Badge - Fixed Height */
 .event-card__badge {
     /* Box Model */
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+    display: inline-flex;
     align-items: center;
-    padding: 8px 16px;
-    gap: 10px;
-    height: 36px;
-    
+    justify-content: center;
+    padding: 6px 16px;
+    height: 32px; /* Fixed height */
+    width: fit-content;
+    margin-bottom: 16px; /* Increased from 12px */
+    flex-shrink: 0;
+
     /* Visual */
     border-radius: 9999px;
-    
+
     /* Typography */
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
-    line-height: 21px;
-    
-    /* Layout */
-    flex: none;
-    flex-grow: 0;
+    line-height: 20px;
 }
 
 .event-card__badge--community {
@@ -184,12 +165,13 @@
     color: #FFFFFF;
 }
 
-/* Event Card Title */
+/* Event Card Title - Fixed Height with Overflow */
 .event-card__title {
     /* Box Model */
-    width: 100%;
-    margin: 0;
-    
+    height: 56px; /* Fixed height for 2 lines */
+    margin: 0 0 16px 0; /* Increased from 12px */
+    flex-shrink: 0;
+
     /* Typography */
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-style: normal;
@@ -197,28 +179,25 @@
     font-size: 20px;
     line-height: 28px;
     color: #2F1648;
-    
-    /* Layout */
-    flex: none;
-    align-self: stretch;
-    flex-grow: 0;
+
+    /* Overflow Handling */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-/* Event Card Meta Container */
+/* Event Card Meta Container - Fixed Height */
 .event-card__meta {
     /* Box Model */
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 0;
     gap: 16px;
-    width: 100%;
-    height: 24px;
-    
-    /* Layout */
-    flex: none;
-    align-self: stretch;
-    flex-grow: 0;
+    height: 24px; /* Fixed height */
+    margin-bottom: 16px; /* Increased from 12px */
+    flex-shrink: 0;
 }
 
 /* Event Card Meta Item */
@@ -227,52 +206,33 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 0;
-    gap: 12px;
-    
-    /* Layout */
-    flex: none;
-    flex-grow: 0;
+    gap: 8px;
 }
 
 /* Event Card Icon */
 .event-card__icon {
     /* Box Model */
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    padding: 0;
     flex-shrink: 0;
-    
-    /* Layout */
-    flex: none;
-    flex-grow: 0;
 }
 
 /* Event Card Meta Text */
 .event-card__meta-text {
-    /* Box Model */
-    height: 24px;
-    
     /* Typography */
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-style: normal;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 24px;
     color: #4B5563;
-    
-    /* Layout */
-    flex: none;
-    flex-grow: 0;
+    white-space: nowrap;
 }
 
-/* Event Card Description */
-.event-card__description {
+/* Event Card Description - Fixed Height with Overflow */
+.event-card__description-text {
     /* Box Model */
-    width: 100%;
-    margin: 0;
+    height: 69px; /* Fixed height for 2 lines (23px * 2) */
+    margin: 0 0 20px 0;
+    flex-shrink: 0;
     
     /* Typography */
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -281,33 +241,31 @@
     font-size: 14px;
     line-height: 23px;
     color: #4B5563;
-    
-    /* Layout */
-    flex: none;
-    align-self: stretch;
-    flex-grow: 0;
+
+    /* Overflow Handling */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-/* Event Card Button */
+/* Old button styles - replaced with global .btn component
 .event-card__button {
-    /* Box Model */
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 12px 12px;
-    gap: 10px;
-    width: 100%;
+    padding: 12px;
     height: 48px;
-    margin-top: auto; /* Push button to bottom */
-    margin-bottom: 0; /* No bottom margin - 10px spacing handled by content padding */
-    
-    /* Visual */
+    width: 100%;
+    margin-top: auto;
+    flex-shrink: 0;
+
     background: #2F1648;
     border: none;
     border-radius: 8px;
-    
-    /* Typography */
+    text-decoration: none;
+
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-style: normal;
     font-weight: 500;
@@ -315,15 +273,9 @@
     line-height: 24px;
     text-align: center;
     color: #FFFFFF;
-    
-    /* Animation */
+
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.1s ease;
-    
-    /* Layout */
-    flex: none;
-    align-self: stretch;
-    flex-grow: 0;
 }
 
 .event-card__button:hover {
@@ -339,6 +291,7 @@
     outline: 2px solid #2F1648;
     outline-offset: 2px;
 }
+*/
 
 /* =========================================================
    Load More Section
@@ -361,20 +314,18 @@
     flex-grow: 0;
 }
 
+/* Old button styles - replaced with global .btn component
 .events__load-more-button {
-    /* Box Model */
     box-sizing: border-box;
     margin: 0 auto;
     width: 206.03px;
     height: 50px;
     padding: 12px 14px;
     
-    /* Visual */
     background: #FFFFFF;
     border: 1px solid #2F1648;
     border-radius: 8px;
     
-    /* Typography */
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-style: normal;
     font-weight: 500;
@@ -383,11 +334,9 @@
     text-align: center;
     color: #2F1648;
     
-    /* Animation */
     cursor: pointer;
     transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
     
-    /* Layout */
     flex: none;
     flex-grow: 0;
 }
@@ -405,6 +354,7 @@
     outline: 2px solid #2F1648;
     outline-offset: 2px;
 }
+*/
 
 /* =========================================================
    Responsive Design
@@ -508,10 +458,12 @@
         height: auto;
     }
     
+    /* Old button class - no longer used
     .events__load-more-button {
         width: 100%;
         max-width: 300px;
     }
+    */
 }
 
 /* Small Mobile (max-width: 480px) */
@@ -534,9 +486,11 @@
         line-height: 22px;
     }
     
+    /* Old button class - no longer used
     .event-card__button {
         padding: 12px 24px;
     }
+    */
 }
 
 /* =========================================================
@@ -753,9 +707,8 @@
     flex-grow: 1;
 }
 
-/* Join Event Button */
+/* Old button styles - replaced with global .btn component
 .event-details__button {
-    /* Box Model */
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -766,16 +719,13 @@
     width: auto;
     height: 56px;
     
-    /* Visual */
     background: #2F1648;
     border: none;
     border-radius: 8px;
     
-    /* Animation */
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.1s ease;
     
-    /* Layout */
     flex: none;
     flex-grow: 0;
 }
@@ -795,10 +745,8 @@
 }
 
 .event-details__button-text {
-    /* Box Model */
     height: 24px;
     
-    /* Typography */
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-style: normal;
     font-weight: 500;
@@ -808,10 +756,10 @@
     color: #FFFFFF;
     white-space: nowrap;
     
-    /* Layout */
     flex: none;
     flex-grow: 0;
 }
+*/
 
 /* =========================================================
    Event Details Page - Responsive Design
@@ -858,9 +806,11 @@
         line-height: 22px;
     }
     
+    /* Old button class - no longer used
     .event-details__button {
         width: 100%;
     }
+    */
     
     .event-details__tag {
         width: auto;
