@@ -188,4 +188,87 @@ public class StoryService : IStoryService
 
         return stories is IReadOnlyCollection<Story> readOnly ? readOnly : stories.ToList();
     }
+
+    public async Task<(IEnumerable<Story> Stories, int TotalCount)> GetFilteredStoriesForAdminAsync(
+        string? searchTerm,
+        StoryStatus? status,
+        string? dateRange,
+        string? tag,
+        string sortOrder,
+        int page,
+        int pageSize)
+    {
+        var query = _context.Stories
+            .Include(s => s.Author)
+                .ThenInclude(a => a.User)
+            .Include(s => s.Tags)
+            .AsQueryable();
+
+        // Apply search filter
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            var term = searchTerm.Trim().ToLower();
+            query = query.Where(s =>
+                s.Title.ToLower().Contains(term) ||
+                (s.Summary != null && s.Summary.ToLower().Contains(term)) ||
+                s.Content.ToLower().Contains(term));
+        }
+
+        // Apply status filter
+        if (status.HasValue)
+        {
+            query = query.Where(s => s.Status == status.Value);
+        }
+
+        // Apply tag filter
+        if (!string.IsNullOrWhiteSpace(tag))
+        {
+            query = query.Where(s => s.Tags.Any(t =>
+                t.Name.Equals(tag, StringComparison.OrdinalIgnoreCase)));
+        }
+
+        // Apply date range filter
+        var dateThreshold = ParseDateRange(dateRange);
+        if (dateThreshold.HasValue)
+        {
+            query = query.Where(s => s.CreatedAt >= dateThreshold.Value);
+        }
+
+        // Apply sorting
+        query = sortOrder?.ToLower() switch
+        {
+            "oldest" => query.OrderBy(s => s.CreatedAt),
+            _ => query.OrderByDescending(s => s.CreatedAt)
+        };
+
+        // Get total count before pagination
+        var totalCount = await query.CountAsync();
+
+        // Apply pagination
+        var stories = await query
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (stories, totalCount);
+    }
+
+    private static DateTime? ParseDateRange(string? dateRange)
+    {
+        if (string.IsNullOrWhiteSpace(dateRange) ||
+            dateRange.Equals("any", StringComparison.OrdinalIgnoreCase))
+        {
+            return null;
+        }
+
+        var now = DateTime.UtcNow;
+        return dateRange.ToLowerInvariant() switch
+        {
+            "last7" => now.AddDays(-7),
+            "last30" => now.AddDays(-30),
+            "last90" => now.AddDays(-90),
+            "this-year" => new DateTime(now.Year, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+            _ => null
+        };
+    }
 }
