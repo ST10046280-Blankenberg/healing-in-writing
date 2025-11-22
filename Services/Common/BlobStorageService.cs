@@ -1,5 +1,6 @@
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+using Azure.Storage.Sas;
 using HealingInWriting.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 
@@ -7,21 +8,26 @@ namespace HealingInWriting.Services.Common
 {
     public class BlobStorageService : IBlobStorageService
     {
-        private readonly BlobContainerClient? _containerClient;
+        private readonly BlobServiceClient? _blobServiceClient;
         private readonly ILogger<BlobStorageService> _logger;
+        private readonly IConfiguration _configuration;
         private readonly bool _isAvailable;
+        private const string PublicContainerName = "uploads";
+        private const string PrivateContainerName = "private";
 
         public BlobStorageService(
             ILogger<BlobStorageService> logger,
-            BlobContainerClient? containerClient = null)
+            IConfiguration configuration,
+            BlobServiceClient? blobServiceClient = null)
         {
             _logger = logger;
-            _containerClient = containerClient;
-            _isAvailable = containerClient != null;
+            _configuration = configuration;
+            _blobServiceClient = blobServiceClient;
+            _isAvailable = blobServiceClient != null;
 
             if (!_isAvailable)
             {
-                _logger.LogWarning("BlobStorageService initialized without BlobContainerClient. Blob storage features will be unavailable.");
+                _logger.LogWarning("BlobStorageService initialized without BlobServiceClient. Blob storage features will be unavailable.");
             }
         }
 
@@ -30,9 +36,20 @@ namespace HealingInWriting.Services.Common
             return _isAvailable;
         }
 
-        public async Task<string> UploadImageAsync(IFormFile file, string containerPath = "")
+        private BlobContainerClient GetContainerClient(bool isPublic)
         {
-            if (!_isAvailable || _containerClient == null)
+            if (_blobServiceClient == null)
+            {
+                throw new InvalidOperationException("Blob storage is not configured.");
+            }
+
+            var containerName = isPublic ? PublicContainerName : PrivateContainerName;
+            return _blobServiceClient.GetBlobContainerClient(containerName);
+        }
+
+        public async Task<string> UploadImageAsync(IFormFile file, string containerPath = "", bool isPublic = true)
+        {
+            if (!_isAvailable || _blobServiceClient == null)
             {
                 throw new InvalidOperationException("Blob storage is not configured. Please configure ConnectionStrings:StorageConnection in your settings.");
             }
@@ -60,13 +77,15 @@ namespace HealingInWriting.Services.Common
 
             try
             {
+                var containerClient = GetContainerClient(isPublic);
+
                 // Generate unique blob name
                 var fileName = $"{Guid.NewGuid()}{fileExtension}";
                 var blobName = string.IsNullOrEmpty(containerPath)
                     ? fileName
                     : $"{containerPath.TrimEnd('/')}/{fileName}";
 
-                var blobClient = _containerClient.GetBlobClient(blobName);
+                var blobClient = containerClient.GetBlobClient(blobName);
 
                 // Set content type based on extension
                 var contentType = fileExtension switch
@@ -82,7 +101,7 @@ namespace HealingInWriting.Services.Common
                 var blobHttpHeaders = new BlobHttpHeaders
                 {
                     ContentType = contentType,
-                    CacheControl = "public, max-age=31536000" // Cache for 1 year
+                    CacheControl = isPublic ? "public, max-age=31536000" : "private, max-age=3600"
                 };
 
                 await using var stream = file.OpenReadStream();
@@ -91,7 +110,14 @@ namespace HealingInWriting.Services.Common
                     HttpHeaders = blobHttpHeaders
                 });
 
-                _logger.LogInformation("Successfully uploaded blob: {BlobName}", blobName);
+                _logger.LogInformation("Successfully uploaded blob to {Container}: {BlobName}",
+                    isPublic ? "public" : "private", blobName);
+
+                // For private blobs, return URL with SAS token
+                if (!isPublic)
+                {
+                    return GenerateSasUrl(blobClient, expiryHours: 1);
+                }
 
                 return blobClient.Uri.ToString();
             }
@@ -102,9 +128,9 @@ namespace HealingInWriting.Services.Common
             }
         }
 
-        public async Task<bool> DeleteImageAsync(string blobUrl)
+        public async Task<bool> DeleteImageAsync(string blobUrl, bool isPublic = true)
         {
-            if (!_isAvailable || _containerClient == null)
+            if (!_isAvailable || _blobServiceClient == null)
             {
                 _logger.LogWarning("Attempted to delete blob but storage is not configured: {BlobUrl}", blobUrl);
                 return false;
@@ -117,16 +143,19 @@ namespace HealingInWriting.Services.Common
 
             try
             {
-                // Extract blob name from URL
-                var uri = new Uri(blobUrl);
+                var containerClient = GetContainerClient(isPublic);
+
+                // Extract blob name from URL (remove query string if present - SAS token)
+                var uri = new Uri(blobUrl.Split('?')[0]);
                 var blobName = uri.Segments.Skip(2).Aggregate((a, b) => a + b).TrimStart('/');
 
-                var blobClient = _containerClient.GetBlobClient(blobName);
+                var blobClient = containerClient.GetBlobClient(blobName);
                 var response = await blobClient.DeleteIfExistsAsync();
 
                 if (response.Value)
                 {
-                    _logger.LogInformation("Successfully deleted blob: {BlobName}", blobName);
+                    _logger.LogInformation("Successfully deleted blob from {Container}: {BlobName}",
+                        isPublic ? "public" : "private", blobName);
                 }
                 else
                 {
@@ -142,26 +171,59 @@ namespace HealingInWriting.Services.Common
             }
         }
 
-        public async Task<string> GetBlobUrlAsync(string blobName, string containerPath = "")
+        public async Task<string> GetBlobUrlAsync(string blobName, string containerPath = "", bool isPublic = true, int expiryHours = 1)
         {
-            if (!_isAvailable || _containerClient == null)
+            if (!_isAvailable || _blobServiceClient == null)
             {
                 throw new InvalidOperationException("Blob storage is not configured.");
             }
+
+            var containerClient = GetContainerClient(isPublic);
 
             var fullBlobName = string.IsNullOrEmpty(containerPath)
                 ? blobName
                 : $"{containerPath.TrimEnd('/')}/{blobName}";
 
-            var blobClient = _containerClient.GetBlobClient(fullBlobName);
+            var blobClient = containerClient.GetBlobClient(fullBlobName);
 
-            // Optionally verify the blob exists
-            if (await blobClient.ExistsAsync())
+            // Verify the blob exists
+            if (!await blobClient.ExistsAsync())
             {
-                return blobClient.Uri.ToString();
+                throw new FileNotFoundException($"Blob not found: {fullBlobName}");
             }
 
-            throw new FileNotFoundException($"Blob not found: {fullBlobName}");
+            // For private blobs, generate SAS token
+            if (!isPublic)
+            {
+                return GenerateSasUrl(blobClient, expiryHours);
+            }
+
+            return blobClient.Uri.ToString();
+        }
+
+        private string GenerateSasUrl(BlobClient blobClient, int expiryHours)
+        {
+            // Check if the client can generate SAS tokens
+            if (!blobClient.CanGenerateSasUri)
+            {
+                _logger.LogError("BlobClient cannot generate SAS URI. Ensure you're using AccountKey authentication.");
+                throw new InvalidOperationException("Cannot generate SAS token. Storage account key is required.");
+            }
+
+            var sasBuilder = new BlobSasBuilder
+            {
+                BlobContainerName = blobClient.BlobContainerName,
+                BlobName = blobClient.Name,
+                Resource = "b", // b = blob
+                StartsOn = DateTimeOffset.UtcNow.AddMinutes(-5), // Start 5 minutes ago to account for clock skew
+                ExpiresOn = DateTimeOffset.UtcNow.AddHours(expiryHours)
+            };
+
+            // Set read permissions
+            sasBuilder.SetPermissions(BlobSasPermissions.Read);
+
+            var sasUri = blobClient.GenerateSasUri(sasBuilder);
+            return sasUri.ToString();
         }
     }
 }

@@ -151,31 +151,27 @@ builder.Services.AddScoped<IGalleryService, GalleryService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 
 // Azure Blob Storage for image uploads (optional, configured via StorageConnection)
-// Register clients only if connection string is present
+// Supports both public and private containers for POPIA compliance
 var storageConnectionString = builder.Configuration.GetConnectionString("StorageConnection");
 if (!string.IsNullOrEmpty(storageConnectionString))
 {
+    // Register BlobServiceClient as singleton
     builder.Services.AddSingleton(sp =>
     {
         return new Azure.Storage.Blobs.BlobServiceClient(storageConnectionString);
     });
-    builder.Services.AddScoped(sp =>
-    {
-        var blobServiceClient = sp.GetRequiredService<Azure.Storage.Blobs.BlobServiceClient>();
-        var containerName = builder.Configuration["Blob:Container"] ?? "uploads";
-        return blobServiceClient.GetBlobContainerClient(containerName);
-    });
 
-    // Register BlobStorageService with container client
+    // Register BlobStorageService with BlobServiceClient
     builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
 }
 else
 {
-    // Register BlobStorageService without container client (will operate in unavailable mode)
+    // Register BlobStorageService without BlobServiceClient (will operate in unavailable mode)
     builder.Services.AddScoped<IBlobStorageService>(sp =>
     {
         var logger = sp.GetRequiredService<ILogger<BlobStorageService>>();
-        return new BlobStorageService(logger, null);
+        var configuration = sp.GetRequiredService<IConfiguration>();
+        return new BlobStorageService(logger, configuration, null);
     });
 }
 
