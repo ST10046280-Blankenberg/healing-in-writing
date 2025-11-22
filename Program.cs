@@ -165,6 +165,18 @@ if (!string.IsNullOrEmpty(storageConnectionString))
         var containerName = builder.Configuration["Blob:Container"] ?? "uploads";
         return blobServiceClient.GetBlobContainerClient(containerName);
     });
+
+    // Register BlobStorageService with container client
+    builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
+}
+else
+{
+    // Register BlobStorageService without container client (will operate in unavailable mode)
+    builder.Services.AddScoped<IBlobStorageService>(sp =>
+    {
+        var logger = sp.GetRequiredService<ILogger<BlobStorageService>>();
+        return new BlobStorageService(logger, null);
+    });
 }
 
 // Configure rate limiting to prevent brute force, credential stuffing, and DDoS attacks
