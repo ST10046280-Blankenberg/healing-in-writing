@@ -93,10 +93,13 @@ function insertListItem(textarea) {
  */
 function initializeImageUpload() {
     const imageInput = document.getElementById('CoverImage');
-    const imagePreviewDiv = document.querySelector('.event-details__image-preview');
-    const imagePlaceholder = document.querySelector('.event-details__image-placeholder');
-
     if (!imageInput) return;
+
+    // Find the main container
+    const container = imageInput.closest('.event-details__image-upload');
+    if (!container) return;
+
+    const placeholder = container.querySelector('.event-details__image-placeholder');
 
     imageInput.addEventListener('change', function (e) {
         const file = e.target.files[0];
@@ -105,29 +108,33 @@ function initializeImageUpload() {
             const reader = new FileReader();
 
             reader.onload = function (e) {
-                // Update or create preview image
-                if (imagePreviewDiv) {
-                    const img = imagePreviewDiv.querySelector('img');
-                    if (img) {
-                        img.src = e.target.result;
-                    } else {
-                        imagePreviewDiv.innerHTML = `<img src="${e.target.result}" alt="Event cover preview" style="max-width: 300px; max-height: 200px; object-fit: cover;" />`;
-                    }
-                } else {
-                    // Create preview div if it doesn't exist
-                    const previewDiv = document.createElement('div');
-                    previewDiv.className = 'event-details__image-preview';
-                    previewDiv.style.marginBottom = '10px';
-                    previewDiv.innerHTML = `<img src="${e.target.result}" alt="Event cover preview" style="max-width: 300px; max-height: 200px; object-fit: cover;" />`;
-                    imagePlaceholder.parentElement.insertBefore(previewDiv, imagePlaceholder);
+                // Check if we already have a preview image
+                let previewImg = placeholder.querySelector('.event-details__preview-image');
+                let overlay = placeholder.querySelector('.event-details__change-overlay');
+                let uploadContent = placeholder.querySelector('.event-details__upload-content');
+
+                // Hide upload content if it exists
+                if (uploadContent) {
+                    uploadContent.style.display = 'none';
                 }
 
-                // Update placeholder text
-                if (imagePlaceholder) {
-                    const label = imagePlaceholder.querySelector('label span');
-                    if (label) {
-                        label.textContent = 'Click to change cover image';
-                    }
+                // Update or create preview image
+                if (previewImg) {
+                    previewImg.src = e.target.result;
+                } else {
+                    previewImg = document.createElement('img');
+                    previewImg.className = 'event-details__preview-image';
+                    previewImg.src = e.target.result;
+                    previewImg.alt = 'Event cover preview';
+                    placeholder.appendChild(previewImg);
+                }
+
+                // Update or create overlay
+                if (!overlay) {
+                    overlay = document.createElement('div');
+                    overlay.className = 'event-details__change-overlay';
+                    overlay.textContent = 'Change Image';
+                    placeholder.appendChild(overlay);
                 }
             };
 
