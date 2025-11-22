@@ -368,7 +368,8 @@ app.Use(async (context, next) =>
         "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net", 
         
         // 2. ADDED http://books.google.com to allow book cover images
-        "img-src 'self' data: https: http://books.google.com",
+        // 3. ADDED Azure Blob Storage domain for uploaded images
+        "img-src 'self' data: https: http://books.google.com https://healinginwritingstorage.blob.core.windows.net",
 
         "connect-src 'self'",
         "frame-src 'self' https://www.google.com", // Allow Google Maps iframes

@@ -19,17 +19,20 @@ namespace HealingInWriting.Areas.Admin.Controllers
         private readonly IPrivacyPolicyService _privacyPolicyService;
         private readonly IOurImpactService _ourImpactService;
         private readonly IGalleryService _galleryService;
+        private readonly IBlobStorageService _blobStorageService;
 
         public SiteSettingsController(
             IBankDetailsService bankDetailsService,
             IPrivacyPolicyService privacyPolicyService,
             IOurImpactService ourImpactService,
-            IGalleryService galleryService)
+            IGalleryService galleryService,
+            IBlobStorageService blobStorageService)
         {
             _bankDetailsService = bankDetailsService;
             _privacyPolicyService = privacyPolicyService;
             _ourImpactService = ourImpactService;
             _galleryService = galleryService;
+            _blobStorageService = blobStorageService;
         }
 
         [HttpGet]
@@ -191,54 +194,56 @@ namespace HealingInWriting.Areas.Admin.Controllers
                 TempData["GalleryError"] = "Please select an image to upload.";
                 return RedirectToAction("Index");
             }
-            
+
             if (string.IsNullOrWhiteSpace(altText))
             {
                 TempData["GalleryError"] = "Please provide alt text/description for the image.";
                 return RedirectToAction("Index");
             }
-            
+
             // Validate collection ID for albums
             if (isAlbum && string.IsNullOrWhiteSpace(collectionId))
             {
                 TempData["GalleryError"] = "Album photos require a collection ID. Please select an existing collection or create a new one.";
                 return RedirectToAction("Index");
             }
-            
-            // Save image to /wwwroot/images/gallery/
-            var extension = Path.GetExtension(image.FileName).ToLowerInvariant();
-            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
-            if (!allowedExtensions.Contains(extension))
+
+            try
             {
-                TempData["GalleryError"] = "Invalid file type. Only image files are allowed.";
+                // Upload image to Azure Blob Storage (public container)
+                // BlobStorageService handles validation (file type, size, etc.)
+                var imageUrl = await _blobStorageService.UploadImageAsync(image, "gallery", isPublic: true);
+
+                var entity = new HealingInWriting.Domain.Gallery.GalleryItem
+                {
+                    ImageUrl = imageUrl,
+                    AltText = altText,
+                    IsAlbum = isAlbum,
+                    AlbumPhotoCount = albumPhotoCount,
+                    CollectionId = !string.IsNullOrWhiteSpace(collectionId) ? collectionId : null,
+                    CreatedDate = DateTime.UtcNow
+                };
+                await _galleryService.AddAsync(entity, User.Identity?.Name ?? "System");
+                TempData["GallerySuccess"] = "Photo added successfully.";
                 return RedirectToAction("Index");
             }
-            if (image.Length > 5 * 1024 * 1024)
+            catch (ArgumentException ex)
             {
-                TempData["GalleryError"] = "File size exceeds 5MB limit.";
+                // Validation errors from BlobStorageService
+                TempData["GalleryError"] = ex.Message;
                 return RedirectToAction("Index");
             }
-            var fileName = $"{Guid.NewGuid()}{extension}";
-            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "gallery");
-            if (!Directory.Exists(uploadsFolder))
-                Directory.CreateDirectory(uploadsFolder);
-            var filePath = Path.Combine(uploadsFolder, fileName);
-            using (var stream = new FileStream(filePath, FileMode.Create))
+            catch (InvalidOperationException ex)
             {
-                await image.CopyToAsync(stream);
+                // Blob storage not configured
+                TempData["GalleryError"] = $"Storage error: {ex.Message}";
+                return RedirectToAction("Index");
             }
-            var entity = new HealingInWriting.Domain.Gallery.GalleryItem
+            catch (Exception ex)
             {
-                ImageUrl = $"/images/gallery/{fileName}",
-                AltText = altText,
-                IsAlbum = isAlbum,
-                AlbumPhotoCount = albumPhotoCount,
-                CollectionId = !string.IsNullOrWhiteSpace(collectionId) ? collectionId : null,
-                CreatedDate = DateTime.UtcNow
-            };
-            await _galleryService.AddAsync(entity, User.Identity?.Name ?? "System");
-            TempData["GallerySuccess"] = "Photo added successfully.";
-            return RedirectToAction("Index");
+                TempData["GalleryError"] = $"Error uploading photo: {ex.Message}";
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]
@@ -250,15 +255,24 @@ namespace HealingInWriting.Areas.Admin.Controllers
                 var item = await _galleryService.GetByIdAsync(id);
                 if (item != null)
                 {
-                    // Delete physical file from disk
-                    var imagePath = item.ImageUrl.TrimStart('/');
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", imagePath);
-                    
-                    if (System.IO.File.Exists(filePath))
+                    // Check if this is a blob storage URL or local file path
+                    if (item.ImageUrl.StartsWith("https://") || item.ImageUrl.StartsWith("http://"))
                     {
-                        System.IO.File.Delete(filePath);
+                        // Delete from Azure Blob Storage
+                        await _blobStorageService.DeleteImageAsync(item.ImageUrl, isPublic: true);
                     }
-                    
+                    else
+                    {
+                        // Legacy: Delete physical file from disk (for old local images)
+                        var imagePath = item.ImageUrl.TrimStart('/');
+                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", imagePath);
+
+                        if (System.IO.File.Exists(filePath))
+                        {
+                            System.IO.File.Delete(filePath);
+                        }
+                    }
+
                     // Delete from database
                     await _galleryService.DeleteAsync(id);
                     TempData["GallerySuccess"] = "Photo deleted successfully.";
@@ -272,7 +286,7 @@ namespace HealingInWriting.Areas.Admin.Controllers
             {
                 TempData["GalleryError"] = $"Error deleting photo: {ex.Message}";
             }
-            
+
             return RedirectToAction("Index");
         }
     }
