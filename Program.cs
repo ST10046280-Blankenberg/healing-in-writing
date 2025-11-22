@@ -260,7 +260,7 @@ using (var scope = app.Services.CreateScope())
         if (app.Environment.IsDevelopment())
         {
             logger.LogInformation("Development mode: Ensuring database is created...");
-            context.Database.EnsureCreated();
+            // context.Database.EnsureCreated();
 
             // Apply any pending migrations
             var pendingMigrations = context.Database.GetPendingMigrations().ToList();
