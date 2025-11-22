@@ -42,7 +42,7 @@ namespace HealingInWriting.Areas.Admin.Controllers
             var privacyPolicy = await _privacyPolicyService.GetAsync();
             var ourImpact = await _ourImpactService.GetAsync();
             var galleryItems = await _galleryService.GetAllAsync();
-            
+
             // Get distinct existing collection IDs
             var existingCollections = galleryItems
                 .Where(g => !string.IsNullOrWhiteSpace(g.CollectionId))
@@ -50,9 +50,9 @@ namespace HealingInWriting.Areas.Admin.Controllers
                 .Distinct()
                 .OrderBy(c => c)
                 .ToList();
-            
+
             ViewBag.ExistingCollections = existingCollections;
-            
+
             var model = new SiteSettingsViewModel
             {
                 BankDetails = bankDetails.ToViewModel(),
@@ -85,7 +85,7 @@ namespace HealingInWriting.Areas.Admin.Controllers
             {
                 var entity = bankDetailsVm.ToEntity();
                 await _bankDetailsService.UpdateAsync(entity, User.Identity?.Name ?? "System");
-                
+
                 TempData["Success"] = "Bank details updated successfully.";
                 return RedirectToAction("Index");
             }
@@ -187,17 +187,17 @@ namespace HealingInWriting.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddGalleryItem(IFormFile image, string altText, bool isAlbum, int? albumPhotoCount, string collectionId)
+        public async Task<IActionResult> AddGalleryItem(List<IFormFile> images, string altText, bool isAlbum, int? albumPhotoCount, string collectionId)
         {
-            if (image == null || image.Length == 0)
+            if (images == null || images.Count == 0)
             {
-                TempData["GalleryError"] = "Please select an image to upload.";
+                TempData["GalleryError"] = "Please select at least one image to upload.";
                 return RedirectToAction("Index");
             }
 
             if (string.IsNullOrWhiteSpace(altText))
             {
-                TempData["GalleryError"] = "Please provide alt text/description for the image.";
+                TempData["GalleryError"] = "Please provide alt text/description for the images.";
                 return RedirectToAction("Index");
             }
 
@@ -208,42 +208,53 @@ namespace HealingInWriting.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
 
-            try
-            {
-                // Upload image to Azure Blob Storage (public container)
-                // BlobStorageService handles validation (file type, size, etc.)
-                var imageUrl = await _blobStorageService.UploadImageAsync(image, "gallery", isPublic: true);
+            int successCount = 0;
+            int failCount = 0;
+            string lastError = "";
 
-                var entity = new HealingInWriting.Domain.Gallery.GalleryItem
+            foreach (var image in images)
+            {
+                if (image.Length == 0) continue;
+
+                try
                 {
-                    ImageUrl = imageUrl,
-                    AltText = altText,
-                    IsAlbum = isAlbum,
-                    AlbumPhotoCount = albumPhotoCount,
-                    CollectionId = !string.IsNullOrWhiteSpace(collectionId) ? collectionId : null,
-                    CreatedDate = DateTime.UtcNow
-                };
-                await _galleryService.AddAsync(entity, User.Identity?.Name ?? "System");
-                TempData["GallerySuccess"] = "Photo added successfully.";
-                return RedirectToAction("Index");
+                    // Upload image to Azure Blob Storage (public container)
+                    // BlobStorageService handles validation (file type, size, etc.)
+                    var imageUrl = await _blobStorageService.UploadImageAsync(image, "gallery", isPublic: true);
+
+                    var entity = new HealingInWriting.Domain.Gallery.GalleryItem
+                    {
+                        ImageUrl = imageUrl,
+                        AltText = altText, // Use same alt text for all images in batch
+                        IsAlbum = isAlbum,
+                        AlbumPhotoCount = albumPhotoCount,
+                        CollectionId = !string.IsNullOrWhiteSpace(collectionId) ? collectionId : null,
+                        CreatedDate = DateTime.UtcNow
+                    };
+                    await _galleryService.AddAsync(entity, User.Identity?.Name ?? "System");
+                    successCount++;
+                }
+                catch (Exception ex)
+                {
+                    failCount++;
+                    lastError = ex.Message;
+                }
             }
-            catch (ArgumentException ex)
+
+            if (successCount > 0)
             {
-                // Validation errors from BlobStorageService
-                TempData["GalleryError"] = ex.Message;
-                return RedirectToAction("Index");
+                TempData["GallerySuccess"] = $"{successCount} photo(s) added successfully.";
+                if (failCount > 0)
+                {
+                    TempData["GalleryError"] = $"Failed to upload {failCount} photo(s). Last error: {lastError}";
+                }
             }
-            catch (InvalidOperationException ex)
+            else
             {
-                // Blob storage not configured
-                TempData["GalleryError"] = $"Storage error: {ex.Message}";
-                return RedirectToAction("Index");
+                TempData["GalleryError"] = $"Failed to upload photos. Error: {lastError}";
             }
-            catch (Exception ex)
-            {
-                TempData["GalleryError"] = $"Error uploading photo: {ex.Message}";
-                return RedirectToAction("Index");
-            }
+
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
