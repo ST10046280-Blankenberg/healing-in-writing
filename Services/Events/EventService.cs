@@ -94,6 +94,7 @@ public class EventService : IEventService
             Title = model.Title,
             Description = model.Description,
             EventType = model.EventType,
+            CoverImageUrl = model.CoverImageUrl,
             StartDateTime = model.EventDate.Add(model.StartTime),
             EndDateTime = model.EventDate.Add(model.EndTime),
             Capacity = model.Capacity,
@@ -122,6 +123,7 @@ public class EventService : IEventService
         existingEvent.Description = model.Description;
         existingEvent.EventType = model.EventType;
         existingEvent.EventStatus = model.EventStatus;
+        existingEvent.CoverImageUrl = model.CoverImageUrl;
         existingEvent.StartDateTime = model.EventDate.Add(model.StartTime);
         existingEvent.EndDateTime = model.EventDate.Add(model.EndTime);
         existingEvent.Capacity = model.Capacity;

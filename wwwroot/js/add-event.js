@@ -1,7 +1,7 @@
 // add-event.js - Event Details Form Handler
 // Handles rich text editor, image upload preview, and form validation
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     initializeRichTextEditor();
     initializeImageUpload();
     initializeFormValidation();
@@ -24,21 +24,21 @@ function initializeRichTextEditor() {
 
     // Bold formatting
     if (boldBtn) {
-        boldBtn.addEventListener('click', function() {
+        boldBtn.addEventListener('click', function () {
             wrapSelectedText(textarea, '**', '**');
         });
     }
 
     // Italic formatting
     if (italicBtn) {
-        italicBtn.addEventListener('click', function() {
+        italicBtn.addEventListener('click', function () {
             wrapSelectedText(textarea, '_', '_');
         });
     }
 
     // List formatting
     if (listBtn) {
-        listBtn.addEventListener('click', function() {
+        listBtn.addEventListener('click', function () {
             insertListItem(textarea);
         });
     }
@@ -92,24 +92,45 @@ function insertListItem(textarea) {
  * Initialize image upload preview functionality
  */
 function initializeImageUpload() {
-    const imageInput = document.getElementById('coverImage');
-    const imagePreview = document.querySelector('.event-details__image-placeholder');
+    const imageInput = document.getElementById('CoverImage');
+    const imagePreviewDiv = document.querySelector('.event-details__image-preview');
+    const imagePlaceholder = document.querySelector('.event-details__image-placeholder');
 
-    if (!imageInput || !imagePreview) return;
+    if (!imageInput) return;
 
-    imageInput.addEventListener('change', function(e) {
+    imageInput.addEventListener('change', function (e) {
         const file = e.target.files[0];
-        
+
         if (file && file.type.startsWith('image/')) {
             const reader = new FileReader();
-            
-            reader.onload = function(e) {
-                imagePreview.style.backgroundImage = `url(${e.target.result})`;
-                imagePreview.style.backgroundSize = 'cover';
-                imagePreview.style.backgroundPosition = 'center';
-                imagePreview.innerHTML = '';
+
+            reader.onload = function (e) {
+                // Update or create preview image
+                if (imagePreviewDiv) {
+                    const img = imagePreviewDiv.querySelector('img');
+                    if (img) {
+                        img.src = e.target.result;
+                    } else {
+                        imagePreviewDiv.innerHTML = `<img src="${e.target.result}" alt="Event cover preview" style="max-width: 300px; max-height: 200px; object-fit: cover;" />`;
+                    }
+                } else {
+                    // Create preview div if it doesn't exist
+                    const previewDiv = document.createElement('div');
+                    previewDiv.className = 'event-details__image-preview';
+                    previewDiv.style.marginBottom = '10px';
+                    previewDiv.innerHTML = `<img src="${e.target.result}" alt="Event cover preview" style="max-width: 300px; max-height: 200px; object-fit: cover;" />`;
+                    imagePlaceholder.parentElement.insertBefore(previewDiv, imagePlaceholder);
+                }
+
+                // Update placeholder text
+                if (imagePlaceholder) {
+                    const label = imagePlaceholder.querySelector('label span');
+                    if (label) {
+                        label.textContent = 'Click to change cover image';
+                    }
+                }
             };
-            
+
             reader.readAsDataURL(file);
         }
     });
@@ -120,10 +141,10 @@ function initializeImageUpload() {
  */
 function initializeFormValidation() {
     const form = document.querySelector('.event-details');
-    
+
     if (!form) return;
 
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', function (e) {
         // Clear previous validation messages
         clearValidationMessages();
 

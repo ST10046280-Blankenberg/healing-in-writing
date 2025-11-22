@@ -60,6 +60,13 @@ public class Event
     public EventType EventType { get; set; }
 
     /// <summary>
+    /// URL to the event's cover image stored in Azure Blob Storage.
+    /// Optional field for visual representation of the event.
+    /// </summary>
+    [StringLength(500)]
+    public string? CoverImageUrl { get; set; }
+
+    /// <summary>
     /// Date and time when the event starts.
     /// </summary>
     [Required]
