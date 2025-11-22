@@ -48,4 +48,16 @@ public interface IStoryService
         string? selectedDate,
         string? selectedSort,
         StoryCategory? selectedCategory);
+
+    /// <summary>
+    /// Retrieves filtered and paginated stories for admin management with efficient database querying.
+    /// </summary>
+    Task<(IEnumerable<Story> Stories, int TotalCount)> GetFilteredStoriesForAdminAsync(
+        string? searchTerm,
+        StoryStatus? status,
+        string? dateRange,
+        string? tag,
+        string sortOrder,
+        int page,
+        int pageSize);
 }

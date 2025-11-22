@@ -1,0 +1,59 @@
+@model (HealingInWriting.Models.Shared.AdminSearchBarConfig Config, string SearchValue)
+
+<form asp-area="@Model.Config.Area"
+      asp-controller="@Model.Config.Controller"
+      asp-action="@Model.Config.Action"
+      method="get"
+      class="search-bar"
+      novalidate>
+
+    @* Hidden fields to preserve state *@
+    @if (Model.Config.HiddenFields != null)
+    {
+        foreach (var field in Model.Config.HiddenFields)
+        {
+            <input type="hidden" name="@field.Key" value="@field.Value" />
+        }
+    }
+
+    <div class="search-bar__filters-row">
+        <!-- Search Input with Icon -->
+        <div class="search-bar__input-container">
+            <svg class="search-bar__icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <input type="text"
+                   name="@Model.Config.SearchInputName"
+                   value="@Model.SearchValue"
+                   class="search-bar__input"
+                   placeholder="@Model.Config.SearchPlaceholder"
+                   aria-label="Search" />
+        </div>
+
+        @* Render configured dropdowns *@
+        @foreach (var dropdown in Model.Config.Dropdowns)
+        {
+            <div class="search-bar__dropdown">
+                <select name="@dropdown.Name" class="search-bar__select" aria-label="@dropdown.Label">
+                    <option value="">@dropdown.Label</option>
+                    @foreach (var option in dropdown.Options)
+                    {
+                        <option value="@option.Value" selected="@option.Selected">@option.Text</option>
+                    }
+                </select>
+                <svg class="search-bar__dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M6 9l6 6 6-6" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+        }
+
+        <!-- Search Button -->
+        <button class="search-bar__button" type="submit">
+            <svg class="search-bar__button-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="search-bar__button-label">Search</span>
+        </button>
+    </div>
+</form>
+

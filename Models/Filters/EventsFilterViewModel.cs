@@ -2,6 +2,9 @@
 
 namespace HealingInWriting.Models.Filters
 {
+    /// <summary>
+    /// Filter parameters for user-facing Events page
+    /// </summary>
     public class EventsFilterViewModel : BaseFilterViewModel
     {
         public List<EventType> EventTypeOptions { get; set; } = new();

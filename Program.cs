@@ -16,6 +16,7 @@ using HealingInWriting.Services.Books;
 using HealingInWriting.Services.Common;
 using HealingInWriting.Services.Events;
 using HealingInWriting.Services.Gallery;
+using HealingInWriting.Services.Reports;
 using HealingInWriting.Services.Stories;
 using HealingInWriting.Services.Volunteers;
 using Microsoft.AspNetCore.Identity;
@@ -147,6 +148,7 @@ builder.Services.AddScoped<IOurImpactRepository, OurImpactRepository>();
 builder.Services.AddScoped<IOurImpactService, OurImpactService>();
 builder.Services.AddScoped<IGalleryRepository, GalleryRepository>();
 builder.Services.AddScoped<IGalleryService, GalleryService>();
+builder.Services.AddScoped<IReportService, ReportService>();
 
 // Azure Blob Storage for image uploads (optional, configured via StorageConnection)
 // Register clients only if connection string is present

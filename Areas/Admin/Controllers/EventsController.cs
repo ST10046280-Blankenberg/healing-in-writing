@@ -1,6 +1,8 @@
 using HealingInWriting.Domain.Events;
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Events;
+using HealingInWriting.Models.Filters;
+using HealingInWriting.Models.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -12,7 +14,6 @@ namespace HealingInWriting.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class EventsController : Controller
     {
-
         private readonly IEventService _eventService;
         private readonly IRegistrationService _registrationService;
 
@@ -21,41 +22,86 @@ namespace HealingInWriting.Areas.Admin.Controllers
             _eventService = eventService;
             _registrationService = registrationService;
         }
+        
         // GET: Admin/Events/Manage
-        public async Task<IActionResult> Manage()
+        public async Task<IActionResult> Manage(
+            string? searchTerm,
+            string? status,
+            string? dateRange,
+            string? sortOrder,
+            int page = 1)
         {
-            var events = await _eventService.GetAllEventsAsync();
+            const int pageSize = 10;
+            var currentPage = Math.Max(page, 1);
+            var normalizedSortOrder = string.IsNullOrWhiteSpace(sortOrder) ? "date-asc" : sortOrder;
 
-            var model = new AdminManageEventsViewModel
+            // Parse status filter
+            EventStatus? statusFilter = null;
+            if (!string.IsNullOrWhiteSpace(status) &&
+                Enum.TryParse<EventStatus>(status, true, out var parsed))
             {
-                Events = events.Select(@event =>
+                statusFilter = parsed;
+            }
+
+            // Get filtered events from service
+            var (events, totalCount) = await _eventService.GetFilteredEventsForAdminAsync(
+                searchTerm,
+                statusFilter,
+                dateRange,
+                normalizedSortOrder,
+                currentPage,
+                pageSize);
+
+            // Map to view models
+            var eventViewModels = events.Select(@event =>
+            {
+                var locationParts = new[]
                 {
-                    var locationParts = new[]
-                        {
-                            @event.Address?.StreetAddress,
-                            @event.Address?.City,
-                            @event.Address?.Province
-                        }
-                        .Where(part => !string.IsNullOrWhiteSpace(part));
+                    @event.Address?.StreetAddress,
+                    @event.Address?.City,
+                    @event.Address?.Province
+                }
+                .Where(part => !string.IsNullOrWhiteSpace(part));
 
-                    var isRsvpOpen = @event.EventStatus == EventStatus.Published
-                                     && @event.StartDateTime > DateTime.UtcNow;
+                var isRsvpOpen = @event.EventStatus == EventStatus.Published
+                                 && @event.StartDateTime > DateTime.UtcNow;
 
-                    return new AdminEventSummaryViewModel
-                    {
-                        Id = @event.EventId,
-                        Title = @event.Title,
-                        EventType = @event.EventType,
-                        Status = @event.EventStatus,
-                        StartDateTime = @event.StartDateTime,
-                        EndDateTime = @event.EndDateTime,
-                        LocationSummary = string.Join(", ", locationParts),
-                        IsRsvpOpen = isRsvpOpen
-                    };
-                }).ToList()
+                return new AdminEventSummaryViewModel
+                {
+                    Id = @event.EventId,
+                    Title = @event.Title,
+                    EventType = @event.EventType,
+                    Status = @event.EventStatus,
+                    StartDateTime = @event.StartDateTime,
+                    EndDateTime = @event.EndDateTime,
+                    LocationSummary = string.Join(", ", locationParts),
+                    IsRsvpOpen = isRsvpOpen
+                };
+            }).ToList();
+
+            var totalPages = Math.Max((int)Math.Ceiling(totalCount / (double)pageSize), 1);
+
+            var viewModel = new AdminManageEventsViewModel
+            {
+                Events = eventViewModels,
+                Filters = new AdminEventsFilterViewModel
+                {
+                    SearchText = searchTerm,
+                    Status = status,
+                    DateRange = dateRange,
+                    SortOrder = normalizedSortOrder,
+                    Page = currentPage
+                },
+                StatusOptions = BuildStatusOptions(status),
+                DateOptions = BuildDateOptions(dateRange),
+                SortOptions = BuildSortOptions(normalizedSortOrder),
+                CurrentPage = currentPage,
+                TotalPages = totalPages,
+                PageSize = pageSize,
+                TotalEvents = totalCount
             };
 
-            return View(model);
+            return View(viewModel);
         }
 
         // [HttpGet]
@@ -349,6 +395,55 @@ namespace HealingInWriting.Areas.Admin.Controllers
             }
 
             return RedirectToAction(nameof(Manage));
+        }
+
+        private static List<AdminDropdownOption> BuildStatusOptions(string? selectedStatus)
+        {
+            return Enum.GetValues<EventStatus>()
+                .Select(s => new AdminDropdownOption
+                {
+                    Value = s.ToString(),
+                    Text = s.ToString(),
+                    Selected = s.ToString().Equals(selectedStatus, StringComparison.OrdinalIgnoreCase)
+                })
+                .ToList();
+        }
+
+        private static List<AdminDropdownOption> BuildDateOptions(string? selectedRange)
+        {
+            var options = new[]
+            {
+                ("upcoming", "Upcoming Events"),
+                ("past", "Past Events"),
+                ("this-week", "This Week"),
+                ("this-month", "This Month"),
+                ("next-30", "Next 30 Days")
+            };
+
+            return options.Select(o => new AdminDropdownOption
+            {
+                Value = o.Item1,
+                Text = o.Item2,
+                Selected = o.Item1.Equals(selectedRange, StringComparison.OrdinalIgnoreCase)
+            }).ToList();
+        }
+
+        private static List<AdminDropdownOption> BuildSortOptions(string? selectedSort)
+        {
+            var options = new[]
+            {
+                ("date-asc", "Date (Upcoming First)"),
+                ("date-desc", "Date (Latest First)"),
+                ("oldest", "Oldest Created"),
+                ("newest", "Newest Created")
+            };
+
+            return options.Select(o => new AdminDropdownOption
+            {
+                Value = o.Item1,
+                Text = o.Item2,
+                Selected = o.Item1.Equals(selectedSort, StringComparison.OrdinalIgnoreCase)
+            }).ToList();
         }
     }
 }

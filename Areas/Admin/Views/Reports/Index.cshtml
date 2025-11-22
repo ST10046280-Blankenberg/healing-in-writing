@@ -1,4 +1,5 @@
 @model HealingInWriting.Models.Admin.ReportsDashboardViewModel
+@using HealingInWriting.Models.Shared
 
 @{
     ViewData["Title"] = "Admin Reports";
@@ -8,54 +9,43 @@
 <link rel="stylesheet" href="~/css/shared/search-bar.css" asp-append-version="true" />
 <main>
     <div class="admin-reports">
-        <!-- Search Bar Component -->
-        <div class="search-bar">
-            <div class="search-bar__filters-row">
-                <div class="search-bar__input-container">
-                    <svg class="search-bar__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M21 21L16.65 16.65" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <input type="text" class="search-bar__input" placeholder="Search..." />
-                </div>
-
-                <div class="search-bar__dropdown">
-                    <span class="search-bar__dropdown-label">Any Location</span>
-                    <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 9L12 15L18 9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </div>
-
-                <div class="search-bar__dropdown">
-                    <span class="search-bar__dropdown-label">Any Date</span>
-                    <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 9L12 15L18 9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </div>
-
-                <div class="search-bar__dropdown">
-                    <span class="search-bar__dropdown-label">Any Tags</span>
-                    <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 9L12 15L18 9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </div>
-
-                <div class="search-bar__dropdown">
-                    <span class="search-bar__dropdown-label">Newest</span>
-                    <svg class="search-bar__dropdown-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 9L12 15L18 9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </div>
-
-                <button class="search-bar__button">
-                    <svg class="search-bar__button-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M21 21L16.65 16.65" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <span class="search-bar__button-label">Search</span>
-                </button>
-            </div>
-        </div>
+        <!-- Search and Filter Bar -->
+        @{
+            var searchConfig = new AdminSearchBarConfig
+            {
+                Controller = "Reports",
+                Action = "Index",
+                SearchPlaceholder = "Search events or categories...",
+                SearchInputName = "SearchText",
+                Dropdowns = new List<AdminFilterDropdown>
+                {
+                    new()
+                    {
+                        Name = "StockStatus",
+                        Label = "All Stock Levels",
+                        Options = new List<AdminDropdownOption>
+                        {
+                            new() { Value = "critical", Text = "Critical (<50)", Selected = Model.Filters.StockStatus == "critical" },
+                            new() { Value = "low", Text = "Low (50-99)", Selected = Model.Filters.StockStatus == "low" },
+                            new() { Value = "good", Text = "Good (100+)", Selected = Model.Filters.StockStatus == "good" }
+                        }
+                    },
+                    new()
+                    {
+                        Name = "SortBy",
+                        Label = "Sort By",
+                        Options = new List<AdminDropdownOption>
+                        {
+                            new() { Value = "attendance-desc", Text = "Attendance ↓", Selected = Model.Filters.SortBy == "attendance-desc" },
+                            new() { Value = "attendance-asc", Text = "Attendance ↑", Selected = Model.Filters.SortBy == "attendance-asc" },
+                            new() { Value = "stock-desc", Text = "Stock ↓", Selected = Model.Filters.SortBy == "stock-desc" },
+                            new() { Value = "stock-asc", Text = "Stock ↑", Selected = Model.Filters.SortBy == "stock-asc" }
+                        }
+                    }
+                }
+            };
+        }
+        <partial name="_AdminSearchBar" model="(searchConfig, Model.Filters.SearchText ?? string.Empty)" />
 
         <!-- Event Attendance Chart -->
         @{
@@ -74,7 +64,7 @@
                 </div>
                 <div class="admin-reports__chart-area">
                     <div class="admin-reports__chart-grid">
-                        @for (int i = 0; i <= 10; i++)
+                        @for (int i = 0; i <= 4; i++)
                         {
                             <div class="admin-reports__chart-grid-line"></div>
                         }
@@ -92,11 +82,13 @@
                         }
                     </div>
                     <div class="admin-reports__chart-x-axis">
-                        @for (int i = 0; i <= 10; i++)
+                        @for (int i = 0; i <= 4; i++)
                         {
-                            <span class="admin-reports__chart-x-label">@(i * (maxAttendance / 10))</span>
+                            var labelValue = (int)Math.Round(i * (maxAttendance / 4.0));
+                            <span class="admin-reports__chart-x-label">@labelValue</span>
                         }
                     </div>
+
                 </div>
             </div>
         </div>

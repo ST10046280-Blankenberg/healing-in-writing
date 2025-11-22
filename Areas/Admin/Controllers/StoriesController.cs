@@ -25,63 +25,67 @@ namespace HealingInWriting.Areas.Admin.Controllers
         // GET: Admin/Stories/Manage
         public async Task<IActionResult> Manage(string? searchTerm, string? status, string? dateRange, string? tag, string? sortOrder, int page = 1)
         {
-            var filters = new AdminManageStoriesFilters
-            {
-                SearchTerm = string.IsNullOrWhiteSpace(searchTerm) ? null : searchTerm.Trim(),
-                Status = string.IsNullOrWhiteSpace(status) ? null : status,
-                DateRange = string.IsNullOrWhiteSpace(dateRange) ? null : dateRange,
-                Tag = string.IsNullOrWhiteSpace(tag) ? null : tag,
-                SortOrder = string.IsNullOrWhiteSpace(sortOrder) ? "newest" : sortOrder.ToLowerInvariant(),
-                Page = page < 1 ? 1 : page
-            };
-
-            var stories = await _storyService.GetAllStoriesForAdminAsync();
-
-            var statusCounts = CalculateStatusCounts(stories);
-
-            var filteredStories = ApplyFilters(stories, filters).ToList();
-
             const int pageSize = 10;
-            var totalStories = filteredStories.Count;
-            var totalPages = Math.Max((int)Math.Ceiling(totalStories / (double)pageSize), 1);
-            var currentPage = Math.Min(filters.Page, totalPages);
+            var currentPage = Math.Max(page, 1);
+            var normalizedSortOrder = string.IsNullOrWhiteSpace(sortOrder) ? "newest" : sortOrder.ToLowerInvariant();
 
-            var pagedStories = filteredStories
-                .Skip((currentPage - 1) * pageSize)
-                .Take(pageSize)
-                .Select(story => new AdminStoryListItemViewModel
-                {
-                    StoryId = story.StoryId,
-                    Title = story.Title,
-                    AuthorName = ResolveAuthorName(story),
-                    CreatedAt = story.CreatedAt,
-                    Status = story.Status,
-                    StatusText = story.Status.ToString(),
-                    StatusBadgeClass = GetStatusBadgeClass(story.Status)
-                })
-                .ToList();
+            // Parse status filter
+            StoryStatus? statusFilter = null;
+            if (!string.IsNullOrWhiteSpace(status) &&
+                Enum.TryParse<StoryStatus>(status, true, out var parsed))
+            {
+                statusFilter = parsed;
+            }
+
+            // Get filtered stories from service
+            var (stories, totalCount) = await _storyService.GetFilteredStoriesForAdminAsync(
+                searchTerm,
+                statusFilter,
+                dateRange,
+                tag,
+                normalizedSortOrder,
+                currentPage,
+                pageSize);
+
+            // Get status counts (presentation logic)
+            var allStories = await _storyService.GetAllStoriesForAdminAsync();
+            var statusCounts = CalculateStatusCounts(allStories);
+
+            // Map to view models
+            var storyViewModels = stories.Select(story => new AdminStoryListItemViewModel
+            {
+                StoryId = story.StoryId,
+                Title = story.Title,
+                AuthorName = ResolveAuthorName(story),
+                CreatedAt = story.CreatedAt,
+                Status = story.Status,
+                StatusText = story.Status.ToString(),
+                StatusBadgeClass = GetStatusBadgeClass(story.Status)
+            }).ToList();
+
+            var totalPages = Math.Max((int)Math.Ceiling(totalCount / (double)pageSize), 1);
 
             var viewModel = new AdminManageStoriesViewModel
             {
-                Stories = pagedStories,
+                Stories = storyViewModels,
                 Filters = new AdminManageStoriesFilters
                 {
-                    SearchTerm = filters.SearchTerm,
-                    Status = filters.Status,
-                    DateRange = filters.DateRange,
-                    Tag = filters.Tag,
-                    SortOrder = filters.SortOrder,
+                    SearchTerm = searchTerm,
+                    Status = status,
+                    DateRange = dateRange,
+                    Tag = tag,
+                    SortOrder = normalizedSortOrder,
                     Page = currentPage
                 },
-                StatusOptions = BuildStatusOptions(filters.Status),
-                DateOptions = BuildDateOptions(filters.DateRange),
-                TagOptions = BuildTagOptions(filters.Tag, stories),
-                SortOptions = BuildSortOptions(filters.SortOrder),
+                StatusOptions = BuildStatusOptions(status),
+                DateOptions = BuildDateOptions(dateRange),
+                TagOptions = BuildTagOptions(tag, allStories),
+                SortOptions = BuildSortOptions(normalizedSortOrder),
                 PendingCount = statusCounts.GetValueOrDefault(StoryStatus.Submitted),
                 PublishedCount = statusCounts.GetValueOrDefault(StoryStatus.Published),
                 DraftCount = statusCounts.GetValueOrDefault(StoryStatus.Draft),
                 RejectedCount = statusCounts.GetValueOrDefault(StoryStatus.Rejected),
-                TotalStories = totalStories,
+                TotalStories = totalCount,
                 CurrentPage = currentPage,
                 TotalPages = totalPages,
                 PageSize = pageSize
@@ -167,77 +171,6 @@ namespace HealingInWriting.Areas.Admin.Controllers
                 .ToDictionary(group => group.Key, group => group.Count());
         }
 
-        private static IEnumerable<Story> ApplyFilters(IEnumerable<Story> stories, AdminManageStoriesFilters filters)
-        {
-            var query = stories;
-
-            if (!string.IsNullOrWhiteSpace(filters.SearchTerm))
-            {
-                var term = filters.SearchTerm.Trim();
-                query = query.Where(story =>
-                    Contains(story.Title, term) ||
-                    Contains(story.Summary, term) ||
-                    Contains(story.Content, term));
-            }
-
-            if (TryParseStatus(filters.Status, out var statusFilter))
-            {
-                query = query.Where(story => story.Status == statusFilter);
-            }
-
-            if (!string.IsNullOrWhiteSpace(filters.Tag))
-            {
-                var tagFilter = filters.Tag.Trim();
-                query = query.Where(story => story.Tags.Any(tag =>
-                    string.Equals(tag.Name, tagFilter, StringComparison.OrdinalIgnoreCase)));
-            }
-
-            var dateThreshold = ResolveDateThreshold(filters.DateRange);
-            if (dateThreshold.HasValue)
-            {
-                query = query.Where(story => story.CreatedAt >= dateThreshold.Value);
-            }
-
-            query = filters.SortOrder switch
-            {
-                "oldest" => query.OrderBy(story => story.CreatedAt),
-                _ => query.OrderByDescending(story => story.CreatedAt)
-            };
-
-            return query;
-        }
-
-        private static bool TryParseStatus(string? status, out StoryStatus statusValue)
-        {
-            if (!string.IsNullOrWhiteSpace(status)
-                && Enum.TryParse(status, true, out StoryStatus parsed))
-            {
-                statusValue = parsed;
-                return true;
-            }
-
-            statusValue = StoryStatus.Submitted;
-            return false;
-        }
-
-        private static DateTime? ResolveDateThreshold(string? dateRange)
-        {
-            if (string.IsNullOrWhiteSpace(dateRange) || dateRange.Equals("any", StringComparison.OrdinalIgnoreCase))
-            {
-                return null;
-            }
-
-            var now = DateTime.UtcNow;
-
-            return dateRange.ToLowerInvariant() switch
-            {
-                "last7" => now.AddDays(-7),
-                "last30" => now.AddDays(-30),
-                "last90" => now.AddDays(-90),
-                "this-year" => new DateTime(now.Year, 1, 1, 0, 0, 0, DateTimeKind.Utc),
-                _ => null
-            };
-        }
 
         private static IReadOnlyCollection<AdminSelectOption> BuildStatusOptions(string? selectedStatus)
         {
@@ -314,11 +247,6 @@ namespace HealingInWriting.Areas.Admin.Controllers
             };
         }
 
-        private static bool Contains(string? source, string term)
-        {
-            return !string.IsNullOrWhiteSpace(source)
-                && source.Contains(term, StringComparison.OrdinalIgnoreCase);
-        }
 
         private RedirectResult? RedirectToSafeUrl(string? returnUrl)
         {
