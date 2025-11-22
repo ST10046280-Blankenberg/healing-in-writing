@@ -7,6 +7,7 @@
 @section Styles {
     <link rel="stylesheet" href="~/css/shared/page-hero.css" />
     <link rel="stylesheet" href="~/css/views/gallery.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/shared/lightbox.css" asp-append-version="true" />
 }
 
 <main class="gallery">
@@ -14,7 +15,8 @@
     <section class="page-hero">
         <div class="page-hero__content">
             <h1 class="page-hero__title">Gallery</h1>
-            <p class="page-hero__subtitle">Browse and share books available in the community. Find what you need or give a book a new home.</p>
+            <p class="page-hero__subtitle">Browse and share books available in the community. Find what you need or give
+                a book a new home.</p>
         </div>
     </section>
 
@@ -28,14 +30,17 @@
                     @if (photo.IsAlbum && photo.AlbumPhotoCount.HasValue && !string.IsNullOrEmpty(photo.CollectionId))
                     {
                         <!-- Group Photo Card (with multi-photo indicator) - Clickable -->
-                        <a asp-area="" asp-controller="Gallery" asp-action="Details" asp-route-collectionId="@photo.CollectionId" class="gallery-card gallery-card--group" style="text-decoration: none; display: block;">
+                        <a asp-area="" asp-controller="Gallery" asp-action="Details" asp-route-collectionId="@photo.CollectionId"
+                            class="gallery-card gallery-card--group" style="text-decoration: none; display: block;">
                             <img src="@photo.ImageUrl" alt="@photo.AltText" class="gallery-card__image" />
                             <div class="gallery-card__multi-indicator">
-                                <svg class="gallery-card__multi-icon" xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 38 38" fill="none">
-                                    <rect width="38" height="38" rx="4" fill="#F6FAF9"/>
-                                    <rect x="0" y="0" width="32" height="32" rx="4" fill="#D9D9D9"/>
-                                    <rect x="6" y="6" width="32" height="32" rx="4" fill="#D9D9D9"/>
-                                    <rect x="2" y="2" width="32" height="32" rx="4" fill="#D9D9D9" stroke="#000000" stroke-width="2"/>
+                                <svg class="gallery-card__multi-icon" xmlns="http://www.w3.org/2000/svg" width="38" height="38"
+                                    viewBox="0 0 38 38" fill="none">
+                                    <rect width="38" height="38" rx="4" fill="#F6FAF9" />
+                                    <rect x="0" y="0" width="32" height="32" rx="4" fill="#D9D9D9" />
+                                    <rect x="6" y="6" width="32" height="32" rx="4" fill="#D9D9D9" />
+                                    <rect x="2" y="2" width="32" height="32" rx="4" fill="#D9D9D9" stroke="#000000"
+                                        stroke-width="2" />
                                 </svg>
                                 <span class="gallery-card__photo-count">@photo.AlbumPhotoCount</span>
                             </div>
@@ -45,7 +50,12 @@
                     {
                         <!-- Single Photo Card -->
                         <article class="gallery-card gallery-card--single">
-                            <img src="@photo.ImageUrl" alt="@photo.AltText" class="gallery-card__image" />
+                            <img src="@photo.ImageUrl" 
+                                 alt="@photo.AltText" 
+                                 class="gallery-card__image" 
+                                 data-lightbox="gallery-index"
+                                 data-alt="@photo.AltText"
+                                 style="cursor: pointer;" />
                         </article>
                     }
                 }
@@ -68,13 +78,12 @@
                 <nav class="gallery__pagination" aria-label="Gallery pagination">
                     @if (Model.HasPreviousPage)
                     {
-                        <a href="@Url.Action("Index", new { page = Model.CurrentPage - 1, pageSize = Model.PageSize })" 
-                           class="gallery__pagination-link gallery__pagination-link--prev" 
-                           aria-label="Previous page">
+                        <a href="@Url.Action("Index", new { page = Model.CurrentPage - 1, pageSize = Model.PageSize })"
+                            class="gallery__pagination-link gallery__pagination-link--prev" aria-label="Previous page">
                             ← Previous
                         </a>
                     }
-                    
+
                     @for (int i = 1; i <= Model.TotalPages; i++)
                     {
                         @if (i == Model.CurrentPage)
@@ -83,8 +92,8 @@
                         }
                         else if (i == 1 || i == Model.TotalPages || (i >= Model.CurrentPage - 2 && i <= Model.CurrentPage + 2))
                         {
-                            <a href="@Url.Action("Index", new { page = i, pageSize = Model.PageSize })" 
-                               class="gallery__pagination-link">
+                            <a href="@Url.Action("Index", new { page = i, pageSize = Model.PageSize })"
+                                class="gallery__pagination-link">
                                 @i
                             </a>
                         }
@@ -93,21 +102,25 @@
                             <span class="gallery__pagination-ellipsis">...</span>
                         }
                     }
-                    
+
                     @if (Model.HasNextPage)
                     {
-                        <a href="@Url.Action("Index", new { page = Model.CurrentPage + 1, pageSize = Model.PageSize })" 
-                           class="gallery__pagination-link gallery__pagination-link--next" 
-                           aria-label="Next page">
+                        <a href="@Url.Action("Index", new { page = Model.CurrentPage + 1, pageSize = Model.PageSize })"
+                            class="gallery__pagination-link gallery__pagination-link--next" aria-label="Next page">
                             Next →
                         </a>
                     }
                 </nav>
-                
+
                 <div class="gallery__pagination-info">
-                    Showing @((Model.CurrentPage - 1) * Model.PageSize + 1) - @Math.Min(Model.CurrentPage * Model.PageSize, Model.TotalCount) of @Model.TotalCount photos
-                </div>
+                    Showing @((Model.CurrentPage - 1) * Model.PageSize + 1) - @Math.Min(Model.CurrentPage * Model.PageSize,
+                                    Model.TotalCount) of @Model.TotalCount photos
             </div>
-        </section>
-    }
+        </div>
+    </section>
+        }
 </main>
+
+@section Scripts {
+    <script src="~/js/shared/lightbox.js" asp-append-version="true"></script>
+}
