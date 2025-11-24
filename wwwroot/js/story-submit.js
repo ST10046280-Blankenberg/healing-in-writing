@@ -169,12 +169,45 @@ document.addEventListener('DOMContentLoaded', function() {
     // Manual save draft button
     const saveDraftButton = document.getElementById('saveDraftButton');
     if (saveDraftButton) {
-        saveDraftButton.addEventListener('click', function(e) {
+        saveDraftButton.addEventListener('click', async function(e) {
             e.preventDefault();
-            if (saveDraft()) {
-                showDraftStatus('Draft saved successfully!', true);
-            } else {
-                showDraftStatus('Please add a title or content to save a draft', false);
+
+            // First save to localStorage
+            saveDraft();
+
+            // Then save to server
+            const formData = new FormData(form);
+
+            // Ensure content is populated
+            const contentInput = document.querySelector('input#content');
+            if (contentInput && quill) {
+                contentInput.value = quill.root.innerHTML;
+                formData.set('content', quill.root.innerHTML);
+            }
+
+            // Show loading status
+            saveDraftButton.disabled = true;
+            saveDraftButton.textContent = 'Saving...';
+
+            try {
+                const response = await fetch('/Stories/SaveDraft', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showDraftStatus(result.message, true);
+                } else {
+                    showDraftStatus(result.message || 'Failed to save draft', false);
+                }
+            } catch (error) {
+                console.error('Error saving draft:', error);
+                showDraftStatus('Network error. Draft saved locally only.', false);
+            } finally {
+                saveDraftButton.disabled = false;
+                saveDraftButton.textContent = 'Save Draft';
             }
         });
     }

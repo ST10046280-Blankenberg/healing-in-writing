@@ -82,6 +82,85 @@ public class StoryService : IStoryService
         return story;
     }
 
+    public async Task<Story> SaveDraftAsync(string userId, string title, string content, string tags, bool isAnonymous, string? coverImageUrl = null)
+    {
+        // Find or create user profile
+        var userProfile = await _context.UserProfiles
+            .FirstOrDefaultAsync(up => up.UserId == userId);
+
+        if (userProfile == null)
+        {
+            // Auto-create a basic profile for the user
+            userProfile = new UserProfile
+            {
+                UserId = userId,
+                Bio = "",
+                City = ""
+            };
+            _context.UserProfiles.Add(userProfile);
+            await _context.SaveChangesAsync();
+        }
+
+        // Handle null or empty values
+        var safeTitle = string.IsNullOrWhiteSpace(title) ? "Untitled Draft" : title.Trim();
+        var safeContent = content ?? "";
+
+        // Sanitise content
+        var sanitizer = new Ganss.Xss.HtmlSanitizer();
+        var sanitizedContent = sanitizer.Sanitize(safeContent);
+
+        // Generate summary from content (first 500 chars)
+        var plainText = System.Text.RegularExpressions.Regex.Replace(sanitizedContent, "<.*?>", string.Empty);
+        var summary = plainText.Length > 500 ? plainText.Substring(0, 497) + "..." : plainText;
+
+        // Check if user already has an existing draft (most recent one)
+        var existingDraft = await _context.Stories
+            .Where(s => s.UserId == userProfile.ProfileId && s.Status == StoryStatus.Draft)
+            .OrderByDescending(s => s.UpdatedAt ?? s.CreatedAt)
+            .FirstOrDefaultAsync();
+
+        if (existingDraft != null)
+        {
+            // Update existing draft
+            existingDraft.Title = safeTitle;
+            existingDraft.Content = sanitizedContent;
+            existingDraft.Summary = summary;
+            existingDraft.IsAnonymous = isAnonymous;
+            existingDraft.UpdatedAt = DateTime.UtcNow;
+
+            // Only update cover image if a new one is provided
+            if (!string.IsNullOrEmpty(coverImageUrl))
+            {
+                existingDraft.CoverImageUrl = coverImageUrl;
+            }
+
+            await _context.SaveChangesAsync();
+            return existingDraft;
+        }
+        else
+        {
+            // Create new draft story
+            var story = new Story
+            {
+                Title = safeTitle,
+                Content = sanitizedContent,
+                Summary = summary,
+                Category = StoryCategory.SurvivorStory,
+                IsAnonymous = isAnonymous,
+                UserId = userProfile.ProfileId,
+                CreatedAt = DateTime.UtcNow,
+                Status = StoryStatus.Draft,
+                Tags = new List<Tag>(),
+                CoverImageUrl = coverImageUrl
+            };
+
+            _context.Stories.Add(story);
+            await _context.SaveChangesAsync();
+
+            return story;
+        }
+    }
+
     public async Task<int> GetUserStoryCountAsync(string userId)
     {
         // Find user profile first

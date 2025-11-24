@@ -15,6 +15,11 @@ public interface IStoryService
     Task<Story> SubmitStoryAsync(string userId, string title, string content, string tags, bool isAnonymous, string? coverImageUrl = null);
 
     /// <summary>
+    /// Saves a story as a draft for the authenticated user.
+    /// </summary>
+    Task<Story> SaveDraftAsync(string userId, string title, string content, string tags, bool isAnonymous, string? coverImageUrl = null);
+
+    /// <summary>
     /// Gets the count of stories for a specific user.
     /// </summary>
     Task<int> GetUserStoryCountAsync(string userId);
