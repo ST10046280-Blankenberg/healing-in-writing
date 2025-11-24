@@ -27,7 +27,9 @@
                                 <img class="hours-approval__avatar"
                                      src="@(string.IsNullOrEmpty(item.VolunteerAvatarUrl) ? "/images/volunteers/default.jpg" : item.VolunteerAvatarUrl)"
                                      alt="@(item.VolunteerName ?? "Unknown")" />
-                                <span class="hours-approval__volunteer-name">@(!string.IsNullOrEmpty(item.VolunteerName) ? item.VolunteerName : "Unknown")</span>
+                                <button class="hours-approval__view-btn js-open-modal" type="button" data-modal-id="@item.Id">
+                                    @(!string.IsNullOrEmpty(item.VolunteerName) ? item.VolunteerName : "Unknown")
+                                </button>
                             </div>
                         </td>
                         <td class="hours-approval__table-cell">@item.Date.ToString("MMM dd, yyyy")</td>
@@ -83,3 +85,65 @@
         </tbody>
     </table>
 </div>
+
+<!-- Modals for each submission -->
+@if (Model?.Any() == true)
+{
+    @foreach (var item in Model)
+    {
+        <div id="modal-@item.Id" class="modal">
+            <div class="modal__content">
+                <div class="modal__header">
+                    <h2 class="modal__title">Volunteer Hour Submission</h2>
+                    <button class="modal__close js-close-modal" data-modal-id="@item.Id">&times;</button>
+                </div>
+                <div class="modal__body">
+                    <div class="modal__row">
+                        <div class="modal__label">Volunteer:</div>
+                        <div class="modal__value">@item.VolunteerName</div>
+                    </div>
+                    <div class="modal__row">
+                        <div class="modal__label">Date:</div>
+                        <div class="modal__value">@item.Date.ToString("MMMM dd, yyyy")</div>
+                    </div>
+                    <div class="modal__row">
+                        <div class="modal__label">Activity:</div>
+                        <div class="modal__value">@item.Activity</div>
+                    </div>
+                    <div class="modal__row">
+                        <div class="modal__label">Hours:</div>
+                        <div class="modal__value"><strong>@item.Hours</strong></div>
+                    </div>
+                    <div class="modal__row">
+                        <div class="modal__label">Status:</div>
+                        <div class="modal__value">
+                            <span class="hours-approval__status-badge hours-approval__status-badge--@item.Status?.ToLower()">@item.Status</span>
+                        </div>
+                    </div>
+                    <div class="modal__row">
+                        <div class="modal__label">Submitted:</div>
+                        <div class="modal__value">@item.SubmittedAt.ToString("MMM dd, yyyy h:mm tt")</div>
+                    </div>
+                    @if (!string.IsNullOrEmpty(item.Notes))
+                    {
+                        <div class="modal__row modal__row--full">
+                            <div class="modal__label">Notes:</div>
+                            <div class="modal__value modal__notes">@item.Notes</div>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(item.AttachmentUrl))
+                    {
+                        <div class="modal__row">
+                            <div class="modal__label">Attachment:</div>
+                            <div class="modal__value">
+                                <a href="@Url.Action("GetAttachmentUrl", "Hours", new { area = "Admin", blobUrl = item.AttachmentUrl })" target="_blank" class="modal__attachment-link">
+                                    View Attachment
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+}

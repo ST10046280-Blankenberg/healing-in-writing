@@ -235,8 +235,10 @@ public static class ViewModelMappers
             Date = hour.Date,
             Activity = hour.Activity,
             Hours = hour.Hours,
+            Notes = hour.Comments,
             AttachmentUrl = hour.AttachmentUrl,
-            Status = hour.Status.ToString()
+            Status = hour.Status.ToString(),
+            SubmittedAt = hour.SubmittedAt
         };
     }
 
