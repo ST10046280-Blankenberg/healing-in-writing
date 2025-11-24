@@ -166,13 +166,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Form submission handler moved to validation section below
 
-    // Manual save button (if we add one later)
-    const saveDraftButton = document.querySelector('.story-submit__button--secondary');
+    // Manual save draft button
+    const saveDraftButton = document.getElementById('saveDraftButton');
     if (saveDraftButton) {
         saveDraftButton.addEventListener('click', function(e) {
             e.preventDefault();
             if (saveDraft()) {
-                showDraftStatus('Draft saved successfully!');
+                showDraftStatus('Draft saved successfully!', true);
+            } else {
+                showDraftStatus('Please add a title or content to save a draft', false);
             }
         });
     }
