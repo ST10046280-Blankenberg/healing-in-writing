@@ -691,6 +691,54 @@
     box-shadow: var(--shadow-soft-md);
 }
 
+/* Modal Actions */
+.modal__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.modal__button {
+    padding: 10px 20px;
+    border-radius: var(--radius-md);
+    font-family: var(--font-family-heading, 'Poppins');
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.modal__button--secondary {
+    background: transparent;
+    border: 1px solid #D1D5DB;
+    color: var(--neutral-400);
+}
+
+.modal__button--secondary:hover {
+    background: var(--neutral-100);
+    color: var(--neutral-900);
+}
+
+.modal__button--primary {
+    background: var(--brand-700);
+    color: #FFFFFF;
+}
+
+.modal__button--primary:hover {
+    background: var(--brand-600);
+}
+
+.modal__button--danger {
+    background: #DC2626;
+    color: #FFFFFF;
+}
+
+.modal__button--danger:hover {
+    background: #B91C1C;
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .modal__content {
