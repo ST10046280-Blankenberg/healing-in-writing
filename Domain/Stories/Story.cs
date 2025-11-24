@@ -53,6 +53,13 @@ public class Story
     public StoryCategory Category { get; set; }
 
     /// <summary>
+    /// URL to the story's cover image stored in Azure Blob Storage.
+    /// Optional field for visual representation of the story.
+    /// </summary>
+    [StringLength(500)]
+    public string? CoverImageUrl { get; set; }
+
+    /// <summary>
     /// Indicates whether the author's identity should be hidden.
     /// </summary>
     [Required]
