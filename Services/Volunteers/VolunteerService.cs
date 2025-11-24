@@ -11,10 +11,12 @@ namespace HealingInWriting.Services.Volunteers;
 public class VolunteerService : IVolunteerService
 {
     private readonly IVolunteerRepository _repository;
+    private readonly IBlobStorageService _blobStorageService;
 
-    public VolunteerService(IVolunteerRepository repository)
+    public VolunteerService(IVolunteerRepository repository, IBlobStorageService blobStorageService)
     {
         _repository = repository;
+        _blobStorageService = blobStorageService;
     }
 
     public async Task<(bool Success, string? Error)> LogHoursAsync(string userId, LogHoursViewModel model, string? attachmentUrl)
@@ -103,5 +105,34 @@ public class VolunteerService : IVolunteerService
         var userHours = allHours.Where(h => h.VolunteerId == volunteer.VolunteerId);
 
         return ViewModelMappers.ToVolunteerHourSummaryViewModel(userHours);
+    }
+
+    public async Task<(bool Success, string? Error)> DeleteVolunteerHourAsync(Guid hourId)
+    {
+        var hour = await _repository.GetVolunteerHourByIdAsync(hourId);
+        if (hour == null)
+            return (false, "Volunteer hour not found.");
+
+        // Delete attachment from blob storage if it exists
+        if (!string.IsNullOrEmpty(hour.AttachmentUrl))
+        {
+            try
+            {
+                // Check if it's a blob storage URL (not a legacy local file)
+                if (hour.AttachmentUrl.Contains("blob.core.windows.net"))
+                {
+                    await _blobStorageService.DeleteImageAsync(hour.AttachmentUrl, isPublic: false);
+                }
+            }
+            catch (Exception)
+            {
+                // Log but don't fail the deletion if blob deletion fails
+                // The database record should still be deleted even if the blob fails
+            }
+        }
+
+        _repository.DeleteVolunteerHour(hour);
+        await _repository.SaveChangesAsync();
+        return (true, null);
     }
 }

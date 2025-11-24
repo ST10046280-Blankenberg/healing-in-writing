@@ -25,8 +25,8 @@
                         <td class="hours-approval__table-cell">
                             <div class="hours-approval__volunteer-info">
                                 <img class="hours-approval__avatar"
-                                     src="@(string.IsNullOrEmpty(item.VolunteerAvatarUrl) ? "/images/volunteers/default.jpg" : item.VolunteerAvatarUrl)"
-                                     alt="@(item.VolunteerName ?? "Unknown")" />
+                                    src="@(string.IsNullOrEmpty(item.VolunteerAvatarUrl) ? "/images/volunteers/default.jpg" : item.VolunteerAvatarUrl)"
+                                    alt="@(item.VolunteerName ?? "Unknown")" />
                                 <button class="hours-approval__view-btn js-open-modal" type="button" data-modal-id="@item.Id">
                                     @(!string.IsNullOrEmpty(item.VolunteerName) ? item.VolunteerName : "Unknown")
                                 </button>
@@ -38,10 +38,13 @@
                         <td class="hours-approval__table-cell">
                             @if (!string.IsNullOrEmpty(item.AttachmentUrl))
                             {
-                                <a href="@Url.Action("GetAttachmentUrl", "Hours", new { area = "Admin", blobUrl = item.AttachmentUrl })" target="_blank" title="View attachment">
+                                <a href="@Url.Action("GetAttachmentUrl", "Hours", new { area = "Admin", blobUrl = item.AttachmentUrl })"
+                                    target="_blank" title="View attachment">
                                     <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M10 2C5.582 2 2 5.582 2 10s3.582 8 8 8 8-3.582 8-8-3.582-8-8-8zm0 14.5c-3.584 0-6.5-2.916-6.5-6.5S6.416 3.5 10 3.5s6.5 2.916 6.5 6.5-2.916 6.5-6.5 6.5z" fill="#9CA3AF"/>
-                                        <path d="M10 6v4l3 2" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"/>
+                                        <path
+                                            d="M10 2C5.582 2 2 5.582 2 10s3.582 8 8 8 8-3.582 8-8-3.582-8-8-8zm0 14.5c-3.584 0-6.5-2.916-6.5-6.5S6.416 3.5 10 3.5s6.5 2.916 6.5 6.5-2.916 6.5-6.5 6.5z"
+                                            fill="#9CA3AF" />
+                                        <path d="M10 6v4l3 2" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" />
                                     </svg>
                                 </a>
                             }
@@ -51,31 +54,58 @@
                             }
                         </td>
                         <td class="hours-approval__table-cell">
-                            <span class="hours-approval__status-badge hours-approval__status-badge--@item.Status?.ToLower()">@item.Status</span>
+                            <span
+                                class="hours-approval__status-badge hours-approval__status-badge--@item.Status?.ToLower()">@item.Status</span>
                         </td>
                         <td class="hours-approval__table-cell">
-                            <form asp-action="UpdateStatus" asp-controller="Hours" asp-area="Admin" method="post" style="display:inline;">
+                            <form asp-action="UpdateStatus" asp-controller="Hours" asp-area="Admin" method="post"
+                                style="display:inline;">
                                 <input type="hidden" name="id" value="@item.Id" />
                                 <input type="hidden" name="status" value="Approved" />
                                 @Html.AntiForgeryToken()
-                                <button type="submit" class="hours-approval__action hours-approval__action--approve" title="Approve">
-                                    <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 8l4 4 8-8" stroke="#16A34A" stroke-width="2" /></svg>
+                                <button type="submit" class="hours-approval__action hours-approval__action--approve"
+                                    title="Approve">
+                                    <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M2 8l4 4 8-8" stroke="#16A34A" stroke-width="2" />
+                                    </svg>
                                 </button>
                             </form>
-                            <form asp-action="UpdateStatus" asp-controller="Hours" asp-area="Admin" method="post" style="display:inline;">
+                            <form asp-action="UpdateStatus" asp-controller="Hours" asp-area="Admin" method="post"
+                                style="display:inline;">
                                 <input type="hidden" name="id" value="@item.Id" />
                                 <input type="hidden" name="status" value="Rejected" />
                                 @Html.AntiForgeryToken()
-                                <button type="submit" class="hours-approval__action hours-approval__action--reject" title="Reject">
-                                    <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 2l12 12M14 2L2 14" stroke="#DC2626" stroke-width="2" /></svg>
+                                <button type="submit" class="hours-approval__action hours-approval__action--reject"
+                                    title="Reject">
+                                    <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M2 2l12 12M14 2L2 14" stroke="#DC2626" stroke-width="2" />
+                                    </svg>
                                 </button>
                             </form>
-                            <form asp-action="UpdateStatus" asp-controller="Hours" asp-area="Admin" method="post" style="display:inline;">
+                            <form asp-action="UpdateStatus" asp-controller="Hours" asp-area="Admin" method="post"
+                                style="display:inline;">
                                 <input type="hidden" name="id" value="@item.Id" />
                                 <input type="hidden" name="status" value="NeedsInfo" />
                                 @Html.AntiForgeryToken()
-                                <button type="submit" class="hours-approval__action hours-approval__action--info" title="Needs Info">
-                                    <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="7" stroke="#2563EB" stroke-width="2" /><text x="8" y="12" text-anchor="middle" font-size="10" fill="#2563EB">?</text></svg>
+                                <button type="submit" class="hours-approval__action hours-approval__action--info"
+                                    title="Needs Info">
+                                    <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="8" cy="8" r="7" stroke="#2563EB" stroke-width="2" /><text x="8" y="12"
+                                            text-anchor="middle" font-size="10" fill="#2563EB">?</text>
+                                    </svg>
+                                </button>
+                            </form>
+                            <form asp-action="Delete" asp-controller="Hours" asp-area="Admin" method="post"
+                                style="display:inline;"
+                                onsubmit="return confirm('Are you sure you want to delete this record? This action cannot be undone.');">
+                                <input type="hidden" name="id" value="@item.Id" />
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="hours-approval__action hours-approval__action--delete"
+                                    title="Delete">
+                                    <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 6h10M12 6V4a1 1 0 00-1-1H5a1 1 0 00-1 1v2M4 6v8a1 1 0 001 1h6a1 1 0 001-1V6"
+                                            stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
                                 </button>
                             </form>
                         </td>
@@ -117,7 +147,8 @@
                     <div class="modal__row">
                         <div class="modal__label">Status:</div>
                         <div class="modal__value">
-                            <span class="hours-approval__status-badge hours-approval__status-badge--@item.Status?.ToLower()">@item.Status</span>
+                            <span
+                                class="hours-approval__status-badge hours-approval__status-badge--@item.Status?.ToLower()">@item.Status</span>
                         </div>
                     </div>
                     <div class="modal__row">
@@ -136,7 +167,8 @@
                         <div class="modal__row">
                             <div class="modal__label">Attachment:</div>
                             <div class="modal__value">
-                                <a href="@Url.Action("GetAttachmentUrl", "Hours", new { area = "Admin", blobUrl = item.AttachmentUrl })" target="_blank" class="modal__attachment-link">
+                                <a href="@Url.Action("GetAttachmentUrl", "Hours", new { area = "Admin", blobUrl = item.AttachmentUrl })"
+                                    target="_blank" class="modal__attachment-link">
                                     View Attachment
                                 </a>
                             </div>

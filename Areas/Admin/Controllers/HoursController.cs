@@ -57,6 +57,22 @@ namespace HealingInWriting.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var result = await _volunteerService.DeleteVolunteerHourAsync(id);
+            if (!result.Success)
+            {
+                TempData["Error"] = result.Error;
+            }
+            else
+            {
+                TempData["Success"] = "Volunteer hour record deleted successfully.";
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
         /// <summary>
         /// Generates a temporary SAS token URL for viewing a volunteer hour attachment.
         /// </summary>

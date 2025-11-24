@@ -308,6 +308,14 @@
     background-color: #DBEAFE;
 }
 
+.hours-approval__action--delete:hover {
+    background-color: #FEE2E2;
+}
+
+.hours-approval__action--delete svg path {
+    stroke: #DC2626;
+}
+
 /* Checkbox Styling */
 .hours-approval__table-cell input[type="checkbox"],
 .hours-approval__table-header input[type="checkbox"] {
