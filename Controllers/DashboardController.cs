@@ -22,19 +22,22 @@ namespace HealingInWriting.Controllers
         private readonly IStoryService _storyService;
         private readonly IEventService _eventService;
         private readonly IRegistrationService _registrationService;
+        private readonly IBlobStorageService _blobStorageService;
 
         public DashboardController(
             UserManager<ApplicationUser> userManager,
             IVolunteerService volunteerService,
             IStoryService storyService,
             IEventService eventService,
-            IRegistrationService registrationService)
+            IRegistrationService registrationService,
+            IBlobStorageService blobStorageService)
         {
             _userManager = userManager;
             _volunteerService = volunteerService;
             _storyService = storyService;
             _eventService = eventService;
             _registrationService = registrationService;
+            _blobStorageService = blobStorageService;
         }
 
         // GET: /Dashboard/Index
@@ -115,8 +118,26 @@ namespace HealingInWriting.Controllers
             string? attachmentUrl = null;
             if (vm.LogForm.Attachment != null && vm.LogForm.Attachment.Length > 0)
             {
-                // Save file logic here
-                attachmentUrl = "/uploads/" + vm.LogForm.Attachment.FileName;
+                try
+                {
+                    // Upload to private container (personal data - requires SAS tokens)
+                    attachmentUrl = await _blobStorageService.UploadImageAsync(
+                        vm.LogForm.Attachment,
+                        "volunteer-hours",
+                        isPublic: false);
+                }
+                catch (ArgumentException ex)
+                {
+                    // Validation errors from BlobStorageService
+                    ModelState.AddModelError("", ex.Message);
+                    vm.RecentEntries = await _volunteerService.GetRecentVolunteerHoursForUserAsync(user.Id, 5);
+                    var errorSummary = await _volunteerService.GetVolunteerHourSummaryAsync(user.Id);
+                    vm.TotalHours = errorSummary.TotalHours;
+                    vm.ValidatedHours = errorSummary.ValidatedHours;
+                    vm.PendingHours = errorSummary.PendingHours;
+                    vm.NeedsInfoHours = errorSummary.NeedsInfoHours;
+                    return View(vm);
+                }
             }
 
             var (success, error) = await _volunteerService.LogHoursAsync(user.Id, vm.LogForm, attachmentUrl);
