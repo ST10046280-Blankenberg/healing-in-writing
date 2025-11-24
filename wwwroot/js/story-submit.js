@@ -185,6 +185,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 formData.set('content', quill.root.innerHTML);
             }
 
+            // Ensure title is explicitly set (in case FormData doesn't capture it)
+            if (titleInput) {
+                formData.set('title', titleInput.value);
+            }
+
+            // Debug: Log what we're sending
+            console.log('Saving draft with title:', formData.get('title'));
+            console.log('Content length:', formData.get('content')?.length);
+
             // Show loading status
             saveDraftButton.disabled = true;
             saveDraftButton.textContent = 'Saving...';
