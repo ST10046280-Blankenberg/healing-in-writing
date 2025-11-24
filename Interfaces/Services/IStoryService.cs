@@ -12,7 +12,7 @@ public interface IStoryService
     /// <summary>
     /// Creates a new story submission from the authenticated user.
     /// </summary>
-    Task<Story> SubmitStoryAsync(string userId, string title, string content, string tags, bool isAnonymous);
+    Task<Story> SubmitStoryAsync(string userId, string title, string content, string tags, bool isAnonymous, string? coverImageUrl = null);
 
     /// <summary>
     /// Gets the count of stories for a specific user.

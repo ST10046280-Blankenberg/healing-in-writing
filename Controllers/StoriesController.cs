@@ -13,10 +13,12 @@ namespace HealingInWriting.Controllers
     public class StoriesController : Controller
     {
         private readonly IStoryService _storyService;
+        private readonly IBlobStorageService _blobStorageService;
 
-        public StoriesController(IStoryService storyService)
+        public StoriesController(IStoryService storyService, IBlobStorageService blobStorageService)
         {
             _storyService = storyService;
+            _blobStorageService = blobStorageService;
         }
 
         public async Task<IActionResult> Index(
@@ -146,7 +148,7 @@ namespace HealingInWriting.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [EnableRateLimiting("standard")]
-        public async Task<IActionResult> Submit(string title, string content, string tags, bool anonymous, bool consent)
+        public async Task<IActionResult> Submit(string title, string content, string tags, bool anonymous, bool consent, IFormFile? coverImage)
         {
             if (!consent)
             {
@@ -168,7 +170,23 @@ namespace HealingInWriting.Controllers
 
             try
             {
-                await _storyService.SubmitStoryAsync(userId, title, content, tags, anonymous);
+                // Handle cover image upload
+                string? coverImageUrl = null;
+                if (coverImage != null && coverImage.Length > 0)
+                {
+                    coverImageUrl = await _blobStorageService.UploadImageAsync(
+                        coverImage,
+                        "stories",
+                        isPublic: true);
+                }
+
+                await _storyService.SubmitStoryAsync(userId, title, content, tags, anonymous, coverImageUrl);
+            }
+            catch (ArgumentException ex)
+            {
+                // Validation errors from BlobStorageService
+                ModelState.AddModelError("", ex.Message);
+                return View();
             }
             catch (InvalidOperationException ex)
             {

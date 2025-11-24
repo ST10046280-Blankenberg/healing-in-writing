@@ -34,7 +34,7 @@ public class StoryService : IStoryService
         return stories;
     }
 
-    public async Task<Story> SubmitStoryAsync(string userId, string title, string content, string tags, bool isAnonymous)
+    public async Task<Story> SubmitStoryAsync(string userId, string title, string content, string tags, bool isAnonymous, string? coverImageUrl = null)
     {
         // Find or create user profile
         var userProfile = await _context.UserProfiles
@@ -53,7 +53,7 @@ public class StoryService : IStoryService
             await _context.SaveChangesAsync();
         }
 
-        // Sanitize content
+        // Sanitise content
         var sanitizer = new Ganss.Xss.HtmlSanitizer();
         var sanitizedContent = sanitizer.Sanitize(content);
 
@@ -72,7 +72,8 @@ public class StoryService : IStoryService
             UserId = userProfile.ProfileId,
             CreatedAt = DateTime.UtcNow,
             Status = StoryStatus.Submitted,
-            Tags = new List<Tag>()
+            Tags = new List<Tag>(),
+            CoverImageUrl = coverImageUrl
         };
 
         _context.Stories.Add(story);

@@ -11,6 +11,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const titleInput = document.querySelector('input#title');
     const anonymousCheckbox = document.querySelector('input#anonymous');
     const form = document.querySelector('form');
+    const coverImageInput = document.querySelector('input#coverImage');
+    const imagePreview = document.querySelector('#imagePreview');
+    const imageUploadArea = document.querySelector('#imageUploadArea');
 
     // Initialise tag manager
     const tagManager = new TagManager({
@@ -36,6 +39,22 @@ document.addEventListener('DOMContentLoaded', function() {
             ]
         }
     });
+
+    // Handle cover image preview
+    if (coverImageInput && imagePreview && imageUploadArea) {
+        coverImageInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    imageUploadArea.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
 
     // Load saved draft on page load
     function loadDraft() {
