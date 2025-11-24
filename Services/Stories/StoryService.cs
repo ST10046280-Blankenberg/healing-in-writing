@@ -101,11 +101,8 @@ public class StoryService : IStoryService
             await _context.SaveChangesAsync();
         }
 
-        // Handle null or empty values
-        var safeTitle = string.IsNullOrWhiteSpace(title) ? "Untitled Draft" : title.Trim();
-        var safeContent = content ?? "";
-
         // Sanitise content
+        var safeContent = content ?? "";
         var sanitizer = new Ganss.Xss.HtmlSanitizer();
         var sanitizedContent = sanitizer.Sanitize(safeContent);
 
@@ -121,8 +118,11 @@ public class StoryService : IStoryService
 
         if (existingDraft != null)
         {
-            // Update existing draft
-            existingDraft.Title = safeTitle;
+            // Update existing draft - only update title if a title is provided
+            if (!string.IsNullOrWhiteSpace(title))
+            {
+                existingDraft.Title = title.Trim();
+            }
             existingDraft.Content = sanitizedContent;
             existingDraft.Summary = summary;
             existingDraft.IsAnonymous = isAnonymous;
@@ -140,6 +140,7 @@ public class StoryService : IStoryService
         else
         {
             // Create new draft story
+            var safeTitle = string.IsNullOrWhiteSpace(title) ? "Untitled Draft" : title.Trim();
             var story = new Story
             {
                 Title = safeTitle,
