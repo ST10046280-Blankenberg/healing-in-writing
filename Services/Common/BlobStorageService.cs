@@ -225,5 +225,38 @@ namespace HealingInWriting.Services.Common
             var sasUri = blobClient.GenerateSasUri(sasBuilder);
             return sasUri.ToString();
         }
+
+        public string GenerateSasUrl(string blobUrl, int expiryHours = 1)
+        {
+            if (string.IsNullOrEmpty(blobUrl))
+            {
+                throw new ArgumentException("Blob URL cannot be null or empty", nameof(blobUrl));
+            }
+
+            // If blob storage is not configured, return the URL as-is
+            if (!IsBlobStorageAvailable() || _blobServiceClient == null)
+            {
+                return blobUrl;
+            }
+
+            // Parse the blob URL to extract container and blob name
+            var uri = new Uri(blobUrl);
+            var segments = uri.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+            if (segments.Length < 2)
+            {
+                throw new ArgumentException("Invalid blob URL format", nameof(blobUrl));
+            }
+
+            var containerName = segments[0];
+            var blobName = string.Join("/", segments.Skip(1));
+
+            // Get the appropriate container client
+            var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+            var blobClient = containerClient.GetBlobClient(blobName);
+
+            // Generate SAS token
+            return GenerateSasUrl(blobClient, expiryHours);
+        }
     }
 }

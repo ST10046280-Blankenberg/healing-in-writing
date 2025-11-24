@@ -36,8 +36,11 @@
                         <td class="hours-approval__table-cell">
                             @if (!string.IsNullOrEmpty(item.AttachmentUrl))
                             {
-                                <a href="@item.AttachmentUrl" target="_blank">
-                                    <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4h12v12H4V4z" stroke="#9CA3AF" stroke-width="2" /></svg>
+                                <a href="@Url.Action("GetAttachmentUrl", "Hours", new { area = "Admin", blobUrl = item.AttachmentUrl })" target="_blank" title="View attachment">
+                                    <svg width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M10 2C5.582 2 2 5.582 2 10s3.582 8 8 8 8-3.582 8-8-3.582-8-8-8zm0 14.5c-3.584 0-6.5-2.916-6.5-6.5S6.416 3.5 10 3.5s6.5 2.916 6.5 6.5-2.916 6.5-6.5 6.5z" fill="#9CA3AF"/>
+                                        <path d="M10 6v4l3 2" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"/>
+                                    </svg>
                                 </a>
                             }
                             else

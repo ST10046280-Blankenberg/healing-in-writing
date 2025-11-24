@@ -36,5 +36,13 @@ namespace HealingInWriting.Interfaces.Services
         /// </summary>
         /// <returns>True if blob storage is available, false if using fallback (local storage)</returns>
         bool IsBlobStorageAvailable();
+
+        /// <summary>
+        /// Generates a SAS token URL for an existing blob URL
+        /// </summary>
+        /// <param name="blobUrl">The existing blob URL</param>
+        /// <param name="expiryHours">Hours until SAS token expires (default 1 hour)</param>
+        /// <returns>The blob URL with a SAS token appended</returns>
+        string GenerateSasUrl(string blobUrl, int expiryHours = 1);
     }
 }
