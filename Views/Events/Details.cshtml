@@ -22,9 +22,12 @@
 
         <article class="event-details__container">
             <!-- Event Image -->
-            <div class="event-details__image">
-                <!-- Placeholder image -->
-            </div>
+            @if (!string.IsNullOrWhiteSpace(Model.CoverImageUrl))
+            {
+                <div class="event-details__image">
+                    <img src="@Model.CoverImageUrl" alt="@Model.Title cover image" />
+                </div>
+            }
 
             <!-- Event Badge -->
             <span class="event-details__badge">

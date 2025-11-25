@@ -1,7 +1,7 @@
 @model HealingInWriting.Models.Stories.StorySummaryViewModel
 
 <article class="story-card story-card--large">
-    <div class="story-card__image" style="background-image: url('@(string.IsNullOrEmpty(Model.Summary) ? "/images/placeholder-story.jpg" : Model.Summary)')"></div>
+    <div class="story-card__image" style="background-image: url('@(string.IsNullOrEmpty(Model.CoverImageUrl) ? "/images/placeholder-story.jpg" : Model.CoverImageUrl)')"></div>
     <div class="story-card__tags">
         @foreach (var tag in Model.Tags)
         {

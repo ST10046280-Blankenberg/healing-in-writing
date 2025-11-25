@@ -25,4 +25,5 @@ public class EventDetailViewModel
     public bool IsUserRegistered { get; set; }
     public int? UserRegistrationId { get; set; }
     public bool IsAuthenticated { get; set; }
+    public string? CoverImageUrl { get; set; }
 }

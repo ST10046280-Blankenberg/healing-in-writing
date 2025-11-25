@@ -101,6 +101,7 @@ namespace HealingInWriting.Controllers
                 AuthorName = ResolveAuthorName(story, isAdmin, isOwner),
                 CreatedAt = story.CreatedAt,
                 Content = story.Content,
+                CoverImageUrl = story.CoverImageUrl,
                 Tags = story.Tags?.ToList() ?? new List<Domain.Shared.Tag>(),
                 ReturnUrl = SanitizeReturnUrl(returnUrl)
             };
