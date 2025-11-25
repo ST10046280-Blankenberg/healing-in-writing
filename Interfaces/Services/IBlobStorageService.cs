@@ -14,6 +14,15 @@ namespace HealingInWriting.Interfaces.Services
         Task<string> UploadImageAsync(IFormFile file, string containerPath = "", bool isPublic = true);
 
         /// <summary>
+        /// Uploads any file type to Azure Blob Storage (documents, images, etc.)
+        /// </summary>
+        /// <param name="file">The file to upload</param>
+        /// <param name="containerPath">Optional subfolder path within the container (e.g., "volunteer-hours", "documents")</param>
+        /// <param name="isPublic">If true, uploads to public container; if false, uploads to private container</param>
+        /// <returns>The full URL to the uploaded blob (with SAS token if private)</returns>
+        Task<string> UploadFileAsync(IFormFile file, string containerPath = "", bool isPublic = true);
+
+        /// <summary>
         /// Deletes an image from Azure Blob Storage
         /// </summary>
         /// <param name="blobUrl">The full URL of the blob to delete</param>

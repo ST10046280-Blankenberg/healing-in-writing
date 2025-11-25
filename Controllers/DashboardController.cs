@@ -121,7 +121,7 @@ namespace HealingInWriting.Controllers
                 try
                 {
                     // Upload to private container (personal data - requires SAS tokens)
-                    attachmentUrl = await _blobStorageService.UploadImageAsync(
+                    attachmentUrl = await _blobStorageService.UploadFileAsync(
                         vm.LogForm.Attachment,
                         "volunteer-hours",
                         isPublic: false);

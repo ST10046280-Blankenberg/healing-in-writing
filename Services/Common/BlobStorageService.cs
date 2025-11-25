@@ -128,6 +128,91 @@ namespace HealingInWriting.Services.Common
             }
         }
 
+        public async Task<string> UploadFileAsync(IFormFile file, string containerPath = "", bool isPublic = true)
+        {
+            if (!_isAvailable || _blobServiceClient == null)
+            {
+                throw new InvalidOperationException("Blob storage is not configured. Please configure ConnectionStrings:StorageConnection in your settings.");
+            }
+
+            if (file == null || file.Length == 0)
+            {
+                throw new ArgumentException("File cannot be null or empty.", nameof(file));
+            }
+
+            // Validate file type - allow common document and image types only
+            var allowedExtensions = new[]
+            {
+                ".jpg", ".jpeg", ".png", ".gif", ".webp", // Images
+                ".pdf", ".doc", ".docx", ".xls", ".xlsx" // Documents
+            };
+            var fileExtension = Path.GetExtension(file.FileName).ToLowerInvariant();
+
+            if (!allowedExtensions.Contains(fileExtension))
+            {
+                throw new ArgumentException($"File type '{fileExtension}' is not allowed. Allowed types: {string.Join(", ", allowedExtensions)}");
+            }
+
+            // Validate file size (10MB max for documents)
+            const long maxFileSize = 10 * 1024 * 1024;
+            if (file.Length > maxFileSize)
+            {
+                throw new ArgumentException($"File size exceeds maximum allowed size of {maxFileSize / (1024 * 1024)}MB.");
+            }
+
+            try
+            {
+                var containerClient = GetContainerClient(isPublic);
+
+                // Generate unique blob name
+                var fileName = $"{Guid.NewGuid()}{fileExtension}";
+                var blobName = string.IsNullOrEmpty(containerPath)
+                    ? fileName
+                    : $"{containerPath.TrimEnd('/')}/{fileName}";
+
+                var blobClient = containerClient.GetBlobClient(blobName);
+
+                // Set content type based on extension
+                var contentType = fileExtension switch
+                {
+                    ".jpg" or ".jpeg" => "image/jpeg",
+                    ".png" => "image/png",
+                    ".gif" => "image/gif",
+                    ".webp" => "image/webp",
+                    ".pdf" => "application/pdf",
+                    ".doc" => "application/msword",
+                    ".docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    ".xls" => "application/vnd.ms-excel",
+                    ".xlsx" => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    _ => "application/octet-stream"
+                };
+
+                // Upload the file
+                var blobHttpHeaders = new BlobHttpHeaders
+                {
+                    ContentType = contentType,
+                    CacheControl = isPublic ? "public, max-age=31536000" : "private, max-age=3600"
+                };
+
+                await using var stream = file.OpenReadStream();
+                await blobClient.UploadAsync(stream, new BlobUploadOptions
+                {
+                    HttpHeaders = blobHttpHeaders
+                });
+
+                _logger.LogInformation("Successfully uploaded file to {Container}: {BlobName}",
+                    isPublic ? "public" : "private", blobName);
+
+                // Return the blob URL without SAS token (will be generated on-demand when accessed)
+                return blobClient.Uri.ToString();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error uploading file to blob storage: {FileName}", file.FileName);
+                throw;
+            }
+        }
+
         public async Task<bool> DeleteImageAsync(string blobUrl, bool isPublic = true)
         {
             if (!_isAvailable || _blobServiceClient == null)
