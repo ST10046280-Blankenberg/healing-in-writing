@@ -29,5 +29,6 @@ public class HomeStoryViewModel
     public string Title { get; set; } = string.Empty;
     public string Snippet { get; set; } = string.Empty;
     public string AuthorName { get; set; } = string.Empty;
+    public string? CoverImageUrl { get; set; }
     public DateTime CreatedAt { get; set; }
 }

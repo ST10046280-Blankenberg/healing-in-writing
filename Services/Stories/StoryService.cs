@@ -26,6 +26,7 @@ public class StoryService : IStoryService
     {
         var stories = await _context.Stories
             .Include(s => s.Author)
+                .ThenInclude(a => a.User)
             .Include(s => s.Tags)
             .Where(s => s.Status == StoryStatus.Published)
             .OrderByDescending(s => s.CreatedAt)
