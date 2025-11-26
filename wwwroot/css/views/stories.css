@@ -45,7 +45,8 @@
     padding: 8px 0;
     background: transparent;
     border: none;
-    outline: none; /* Remove any focus outline */
+    outline: none;
+    /* Remove any focus outline */
     cursor: pointer;
 
     font-family: 'Poppins', sans-serif;
@@ -79,7 +80,8 @@
 }
 
 .stories__nav-tab:focus {
-    outline: none; /* Remove focus outline */
+    outline: none;
+    /* Remove focus outline */
 }
 
 /* Write a Story Button */
@@ -90,7 +92,7 @@
     padding: 8px 19px;
     gap: 8px;
     height: 40px;
-    
+
     background: #2F1648;
     border: none;
     border-radius: 8px;
@@ -211,11 +213,11 @@
     align-items: flex-start;
     padding: 24px;
     width: 100%;
-    
+
     background: #FFFFFF;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1), 0px 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 12px;
-    
+
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -245,7 +247,7 @@
     padding: 10px;
     width: 100%;
     height: 160px;
-    
+
     border-radius: 16px;
     background-size: cover;
     background-position: center;
@@ -269,7 +271,7 @@
     padding: 8px 16px;
     min-width: 140px;
     height: 37px;
-    
+
     background: #E9D5EB;
     border-radius: 9999px;
 }
@@ -413,7 +415,7 @@
     .stories__masonry {
         max-width: 100%;
     }
-    
+
     .stories__column {
         width: calc(50% - 16px);
     }
@@ -424,33 +426,33 @@
         padding: 48px 32px;
         height: auto;
     }
-    
+
     .stories__title {
         font-size: 36px;
         line-height: 40px;
     }
-    
+
     .stories__subtitle {
         font-size: 18px;
         line-height: 26px;
     }
-    
+
     .stories__nav {
         padding: 16px 32px;
     }
-    
+
     .stories__search-section {
         padding: 24px 32px;
     }
-    
+
     .stories__content {
         padding: 48px 32px;
     }
-    
+
     .stories__masonry {
         gap: 24px;
     }
-    
+
     .stories__column {
         gap: 24px;
     }
@@ -460,56 +462,56 @@
     .stories__hero {
         padding: 32px 16px;
     }
-    
+
     .stories__title {
         font-size: 32px;
         line-height: 36px;
     }
-    
+
     .stories__subtitle {
         font-size: 16px;
         line-height: 24px;
     }
-    
+
     .stories__nav {
         flex-direction: column;
         gap: 16px;
         padding: 16px;
     }
-    
+
     .stories__nav-tabs {
         flex-wrap: wrap;
         justify-content: center;
         gap: 16px;
     }
-    
+
     .stories__search-section {
         padding: 16px;
     }
-    
+
     .stories__content {
         padding: 32px 16px;
     }
-    
+
     .stories__masonry {
         gap: 24px;
     }
-    
+
     .stories__row {
         flex-direction: column;
         gap: 24px;
     }
-    
+
     .stories__column--large,
     .stories__column--small-stack,
     .stories__column--small-single {
         max-width: 100%;
     }
-    
+
     .stories__column {
         width: 100%;
     }
-    
+
     /* Old button class - no longer used
     .story-card__button {
         width: 100%;
@@ -522,34 +524,35 @@
     .stories__hero {
         padding: 24px 16px;
     }
-    
+
     .stories__title {
         font-size: 28px;
         line-height: 32px;
     }
-    
+
     .stories__subtitle {
         font-size: 14px;
         line-height: 20px;
     }
-    
+
     .stories__nav-tabs {
         gap: 12px;
     }
-    
+
     .stories__nav-tab {
         font-size: 14px;
     }
-    
+
     .story-card {
         padding: 16px;
     }
-    
+
     .story-card__title {
         font-size: 18px;
         line-height: 26px;
     }
 }
+
 /* =========================================================
    Story Details Page Styles
    ========================================================= */
@@ -610,7 +613,7 @@
     gap: 16px;
     width: 100%;
     height: 56px;
-    
+
     /* Inside auto layout */
     flex: none;
     order: 0;
@@ -627,14 +630,14 @@
     justify-content: center;
     width: 40px;
     height: 40px;
-    
+
     /* Visual */
     background: transparent;
     border: none;
     border-radius: 50%;
     cursor: pointer;
     transition: background-color 0.2s ease;
-    
+
     /* Inside auto layout */
     flex: none;
     order: 0;
@@ -659,7 +662,7 @@
     padding: 0;
     gap: 36px;
     height: 56px;
-    
+
     /* Inside auto layout */
     flex: none;
     order: 1;
@@ -736,18 +739,29 @@
 */
 
 /* Hero Image */
+/* Hero Image */
 .story-details__image {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 10px;
+    padding: 0;
     gap: 10px;
     width: 100%;
-    height: 414px;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #FFFFFF 97.03%),
-    url('images/upcoming-events.webp') center/cover no-repeat;
-    border-radius: 0;
+    height: auto;
+    min-height: 200px;
+    background: transparent;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.story-details__image img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+    object-position: center;
 }
 
 /* Article Section */
@@ -1259,6 +1273,7 @@
         opacity: 0;
         transform: translateY(-10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
