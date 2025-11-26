@@ -49,7 +49,7 @@
     padding: 32px 64px;
     gap: 32px;
     width: 100%;
-    
+
     /* Layout */
     flex: none;
     align-self: stretch;
@@ -69,9 +69,11 @@
     align-content: flex-start;
     padding: 0;
     gap: 32px;
-    max-width: 1400px;  /* ← Add this to constrain the grid width */
+    max-width: 1400px;
+    /* ← Add this to constrain the grid width */
     margin: 0 auto;
-    justify-content: center;  /* ← Change from flex-start to center */
+    justify-content: center;
+    /* ← Change from flex-start to center */
 
     /* Layout */
     flex: none;
@@ -90,7 +92,8 @@
     flex-direction: column;
     padding: 0;
     width: 304px;
-    height: 554px; /* Reduced from 577px for 2-line description */
+    height: 554px;
+    /* Reduced from 577px for 2-line description */
 
     /* Visual */
     background: #FFFFFF;
@@ -115,7 +118,8 @@
 .event-card__image {
     /* Box Model */
     width: 100%;
-    height: 200px; /* Fixed height */
+    height: 200px;
+    /* Fixed height */
     flex-shrink: 0;
 
     /* Visual */
@@ -128,7 +132,8 @@
     display: flex;
     flex-direction: column;
     padding: 24px;
-    height: 354px; /* Reduced from 377px for 2-line description */
+    height: 354px;
+    /* Reduced from 377px for 2-line description */
     flex-shrink: 0;
 }
 
@@ -139,9 +144,11 @@
     align-items: center;
     justify-content: center;
     padding: 6px 16px;
-    height: 32px; /* Fixed height */
+    height: 32px;
+    /* Fixed height */
     width: fit-content;
-    margin-bottom: 16px; /* Increased from 12px */
+    margin-bottom: 16px;
+    /* Increased from 12px */
     flex-shrink: 0;
 
     /* Visual */
@@ -168,8 +175,10 @@
 /* Event Card Title - Fixed Height with Overflow */
 .event-card__title {
     /* Box Model */
-    height: 56px; /* Fixed height for 2 lines */
-    margin: 0 0 16px 0; /* Increased from 12px */
+    height: 56px;
+    /* Fixed height for 2 lines */
+    margin: 0 0 16px 0;
+    /* Increased from 12px */
     flex-shrink: 0;
 
     /* Typography */
@@ -195,8 +204,10 @@
     flex-direction: row;
     align-items: center;
     gap: 16px;
-    height: 24px; /* Fixed height */
-    margin-bottom: 16px; /* Increased from 12px */
+    height: 24px;
+    /* Fixed height */
+    margin-bottom: 16px;
+    /* Increased from 12px */
     flex-shrink: 0;
 }
 
@@ -230,10 +241,11 @@
 /* Event Card Description - Fixed Height with Overflow */
 .event-card__description-text {
     /* Box Model */
-    height: 69px; /* Fixed height for 2 lines (23px * 2) */
+    height: 69px;
+    /* Fixed height for 2 lines (23px * 2) */
     margin: 0 0 20px 0;
     flex-shrink: 0;
-    
+
     /* Typography */
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-style: normal;
@@ -307,7 +319,7 @@
     gap: 10px;
     width: 100%;
     height: 50px;
-    
+
     /* Layout */
     flex: none;
     align-self: stretch;
@@ -362,12 +374,13 @@
 
 /* Large Desktop (1440px and above) */
 @media (min-width: 1440px) {
+
     .events__hero,
     .events__body {
         padding-left: 64px;
         padding-right: 64px;
     }
-    
+
     .events__grid {
         justify-content: flex-start;
     }
@@ -375,12 +388,13 @@
 
 /* Desktop (1024px - 1439px) */
 @media (max-width: 1439px) {
+
     .events__hero,
     .events__body {
         padding-left: 48px;
         padding-right: 48px;
     }
-    
+
     .events__grid {
         justify-content: center;
     }
@@ -391,21 +405,21 @@
     .events__hero {
         padding: 80px 32px;
     }
-    
+
     .events__body {
         padding: 32px 32px;
     }
-    
+
     .events__title {
         font-size: 40px;
         line-height: 44px;
     }
-    
+
     .events__subtitle {
         font-size: 18px;
         line-height: 26px;
     }
-    
+
     .events__grid {
         justify-content: center;
         gap: 24px;
@@ -417,47 +431,47 @@
     .events__hero {
         padding: 60px 20px;
     }
-    
+
     .events__body {
         padding: 24px 20px;
     }
-    
+
     .events__hero-content {
         padding: 0;
         gap: 20px;
     }
-    
+
     .events__title {
         font-size: 32px;
         line-height: 36px;
     }
-    
+
     .events__subtitle {
         font-size: 16px;
         line-height: 24px;
     }
-    
+
     .events__grid {
         justify-content: center;
         gap: 20px;
     }
-    
+
     .event-card {
         width: 100%;
         max-width: 400px;
         height: auto;
     }
-    
+
     .event-card__image {
         width: 100%;
         height: 250px;
     }
-    
+
     .event-card__content {
         width: 100%;
         height: auto;
     }
-    
+
     /* Old button class - no longer used
     .events__load-more-button {
         width: 100%;
@@ -471,21 +485,21 @@
     .events__hero {
         padding: 40px 16px;
     }
-    
+
     .events__body {
         padding: 20px 16px;
     }
-    
+
     .events__title {
         font-size: 28px;
         line-height: 32px;
     }
-    
+
     .events__subtitle {
         font-size: 14px;
         line-height: 22px;
     }
-    
+
     /* Old button class - no longer used
     .event-card__button {
         padding: 12px 24px;
@@ -507,10 +521,10 @@
     gap: 10px;
     width: 100%;
     min-height: 100vh;
-    
+
     /* Visual */
     background: linear-gradient(165.21deg, #FDF5ED 20.59%, #E9D5EB 77.36%);
-    
+
     /* Layout */
     flex: none;
     align-self: stretch;
@@ -537,12 +551,12 @@
     gap: 16px;
     width: 100%;
     max-width: 1089px;
-    
+
     /* Visual */
     background: #FFFFFF;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1), 0px 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 12px;
-    
+
     /* Layout */
     flex: none;
     flex-grow: 1;
@@ -551,16 +565,32 @@
 /* Event Image */
 .event-details__image {
     /* Box Model */
-    width: 480px;
-    height: 160px;
-    
+    width: 100%;
+    height: auto;
+    min-height: 200px;
+
     /* Visual */
-    background: #D9D9D9;
+    background: transparent;
     border-radius: 16px;
-    
+    overflow: hidden;
+
     /* Layout */
     flex: none;
     flex-grow: 0;
+
+    /* Flex for centering */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.event-details__image img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+    object-position: center;
 }
 
 /* Event Badge */
@@ -569,11 +599,11 @@
     display: inline-flex;
     width: auto;
     height: 28px;
-    
+
     /* Visual */
     background: #E9D5EB;
     border-radius: 9999px;
-    
+
     /* Layout */
     flex: none;
     flex-grow: 0;
@@ -583,7 +613,7 @@
     /* Position */
     position: relative;
     padding: 4px 12px;
-    
+
     /* Typography */
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-style: normal;
@@ -602,7 +632,7 @@
     padding: 0;
     gap: 8px;
     width: 100%;
-    
+
     /* Layout */
     flex: none;
     align-self: stretch;
@@ -619,11 +649,11 @@
     width: 140px;
     min-width: 140px;
     height: 37px;
-    
+
     /* Visual */
     background: #E9D5EB;
     border-radius: 9999px;
-    
+
     /* Layout */
     flex: none;
     flex-grow: 0;
@@ -633,7 +663,7 @@
     /* Box Model */
     width: auto;
     height: 21px;
-    
+
     /* Typography */
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-style: normal;
@@ -641,7 +671,7 @@
     font-size: 14px;
     line-height: 21px;
     color: #2F1648;
-    
+
     /* Layout */
     flex: none;
     flex-grow: 0;
@@ -652,7 +682,7 @@
     /* Box Model */
     width: 100%;
     margin: 0;
-    
+
     /* Typography */
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-style: normal;
@@ -660,7 +690,7 @@
     font-size: 20px;
     line-height: 30px;
     color: #2F1648;
-    
+
     /* Layout */
     flex: none;
     align-self: stretch;
@@ -672,7 +702,7 @@
     /* Box Model */
     width: 100%;
     margin: 0;
-    
+
     /* Typography */
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-style: normal;
@@ -680,7 +710,7 @@
     font-size: 14px;
     line-height: 20px;
     color: #6B7280;
-    
+
     /* Layout */
     flex: none;
     align-self: stretch;
@@ -692,7 +722,7 @@
     /* Box Model */
     width: 100%;
     margin: 0;
-    
+
     /* Typography */
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-style: normal;
@@ -700,7 +730,7 @@
     font-size: 16px;
     line-height: 24px;
     color: #4B5563;
-    
+
     /* Layout */
     flex: none;
     align-self: stretch;
@@ -770,11 +800,11 @@
     .event-details {
         padding: 32px 32px;
     }
-    
+
     .event-details__container {
         max-width: 100%;
     }
-    
+
     .event-details__image {
         width: 100%;
         max-width: 480px;
@@ -786,32 +816,32 @@
     .event-details {
         padding: 24px 20px;
     }
-    
+
     .event-details__container {
         padding: 20px;
     }
-    
+
     .event-details__image {
         width: 100%;
         height: 200px;
     }
-    
+
     .event-details__title {
         font-size: 18px;
         line-height: 26px;
     }
-    
+
     .event-details__description {
         font-size: 14px;
         line-height: 22px;
     }
-    
+
     /* Old button class - no longer used
     .event-details__button {
         width: 100%;
     }
     */
-    
+
     .event-details__tag {
         width: auto;
         min-width: auto;
@@ -823,18 +853,17 @@
     .event-details {
         padding: 20px 16px;
     }
-    
+
     .event-details__container {
         padding: 16px;
     }
-    
+
     .event-details__image {
         height: 180px;
     }
-    
+
     .event-details__title {
         font-size: 16px;
         line-height: 24px;
     }
 }
-
