@@ -1,0 +1,25 @@
+@model string?
+@{
+    var loadingText = Model ?? "Loading...";
+}
+
+<div id="global-loader" class="loader-overlay d-none">
+    <div class="spinner"></div>
+    <div class="loading-text">@loadingText</div>
+</div>
+
+<script>
+    // Simple helper to show/hide loader
+    // Usage: showLoader() or hideLoader()
+    function showLoader(text) {
+        const loader = document.getElementById('global-loader');
+        if (text) {
+            loader.querySelector('.loading-text').textContent = text;
+        }
+        loader.classList.remove('d-none');
+    }
+
+    function hideLoader() {
+        document.getElementById('global-loader').classList.add('d-none');
+    }
+</script>

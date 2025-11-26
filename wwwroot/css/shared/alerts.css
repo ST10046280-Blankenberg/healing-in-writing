@@ -1,0 +1,85 @@
+/* =========================================================
+   Alerts & Messages Component
+   ========================================================= */
+
+.alert {
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-normal);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    animation: fadeIn var(--transition-base);
+}
+
+.alert-dismissible {
+    padding-right: var(--spacing-2xl);
+    position: relative;
+}
+
+.alert-dismissible .btn-close {
+    position: absolute;
+    top: 50%;
+    right: var(--spacing-md);
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: var(--spacing-xs);
+    color: inherit;
+    opacity: 0.7;
+    transition: opacity var(--transition-fast);
+}
+
+.alert-dismissible .btn-close:hover {
+    opacity: 1;
+}
+
+/* Variants */
+.alert-success {
+    color: #0f5132;
+    background-color: #d1e7dd;
+    border-color: #badbcc;
+    /* Using semantic variables for border or accents if needed, 
+       but keeping standard light backgrounds for readability */
+    border-left: 4px solid var(--color-success);
+}
+
+.alert-error,
+.alert-danger {
+    color: #842029;
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
+    border-left: 4px solid var(--color-error);
+}
+
+.alert-warning {
+    color: #664d03;
+    background-color: #fff3cd;
+    border-color: #ffecb5;
+    border-left: 4px solid var(--color-warning);
+}
+
+.alert-info {
+    color: #055160;
+    background-color: #cff4fc;
+    border-color: #b6effb;
+    border-left: 4px solid var(--color-info);
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
