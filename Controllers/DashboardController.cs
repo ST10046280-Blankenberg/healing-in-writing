@@ -22,19 +22,22 @@ namespace HealingInWriting.Controllers
         private readonly IStoryService _storyService;
         private readonly IEventService _eventService;
         private readonly IRegistrationService _registrationService;
+        private readonly IBlobStorageService _blobStorageService;
 
         public DashboardController(
             UserManager<ApplicationUser> userManager,
             IVolunteerService volunteerService,
             IStoryService storyService,
             IEventService eventService,
-            IRegistrationService registrationService)
+            IRegistrationService registrationService,
+            IBlobStorageService blobStorageService)
         {
             _userManager = userManager;
             _volunteerService = volunteerService;
             _storyService = storyService;
             _eventService = eventService;
             _registrationService = registrationService;
+            _blobStorageService = blobStorageService;
         }
 
         // GET: /Dashboard/Index
@@ -53,15 +56,70 @@ namespace HealingInWriting.Controllers
                 summary = await _volunteerService.GetVolunteerHourSummaryAsync(user.Id);
             }
 
+            var notifications = new List<DashboardNotificationViewModel>();
+
+            // 1. Get recent published stories
+            var recentStories = await _storyService.GetFilteredUserStoriesAsync(userId, null, null, "newest", null);
+            foreach (var story in recentStories.Where(s => s.Status == StoryStatus.Published).Take(3))
+            {
+                notifications.Add(new DashboardNotificationViewModel
+                {
+                    Message = $"Your story \"{story.Title}\" has been published!",
+                    TimeAgo = FormatRelativeTime(DateTime.UtcNow, story.CreatedAt),
+                    Type = NotificationType.Success
+                });
+            }
+
+            // 2. Get recent registrations
+            if (int.TryParse(User.FindFirst("ProfileId")?.Value, out var profileId))
+            {
+                var recentRegistrations = await _registrationService.GetFilteredUserRegistrationsAsync(profileId, null, null, null, null);
+                foreach (var reg in recentRegistrations.OrderByDescending(r => r.RegistrationDate).Take(3))
+                {
+                    notifications.Add(new DashboardNotificationViewModel
+                    {
+                        Message = $"You registered for event: {reg.Event.Title}",
+                        TimeAgo = FormatRelativeTime(DateTime.UtcNow, reg.RegistrationDate),
+                        Type = NotificationType.Info
+                    });
+                }
+            }
+
             var viewModel = new DashboardViewModel
             {
                 UserName = User.FindFirst(ClaimTypes.GivenName)?.Value ?? User.Identity?.Name ?? "User",
                 MyStoriesCount = await _storyService.GetUserStoryCountAsync(userId),
                 MyEventsCount = await _eventService.GetUserUpcomingEventsCountAsync(userId),
-                MyHoursCount = User.IsInRole("Volunteer") ? (int)summary.TotalHours : null
+                MyHoursCount = User.IsInRole("Volunteer") ? (int)summary.TotalHours : null,
+                Notifications = notifications.OrderByDescending(n => n.TimeAgo.Contains("just now") ? 0 : 1).Take(5).ToList() // Simple sort, ideally parse time
             };
 
             return View(viewModel);
+        }
+
+        private static string FormatRelativeTime(DateTime referenceUtc, DateTime occurrenceUtc)
+        {
+            var delta = referenceUtc - occurrenceUtc;
+            var future = delta.TotalSeconds < 0;
+            var absoluteDelta = TimeSpan.FromSeconds(Math.Abs(delta.TotalSeconds));
+
+            if (absoluteDelta < TimeSpan.FromMinutes(1))
+            {
+                return future ? "in under a minute" : "just now";
+            }
+
+            (double value, string unit) = absoluteDelta switch
+            {
+                { TotalDays: >= 1 } span => (Math.Floor(span.TotalDays), "day"),
+                { TotalHours: >= 1 } span => (Math.Floor(span.TotalHours), "hour"),
+                { TotalMinutes: >= 1 } span => (Math.Floor(span.TotalMinutes), "minute"),
+                _ => (Math.Floor(absoluteDelta.TotalSeconds), "second")
+            };
+
+            var pluralSuffix = value == 1 ? string.Empty : "s";
+            var phrase = $"{value:0} {unit}{pluralSuffix}";
+
+            return future ? $"in {phrase}" : $"{phrase} ago";
         }
 
         // GET: /Dashboard/LogHours
@@ -115,8 +173,26 @@ namespace HealingInWriting.Controllers
             string? attachmentUrl = null;
             if (vm.LogForm.Attachment != null && vm.LogForm.Attachment.Length > 0)
             {
-                // Save file logic here
-                attachmentUrl = "/uploads/" + vm.LogForm.Attachment.FileName;
+                try
+                {
+                    // Upload to private container (personal data - requires SAS tokens)
+                    attachmentUrl = await _blobStorageService.UploadFileAsync(
+                        vm.LogForm.Attachment,
+                        "volunteer-hours",
+                        isPublic: false);
+                }
+                catch (ArgumentException ex)
+                {
+                    // Validation errors from BlobStorageService
+                    ModelState.AddModelError("", ex.Message);
+                    vm.RecentEntries = await _volunteerService.GetRecentVolunteerHoursForUserAsync(user.Id, 5);
+                    var errorSummary = await _volunteerService.GetVolunteerHourSummaryAsync(user.Id);
+                    vm.TotalHours = errorSummary.TotalHours;
+                    vm.ValidatedHours = errorSummary.ValidatedHours;
+                    vm.PendingHours = errorSummary.PendingHours;
+                    vm.NeedsInfoHours = errorSummary.NeedsInfoHours;
+                    return View(vm);
+                }
             }
 
             var (success, error) = await _volunteerService.LogHoursAsync(user.Id, vm.LogForm, attachmentUrl);

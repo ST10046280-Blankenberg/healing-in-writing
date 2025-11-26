@@ -1,6 +1,6 @@
 // Story submission page - Rich text editor and form handling
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Get user-specific draft key from data attribute or use default
     const mainElement = document.querySelector('.story-submit');
     const userId = mainElement?.dataset?.userId || 'anonymous';
@@ -11,6 +11,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const titleInput = document.querySelector('input#title');
     const anonymousCheckbox = document.querySelector('input#anonymous');
     const form = document.querySelector('form');
+    const coverImageInput = document.querySelector('input#coverImage');
+    const imagePreview = document.querySelector('#imagePreview');
+    const imageUploadArea = document.querySelector('#imageUploadArea');
 
     // Initialise tag manager
     const tagManager = new TagManager({
@@ -37,6 +40,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Handle cover image preview
+    if (coverImageInput && imagePreview && imageUploadArea) {
+        coverImageInput.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    imageUploadArea.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
     // Load saved draft on page load
     function loadDraft() {
         try {
@@ -62,8 +81,24 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Flag to track submission state
+    let isSubmitting = false;
+
+    // Debounce function to limit save frequency
+    let saveTimeout;
+    function debouncedSave() {
+        clearTimeout(saveTimeout);
+        saveTimeout = setTimeout(saveDraft, 2000); // Save 2 seconds after last change
+    }
+
+    // Auto-save at regular intervals
+    const autoSaveIntervalId = setInterval(saveDraft, AUTOSAVE_INTERVAL);
+
     // Save draft to localStorage
     function saveDraft() {
+        // Prevent saving if we are in the process of submitting
+        if (isSubmitting) return false;
+
         try {
             const draft = {
                 title: titleInput.value.trim(),
@@ -127,16 +162,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3000);
     }
 
-    // Debounce function to limit save frequency
-    let saveTimeout;
-    function debouncedSave() {
-        clearTimeout(saveTimeout);
-        saveTimeout = setTimeout(saveDraft, 2000); // Save 2 seconds after last change
-    }
-
-    // Auto-save at regular intervals
-    setInterval(saveDraft, AUTOSAVE_INTERVAL);
-
     // Save on content changes
     quill.on('text-change', debouncedSave);
     titleInput.addEventListener('input', debouncedSave);
@@ -147,13 +172,57 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Form submission handler moved to validation section below
 
-    // Manual save button (if we add one later)
-    const saveDraftButton = document.querySelector('.story-submit__button--secondary');
+    // Manual save draft button
+    const saveDraftButton = document.getElementById('saveDraftButton');
     if (saveDraftButton) {
-        saveDraftButton.addEventListener('click', function(e) {
+        saveDraftButton.addEventListener('click', async function (e) {
             e.preventDefault();
-            if (saveDraft()) {
-                showDraftStatus('Draft saved successfully!');
+
+            // First save to localStorage
+            saveDraft();
+
+            // Then save to server
+            const formData = new FormData(form);
+
+            // Ensure content is populated
+            const contentInput = document.querySelector('input#content');
+            if (contentInput && quill) {
+                contentInput.value = quill.root.innerHTML;
+                formData.set('content', quill.root.innerHTML);
+            }
+
+            // Ensure title is explicitly set (in case FormData doesn't capture it)
+            if (titleInput) {
+                formData.set('title', titleInput.value);
+            }
+
+            // Debug: Log what we're sending
+            console.log('Saving draft with title:', formData.get('title'));
+            console.log('Content length:', formData.get('content')?.length);
+
+            // Show loading status
+            saveDraftButton.disabled = true;
+            saveDraftButton.textContent = 'Saving...';
+
+            try {
+                const response = await fetch('/Stories/SaveDraft', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showDraftStatus(result.message, true);
+                } else {
+                    showDraftStatus(result.message || 'Failed to save draft', false);
+                }
+            } catch (error) {
+                console.error('Error saving draft:', error);
+                showDraftStatus('Network error. Draft saved locally only.', false);
+            } finally {
+                saveDraftButton.disabled = false;
+                saveDraftButton.textContent = 'Save Draft';
             }
         });
     }
@@ -298,19 +367,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Real-time validation
-    titleInput.addEventListener('blur', function() {
+    titleInput.addEventListener('blur', function () {
         const errors = validateTitle();
         showFieldError('title', errors);
     });
 
-    titleInput.addEventListener('input', function() {
+    titleInput.addEventListener('input', function () {
         // Clear error when user starts typing
         if (titleInput.value.trim().length >= VALIDATION_RULES.title.minLength) {
             clearFieldError('title');
         }
     });
 
-    quill.on('text-change', function() {
+    quill.on('text-change', function () {
         // Clear error when content meets minimum
         const text = quill.getText().trim();
         const words = text.length > 0 ? text.split(/\s+/).filter(word => word.length > 0) : [];
@@ -320,7 +389,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Always keep the hidden content field synchronized with Quill
-    quill.on('text-change', function() {
+    quill.on('text-change', function () {
         const content = document.querySelector('input#content');
         if (content) {
             content.value = quill.root.innerHTML;
@@ -328,7 +397,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Validate and submit form
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', function (e) {
         e.preventDefault(); // Always prevent default first
 
         // Ensure content is populated
@@ -348,7 +417,16 @@ document.addEventListener('DOMContentLoaded', function() {
             return false;
         }
 
-        // Clear draft BEFORE submitting (so it happens reliably before page redirect)
+        // Set submitting flag to prevent any further auto-saves
+        isSubmitting = true;
+
+        // Clear any pending debounced saves
+        clearTimeout(saveTimeout);
+
+        // Clear the auto-save interval
+        clearInterval(autoSaveIntervalId);
+
+        // Clear draft BEFORE submitting
         clearDraft();
 
         // If validation passes, submit the form

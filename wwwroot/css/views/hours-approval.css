@@ -13,7 +13,7 @@
     gap: 16px;
     width: 100%;
     min-height: 100vh;
-    
+
     /* Visual */
     background: var(--color-bg, #FDF5ED);
 }
@@ -76,7 +76,7 @@
     padding: 24px;
     gap: 16px;
     width: 100%;
-    
+
     /* Visual */
     background: #FFFFFF;
     border: 1px solid #F3F4F6;
@@ -106,7 +106,7 @@
     /* Box Model */
     padding: 16px 24px;
     text-align: center;
-    
+
     /* Typography */
     font-family: var(--font-family-heading, 'Poppins');
     font-style: normal;
@@ -153,7 +153,7 @@
 .hours-approval__table-row {
     /* Visual */
     border-bottom: 1px solid #E5E7EB;
-    
+
     /* Animation */
     transition: background-color 0.2s ease;
 }
@@ -166,7 +166,7 @@
     /* Box Model */
     padding: 16px 24px;
     text-align: center;
-    
+
     /* Typography */
     font-family: var(--font-family-heading, 'Poppins');
     font-style: normal;
@@ -203,7 +203,7 @@
     /* Box Model */
     width: 32px;
     height: 32px;
-    
+
     /* Visual */
     border-radius: 9999px;
     object-fit: cover;
@@ -228,7 +228,7 @@
     padding: 3px 8px;
     min-width: 76px;
     height: 24px;
-    
+
     /* Typography */
     font-family: var(--font-family-heading, 'Poppins');
     font-style: normal;
@@ -236,7 +236,7 @@
     font-size: 12px;
     line-height: 18px;
     text-align: center;
-    
+
     /* Visual */
     border-radius: 9999px;
 }
@@ -261,7 +261,7 @@
     padding: 16px 24px;
 }
 
-.hours-approval__table-cell:last-child > div {
+.hours-approval__table-cell:last-child>div {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -277,12 +277,12 @@
     padding: 8px;
     width: 40px;
     height: 40px;
-    
+
     /* Visual */
     background: transparent;
     border: none;
     border-radius: 8px;
-    
+
     /* Animation */
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.1s ease;
@@ -308,18 +308,26 @@
     background-color: #DBEAFE;
 }
 
+.hours-approval__action--delete:hover {
+    background-color: #FEE2E2;
+}
+
+.hours-approval__action--delete svg path {
+    stroke: #DC2626;
+}
+
 /* Checkbox Styling */
 .hours-approval__table-cell input[type="checkbox"],
 .hours-approval__table-header input[type="checkbox"] {
     /* Box Model */
     width: 16px;
     height: 16px;
-    
+
     /* Visual */
     background: #FFFFFF;
     border: 0.5px solid #000000;
     border-radius: 1px;
-    
+
     /* Animation */
     cursor: pointer;
 }
@@ -333,23 +341,23 @@
     .hours-approval {
         padding: 32px 48px;
     }
-    
+
     .hours-approval__title {
         font-size: 32px;
         line-height: 36px;
     }
-    
+
     .hours-approval__subtitle {
         font-size: 16px;
         line-height: 24px;
     }
-    
+
     /* Search bar adjustments */
     .hours-approval .search-bar {
         padding: 24px;
         flex-wrap: wrap;
     }
-    
+
     .hours-approval .search-bar__dropdown {
         min-width: 140px;
     }
@@ -361,7 +369,7 @@
         padding: 20px;
         gap: 24px;
     }
-    
+
     /* Search bar mobile stacking */
     .hours-approval .search-bar {
         padding: 20px;
@@ -369,14 +377,14 @@
         flex-direction: column;
         align-items: stretch;
     }
-    
+
     .hours-approval .search-bar__input-container,
     .hours-approval .search-bar__dropdown,
     .hours-approval .search-bar__button {
         width: 100%;
         min-width: 100%;
     }
-    
+
     .hours-approval .search-bar__dropdown {
         flex-direction: column;
         align-items: flex-start;
@@ -384,30 +392,30 @@
         gap: 8px;
         padding: 12px;
     }
-    
+
     .hours-approval .search-bar__dropdown input[type="date"] {
         width: 100%;
     }
-    
+
     .hours-approval .search-bar__dropdown span {
         display: none;
     }
-    
+
     .hours-approval__title {
         font-size: 28px;
         line-height: 32px;
     }
-    
+
     .hours-approval__subtitle {
         font-size: 14px;
         line-height: 20px;
     }
-    
+
     .hours-approval__table-wrapper {
         overflow-x: auto;
         padding: 16px;
     }
-    
+
     .hours-approval__table {
         min-width: 1000px;
     }
@@ -419,25 +427,337 @@
         padding: 16px;
         gap: 20px;
     }
-    
+
     /* Search bar smaller padding */
     .hours-approval .search-bar {
         padding: 16px;
         gap: 12px;
     }
-    
+
     .hours-approval__title {
         font-size: 24px;
         line-height: 28px;
     }
-    
+
     .hours-approval__header {
         gap: 8px;
         padding: 16px;
     }
-    
+
     .hours-approval__table-wrapper {
         padding: 12px;
     }
 }
 
+/* =========================================================
+   View Button & Modal
+   ========================================================= */
+
+/* View Button (replaces volunteer name) */
+/* View Button (replaces volunteer name) */
+.hours-approval__view-btn {
+    /* Reset button styles */
+    background: none;
+    border: none;
+    padding: 4px 12px;
+    margin: 0;
+
+    /* Typography */
+    font-family: var(--font-family-heading, 'Poppins');
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 24px;
+    color: #2F1648;
+    text-align: left;
+    text-decoration: none;
+
+    /* Visual */
+    border-radius: 6px;
+
+    /* Animation */
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.hours-approval__view-btn:hover {
+    background-color: #F3F4F6;
+    color: #2F1648;
+}
+
+/* Modal Overlay */
+.modal {
+    /* Positioning */
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+
+    /* Layout */
+    align-items: center;
+    justify-content: center;
+
+    /* Visual */
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+}
+
+/* Modal Content */
+.modal__content {
+    /* Box Model */
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+
+    /* Visual */
+    background: #FFFFFF;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+
+    /* Animation */
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Modal Header */
+.modal__header {
+    /* Box Model */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-lg) var(--spacing-xl);
+
+    /* Visual */
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.modal__title {
+    /* Typography */
+    font-family: var(--font-family-heading, 'Poppins');
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 32px;
+    color: var(--brand-700);
+    margin: 0;
+}
+
+.modal__close {
+    /* Box Model */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+
+    /* Visual */
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+
+    /* Typography */
+    font-size: 32px;
+    line-height: 1;
+    color: var(--neutral-400);
+
+    /* Animation */
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.modal__close:hover {
+    background-color: var(--neutral-100);
+    color: var(--brand-700);
+}
+
+/* Modal Body */
+.modal__body {
+    /* Box Model */
+    padding: var(--spacing-lg) var(--spacing-xl);
+    overflow-y: auto;
+
+    /* Layout */
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    /* Removing gap to let rows handle spacing */
+}
+
+.modal__row {
+    /* Layout */
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 16px;
+    align-items: center;
+    /* Center vertically */
+
+    /* Box Model */
+    padding: 12px 0;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.modal__row:last-child {
+    border-bottom: none;
+}
+
+.modal__row--full {
+    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.modal__label {
+    /* Typography */
+    font-family: var(--font-family-heading, 'Poppins');
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--neutral-400);
+}
+
+.modal__value {
+    /* Typography */
+    font-family: var(--font-family-heading, 'Poppins');
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--color-text-dark);
+}
+
+.modal__notes {
+    /* Box Model */
+    width: 100%;
+    padding: 16px;
+    margin-top: 4px;
+
+    /* Visual */
+    background: var(--neutral-100);
+    border: 1px solid #E5E7EB;
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--brand-700);
+
+    /* Typography */
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-size: 15px;
+    color: var(--neutral-900);
+}
+
+.modal__attachment-link {
+    /* Box Model */
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 8px;
+
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-soft-sm);
+
+    /* Typography */
+    font-family: var(--font-family-heading, 'Poppins');
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--brand-700);
+    text-decoration: none;
+
+    /* Animation */
+    transition: all 0.2s ease;
+}
+
+.modal__attachment-link:hover {
+    background: var(--neutral-100);
+    border-color: var(--brand-300);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-soft-md);
+}
+
+/* Modal Actions */
+.modal__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.modal__button {
+    padding: 10px 20px;
+    border-radius: var(--radius-md);
+    font-family: var(--font-family-heading, 'Poppins');
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.modal__button--secondary {
+    background: transparent;
+    border: 1px solid #D1D5DB;
+    color: var(--neutral-400);
+}
+
+.modal__button--secondary:hover {
+    background: var(--neutral-100);
+    color: var(--neutral-900);
+}
+
+.modal__button--primary {
+    background: var(--brand-700);
+    color: #FFFFFF;
+}
+
+.modal__button--primary:hover {
+    background: var(--brand-600);
+}
+
+.modal__button--danger {
+    background: #DC2626;
+    color: #FFFFFF;
+}
+
+.modal__button--danger:hover {
+    background: #B91C1C;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .modal__content {
+        width: 95%;
+        max-height: 95vh;
+    }
+
+    .modal__header,
+    .modal__body {
+        padding: 20px;
+    }
+
+    .modal__title {
+        font-size: 20px;
+        line-height: 28px;
+    }
+
+    .modal__row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+}

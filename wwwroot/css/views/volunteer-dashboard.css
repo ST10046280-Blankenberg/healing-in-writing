@@ -17,9 +17,9 @@
     padding: 2rem 4rem;
     gap: 2rem;
     min-height: 100vh;
-    
+
     /* Visual */
-    background: #FAFAFA;
+    background: var(--color-bg);
 }
 
 /* =========================================================
@@ -48,26 +48,26 @@
 
 .volunteer-dashboard__title {
     /* Typography */
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font-family-heading);
     font-style: normal;
     font-weight: 700;
     font-size: 1.875rem;
     line-height: 2.5rem;
-    color: #2F1648;
-    
+    color: var(--brand-700);
+
     /* Box model */
     margin: 0;
 }
 
 .volunteer-dashboard__subtitle {
     /* Typography */
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font-family-heading);
     font-style: normal;
     font-weight: 400;
     font-size: 1.125rem;
     line-height: 1.75rem;
-    color: #4B5563;
-    
+    color: var(--neutral-400);
+
     /* Box model */
     margin: 0;
 }
@@ -95,7 +95,7 @@
     padding: 1.563rem;
     gap: 0.625rem;
     flex: 1;
-    
+
     /* Visual */
     background: #FFFFFF;
     border: 1px solid #F9FAFB;
@@ -119,7 +119,7 @@
     align-items: center;
     width: 3rem;
     height: 3rem;
-    
+
     /* Visual */
     border-radius: 0.75rem;
 }
@@ -135,7 +135,7 @@
 }
 
 .stats-card__icon--stories svg {
-    color: #CA9F9D;
+    color: var(--accent-200);
 }
 
 .stats-card__icon--events {
@@ -143,7 +143,7 @@
 }
 
 .stats-card__icon--events svg {
-    color: #2F1648;
+    color: var(--brand-700);
 }
 
 .stats-card__icon--hours {
@@ -151,41 +151,41 @@
 }
 
 .stats-card__icon--hours svg {
-    color: #2F1648;
+    color: var(--brand-700);
 }
 
 .stats-card__number {
     /* Typography */
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font-family-heading);
     font-style: normal;
     font-weight: 700;
     font-size: 1.5rem;
     line-height: 2rem;
-    color: #2F1648;
+    color: var(--brand-700);
 }
 
 .stats-card__label {
     /* Typography */
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font-family-heading);
     font-style: normal;
     font-weight: 600;
     font-size: 1rem;
     line-height: 1.5rem;
     color: #1F2937;
-    
+
     /* Box model */
     margin: 0;
 }
 
 .stats-card__description {
     /* Typography */
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font-family-heading);
     font-style: normal;
     font-weight: 400;
     font-size: 0.875rem;
     line-height: 1.313rem;
     color: #6B7280;
-    
+
     /* Box model */
     margin: 0;
 }
@@ -216,7 +216,7 @@
     padding: 0;
     gap: 0.625rem;
     flex: 1;
-    
+
     /* Visual */
     filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.25));
 }
@@ -230,7 +230,7 @@
     padding: 1.563rem;
     gap: 1.375rem;
     width: 100%;
-    
+
     /* Visual */
     background: #FFFFFF;
     border: 1px solid #F9FAFB;
@@ -240,13 +240,13 @@
 
 .notifications-panel__title {
     /* Typography */
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font-family-heading);
     font-style: normal;
     font-weight: 700;
     font-size: 1.25rem;
     line-height: 1.875rem;
-    color: #2F1648;
-    
+    color: var(--brand-700);
+
     /* Box model */
     margin: 0;
 }
@@ -273,7 +273,7 @@
     padding: 1rem;
     gap: 1rem;
     width: 100%;
-    
+
     /* Visual */
     border-radius: 0.75rem;
 }
@@ -290,7 +290,7 @@
     width: 2.5rem;
     height: 2.5rem;
     flex-shrink: 0;
-    
+
     /* Visual */
     border-radius: 9999px;
 }
@@ -322,7 +322,7 @@
 }
 
 .notification__icon--comment svg {
-    color: #CA9F9D;
+    color: var(--accent-200);
 }
 
 .notification__icon--milestone {
@@ -343,20 +343,20 @@
 
 .notification__message {
     /* Typography */
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font-family-heading);
     font-style: normal;
     font-weight: 500;
     font-size: 1rem;
     line-height: 1.5rem;
     color: #1F2937;
-    
+
     /* Box model */
     margin: 0;
 }
 
 .notification__time {
     /* Typography */
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font-family-heading);
     font-style: normal;
     font-weight: 400;
     font-size: 0.875rem;
@@ -385,7 +385,7 @@
     padding: 1.563rem;
     gap: 1.75rem;
     width: 100%;
-    
+
     /* Visual */
     background: #FFFFFF;
     border: 1px solid #F9FAFB;
@@ -395,13 +395,13 @@
 
 .quick-actions__title {
     /* Typography */
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font-family-heading);
     font-style: normal;
     font-weight: 700;
     font-size: 1.25rem;
     line-height: 1.875rem;
-    color: #2F1648;
-    
+    color: var(--brand-700);
+
     /* Box model */
     margin: 0;
 }
@@ -434,30 +434,30 @@
    Default: Dark background, white text
    Hover: White background, dark text, dark border */
 .dashboard-action-btn.btn--primary {
-    background: #2F1648;
+    background: var(--brand-700);
     color: #FFFFFF;
-    border: 2px solid #2F1648;
+    border: 2px solid var(--brand-700);
 }
 
 .dashboard-action-btn.btn--primary:hover {
     background: #FFFFFF;
-    color: #2F1648;
-    border-color: #2F1648;
+    color: var(--brand-700);
+    border-color: var(--brand-700);
 }
 
 /* Rose button (My Stories) - Custom Rose #CA9F9D 
    Default: Rose background, white text
    Hover: White background, rose text, rose border */
 .dashboard-action-btn--rose {
-    background: #CA9F9D;
+    background: var(--accent-200);
     color: #FFFFFF;
-    border: 2px solid #CA9F9D;
+    border: 2px solid var(--accent-200);
 }
 
 .dashboard-action-btn--rose:hover {
     background: #FFFFFF;
-    color: #CA9F9D;
-    border-color: #CA9F9D;
+    color: var(--accent-200);
+    border-color: var(--accent-200);
 }
 
 .dashboard-action-btn--rose:active {
@@ -470,14 +470,14 @@
    Hover: Dark background, white text, dark border */
 .dashboard-action-btn.btn--secondary {
     background: transparent;
-    color: #2F1648;
-    border: 2px solid #2F1648;
+    color: var(--brand-700);
+    border: 2px solid var(--brand-700);
 }
 
 .dashboard-action-btn.btn--secondary:hover {
-    background: #2F1648;
+    background: var(--brand-700);
     color: #FFFFFF;
-    border-color: #2F1648;
+    border-color: var(--brand-700);
 }
 
 /* =========================================================
@@ -494,7 +494,7 @@
     gap: 1rem;
     width: 100%;
     height: 3.75rem;
-    
+
     /* Typography */
     font-family: 'Poppins', sans-serif;
     font-style: normal;
@@ -502,7 +502,7 @@
     font-size: 1rem;
     line-height: 1.5rem;
     text-decoration: none;
-    
+
     /* Visual */
     border: none;
     border-radius: 0.75rem;
@@ -579,15 +579,15 @@
     .volunteer-dashboard {
         padding: 2rem 2rem;
     }
-    
+
     .volunteer-dashboard__content {
         flex-direction: column;
     }
-    
+
     .volunteer-dashboard__notifications {
         max-width: 100%;
     }
-    
+
     .volunteer-dashboard__actions {
         width: 100%;
         max-width: 100%;
@@ -598,30 +598,30 @@
     .volunteer-dashboard {
         padding: 1.5rem 1rem;
     }
-    
+
     .volunteer-dashboard__title {
         font-size: 1.5rem;
         line-height: 2rem;
     }
-    
+
     .volunteer-dashboard__subtitle {
         font-size: 1rem;
         line-height: 1.5rem;
     }
-    
+
     .volunteer-dashboard__stats {
         flex-direction: column;
         gap: 1rem;
     }
-    
+
     .stats-card {
         width: 100%;
     }
-    
+
     .notification {
         padding: 0.75rem;
     }
-    
+
     .notification__message {
         font-size: 0.875rem;
         line-height: 1.25rem;
@@ -633,15 +633,14 @@
         font-size: 1.25rem;
         line-height: 1.75rem;
     }
-    
+
     .stats-card__number {
         font-size: 1.25rem;
         line-height: 1.75rem;
     }
-    
+
     .action-button {
         height: 3rem;
         font-size: 0.875rem;
     }
 }
-

@@ -28,6 +28,11 @@ public class VolunteerRepository : IVolunteerRepository
         _dbContext.VolunteerHours.Add(hour);
     }
 
+    public void DeleteVolunteerHour(VolunteerHour hour)
+    {
+        _dbContext.VolunteerHours.Remove(hour);
+    }
+
     public Task SaveChangesAsync() => _dbContext.SaveChangesAsync();
 
     public async Task<List<VolunteerHour>> GetAllVolunteerHoursWithVolunteerAsync()

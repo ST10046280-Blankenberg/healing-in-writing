@@ -16,13 +16,18 @@ namespace HealingInWriting.Areas.Admin.Controllers
     {
         private readonly IEventService _eventService;
         private readonly IRegistrationService _registrationService;
+        private readonly IBlobStorageService _blobStorageService;
 
-        public EventsController(IEventService eventService, IRegistrationService registrationService)
+        public EventsController(
+            IEventService eventService,
+            IRegistrationService registrationService,
+            IBlobStorageService blobStorageService)
         {
             _eventService = eventService;
             _registrationService = registrationService;
+            _blobStorageService = blobStorageService;
         }
-        
+
         // GET: Admin/Events/Manage
         public async Task<IActionResult> Manage(
             string? searchTerm,
@@ -152,6 +157,9 @@ namespace HealingInWriting.Areas.Admin.Controllers
                     {
                         model.Tags = string.Join(",", existingEvent.EventTags.Select(t => t.Name));
                     }
+
+                    // Load existing cover image
+                    model.CoverImageUrl = existingEvent.CoverImageUrl;
                 }
             }
 
@@ -177,6 +185,28 @@ namespace HealingInWriting.Areas.Admin.Controllers
                     return View(model);
                 }
 
+                // Handle cover image upload
+                if (model.CoverImage != null && model.CoverImage.Length > 0)
+                {
+                    // If updating and there's an existing image, delete it first
+                    if (model.Id > 0)
+                    {
+                        var existingEvent = await _eventService.GetEventByIdAsync(model.Id);
+                        if (existingEvent != null && !string.IsNullOrEmpty(existingEvent.CoverImageUrl))
+                        {
+                            await _blobStorageService.DeleteImageAsync(existingEvent.CoverImageUrl, isPublic: true);
+                        }
+                    }
+
+                    // Upload new image
+                    model.CoverImageUrl = await _blobStorageService.UploadImageAsync(
+                        model.CoverImage,
+                        "events",
+                        isPublic: true);
+                }
+                // If editing without uploading a new image, preserve the existing URL from hidden field
+                // (model.CoverImageUrl is already populated from the hidden field in the form)
+
                 if (model.Id > 0)
                 {
                     // Update existing event
@@ -191,6 +221,12 @@ namespace HealingInWriting.Areas.Admin.Controllers
                 }
 
                 return RedirectToAction(nameof(Manage));
+            }
+            catch (ArgumentException ex)
+            {
+                // Validation errors from BlobStorageService
+                ModelState.AddModelError("", ex.Message);
+                return View(model);
             }
             catch (Exception ex)
             {

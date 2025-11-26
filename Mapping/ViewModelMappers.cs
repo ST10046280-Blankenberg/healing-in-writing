@@ -235,8 +235,10 @@ public static class ViewModelMappers
             Date = hour.Date,
             Activity = hour.Activity,
             Hours = hour.Hours,
+            Notes = hour.Comments,
             AttachmentUrl = hour.AttachmentUrl,
-            Status = hour.Status.ToString()
+            Status = hour.Status.ToString(),
+            SubmittedAt = hour.SubmittedAt
         };
     }
 
@@ -279,6 +281,7 @@ public static class ViewModelMappers
             AuthorName = authorName,
             CreatedAt = story.CreatedAt,
             Summary = story.Summary,
+            CoverImageUrl = story.CoverImageUrl,
             Tags = story.Tags?.Select(t => t.Name).ToList() ?? new List<string>()
         };
     }
@@ -337,6 +340,9 @@ public static class ViewModelMappers
             Description = e.Description,
             EventType = e.EventType,
             StartDateTime = e.StartDateTime,
+            CoverImageUrl = !string.IsNullOrWhiteSpace(e.CoverImageUrl)
+                ? e.CoverImageUrl
+                : "https://via.placeholder.com/304x262",
             LocationSummary = string.Join(", ", new[] { e.Address?.City, e.Address?.Province }.Where(part => !string.IsNullOrWhiteSpace(part)))
         };
     }

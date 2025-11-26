@@ -4,7 +4,7 @@
  * CSP-compliant: No inline JavaScript
  */
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     // Get all form elements
     const isAlbumCheckbox = document.getElementById('isAlbumCheckbox');
     const albumFields = document.getElementById('albumFields');
@@ -15,24 +15,24 @@ document.addEventListener("DOMContentLoaded", function() {
     const imageUpload = document.getElementById('imageUpload');
     const uploadText = document.getElementById('uploadText');
     const uploadArea = document.getElementById('uploadArea');
-    
+
     // Handle click on upload area to trigger file input
     if (uploadArea && imageUpload) {
-        uploadArea.addEventListener('click', function() {
+        uploadArea.addEventListener('click', function () {
             imageUpload.click();
         });
     }
-    
+
     // Toggle album fields when "Is Album" checkbox changes
     if (isAlbumCheckbox && albumFields) {
-        isAlbumCheckbox.addEventListener('change', function() {
+        isAlbumCheckbox.addEventListener('change', function () {
             albumFields.style.display = this.checked ? 'block' : 'none';
         });
     }
-    
+
     // Handle collection dropdown change
     if (collectionSelect && customCollectionField) {
-        collectionSelect.addEventListener('change', function() {
+        collectionSelect.addEventListener('change', function () {
             if (this.value === '__custom__') {
                 customCollectionField.style.display = 'block';
                 if (customCollectionInput) {
@@ -47,21 +47,25 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
-    
+
     // Update upload text on file selection
     if (imageUpload && uploadText) {
-        imageUpload.addEventListener('change', function() {
-            const file = this.files[0];
-            if (file) {
-                uploadText.textContent = 'Selected: ' + file.name;
+        imageUpload.addEventListener('change', function () {
+            const files = this.files;
+            if (files && files.length > 0) {
+                if (files.length === 1) {
+                    uploadText.textContent = 'Selected: ' + files[0].name;
+                } else {
+                    uploadText.textContent = 'Selected: ' + files.length + ' files';
+                }
                 uploadText.style.color = '#10b981';
             }
         });
     }
-    
+
     // Handle form submission
     if (galleryForm) {
-        galleryForm.addEventListener('submit', function(e) {
+        galleryForm.addEventListener('submit', function (e) {
             // If custom collection is selected, use custom input value
             if (collectionSelect && collectionSelect.value === '__custom__' && customCollectionInput) {
                 const customValue = customCollectionInput.value.trim();
@@ -76,16 +80,16 @@ document.addEventListener("DOMContentLoaded", function() {
                 hiddenInput.name = 'collectionId';
                 hiddenInput.value = customValue;
                 galleryForm.appendChild(hiddenInput);
-                
+
                 // Disable the select so it doesn't send __custom__
                 collectionSelect.disabled = true;
             }
-            
+
             // Validate album requirements
             if (isAlbumCheckbox && isAlbumCheckbox.checked) {
                 const collectionValue = collectionSelect ? collectionSelect.value : '';
                 const customValue = customCollectionInput ? customCollectionInput.value.trim() : '';
-                
+
                 if (!collectionValue && !customValue) {
                     e.preventDefault();
                     alert('Please select or create a collection for album photos.');

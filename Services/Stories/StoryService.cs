@@ -26,6 +26,7 @@ public class StoryService : IStoryService
     {
         var stories = await _context.Stories
             .Include(s => s.Author)
+                .ThenInclude(a => a.User)
             .Include(s => s.Tags)
             .Where(s => s.Status == StoryStatus.Published)
             .OrderByDescending(s => s.CreatedAt)
@@ -34,7 +35,7 @@ public class StoryService : IStoryService
         return stories;
     }
 
-    public async Task<Story> SubmitStoryAsync(string userId, string title, string content, string tags, bool isAnonymous)
+    public async Task<Story> SubmitStoryAsync(string userId, string title, string content, string tags, bool isAnonymous, string? coverImageUrl = null)
     {
         // Find or create user profile
         var userProfile = await _context.UserProfiles
@@ -53,7 +54,7 @@ public class StoryService : IStoryService
             await _context.SaveChangesAsync();
         }
 
-        // Sanitize content
+        // Sanitise content
         var sanitizer = new Ganss.Xss.HtmlSanitizer();
         var sanitizedContent = sanitizer.Sanitize(content);
 
@@ -72,13 +73,94 @@ public class StoryService : IStoryService
             UserId = userProfile.ProfileId,
             CreatedAt = DateTime.UtcNow,
             Status = StoryStatus.Submitted,
-            Tags = new List<Tag>()
+            Tags = new List<Tag>(),
+            CoverImageUrl = coverImageUrl
         };
 
         _context.Stories.Add(story);
         await _context.SaveChangesAsync();
 
         return story;
+    }
+
+    public async Task<Story> SaveDraftAsync(string userId, string title, string content, string tags, bool isAnonymous, string? coverImageUrl = null)
+    {
+        // Find or create user profile
+        var userProfile = await _context.UserProfiles
+            .FirstOrDefaultAsync(up => up.UserId == userId);
+
+        if (userProfile == null)
+        {
+            // Auto-create a basic profile for the user
+            userProfile = new UserProfile
+            {
+                UserId = userId,
+                Bio = "",
+                City = ""
+            };
+            _context.UserProfiles.Add(userProfile);
+            await _context.SaveChangesAsync();
+        }
+
+        // Sanitise content
+        var safeContent = content ?? "";
+        var sanitizer = new Ganss.Xss.HtmlSanitizer();
+        var sanitizedContent = sanitizer.Sanitize(safeContent);
+
+        // Generate summary from content (first 500 chars)
+        var plainText = System.Text.RegularExpressions.Regex.Replace(sanitizedContent, "<.*?>", string.Empty);
+        var summary = plainText.Length > 500 ? plainText.Substring(0, 497) + "..." : plainText;
+
+        // Check if user already has an existing draft (most recent one)
+        var existingDraft = await _context.Stories
+            .Where(s => s.UserId == userProfile.ProfileId && s.Status == StoryStatus.Draft)
+            .OrderByDescending(s => s.UpdatedAt ?? s.CreatedAt)
+            .FirstOrDefaultAsync();
+
+        if (existingDraft != null)
+        {
+            // Update existing draft - only update title if a title is provided
+            if (!string.IsNullOrWhiteSpace(title))
+            {
+                existingDraft.Title = title.Trim();
+            }
+            existingDraft.Content = sanitizedContent;
+            existingDraft.Summary = summary;
+            existingDraft.IsAnonymous = isAnonymous;
+            existingDraft.UpdatedAt = DateTime.UtcNow;
+
+            // Only update cover image if a new one is provided
+            if (!string.IsNullOrEmpty(coverImageUrl))
+            {
+                existingDraft.CoverImageUrl = coverImageUrl;
+            }
+
+            await _context.SaveChangesAsync();
+            return existingDraft;
+        }
+        else
+        {
+            // Create new draft story
+            var safeTitle = string.IsNullOrWhiteSpace(title) ? "Untitled Draft" : title.Trim();
+            var story = new Story
+            {
+                Title = safeTitle,
+                Content = sanitizedContent,
+                Summary = summary,
+                Category = StoryCategory.SurvivorStory,
+                IsAnonymous = isAnonymous,
+                UserId = userProfile.ProfileId,
+                CreatedAt = DateTime.UtcNow,
+                Status = StoryStatus.Draft,
+                Tags = new List<Tag>(),
+                CoverImageUrl = coverImageUrl
+            };
+
+            _context.Stories.Add(story);
+            await _context.SaveChangesAsync();
+
+            return story;
+        }
     }
 
     public async Task<int> GetUserStoryCountAsync(string userId)

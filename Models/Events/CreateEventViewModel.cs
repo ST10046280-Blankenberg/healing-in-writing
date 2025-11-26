@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using HealingInWriting.Domain.Events;
+using Microsoft.AspNetCore.Http;
 
 namespace HealingInWriting.Models.Events;
 
@@ -20,6 +21,16 @@ public class CreateEventViewModel
 
     [Required]
     public EventStatus EventStatus { get; set; } = EventStatus.Draft;
+
+    /// <summary>
+    /// Cover image file to upload (optional)
+    /// </summary>
+    public IFormFile? CoverImage { get; set; }
+
+    /// <summary>
+    /// Existing cover image URL (for edit scenarios)
+    /// </summary>
+    public string? CoverImageUrl { get; set; }
 
     [Required]
     public DateTime EventDate { get; set; }

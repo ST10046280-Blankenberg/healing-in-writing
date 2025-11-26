@@ -85,6 +85,7 @@ namespace HealingInWriting.Controllers
                 StartDateTime = @event.StartDateTime,
                 EndDateTime = @event.EndDateTime,
                 Description = @event.Description,
+                CoverImageUrl = @event.CoverImageUrl,
                 Address = @event.Address,
                 Capacity = capacityInfo.Capacity,
                 RegisteredCount = capacityInfo.RegisteredCount,

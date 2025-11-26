@@ -51,9 +51,12 @@
                 </div>
 
                 <!-- Hero Image -->
-                <div class="story-details__image">
-                    <!-- Image with gradient overlay -->
-                </div>
+                @if (!string.IsNullOrWhiteSpace(Model.CoverImageUrl))
+                {
+                    <div class="story-details__image">
+                        <img src="@Model.CoverImageUrl" alt="@Model.Title cover image" />
+                    </div>
+                }
 
                 <!-- Article Content -->
                 <div class="story-details__article">

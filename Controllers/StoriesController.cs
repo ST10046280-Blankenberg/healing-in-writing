@@ -13,10 +13,12 @@ namespace HealingInWriting.Controllers
     public class StoriesController : Controller
     {
         private readonly IStoryService _storyService;
+        private readonly IBlobStorageService _blobStorageService;
 
-        public StoriesController(IStoryService storyService)
+        public StoriesController(IStoryService storyService, IBlobStorageService blobStorageService)
         {
             _storyService = storyService;
+            _blobStorageService = blobStorageService;
         }
 
         public async Task<IActionResult> Index(
@@ -99,6 +101,7 @@ namespace HealingInWriting.Controllers
                 AuthorName = ResolveAuthorName(story, isAdmin, isOwner),
                 CreatedAt = story.CreatedAt,
                 Content = story.Content,
+                CoverImageUrl = story.CoverImageUrl,
                 Tags = story.Tags?.ToList() ?? new List<Domain.Shared.Tag>(),
                 ReturnUrl = SanitizeReturnUrl(returnUrl)
             };
@@ -146,7 +149,7 @@ namespace HealingInWriting.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [EnableRateLimiting("standard")]
-        public async Task<IActionResult> Submit(string title, string content, string tags, bool anonymous, bool consent)
+        public async Task<IActionResult> Submit(string title, string content, string tags, bool anonymous, bool consent, IFormFile? coverImage)
         {
             if (!consent)
             {
@@ -168,7 +171,23 @@ namespace HealingInWriting.Controllers
 
             try
             {
-                await _storyService.SubmitStoryAsync(userId, title, content, tags, anonymous);
+                // Handle cover image upload
+                string? coverImageUrl = null;
+                if (coverImage != null && coverImage.Length > 0)
+                {
+                    coverImageUrl = await _blobStorageService.UploadImageAsync(
+                        coverImage,
+                        "stories",
+                        isPublic: true);
+                }
+
+                await _storyService.SubmitStoryAsync(userId, title, content, tags, anonymous, coverImageUrl);
+            }
+            catch (ArgumentException ex)
+            {
+                // Validation errors from BlobStorageService
+                ModelState.AddModelError("", ex.Message);
+                return View();
             }
             catch (InvalidOperationException ex)
             {
@@ -177,6 +196,54 @@ namespace HealingInWriting.Controllers
             }
             TempData["SuccessMessage"] = "Your story has been submitted for review!";
             return RedirectToAction(nameof(Index), new { area = "" });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [EnableRateLimiting("standard")]
+        public async Task<IActionResult> SaveDraft(string? title, string? content, string? tags, bool anonymous, IFormFile? coverImage)
+        {
+            if (string.IsNullOrWhiteSpace(title) && string.IsNullOrWhiteSpace(content))
+            {
+                return Json(new { success = false, message = "Please add a title or content to save a draft" });
+            }
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Json(new { success = false, message = "User not authenticated" });
+            }
+
+            try
+            {
+                // Handle cover image upload
+                string? coverImageUrl = null;
+                if (coverImage != null && coverImage.Length > 0)
+                {
+                    coverImageUrl = await _blobStorageService.UploadImageAsync(
+                        coverImage,
+                        "stories",
+                        isPublic: true);
+                }
+
+                await _storyService.SaveDraftAsync(
+                    userId,
+                    title ?? "",
+                    content ?? "",
+                    tags ?? "",
+                    anonymous,
+                    coverImageUrl);
+                return Json(new { success = true, message = "Draft saved successfully!" });
+            }
+            catch (ArgumentException ex)
+            {
+                // Validation errors from BlobStorageService
+                return Json(new { success = false, message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = $"Error saving draft: {ex.Message}" });
+            }
         }
     }
 }

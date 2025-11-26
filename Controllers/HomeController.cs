@@ -51,6 +51,7 @@ namespace HealingInWriting.Controllers
                     Title = story.Title,
                     AuthorName = ResolveAuthorName(story),
                     Snippet = CreateSnippet(story),
+                    CoverImageUrl = story.CoverImageUrl,
                     CreatedAt = story.CreatedAt
                 })
                 .ToList();
@@ -67,6 +68,9 @@ namespace HealingInWriting.Controllers
                     EventType = featured.EventType,
                     StartDateTime = featured.StartDateTime,
                     EndDateTime = featured.EndDateTime,
+                    CoverImageUrl = !string.IsNullOrWhiteSpace(featured.CoverImageUrl)
+                        ? featured.CoverImageUrl
+                        : "~/images/upcoming-events.webp",
                     LocationSummary = string.Join(", ", new[]
                     {
                         featured.Address?.StreetAddress,
@@ -87,6 +91,9 @@ namespace HealingInWriting.Controllers
                         EventType = e.EventType,
                         StartDateTime = e.StartDateTime,
                         EndDateTime = e.EndDateTime,
+                        CoverImageUrl = !string.IsNullOrWhiteSpace(e.CoverImageUrl)
+                            ? e.CoverImageUrl
+                            : "~/images/upcoming-events.webp",
                         LocationSummary = string.Join(", ", new[]
                         {
                             e.Address?.City,

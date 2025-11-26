@@ -151,19 +151,27 @@ builder.Services.AddScoped<IGalleryService, GalleryService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 
 // Azure Blob Storage for image uploads (optional, configured via StorageConnection)
-// Register clients only if connection string is present
+// Supports both public and private containers for POPIA compliance
 var storageConnectionString = builder.Configuration.GetConnectionString("StorageConnection");
 if (!string.IsNullOrEmpty(storageConnectionString))
 {
+    // Register BlobServiceClient as singleton
     builder.Services.AddSingleton(sp =>
     {
         return new Azure.Storage.Blobs.BlobServiceClient(storageConnectionString);
     });
-    builder.Services.AddScoped(sp =>
+
+    // Register BlobStorageService with BlobServiceClient
+    builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
+}
+else
+{
+    // Register BlobStorageService without BlobServiceClient (will operate in unavailable mode)
+    builder.Services.AddScoped<IBlobStorageService>(sp =>
     {
-        var blobServiceClient = sp.GetRequiredService<Azure.Storage.Blobs.BlobServiceClient>();
-        var containerName = builder.Configuration["Blob:Container"] ?? "uploads";
-        return blobServiceClient.GetBlobContainerClient(containerName);
+        var logger = sp.GetRequiredService<ILogger<BlobStorageService>>();
+        var configuration = sp.GetRequiredService<IConfiguration>();
+        return new BlobStorageService(logger, configuration, null);
     });
 }
 
@@ -360,7 +368,8 @@ app.Use(async (context, next) =>
         "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net", 
         
         // 2. ADDED http://books.google.com to allow book cover images
-        "img-src 'self' data: https: http://books.google.com",
+        // 3. ADDED Azure Blob Storage domain for uploaded images
+        "img-src 'self' data: https: http://books.google.com https://healinginwritingstorage.blob.core.windows.net",
 
         "connect-src 'self'",
         "frame-src 'self' https://www.google.com", // Allow Google Maps iframes

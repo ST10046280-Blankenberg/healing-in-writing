@@ -18,4 +18,5 @@ public class StorySummaryViewModel
     public string Title { get; set; } = string.Empty;
     public string AuthorName { get; set; } = string.Empty;
     public string Summary { get; set; } = string.Empty;
+    public string? CoverImageUrl { get; set; }
 }
