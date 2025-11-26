@@ -110,7 +110,7 @@ namespace HealingInWriting.Controllers
 
             static string ResolveAuthorName(Story story, bool isAdmin, bool isOwner)
             {
-                if (story.IsAnonymous && !isAdmin && !isOwner)
+                if (story.IsAnonymous)
                 {
                     return "Anonymous";
                 }
