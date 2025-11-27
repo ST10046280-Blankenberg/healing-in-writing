@@ -1,19 +1,28 @@
 /* =========================================================
-   Alerts & Messages Component
+   Alerts & Messages Component (Modern Glassmorphism)
    ========================================================= */
 
 .alert {
-    padding: var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-lg);
     margin-bottom: var(--spacing-md);
-    border: 1px solid transparent;
-    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: var(--radius-lg);
     font-family: var(--font-family-base);
     font-size: var(--font-size-body);
     line-height: var(--line-height-normal);
     display: flex;
     align-items: center;
-    gap: var(--spacing-sm);
-    animation: fadeIn var(--transition-base);
+    gap: var(--spacing-md);
+
+    /* Glassmorphism base */
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+
+    /* Animation */
+    animation: slideInRight 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transform-origin: right center;
 }
 
 .alert-dismissible {
@@ -31,55 +40,102 @@
     cursor: pointer;
     padding: var(--spacing-xs);
     color: inherit;
-    opacity: 0.7;
-    transition: opacity var(--transition-fast);
+    opacity: 0.5;
+    transition: all var(--transition-fast);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
 }
 
 .alert-dismissible .btn-close:hover {
     opacity: 1;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Icon styling */
+.alert i {
+    font-size: 1.25rem;
+    flex-shrink: 0;
 }
 
 /* Variants */
 .alert-success {
+    background: rgba(209, 231, 221, 0.85);
+    border-color: rgba(186, 219, 204, 0.6);
     color: #0f5132;
-    background-color: #d1e7dd;
-    border-color: #badbcc;
-    /* Using semantic variables for border or accents if needed, 
-       but keeping standard light backgrounds for readability */
     border-left: 4px solid var(--color-success);
+}
+
+.alert-success i {
+    color: var(--color-success);
 }
 
 .alert-error,
 .alert-danger {
+    background: rgba(248, 215, 218, 0.85);
+    border-color: rgba(245, 194, 199, 0.6);
     color: #842029;
-    background-color: #f8d7da;
-    border-color: #f5c2c7;
     border-left: 4px solid var(--color-error);
 }
 
+.alert-error i,
+.alert-danger i {
+    color: var(--color-error);
+}
+
 .alert-warning {
+    background: rgba(255, 243, 205, 0.85);
+    border-color: rgba(255, 236, 181, 0.6);
     color: #664d03;
-    background-color: #fff3cd;
-    border-color: #ffecb5;
     border-left: 4px solid var(--color-warning);
 }
 
+.alert-warning i {
+    color: var(--color-warning);
+}
+
 .alert-info {
+    background: rgba(207, 244, 252, 0.85);
+    border-color: rgba(182, 239, 251, 0.6);
     color: #055160;
-    background-color: #cff4fc;
-    border-color: #b6effb;
     border-left: 4px solid var(--color-info);
 }
 
-/* Animation */
-@keyframes fadeIn {
+.alert-info i {
+    color: var(--color-info);
+}
+
+/* Animation Keyframes */
+@keyframes slideInRight {
     from {
         opacity: 0;
-        transform: translateY(-10px);
+        transform: translateX(100px);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateX(0);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .alert {
+        animation: slideInBottom 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    @keyframes slideInBottom {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 }

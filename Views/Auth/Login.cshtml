@@ -6,13 +6,18 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Healing In Writing</title>
     <link rel="stylesheet" href="~/css/base/_variables.css" />
     <link rel="stylesheet" href="~/css/views/auth.css" />
+    <link rel="stylesheet" href="~/css/shared/button-loading.css" />
+    <link rel="stylesheet" href="~/css/shared/toast.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
+
 <body>
     <main class="auth">
         <!-- Left Side: Form Container -->
@@ -23,48 +28,31 @@
                     <p class="auth__subtitle">Sign in to continue your healing journey</p>
                 </header>
 
-                <form class="auth__form auth__form--login" method="post" asp-area="" asp-controller="Auth" asp-action="Login">
+                <form class="auth__form auth__form--login" method="post" asp-area="" asp-controller="Auth"
+                    asp-action="Login">
                     @Html.AntiForgeryToken()
-                    
+
                     <!-- Email Field -->
                     <div class="auth__form-group">
-                        <label for="email" class="auth__label">Email Address</label>
-                        <input 
-                            type="email" 
-                            id="email" 
-                            name="Email"
-                            class="auth__input" 
-                            placeholder="Enter your email address" 
-                            required 
-                            autocomplete="email"
-                            aria-describedby="email-error" />
-                        <span id="email-error" class="auth__error-message"></span>
+                        <label asp-for="Email" class="auth__label">Email Address</label>
+                        <input asp-for="Email" class="auth__input" placeholder="Enter your email address"
+                            autocomplete="email" aria-describedby="email-error" />
+                        <span id="email-error" asp-validation-for="Email" class="auth__error-message"></span>
                     </div>
 
                     <!-- Password Field -->
                     <div class="auth__form-group">
-                        <label for="password" class="auth__label">Password</label>
-                        <input 
-                            type="password" 
-                            id="password" 
-                            name="Password"
-                            class="auth__input" 
-                            placeholder="Enter your password" 
-                            required 
-                            autocomplete="current-password"
-                            aria-describedby="password-error" />
-                        <span id="password-error" class="auth__error-message"></span>
+                        <label asp-for="Password" class="auth__label">Password</label>
+                        <input asp-for="Password" class="auth__input" placeholder="Enter your password"
+                            autocomplete="current-password" aria-describedby="password-error" />
+                        <span id="password-error" asp-validation-for="Password" class="auth__error-message"></span>
                     </div>
 
                     <!-- Remember Me & Forgot Password -->
                     <div class="auth__link-group">
                         <div class="auth__checkbox-group">
-                            <input 
-                                type="checkbox" 
-                                id="rememberMe" 
-                                name="RememberMe"
-                                class="auth__checkbox" />
-                            <label for="rememberMe" class="auth__checkbox-label">Remember me</label>
+                            <input asp-for="RememberMe" class="auth__checkbox" />
+                            <label asp-for="RememberMe" class="auth__checkbox-label">Remember me</label>
                         </div>
                         <a href="@Url.Action("ForgotPassword", "Auth")" class="auth__link">Forgot password?</a>
                     </div>
@@ -73,17 +61,23 @@
                     <button type="submit" class="auth__button">Sign In</button>
 
                     <!-- Validation Summary -->
+                    <!-- Validation Summary -->
                     @if (!ViewData.ModelState.IsValid)
                     {
-                        <div class="auth__error-message" role="alert">
-                            @Html.ValidationSummary(false, "", new { @class = "auth__validation-summary" })
+                        <div class="auth__validation-summary" role="alert">
+                            <div
+                                style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; font-weight: 600;">
+                                <i class="fas fa-exclamation-circle"></i> Please correct the following errors:
+                            </div>
+                            @Html.ValidationSummary(false, "", new { @class = "" })
                         </div>
                     }
                 </form>
 
                 <!-- Toggle to Register -->
                 <div class="auth__toggle">
-                    Don't have an account? <a href="@Url.Action("Register", "Auth")" class="auth__toggle-link">Create one now</a>
+                    Don't have an account? <a href="@Url.Action("Register", "Auth")" class="auth__toggle-link">Create
+                        one now</a>
                 </div>
             </div>
         </section>
@@ -91,10 +85,7 @@
         <!-- Right Side: Image Panel -->
         <aside class="auth__right" aria-label="Community background">
             <div class="auth__overlay"></div>
-            <img 
-                src="~/images/auth-background.jpg" 
-                class="auth__image" 
-                alt="Healing In Writing community gathering" 
+            <img src="~/images/auth-background.jpg" class="auth__image" alt="Healing In Writing community gathering"
                 loading="lazy" />
             <div class="auth__content">
                 <h2 class="auth__content-title">Join Our Community</h2>
@@ -107,5 +98,39 @@
 
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/toast.js"></script>
+    <script>
+        // Form submission handler with loading state
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.querySelector('.auth__form--login');
+            const submitButton = loginForm.querySelector('button[type="submit"]');
+
+            loginForm.addEventListener('submit', function(e) {
+                // Check if form is valid before showing loading state
+                if (loginForm.checkValidity()) {
+                    // Add loading state to button
+                    submitButton.classList.add('btn-loading');
+                    submitButton.disabled = true;
+
+                    // Add screen reader announcement
+                    const loadingLabel = document.createElement('span');
+                    loadingLabel.className = 'btn-loading-label';
+                    loadingLabel.textContent = 'Signing in, please wait...';
+                    submitButton.appendChild(loadingLabel);
+                }
+            });
+
+            // Show error toast if there are validation errors
+            const validationSummary = document.querySelector('.auth__validation-summary');
+            if (validationSummary) {
+                ToastManager.error(
+                    'Sign In Failed',
+                    'Please correct the errors below and try again.',
+                    { duration: 6000 }
+                );
+            }
+        });
+    </script>
 </body>
+
 </html>

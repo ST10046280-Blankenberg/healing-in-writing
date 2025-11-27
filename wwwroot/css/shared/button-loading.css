@@ -1,0 +1,173 @@
+/* =========================================================
+   Button Loading States Component
+   Provides visual feedback during async operations
+   ========================================================= */
+
+/* ===== Base Button States ===== */
+
+/* Loading state modifier for buttons */
+.btn-loading {
+    position: relative;
+    color: transparent !important;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+/* Preserve button text for layout but hide visually */
+.btn-loading::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
+    border: 2px solid transparent;
+    border-top-color: currentColor;
+    border-radius: var(--radius-full);
+    animation: spinner-rotate 0.6s linear infinite;
+    color: var(--color-text-light);
+}
+
+/* ===== Size Variants ===== */
+
+/* Small button spinner */
+.btn-loading.btn-sm::after {
+    width: 16px;
+    height: 16px;
+    margin-left: -8px;
+    margin-top: -8px;
+    border-width: 2px;
+}
+
+/* Large button spinner */
+.btn-loading.btn-lg::after {
+    width: 24px;
+    height: 24px;
+    margin-left: -12px;
+    margin-top: -12px;
+    border-width: 3px;
+}
+
+/* ===== Auth Button Specific Styles ===== */
+
+/* Apply loading state to auth buttons */
+.auth__button.btn-loading {
+    background: var(--brand-600);
+    cursor: not-allowed;
+    transform: none;
+}
+
+.auth__button.btn-loading:hover {
+    background: var(--brand-600);
+    transform: none;
+    box-shadow: none;
+}
+
+/* ===== Alternative Spinner Style (Dots) ===== */
+
+/* Three-dot loading animation */
+.btn-loading-dots {
+    position: relative;
+    color: transparent !important;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.btn-loading-dots::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    top: 50%;
+    left: 50%;
+    margin-left: -12px;
+    margin-top: -3px;
+    border-radius: var(--radius-full);
+    background-color: currentColor;
+    color: var(--color-text-light);
+    box-shadow: 12px 0 0 0 currentColor, 24px 0 0 0 currentColor;
+    animation: dots-pulse 1s ease-in-out infinite;
+}
+
+/* ===== Inline Button Spinner ===== */
+
+/* For buttons with icons where spinner replaces icon */
+.btn-spinner {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid transparent;
+    border-top-color: currentColor;
+    border-radius: var(--radius-full);
+    animation: spinner-rotate 0.6s linear infinite;
+    vertical-align: middle;
+}
+
+/* ===== Disabled State Enhancement ===== */
+
+/* Improve disabled button styling */
+button:disabled:not(.btn-loading),
+.btn:disabled:not(.btn-loading) {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* ===== Animation Keyframes ===== */
+
+/* Spinner rotation animation */
+@keyframes spinner-rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Dots pulsing animation */
+@keyframes dots-pulse {
+    0%, 100% {
+        box-shadow: 12px 0 0 0 currentColor, 24px 0 0 0 currentColor;
+    }
+    33% {
+        box-shadow: 12px 0 0 0 transparent, 24px 0 0 0 currentColor;
+    }
+    66% {
+        box-shadow: 12px 0 0 0 currentColor, 24px 0 0 0 transparent;
+    }
+}
+
+/* ===== Accessibility ===== */
+
+/* Announce loading state to screen readers */
+.btn-loading-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* ===== Reduced Motion Support ===== */
+
+@media (prefers-reduced-motion: reduce) {
+    .btn-loading::after,
+    .btn-spinner {
+        animation: none;
+        border-left-color: transparent;
+        border-right-color: transparent;
+        border-bottom-color: transparent;
+    }
+
+    .btn-loading-dots::after {
+        animation: none;
+        box-shadow: 12px 0 0 0 currentColor, 24px 0 0 0 currentColor;
+    }
+}
