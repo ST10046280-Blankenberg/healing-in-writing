@@ -15,6 +15,15 @@
     <title>@(isRegisterMode ? "Join Our Community" : "Sign In") - Healing In Writing</title>
     <link rel="stylesheet" href="~/css/base/_variables.css" />
     <link rel="stylesheet" href="~/css/views/auth.css" />
+    <link rel="stylesheet" href="~/css/shared/button-loading.css" />
+    <link rel="stylesheet" href="~/css/shared/toast.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <style>
+        /* Hide validation summary as we show toasts instead */
+        .auth__validation-summary {
+            display: none !important;
+        }
+    </style>
 </head>
 <body>
     <main class="auth @initialState">
@@ -215,6 +224,75 @@
         </section>
     </main>
 
+    <script src="~/js/toast.js"></script>
     <script src="~/js/auth.js" asp-append-version="true"></script>
+    <script>
+        // Toast notification handler for auth errors
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check for TempData error messages (from controller)
+            var tempDataError = '@TempData["ErrorMessage"]';
+            if (tempDataError && tempDataError !== '') {
+                ToastManager.error('Error', tempDataError, { duration: 7000 });
+            }
+
+            // Check for TempData success messages
+            var tempDataSuccess = '@TempData["SuccessMessage"]';
+            if (tempDataSuccess && tempDataSuccess !== '') {
+                ToastManager.success('Success', tempDataSuccess, { duration: 5000 });
+            }
+
+            // Check for validation summary errors
+            var validationSummaries = document.querySelectorAll('.auth__validation-summary');
+            var errorShown = false; // Prevent duplicate toasts
+
+            validationSummaries.forEach(function(summary) {
+                if (!errorShown && summary && summary.textContent.trim() !== '') {
+                    var errorList = summary.querySelector('ul');
+
+                    // Only show toast if there are actual error messages
+                    if (errorList && errorList.querySelector('li')) {
+                        var errorMessage = 'Please check the form and try again.';
+                        var firstError = errorList.querySelector('li');
+
+                        if (firstError && firstError.textContent.trim()) {
+                            errorMessage = firstError.textContent.trim();
+                        }
+
+                        // Determine if it's login or register based on visible form
+                        var authContainer = document.querySelector('.auth');
+                        var isLoginMode = authContainer.classList.contains('auth--login');
+                        var title = isLoginMode ? 'Sign In Failed' : 'Registration Failed';
+
+                        ToastManager.error(title, errorMessage, { duration: 7000 });
+                        errorShown = true; // Mark that we've shown the error
+                    }
+                }
+            });
+
+            // Add button loading states
+            var loginForm = document.querySelector('.auth__form--login');
+            var registerForm = document.querySelector('.auth__form--register');
+
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    var submitButton = this.querySelector('button[type="submit"]');
+                    if (submitButton && this.checkValidity()) {
+                        submitButton.classList.add('btn-loading');
+                        submitButton.disabled = true;
+                    }
+                });
+            }
+
+            if (registerForm) {
+                registerForm.addEventListener('submit', function(e) {
+                    var submitButton = this.querySelector('button[type="submit"]');
+                    if (submitButton && this.checkValidity()) {
+                        submitButton.classList.add('btn-loading');
+                        submitButton.disabled = true;
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>

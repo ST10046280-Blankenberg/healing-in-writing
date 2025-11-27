@@ -361,14 +361,15 @@ app.Use(async (context, next) =>
     var csp = string.Join("; ", new[]
     {
         "default-src 'self'",
-        "script-src 'self' https://cdn.jsdelivr.net",
-        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net",
-        
+        "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com",
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com",
+
         // 1. ADDED https://cdn.jsdelivr.net to allow Font Awesome fonts
-        "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net", 
-        
-        // 2. ADDED http://books.google.com to allow book cover images
-        // 3. ADDED Azure Blob Storage domain for uploaded images
+        // 2. ADDED https://cdnjs.cloudflare.com for Font Awesome CSS and fonts
+        "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com",
+
+        // 3. ADDED http://books.google.com to allow book cover images
+        // 4. ADDED Azure Blob Storage domain for uploaded images
         "img-src 'self' data: https: http://books.google.com https://healinginwritingstorage.blob.core.windows.net",
 
         "connect-src 'self'",
