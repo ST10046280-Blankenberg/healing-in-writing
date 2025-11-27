@@ -36,6 +36,8 @@
     <link rel="stylesheet" href="~/css/shared/alerts.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/shared/loaders.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/HealingInWriting.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/shared/skeleton.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/shared/animations.css" asp-append-version="true" />
     @await RenderSectionAsync("Styles", required: false)
 </head>
 
@@ -105,7 +107,7 @@
                             <span class="header__auth-name">@displayName</span>
                         </span>
                         <form asp-area="" asp-controller="Auth" asp-action="Logout" method="post"
-                            class="header__auth-logout" style="display:inline;">
+                            class="header__auth-logout">
                             @Html.AntiForgeryToken()
                             <button type="submit" class="header__auth-link header__auth-link--signin">Logout</button>
                         </form>
@@ -268,6 +270,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/scroll-animations.js" asp-append-version="true"></script>
 
     @* Admin navigation scroll script - only load for admin users *@
     @if (isAdmin)
