@@ -21,7 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                observer.unobserve(entry.target); // Only animate once
+            } else {
+                // Remove the class when element leaves the viewport to allow re-animation
+                entry.target.classList.remove('visible');
             }
         });
     }, observerOptions);

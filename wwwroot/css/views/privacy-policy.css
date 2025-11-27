@@ -463,6 +463,10 @@
     flex-grow: 0;
 }
 
+.privacy__contact-detail--top-margin {
+    margin-top: 16px;
+}
+
 .privacy__contact-detail a {
     color: #2F1648;
     text-decoration: none;
