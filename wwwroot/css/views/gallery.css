@@ -61,6 +61,15 @@
     cursor: pointer;
 }
 
+.gallery-card--link {
+    text-decoration: none;
+    display: block;
+}
+
+.gallery-card__image--clickable {
+    cursor: pointer;
+}
+
 .gallery-card__image {
     /* Box Model */
     width: 100%;
@@ -109,6 +118,22 @@
     justify-content: center;
     padding: 32px 0;
     width: 100%;
+}
+
+.gallery__empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 48px 24px;
+}
+
+.gallery__empty-text {
+    font-size: 1.25rem;
+    color: #6b7280;
+    margin-bottom: 16px;
+}
+
+.gallery__empty-subtext {
+    color: #9ca3af;
 }
 
 .gallery__load-more-button {

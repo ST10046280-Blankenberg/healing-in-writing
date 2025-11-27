@@ -15,7 +15,7 @@
 
     <!-- Details Card -->
     <section class="gallery-details">
-        <div class="gallery-details__container">
+        <div class="gallery-details__container fade-in-up">
             @if (firstPhoto != null)
             {
                 <!-- Back Arrow -->
@@ -31,20 +31,16 @@
                 </div>
 
                 <!-- Main Image -->
-                <div class="gallery-details__main-image">
-                    <img id="mainImage" 
-                         src="@firstPhoto.ImageUrl" 
-                         alt="@firstPhoto.AltText" 
-                         class="gallery-details__main-img" 
-                         data-lightbox="gallery-details"
-                         data-alt="@firstPhoto.AltText"
-                         style="cursor: pointer;" />
+                <div class="gallery-details__main-image fade-in-up delay-100">
+                    <img id="mainImage" src="@firstPhoto.ImageUrl" alt="@firstPhoto.AltText"
+                        class="gallery-details__main-img gallery-details__main-img--clickable"
+                        data-lightbox="gallery-details" data-alt="@firstPhoto.AltText" />
                 </div>
 
                 @if (Model.Photos.Count > 1)
                 {
                     <!-- Thumbnails Scroller -->
-                    <div class="gallery-details__thumbnails">
+                    <div class="gallery-details__thumbnails fade-in-up delay-200">
                         <button class="gallery-details__thumb-arrow gallery-details__thumb-arrow--left" id="scrollLeft"
                             aria-label="Scroll Left">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -57,13 +53,9 @@
                             @for (int i = 0; i < Model.Photos.Count; i++)
                             {
                                 var photo = Model.Photos[i];
-                                <img src="@photo.ImageUrl" 
-                                     alt="@photo.AltText" 
-                                     class="gallery-details__thumb @(i == 0 ? "gallery-details__thumb--active" : "")" 
-                                     data-index="@i"
-                                     data-url="@photo.ImageUrl"
-                                     data-alt="@photo.AltText"
-                                     data-lightbox="gallery-details" />
+                                <img src="@photo.ImageUrl" alt="@photo.AltText"
+                                    class="gallery-details__thumb @(i == 0 ? "gallery-details__thumb--active" : "")" data-index="@i"
+                                    data-url="@photo.ImageUrl" data-alt="@photo.AltText" data-lightbox="gallery-details" />
                             }
                         </div>
                         <button class="gallery-details__thumb-arrow gallery-details__thumb-arrow--right" id="scrollRight"
@@ -87,11 +79,10 @@
             }
             else
             {
-                <div style="padding: 48px; text-align: center;">
-                    <p style="font-size: 1.25rem; color: #6b7280; margin-bottom: 16px;">No photos found in this collection.
+                <div class="gallery-details__empty">
+                    <p class="gallery-details__empty-text">No photos found in this collection.
                     </p>
-                    <a asp-area="" asp-controller="Gallery" asp-action="Index"
-                        style="display: inline-block; padding: 12px 24px; background: #4f46e5; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">Back
+                    <a asp-area="" asp-controller="Gallery" asp-action="Index" class="gallery-details__back-btn-link">Back
                         to Gallery</a>
                 </div>
             }
