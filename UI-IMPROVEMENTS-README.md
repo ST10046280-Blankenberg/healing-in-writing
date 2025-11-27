@@ -429,5 +429,4 @@ If you encounter any problems or have suggestions for improvements, please docum
 ---
 
 **Version**: 1.0
-**Last Updated**: 2025
-**Author**: Claude Code
+**Last Updated**: 27 November 2025
