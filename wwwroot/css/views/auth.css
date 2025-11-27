@@ -173,23 +173,8 @@
 }
 
 .auth__error-message {
-    font-family: var(--font-family-base);
-    font-size: 0.8rem;
-    color: var(--color-error);
-    margin-top: 0.25rem;
-    min-height: 1.2rem;
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    font-weight: var(--font-weight-medium);
-}
-
-.auth__error-message::before {
-    content: "\f06a";
-    /* FontAwesome exclamation-circle */
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
-    display: inline-block;
+    /* Hide field-level errors since we show validation in toast */
+    display: none !important;
 }
 
 /* Validation Summary as an Alert */
