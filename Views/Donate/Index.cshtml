@@ -8,23 +8,23 @@
 }
 
 <div class="donate">
-    <section class="donate__hero">
+    <section class="donate__hero fade-in-up">
         <h1 class="donate__title">Donate</h1>
         <p class="donate__description">
-            Your generous contribution helps us build a stronger, more caring community. 
-            Every donation, no matter the size, makes a meaningful difference in the lives 
+            Your generous contribution helps us build a stronger, more caring community.
+            Every donation, no matter the size, makes a meaningful difference in the lives
             of those we serve together.
         </p>
     </section>
 
     <div class="donate__content">
         <!-- Bank Details Card -->
-        <section class="donate__card donate__card--bank">
+        <section class="donate__card donate__card--bank scroll-animate">
             <h2 class="donate__card-title">
                 <i class="fa-solid fa-landmark" aria-hidden="true"></i>
                 Bank Details
             </h2>
-            
+
             <div class="donate__bank-info">
                 <div class="donate__field">
                     <label class="donate__label">Bank Name</label>
@@ -50,7 +50,8 @@
                     <label class="donate__label">Account Number</label>
                     <div class="donate__value-wrapper">
                         <span class="donate__value">@Model.AccountNumber</span>
-                        <button class="donate__copy-btn" data-copy="@Model.AccountNumber" aria-label="Copy account number">
+                        <button class="donate__copy-btn" data-copy="@Model.AccountNumber"
+                            aria-label="Copy account number">
                             <i class="fa-regular fa-copy" aria-hidden="true"></i>
                         </button>
                     </div>
@@ -89,33 +90,33 @@
         </section>
 
         <!-- Reference Format Card -->
-        <section class="donate__card donate__card--reference">
+        <section class="donate__card donate__card--reference scroll-animate">
             <h3 class="donate__card-subtitle">
                 <i class="fa-solid fa-lightbulb" aria-hidden="true"></i>
                 Reference Format
             </h3>
-            
+
             <div class="donate__reference-content">
                 <p class="donate__reference-instruction">Please use this format for your reference:</p>
-                
+
                 <div class="donate__reference-format">
                     DONATE-[Your Name]-[Date]
                 </div>
-                
+
                 <p class="donate__reference-example">Example: DONATE-JohnSmith-2024</p>
             </div>
         </section>
     </div>
 
     <!-- Submit Proof of Payment Section -->
-    <section class="donate__card donate__card--submit">
+    <section class="donate__card donate__card--submit scroll-animate">
         <h2 class="donate__card-title">
             <i class="fa-regular fa-file-lines" aria-hidden="true"></i>
             Submit Proof of Payment
         </h2>
-        
+
         <p class="donate__submit-description">
-            After making your donation, please send us your proof of payment so we can 
+            After making your donation, please send us your proof of payment so we can
             acknowledge your contribution and provide you with a receipt.
         </p>
 
@@ -141,17 +142,17 @@
     </section>
 
     <!-- Important Notice -->
-    <section class="donate__notice">
+    <section class="donate__notice scroll-animate">
         <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
         <div class="donate__notice-content">
             <h4 class="donate__notice-title">Important Notice</h4>
             <p class="donate__notice-text">
-                We do not process online payments on this website. All donations must be 
+                We do not process online payments on this website. All donations must be
                 made via bank transfer using the details provided above.
             </p>
             <p class="donate__notice-privacy">
-                <strong>Privacy Note:</strong> Your personal information is protected in accordance 
-                with POPIA (Protection of Personal Information Act). We only use your details to 
+                <strong>Privacy Note:</strong> Your personal information is protected in accordance
+                with POPIA (Protection of Personal Information Act). We only use your details to
                 acknowledge donations and provide receipts.
             </p>
         </div>

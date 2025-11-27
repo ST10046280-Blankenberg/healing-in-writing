@@ -480,6 +480,12 @@
     border-color: var(--brand-700);
 }
 
+.dashboard-action-btn__icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+}
+
 /* =========================================================
    Action Buttons - OLD STYLES
    ========================================================= */

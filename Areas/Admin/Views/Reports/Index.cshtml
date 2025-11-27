@@ -19,29 +19,29 @@
                 SearchInputName = "SearchText",
                 Dropdowns = new List<AdminFilterDropdown>
                 {
-                    new()
-                    {
-                        Name = "StockStatus",
-                        Label = "All Stock Levels",
-                        Options = new List<AdminDropdownOption>
-                        {
-                            new() { Value = "critical", Text = "Critical (<50)", Selected = Model.Filters.StockStatus == "critical" },
-                            new() { Value = "low", Text = "Low (50-99)", Selected = Model.Filters.StockStatus == "low" },
-                            new() { Value = "good", Text = "Good (100+)", Selected = Model.Filters.StockStatus == "good" }
-                        }
-                    },
-                    new()
-                    {
-                        Name = "SortBy",
-                        Label = "Sort By",
-                        Options = new List<AdminDropdownOption>
-                        {
-                            new() { Value = "attendance-desc", Text = "Attendance ↓", Selected = Model.Filters.SortBy == "attendance-desc" },
-                            new() { Value = "attendance-asc", Text = "Attendance ↑", Selected = Model.Filters.SortBy == "attendance-asc" },
-                            new() { Value = "stock-desc", Text = "Stock ↓", Selected = Model.Filters.SortBy == "stock-desc" },
-                            new() { Value = "stock-asc", Text = "Stock ↑", Selected = Model.Filters.SortBy == "stock-asc" }
-                        }
-                    }
+                new()
+                {
+                Name = "StockStatus",
+                Label = "All Stock Levels",
+                Options = new List<AdminDropdownOption>
+                {
+                new() { Value = "critical", Text = "Critical (<50)", Selected = Model.Filters.StockStatus == "critical" },
+                new() { Value = "low", Text = "Low (50-99)", Selected = Model.Filters.StockStatus == "low" },
+                new() { Value = "good", Text = "Good (100+)", Selected = Model.Filters.StockStatus == "good" }
+                }
+                },
+                new()
+                {
+                Name = "SortBy",
+                Label = "Sort By",
+                Options = new List<AdminDropdownOption>
+                {
+                new() { Value = "attendance-desc", Text = "Attendance ↓", Selected = Model.Filters.SortBy == "attendance-desc" },
+                new() { Value = "attendance-asc", Text = "Attendance ↑", Selected = Model.Filters.SortBy == "attendance-asc" },
+                new() { Value = "stock-desc", Text = "Stock ↓", Selected = Model.Filters.SortBy == "stock-desc" },
+                new() { Value = "stock-asc", Text = "Stock ↑", Selected = Model.Filters.SortBy == "stock-asc" }
+                }
+                }
                 }
             };
         }
@@ -53,7 +53,7 @@
             var maxAttendance = Model.EventAttendance.Any() ? Model.EventAttendance.Max(e => e.AttendanceCount) : 1;
         }
 
-        <div class="admin-reports__card">
+        <div class="admin-reports__card fade-in-up">
             <h3 class="admin-reports__card-title">Event Attendance</h3>
             <div class="admin-reports__chart">
                 <div class="admin-reports__chart-labels">
@@ -74,10 +74,9 @@
                         {
                             // Calculate width as a percentage of the max attendance
                             var percent = maxAttendance > 0 ? (item.AttendanceCount * 100.0 / maxAttendance) : 0;
-                            <div class="admin-reports__chart-bar"
-                                 style="width:@percent%; min-width:2px;"
-                                 data-value="@item.AttendanceCount"
-                                 title="@item.EventTitle: @item.AttendanceCount attendees">
+                            <div class="admin-reports__chart-bar" style="width:@percent%; min-width:2px;"
+                                data-value="@item.AttendanceCount"
+                                title="@item.EventTitle: @item.AttendanceCount attendees">
                             </div>
                         }
                     </div>
@@ -143,7 +142,7 @@
         </div> *@
 
         <!-- Book Inventory Snapshot -->
-        <div class="admin-reports__card">
+        <div class="admin-reports__card fade-in-up delay-100">
             <h3 class="admin-reports__card-title">Book Inventory Snapshot</h3>
             <div class="admin-reports__table-wrapper admin-reports__table-wrapper--scrollable">
                 <table class="admin-reports__inventory-table">
@@ -158,13 +157,10 @@
                         @foreach (var row in Model.BookInventoryByCategory)
                         {
                             var status = row.StockCount < 50 ? "critical"
-                                : row.StockCount < 100 ? "low"
-                                : "good";
-                            <tr class="admin-reports__inventory-row"
-                                data-category="@row.Category"
-                                data-stock-count="@row.StockCount"
-                                data-threshold-critical="50"
-                                data-threshold-low="100">
+                                            : row.StockCount < 100 ? "low"
+                                            : "good";
+                            <tr class="admin-reports__inventory-row" data-category="@row.Category"
+                                data-stock-count="@row.StockCount" data-threshold-critical="50" data-threshold-low="100">
                                 <td class="admin-reports__inventory-cell">@row.Category</td>
                                 <td class="admin-reports__inventory-cell">@row.StockCount</td>
                                 <td class="admin-reports__inventory-cell">

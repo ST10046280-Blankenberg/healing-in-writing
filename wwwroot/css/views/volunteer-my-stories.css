@@ -3,6 +3,10 @@
    BEM Convention: .my-stories__element--modifier
    ========================================================= */
 
+.hidden {
+    display: none !important;
+}
+
 /* ========================================
    Page Container
    ======================================== */
@@ -16,7 +20,7 @@
     gap: 32px;
     width: 100%;
     min-height: 100vh;
-    
+
     /* Layout */
     flex: none;
     align-self: stretch;
@@ -85,7 +89,7 @@
     background: transparent;
     border: none;
     border-bottom: 2px solid transparent;
-    
+
     /* Animation */
     cursor: pointer;
     transition: border-color 0.3s ease;
@@ -123,11 +127,11 @@
     padding: 4px 5px;
     min-width: 24px;
     height: 24px;
-    
+
     /* Visual */
     background: #E5E7EB;
     border-radius: 9999px;
-    
+
     /* Typography */
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-style: normal;
@@ -165,13 +169,13 @@
     padding: 32px 24px;
     gap: 10px;
     width: 100%;
-    
+
     /* Visual */
     background: #FFFFFF;
     border: 1px solid #F3F4F6;
     box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
     border-radius: 12px;
-    
+
     /* Animation */
     transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
@@ -223,7 +227,7 @@
     padding: 4px 12px;
     height: 28px;
     border-radius: 9999px;
-    
+
     /* Typography */
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-style: normal;
@@ -310,12 +314,12 @@
     gap: 8px;
     min-width: 98px;
     height: 42px;
-    
+
     /* Visual */
     background: #FFFFFF;
     border: 1px solid #D1D5DB;
     border-radius: 8px;
-    
+
     /* Animation */
     cursor: pointer;
     transition: background-color 0.3s ease, border-color 0.3s ease;
@@ -435,7 +439,7 @@
         padding: 24px 32px;
         gap: 24px;
     }
-    
+
     .my-stories__title {
         font-size: 30px;
         line-height: 36px;
@@ -535,4 +539,3 @@
         padding: 12px 20px;
     }
 }
-

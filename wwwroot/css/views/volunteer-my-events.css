@@ -16,7 +16,7 @@
     gap: 32px;
     width: 100%;
     min-height: 100vh;
-    
+
     /* Layout */
     flex: none;
     align-self: stretch;
@@ -82,7 +82,7 @@
     background: transparent;
     border: none;
     border-bottom: 2px solid transparent;
-    
+
     /* Typography */
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-style: normal;
@@ -90,7 +90,7 @@
     font-size: 14px;
     line-height: 21px;
     color: #6B7280;
-    
+
     /* Animation */
     cursor: pointer;
     transition: color 0.3s ease, border-color 0.3s ease;
@@ -139,13 +139,13 @@
     align-items: flex-start;
     padding: 25px;
     gap: 16px;
-    
+
     /* Visual */
     background: #FFFFFF;
     border: 1px solid #F3F4F6;
     box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
     border-radius: 12px;
-    
+
     /* Animation */
     transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
@@ -222,7 +222,7 @@
     padding: 4px 12px;
     gap: 4px;
     border-radius: 9999px;
-    
+
     /* Typography */
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-style: normal;
@@ -278,7 +278,7 @@
     padding: 0;
     background: transparent;
     border: none;
-    
+
     /* Typography */
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-style: normal;
@@ -287,7 +287,7 @@
     line-height: 21px;
     color: #2F1648;
     text-decoration: none;
-    
+
     /* Animation */
     cursor: pointer;
     transition: opacity 0.3s ease;
@@ -307,14 +307,14 @@
     padding: 0;
     background: transparent;
     border: none;
-    
+
     /* Typography */
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
     line-height: 21px;
-    
+
     /* Animation */
     cursor: pointer;
     transition: opacity 0.3s ease;
@@ -342,7 +342,7 @@
         padding: 24px 32px;
         gap: 24px;
     }
-    
+
     .my-events__grid {
         gap: 24px;
     }
@@ -354,29 +354,29 @@
         padding: 20px;
         gap: 20px;
     }
-    
+
     .my-events__title {
         font-size: 24px;
         line-height: 32px;
     }
-    
+
     .my-events__subtitle {
         font-size: 14px;
         line-height: 20px;
     }
-    
+
     .my-events__grid {
         grid-template-columns: 1fr;
         gap: 16px;
     }
-    
+
     .my-events__nav {
         gap: 16px;
         overflow-x: auto;
         width: 100%;
         -webkit-overflow-scrolling: touch;
     }
-    
+
     .my-events__nav-button {
         white-space: nowrap;
     }
@@ -387,22 +387,22 @@
     .my-events {
         padding: 16px;
     }
-    
+
     .event-card {
         padding: 20px;
     }
-    
+
     .event-card__content {
         flex-direction: column;
         gap: 12px;
     }
-    
+
     .event-card__actions {
         flex-direction: column;
         align-items: flex-start;
         gap: 12px;
     }
-    
+
     .event-card__links {
         flex-direction: column;
         gap: 8px;
@@ -410,3 +410,6 @@
     }
 }
 
+.hidden {
+    display: none !important;
+}
