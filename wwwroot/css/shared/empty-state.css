@@ -1,0 +1,135 @@
+/* =========================================================
+   Empty State Component - Shared across all views
+   Uses CSS variables from base/_variables.css
+   ========================================================= */
+
+/* Empty State Container */
+.empty-state {
+    /* Layout */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-md);
+
+    /* Spacing - using variables */
+    padding: var(--spacing-3xl) var(--spacing-xl);
+
+    /* Typography */
+    text-align: center;
+
+    /* Visual */
+    width: 100%;
+    min-height: 300px;
+}
+
+/* Empty State Icon */
+.empty-state__icon {
+    /* Box model */
+    width: 4rem;
+    height: 4rem;
+
+    /* Visual */
+    color: var(--neutral-400);
+    opacity: 0.6;
+}
+
+/* Empty State Title */
+.empty-state__title {
+    /* Typography - using variables */
+    font-family: var(--font-family-heading);
+    font-size: var(--font-size-h4);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-dark2);
+
+    /* Spacing */
+    margin: 0;
+}
+
+/* Empty State Description */
+.empty-state__description {
+    /* Typography - using variables */
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-body);
+    color: var(--neutral-400);
+    line-height: var(--line-height-normal);
+
+    /* Layout */
+    max-width: 500px;
+
+    /* Spacing */
+    margin: 0;
+}
+
+/* Empty State Action Button Container */
+.empty-state__actions {
+    /* Layout */
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+    justify-content: center;
+
+    /* Spacing */
+    margin-top: var(--spacing-md);
+}
+
+/* Compact Variant - for smaller spaces */
+.empty-state--compact {
+    /* Spacing */
+    padding: var(--spacing-xl) var(--spacing-md);
+    min-height: 200px;
+}
+
+.empty-state--compact .empty-state__icon {
+    width: 3rem;
+    height: 3rem;
+}
+
+.empty-state--compact .empty-state__title {
+    font-size: var(--font-size-h5);
+}
+
+.empty-state--compact .empty-state__description {
+    font-size: var(--font-size-body-sm);
+}
+
+/* Grid Variant - for use inside grid layouts */
+.empty-state--grid {
+    grid-column: 1 / -1;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .empty-state {
+        padding: var(--spacing-xl) var(--spacing-md);
+        min-height: 250px;
+    }
+
+    .empty-state__icon {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    .empty-state__title {
+        font-size: var(--font-size-h5);
+    }
+
+    .empty-state__description {
+        font-size: var(--font-size-body-sm);
+    }
+}
+
+@media (max-width: 480px) {
+    .empty-state {
+        padding: var(--spacing-lg) var(--spacing-sm);
+    }
+
+    .empty-state__actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .empty-state__actions > * {
+        width: 100%;
+    }
+}
