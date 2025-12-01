@@ -4,7 +4,8 @@
    ========================================================= */
 
 /* Base Button */
-.btn {
+.btn,
+button {
     /* Box model */
     display: inline-flex;
     align-items: center;
@@ -20,6 +21,7 @@
     line-height: 1.5rem;
     text-align: center;
     text-decoration: none;
+    letter-spacing: 0.02em;
 
     /* Visual */
     border: none;
