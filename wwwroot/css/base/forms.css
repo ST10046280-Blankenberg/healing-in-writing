@@ -1,0 +1,421 @@
+/* =========================================================
+   Healing In Writing - Form Components
+   Standardised form controls and input styles
+   ========================================================= */
+
+/* =========================================================
+   Form Field Groups
+   ========================================================= */
+
+.form-group {
+    /* Box model */
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    width: 100%;
+    margin-bottom: var(--spacing-lg);
+}
+
+.form-row {
+    /* Box model */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.form-row .form-group {
+    margin-bottom: var(--spacing-lg);
+}
+
+/* =========================================================
+   Form Labels
+   ========================================================= */
+
+.form-label,
+label {
+    /* Typography */
+    font-family: var(--font-family-base);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-normal);
+    color: var(--neutral-900);
+
+    /* Box model */
+    display: block;
+    margin-bottom: var(--spacing-sm);
+}
+
+/* =========================================================
+   Form Controls (Inputs, Selects, Textareas)
+   ========================================================= */
+
+.form-control,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="url"],
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"],
+select,
+textarea {
+    /* Box model */
+    padding: var(--spacing-md);
+    width: 100%;
+    box-sizing: border-box;
+
+    /* Typography */
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-body);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-normal);
+    color: var(--color-text-dark);
+
+    /* Visual */
+    background: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-radius: var(--radius-lg);
+
+    /* Animation */
+    transition: all var(--transition-base);
+}
+
+/* Placeholder styles */
+.form-control::placeholder,
+input::placeholder,
+textarea::placeholder {
+    color: #9CA3AF;
+    opacity: 1;
+}
+
+/* Hover state */
+.form-control:hover,
+input:hover,
+select:hover,
+textarea:hover {
+    border-color: #D1D5DB;
+    background-color: #FAFAFA;
+}
+
+/* Focus state */
+.form-control:focus,
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--brand-700);
+    background-color: #FFFFFF;
+    box-shadow: 0 0 0 3px rgba(47, 22, 72, 0.1);
+}
+
+/* Disabled state */
+.form-control:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+    background-color: #F3F4F6;
+    color: #9CA3AF;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* =========================================================
+   Specific Input Types
+   ========================================================= */
+
+/* Text inputs - specific heights */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="url"] {
+    height: 3.125rem;
+}
+
+/* Date/Time inputs */
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"] {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 3.125rem;
+}
+
+/* Select dropdown */
+select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z' fill='%232F1648'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right var(--spacing-md) center;
+    padding-right: calc(var(--spacing-md) * 3);
+    cursor: pointer;
+    height: 3.125rem;
+}
+
+/* Textarea */
+textarea {
+    min-height: 10rem;
+    resize: vertical;
+    line-height: var(--line-height-relaxed);
+}
+
+/* =========================================================
+   Form Validation States
+   ========================================================= */
+
+/* Success state */
+.form-control.is-valid,
+input.is-valid,
+select.is-valid,
+textarea.is-valid {
+    border-color: var(--color-success);
+}
+
+.form-control.is-valid:focus,
+input.is-valid:focus,
+select.is-valid:focus,
+textarea.is-valid:focus {
+    border-color: var(--color-success);
+    box-shadow: 0 0 0 3px rgba(82, 182, 154, 0.1);
+}
+
+/* Error state */
+.form-control.is-invalid,
+input.is-invalid,
+select.is-invalid,
+textarea.is-invalid {
+    border-color: var(--color-error);
+}
+
+.form-control.is-invalid:focus,
+input.is-invalid:focus,
+select.is-invalid:focus,
+textarea.is-invalid:focus {
+    border-color: var(--color-error);
+    box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.1);
+}
+
+/* Validation feedback text */
+.invalid-feedback,
+.valid-feedback {
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-body-sm);
+    margin-top: var(--spacing-xs);
+    display: none;
+}
+
+.invalid-feedback {
+    color: var(--color-error);
+}
+
+.valid-feedback {
+    color: var(--color-success);
+}
+
+.is-invalid ~ .invalid-feedback,
+.is-valid ~ .valid-feedback {
+    display: block;
+}
+
+/* =========================================================
+   Checkboxes and Radio Buttons
+   ========================================================= */
+
+.form-check {
+    /* Box model */
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.form-check input[type="checkbox"],
+.form-check input[type="radio"] {
+    /* Box model */
+    width: 1.25rem;
+    height: 1.25rem;
+    margin: 0;
+    flex-shrink: 0;
+
+    /* Visual */
+    border: 2px solid #D1D5DB;
+    background-color: #FFFFFF;
+    cursor: pointer;
+
+    /* Animation */
+    transition: all var(--transition-fast);
+}
+
+.form-check input[type="checkbox"] {
+    border-radius: var(--radius-sm);
+}
+
+.form-check input[type="radio"] {
+    border-radius: var(--radius-full);
+}
+
+.form-check input[type="checkbox"]:checked,
+.form-check input[type="radio"]:checked {
+    background-color: var(--brand-700);
+    border-color: var(--brand-700);
+}
+
+.form-check input[type="checkbox"]:focus,
+.form-check input[type="radio"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(47, 22, 72, 0.1);
+}
+
+.form-check label {
+    /* Typography */
+    font-family: var(--font-family-base);
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-body);
+    color: var(--color-text-dark);
+    margin: 0;
+    cursor: pointer;
+}
+
+/* =========================================================
+   File Upload Input
+   ========================================================= */
+
+.form-file-upload {
+    /* Box model */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--spacing-lg);
+    gap: var(--spacing-sm);
+    width: 100%;
+
+    /* Visual */
+    border: 2px dashed #D1D5DB;
+    border-radius: var(--radius-lg);
+    background-color: #FAFAFA;
+
+    /* Animation */
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.form-file-upload:hover {
+    border-color: var(--brand-700);
+    background-color: #F9FAFB;
+}
+
+.form-file-upload__icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: #9CA3AF;
+}
+
+.form-file-upload__text {
+    /* Typography */
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-normal);
+    text-align: center;
+    color: var(--neutral-400);
+}
+
+.form-file-upload__hint {
+    /* Typography */
+    font-family: var(--font-family-base);
+    font-size: 0.75rem;
+    line-height: var(--line-height-normal);
+    text-align: center;
+    color: #6B7280;
+}
+
+/* Hidden file input */
+input[type="file"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* =========================================================
+   Form Help Text
+   ========================================================= */
+
+.form-text,
+.form-help {
+    /* Typography */
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-normal);
+    color: var(--neutral-400);
+
+    /* Box model */
+    display: block;
+    margin-top: var(--spacing-xs);
+}
+
+/* =========================================================
+   Responsive Design
+   ========================================================= */
+
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .form-row .form-group {
+        margin-bottom: var(--spacing-lg);
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    input[type="tel"],
+    input[type="url"],
+    input[type="date"],
+    input[type="time"],
+    input[type="datetime-local"],
+    select {
+        height: 3rem;
+    }
+
+    textarea {
+        min-height: 8rem;
+    }
+}
+
+/* =========================================================
+   Accessibility
+   ========================================================= */
+
+/* Focus visible for keyboard navigation */
+.form-control:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--brand-700);
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .form-control,
+    input,
+    select,
+    textarea {
+        border-width: 2px;
+    }
+}
