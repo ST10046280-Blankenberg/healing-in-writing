@@ -10,8 +10,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2rem 4rem;
-    gap: 2rem;
+    padding: var(--spacing-xl) var(--spacing-3xl);
+    gap: var(--spacing-xl);
     width: 100%;
     max-width: 1440px;
     margin: 0 auto;

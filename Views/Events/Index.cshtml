@@ -20,7 +20,9 @@
 
         <!-- Reusable Search Bar Component -->
         <!-- Reusable Search and Filter Bar -->
-        <partial name="_SearchAndFilterBar" model="Model.Filter" />
+        <div class="fade-in-up delay-100">
+            <partial name="_SearchAndFilterBar" model="Model.Filter" />
+        </div>
     </section>
 
     <!-- Body Section with Event/Workshop Cards -->
@@ -29,7 +31,7 @@
         <div class="events__grid">
             @if (!Model.EventsList.Events.Any())
             {
-                <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+                <div class="events__empty">
                     <h3>No published events available</h3>
                     <p>Check back soon for upcoming events and workshops.</p>
                 </div>
@@ -48,29 +50,36 @@
                     ? eventItem.Description.Substring(0, 150) + "..."
                     : eventItem.Description;
 
-                    <article class="event-card">
+                    <article class="event-card scroll-animate hover-lift">
                         <img src="@eventItem.CoverImageUrl" alt="@eventItem.Title" class="event-card__image" />
                         <div class="event-card__content">
                             <span class="event-card__badge @badgeClass">@badgeLabel</span>
                             <h2 class="event-card__title">@eventItem.Title</h2>
                             <div class="event-card__meta">
                                 <div class="event-card__meta-item">
-                                    <svg class="event-card__icon" xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16" fill="none">
-                                        <path d="M11 2H3C1.89543 2 1 2.89543 1 4V14C1 15.1046 1.89543 16 3 16H11C12.1046 16 13 15.1046 13 14V4C13 2.89543 12.1046 2 11 2Z" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M10 0V4M4 0V4M1 8H13" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <svg class="event-card__icon" xmlns="http://www.w3.org/2000/svg" width="14" height="16"
+                                        viewBox="0 0 14 16" fill="none">
+                                        <path
+                                            d="M11 2H3C1.89543 2 1 2.89543 1 4V14C1 15.1046 1.89543 16 3 16H11C12.1046 16 13 15.1046 13 14V4C13 2.89543 12.1046 2 11 2Z"
+                                            stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M10 0V4M4 0V4M1 8H13" stroke="#4B5563" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" />
                                     </svg>
                                     <span class="event-card__meta-text">@eventDate</span>
                                 </div>
                                 <div class="event-card__meta-item">
-                                    <svg class="event-card__icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <svg class="event-card__icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        viewBox="0 0 16 16" fill="none">
                                         <circle cx="8" cy="8" r="7" stroke="#4B5563" stroke-width="2" />
-                                        <path d="M8 4V8L11 11" stroke="#4B5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M8 4V8L11 11" stroke="#4B5563" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" />
                                     </svg>
                                     <span class="event-card__meta-text">@eventTime</span>
                                 </div>
                             </div>
                             <p class="event-card__description-text">@description</p>
-                            <a asp-area="" asp-controller="Events" asp-action="Details" asp-route-id="@eventItem.Id" class="btn btn--primary">View More</a>
+                            <a asp-area="" asp-controller="Events" asp-action="Details" asp-route-id="@eventItem.Id"
+                                class="btn btn--primary">View More</a>
                         </div>
                     </article>
                 }

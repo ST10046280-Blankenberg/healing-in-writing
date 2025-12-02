@@ -12,7 +12,7 @@
 <script src="~/js/hours-approval-modal.js" asp-append-version="true" defer></script>
 
 <main class="hours-approval">
-    <header class="admin-header">
+    <header class="admin-header fade-in-up">
         <div class="admin-header__content">
             <div class="admin-header__text">
                 <h1 class="admin-header__title">Volunteer Hours Approvals</h1>
@@ -23,8 +23,7 @@
 
     @if (TempData["Success"] != null)
     {
-        <div class="alert alert-success alert-dismissible fade show" role="alert"
-            style="margin: 0 32px 16px 32px; border-radius: 8px;">
+        <div class="alert alert-success alert-dismissible fade show hours-approval__alert" role="alert">
             @TempData["Success"]
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -32,8 +31,7 @@
 
     @if (TempData["Error"] != null)
     {
-        <div class="alert alert-danger alert-dismissible fade show" role="alert"
-            style="margin: 0 32px 16px 32px; border-radius: 8px;">
+        <div class="alert alert-danger alert-dismissible fade show hours-approval__alert" role="alert">
             @TempData["Error"]
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -72,5 +70,7 @@
     </form>
 
     <!-- Table Section -->
-    @await Html.PartialAsync("_HoursApprovalTable", Model.Results)
+    <div class="hours-approval__table-container fade-in-up delay-100">
+        @await Html.PartialAsync("_HoursApprovalTable", Model.Results)
+    </div>
 </main>

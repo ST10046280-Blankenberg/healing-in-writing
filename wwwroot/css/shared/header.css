@@ -14,6 +14,21 @@
     box-shadow: var(--shadow-soft-sm);
     flex-shrink: 0;
     width: 100%;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Frosted Glass Effect on Scroll */
+.header--scrolled {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+    border-bottom: 1px solid rgba(75, 85, 99, 0.15);
+}
+
+/* Enhanced shadow for better depth when scrolled */
+.header--scrolled .header__container {
+    padding: 0.75rem 2rem;
 }
 
 .header__container {
@@ -23,6 +38,7 @@
     max-width: 1440px;
     margin: 0 auto;
     padding: 1rem 2rem;
+    transition: padding 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .header__brand {
@@ -111,6 +127,10 @@
     gap: 1rem;
 }
 
+.header__auth-logout {
+    display: inline;
+}
+
 .header__auth-link {
     font-family: 'Poppins', var(--font-family-base);
     font-size: 1rem;
@@ -171,6 +191,50 @@
     height: 1.5rem;
 }
 
+/* Mobile Close Button */
+.header__mobile-close {
+    display: none;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    color: var(--brand-700);
+    z-index: 101;
+}
+
+.header__mobile-close-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+/* Show/Hide toggle buttons based on nav state - controlled via JS */
+.header__mobile-toggle--hidden {
+    display: none !important;
+}
+
+.header__mobile-close--visible {
+    display: block !important;
+}
+
+/* Mobile Navigation Backdrop */
+.header__backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 99;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.header__backdrop--visible {
+    display: block;
+    opacity: 1;
+}
+
 /* =========================================================
    Responsive Styles
    ========================================================= */
@@ -180,32 +244,43 @@
     .header__container {
         padding: 1rem 1.5rem;
     }
-    
+
     .header__mobile-toggle {
         display: block;
+    }
+
+    .header__mobile-close {
+        display: none;
     }
 
     .header__nav {
         position: fixed;
         /* Adjusted top to match common header height */
-        top: 65px;
+        top: 0;
         left: 0;
         right: 0;
-        bottom: 0; /* Make it full height */
+        bottom: 0;
+        /* Make it full height */
         flex-direction: column;
         gap: 1rem;
         background: #ffffff;
         border-bottom: 1px solid rgba(75, 85, 99, 0.1);
-        padding: 1.5rem 2rem;
+        padding: 4rem 2rem 1.5rem;
         box-shadow: var(--shadow-soft-md);
-        transform: translateX(100%); /* Slide from right */
+        transform: translateX(100%);
+        /* Slide from right */
         transition: transform 0.3s ease;
         /* Enable scrolling on small screens if content overflows */
         overflow-y: auto;
+        z-index: 100;
     }
 
     .header__nav--open {
         transform: translateX(0);
+    }
+
+    .header__nav--open .header__mobile-close {
+        display: block;
     }
 
     .header__nav-list {
@@ -216,11 +291,13 @@
 
     .header__nav-item {
         width: 100%;
-        text-align: left; /* Changed from center for a cleaner look */
+        text-align: left;
+        /* Changed from center for a cleaner look */
     }
-    
+
     .header__nav-link {
-        display: block; /* Make link fill the item */
+        display: block;
+        /* Make link fill the item */
         padding: 0.5rem;
     }
 
@@ -237,13 +314,13 @@
         width: 100%;
         text-align: center;
     }
-    
+
     .header__auth-user {
         width: 100%;
         text-align: left;
         padding: 0.5rem;
     }
-    
+
     .header__auth-logout {
         width: 100%;
     }
@@ -262,10 +339,9 @@
         width: 2.5rem;
         height: 2.5rem;
     }
-    
+
     .header__nav {
         /* Adjust top position for smaller header */
         top: 57px;
     }
 }
-

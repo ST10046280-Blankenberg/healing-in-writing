@@ -10,7 +10,7 @@
 
 <div class="log-hours">
     <!-- Header Section -->
-    <section class="log-hours__header">
+    <section class="log-hours__header fade-in-up">
         <h1 class="log-hours__title">Log Your Hours</h1>
         <p class="log-hours__subtitle">Track your community activities and volunteer hours for validation.</p>
     </section>
@@ -18,13 +18,14 @@
     <!-- Main Content -->
     <div class="log-hours__content">
         <!-- Form Card -->
-        <div class="log-hours__form-card">
+        <div class="log-hours__form-card scroll-animate">
             <h2 class="log-hours__form-title">Add New Entry</h2>
             @if (TempData["Success"] != null)
             {
                 <div class="alert alert-success">@TempData["Success"]</div>
             }
-            <form asp-area="" asp-action="LogHours" asp-controller="Dashboard" method="post" enctype="multipart/form-data" class="log-hours__form">
+            <form asp-area="" asp-action="LogHours" asp-controller="Dashboard" method="post"
+                enctype="multipart/form-data" class="log-hours__form">
                 @Html.AntiForgeryToken()
                 <!-- Date and Hours Row -->
                 <div class="log-hours__form-row">
@@ -71,7 +72,8 @@
 
                 <!-- Submit Button -->
                 <button type="submit" class="log-hours__submit">
-                    <svg class="log-hours__submit-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <svg class="log-hours__submit-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                        fill="currentColor">
                         <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                     </svg>
                     <span>Submit for Validation</span>
@@ -80,7 +82,7 @@
         </div>
 
         <!-- Recent Entries Card -->
-        <div class="log-hours__entries-card">
+        <div class="log-hours__entries-card scroll-animate">
             <h2 class="log-hours__entries-header">Recent Entries</h2>
             @await Html.PartialAsync("_RecentVolunteerHours", Model.RecentEntries)
 
@@ -90,29 +92,29 @@
     </div>
 
     <!-- Hours Summary Section -->
-    <section class="log-hours__summary">
+    <section class="log-hours__summary fade-in-up delay-100">
         <h2 class="log-hours__summary-title">Hours Summary</h2>
         <div class="log-hours__summary-grid">
             <!-- Total Hours -->
-            <div class="summary-card summary-card--total">
+            <div class="summary-card summary-card--total hover-lift">
                 <p class="summary-card__value">@Model.TotalHours</p>
                 <p class="summary-card__label">Total Hours</p>
             </div>
 
             <!-- Validated Hours -->
-            <div class="summary-card summary-card--validated">
+            <div class="summary-card summary-card--validated hover-lift">
                 <p class="summary-card__value">@Model.ValidatedHours</p>
                 <p class="summary-card__label">Validated</p>
             </div>
 
             <!-- Pending Hours -->
-            <div class="summary-card summary-card--pending">
+            <div class="summary-card summary-card--pending hover-lift">
                 <p class="summary-card__value">@Model.PendingHours</p>
                 <p class="summary-card__label">Pending</p>
             </div>
 
             <!-- Needs Info Hours -->
-            <div class="summary-card summary-card--needs-info">
+            <div class="summary-card summary-card--needs-info hover-lift">
                 <p class="summary-card__value">@Model.NeedsInfoHours</p>
                 <p class="summary-card__label">Needs Info</p>
             </div>
@@ -123,4 +125,3 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
-

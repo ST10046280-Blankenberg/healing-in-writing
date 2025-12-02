@@ -6,13 +6,18 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Healing In Writing</title>
     <link rel="stylesheet" href="~/css/base/_variables.css" />
     <link rel="stylesheet" href="~/css/views/auth.css" />
+    <link rel="stylesheet" href="~/css/shared/button-loading.css" />
+    <link rel="stylesheet" href="~/css/shared/toast.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
+
 <body>
     <main class="auth">
         <!-- Left Side: Form Container -->
@@ -23,37 +28,25 @@
                     <p class="auth__subtitle">Create your account and start your healing journey</p>
                 </header>
 
-                <form class="auth__form auth__form--register" method="post" asp-area="" asp-controller="Auth" asp-action="Register">
+                <form class="auth__form auth__form--register" method="post" asp-area="" asp-controller="Auth"
+                    asp-action="Register">
                     @Html.AntiForgeryToken()
-                    
+
                     <!-- Name Fields Row -->
                     <div class="auth__form-row">
                         <div class="auth__form-group">
                             <label for="firstName" class="auth__label">First Name</label>
-                            <input 
-                                type="text" 
-                                id="firstName" 
-                                name="FirstName"
-                                asp-for="FirstName"
-                                class="auth__input" 
-                                placeholder="Enter your first name" 
-                                required 
-                                autocomplete="given-name"
+                            <input type="text" id="firstName" name="FirstName" asp-for="FirstName" class="auth__input"
+                                placeholder="Enter your first name" required autocomplete="given-name"
                                 aria-describedby="firstName-error" />
-                            <span id="firstName-error" class="auth__error-message" asp-validation-for="FirstName"></span>
+                            <span id="firstName-error" class="auth__error-message"
+                                asp-validation-for="FirstName"></span>
                         </div>
 
                         <div class="auth__form-group">
                             <label for="lastName" class="auth__label">Last Name</label>
-                            <input 
-                                type="text" 
-                                id="lastName" 
-                                name="LastName"
-                                asp-for="LastName"
-                                class="auth__input" 
-                                placeholder="Enter your last name" 
-                                required 
-                                autocomplete="family-name"
+                            <input type="text" id="lastName" name="LastName" asp-for="LastName" class="auth__input"
+                                placeholder="Enter your last name" required autocomplete="family-name"
                                 aria-describedby="lastName-error" />
                             <span id="lastName-error" class="auth__error-message" asp-validation-for="LastName"></span>
                         </div>
@@ -62,15 +55,8 @@
                     <!-- Email Field -->
                     <div class="auth__form-group">
                         <label for="email" class="auth__label">Email Address</label>
-                        <input 
-                            type="email" 
-                            id="email" 
-                            name="Email"
-                            asp-for="Email"
-                            class="auth__input" 
-                            placeholder="Enter your email address" 
-                            required 
-                            autocomplete="email"
+                        <input type="email" id="email" name="Email" asp-for="Email" class="auth__input"
+                            placeholder="Enter your email address" required autocomplete="email"
                             aria-describedby="email-error" />
                         <span id="email-error" class="auth__error-message" asp-validation-for="Email"></span>
                     </div>
@@ -78,15 +64,8 @@
                     <!-- Password Field -->
                     <div class="auth__form-group">
                         <label for="password" class="auth__label">Password</label>
-                        <input 
-                            type="password" 
-                            id="password" 
-                            name="Password"
-                            asp-for="Password"
-                            class="auth__input" 
-                            placeholder="Create a password (min. 8 characters)" 
-                            required 
-                            autocomplete="new-password"
+                        <input type="password" id="password" name="Password" asp-for="Password" class="auth__input"
+                            placeholder="Create a password (min. 8 characters)" required autocomplete="new-password"
                             aria-describedby="password-error" />
                         <span id="password-error" class="auth__error-message" asp-validation-for="Password"></span>
                     </div>
@@ -94,34 +73,34 @@
                     <!-- Confirm Password Field -->
                     <div class="auth__form-group">
                         <label for="confirmPassword" class="auth__label">Confirm Password</label>
-                        <input 
-                            type="password" 
-                            id="confirmPassword" 
-                            name="ConfirmPassword"
-                            asp-for="ConfirmPassword"
-                            class="auth__input" 
-                            placeholder="Confirm your password" 
-                            required 
-                            autocomplete="new-password"
+                        <input type="password" id="confirmPassword" name="ConfirmPassword" asp-for="ConfirmPassword"
+                            class="auth__input" placeholder="Confirm your password" required autocomplete="new-password"
                             aria-describedby="confirmPassword-error" />
-                        <span id="confirmPassword-error" class="auth__error-message" asp-validation-for="ConfirmPassword"></span>
+                        <span id="confirmPassword-error" class="auth__error-message"
+                            asp-validation-for="ConfirmPassword"></span>
                     </div>
 
                     <!-- Submit Button -->
                     <button type="submit" class="auth__button">Create Account</button>
 
                     <!-- Validation Summary -->
+                    <!-- Validation Summary -->
                     @if (!ViewData.ModelState.IsValid)
                     {
-                        <div class="auth__error-message" role="alert">
-                            @Html.ValidationSummary(false, "", new { @class = "auth__validation-summary" })
+                        <div class="auth__validation-summary" role="alert">
+                            <div
+                                style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; font-weight: 600;">
+                                <i class="fas fa-exclamation-circle"></i> Please correct the following errors:
+                            </div>
+                            @Html.ValidationSummary(false, "", new { @class = "" })
                         </div>
                     }
                 </form>
 
                 <!-- Toggle to Login -->
                 <div class="auth__toggle">
-                    Already have an account? <a href="@Url.Action("Login", "Auth")" class="auth__toggle-link">Sign in here</a>
+                    Already have an account? <a href="@Url.Action("Login", "Auth")" class="auth__toggle-link">Sign in
+                        here</a>
                 </div>
             </div>
         </section>
@@ -129,15 +108,13 @@
         <!-- Right Side: Image Panel -->
         <aside class="auth__right" aria-label="Community background">
             <div class="auth__overlay"></div>
-            <img 
-                src="~/images/auth-background.jpg" 
-                class="auth__image" 
-                alt="Healing In Writing community gathering" 
+            <img src="~/images/auth-background.jpg" class="auth__image" alt="Healing In Writing community gathering"
                 loading="lazy" />
             <div class="auth__content">
                 <h2 class="auth__content-title">Your Story Matters</h2>
                 <p class="auth__content-text">
-                    Join a supportive community where your voice is heard and your healing journey is honored through the transformative power of writing.
+                    Join a supportive community where your voice is heard and your healing journey is honored through
+                    the transformative power of writing.
                 </p>
             </div>
         </aside>
@@ -146,5 +123,39 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/toast.js"></script>
+    <script>
+        // Form submission handler with loading state
+        document.addEventListener('DOMContentLoaded', function() {
+            const registerForm = document.querySelector('.auth__form--register');
+            const submitButton = registerForm.querySelector('button[type="submit"]');
+
+            registerForm.addEventListener('submit', function(e) {
+                // Check if form is valid before showing loading state
+                if (registerForm.checkValidity()) {
+                    // Add loading state to button
+                    submitButton.classList.add('btn-loading');
+                    submitButton.disabled = true;
+
+                    // Add screen reader announcement
+                    const loadingLabel = document.createElement('span');
+                    loadingLabel.className = 'btn-loading-label';
+                    loadingLabel.textContent = 'Creating account, please wait...';
+                    submitButton.appendChild(loadingLabel);
+                }
+            });
+
+            // Show error toast if there are validation errors
+            const validationSummary = document.querySelector('.auth__validation-summary');
+            if (validationSummary) {
+                ToastManager.error(
+                    'Registration Failed',
+                    'Please correct the errors below and try again.',
+                    { duration: 6000 }
+                );
+            }
+        });
+    </script>
 </body>
+
 </html>

@@ -15,35 +15,40 @@
     <!-- Success/Error Messages -->
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="alert alert-success" style="padding: 1rem; margin: 1rem 0; background-color: #d4edda; border: 1px solid #c3e6cb; border-radius: 0.25rem; color: #155724;">
+        <div class="alert alert-success fade-in-up">
             @TempData["SuccessMessage"]
         </div>
     }
     @if (TempData["ErrorMessage"] != null)
     {
-        <div class="alert alert-danger" style="padding: 1rem; margin: 1rem 0; background-color: #f8d7da; border: 1px solid #f5c6cb; border-radius: 0.25rem; color: #721c24;">
+        <div class="alert alert-danger fade-in-up">
             @TempData["ErrorMessage"]
         </div>
     }
 
     <!-- Header Section -->
-    <header class="admin-header">
+    <header class="admin-header fade-in-up">
         <div class="admin-header__content">
             <div class="admin-header__text">
                 <h1 class="admin-header__title">Manage Events</h1>
                 <p class="admin-header__subtitle">View, edit, and manage upcoming and past events</p>
             </div>
-            <a href="@Url.Action("Details", "Events", new { area = "Admin"})" class="admin-header__action-btn">
-                <svg class="admin-manage-events__create-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 5v14M5 12h14" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <a href="@Url.Action("Details", "Events", new { area = "Admin" })" class="admin-header__action-btn">
+                <svg class="admin-manage-events__create-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="16"
+                    viewBox="0 0 24 24" fill="none">
+                    <path d="M12 5v14M5 12h14" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
                 </svg>
                 <span class="admin-header__action-label">Create Event</span>
             </a>
-            <form asp-area="Admin" asp-controller="Events" asp-action="SeedEvents" method="post" style="display:inline;">
+            <form asp-area="Admin" asp-controller="Events" asp-action="SeedEvents" method="post"
+                class="admin-header__seed-form">
                 @Html.AntiForgeryToken()
-                <button type="submit" class="admin-header__action-btn--secondary" style="margin-left: 1rem;">
-                    <svg class="admin-manage-events__create-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 24 24" fill="none">
-                        <path d="M12 5v14M5 12h14" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <button type="submit" class="admin-header__action-btn--secondary admin-header__seed-btn">
+                    <svg class="admin-manage-events__create-icon" xmlns="http://www.w3.org/2000/svg" width="14"
+                        height="16" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 5v14M5 12h14" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
                     </svg>
                     <span class="admin-header__action-label">Seed 10 Events</span>
                 </button>
@@ -59,30 +64,30 @@
             SearchPlaceholder = "Search events...",
             SearchInputName = "searchTerm",
             Dropdowns = new List<AdminFilterDropdown>
-            {
-                new()
-                {
-                    Name = "status",
-                    Label = "Any Status",
-                    Options = Model.StatusOptions
-                },
-                new()
-                {
-                    Name = "dateRange",
-                    Label = "Any Date",
-                    Options = Model.DateOptions
-                },
-                new()
-                {
-                    Name = "sortOrder",
-                    Label = "Sort By",
-                    Options = Model.SortOptions
-                }
-            },
+        {
+        new()
+        {
+        Name = "status",
+        Label = "Any Status",
+        Options = Model.StatusOptions
+        },
+        new()
+        {
+        Name = "dateRange",
+        Label = "Any Date",
+        Options = Model.DateOptions
+        },
+        new()
+        {
+        Name = "sortOrder",
+        Label = "Sort By",
+        Options = Model.SortOptions
+        }
+        },
             HiddenFields = new Dictionary<string, string>
-            {
-                { "page", Model.CurrentPage.ToString() }
-            }
+        {
+        { "page", Model.CurrentPage.ToString() }
+        }
         };
     }
     <partial name="_AdminSearchBar" model="(searchConfig, Model.Filters.SearchText ?? string.Empty)" />
@@ -120,13 +125,13 @@
                     var badgeLabel = eventItem.IsRsvpOpen ? "RSVPs Open" : "RSVPs Closed";
                     var schedule = eventItem.StartDateTime.ToString("dd MMM yyyy • HH:mm");
                     var endTime = eventItem.EndDateTime > eventItem.StartDateTime
-                        ? $" - {eventItem.EndDateTime:HH:mm}"
-                        : string.Empty;
+                    ? $" - {eventItem.EndDateTime:HH:mm}"
+                    : string.Empty;
                     var location = string.IsNullOrWhiteSpace(eventItem.LocationSummary)
-                        ? "Location to be confirmed"
-                        : eventItem.LocationSummary;
+                    ? "Location to be confirmed"
+                    : eventItem.LocationSummary;
 
-                    <article class="event-item">
+                    <article class="event-item scroll-animate hover-lift">
                         <div class="event-item__content">
                             <div class="event-item__info">
                                 <div class="event-item__title-row">
@@ -135,16 +140,20 @@
                                 </div>
                                 <div class="event-item__meta">
                                     <div class="event-item__meta-item">
-                                        <svg class="event-item__icon" xmlns="http://www.w3.org/2000/svg" width="12.25" height="14" viewBox="0 0 24 24" fill="none">
-                                            <rect x="3" y="4" width="18" height="18" rx="2" stroke="#4B5563" stroke-width="2"/>
-                                            <path d="M16 2v4M8 2v4M3 10h18" stroke="#4B5563" stroke-width="2" stroke-linecap="round"/>
+                                        <svg class="event-item__icon" xmlns="http://www.w3.org/2000/svg" width="12.25"
+                                            height="14" viewBox="0 0 24 24" fill="none">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" stroke="#4B5563" stroke-width="2" />
+                                            <path d="M16 2v4M8 2v4M3 10h18" stroke="#4B5563" stroke-width="2"
+                                                stroke-linecap="round" />
                                         </svg>
                                         <span class="event-item__meta-text">@schedule@endTime</span>
                                     </div>
                                     <div class="event-item__meta-item">
-                                        <svg class="event-item__icon" xmlns="http://www.w3.org/2000/svg" width="10.5" height="14" viewBox="0 0 24 24" fill="none">
-                                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="#4B5563" stroke-width="2"/>
-                                            <circle cx="12" cy="9" r="2.5" stroke="#4B5563" stroke-width="2"/>
+                                        <svg class="event-item__icon" xmlns="http://www.w3.org/2000/svg" width="10.5"
+                                            height="14" viewBox="0 0 24 24" fill="none">
+                                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
+                                                stroke="#4B5563" stroke-width="2" />
+                                            <circle cx="12" cy="9" r="2.5" stroke="#4B5563" stroke-width="2" />
                                         </svg>
                                         <span class="event-item__meta-text">@location</span>
                                     </div>
@@ -152,19 +161,28 @@
                                 </div>
                             </div>
                             <div class="event-item__actions">
-                                <form asp-area="Admin" asp-controller="Events" asp-action="UpdateStatus" asp-route-id="@eventItem.Id" method="post" class="event-item__status-form">
+                                <form asp-area="Admin" asp-controller="Events" asp-action="UpdateStatus"
+                                    asp-route-id="@eventItem.Id" method="post" class="event-item__status-form">
                                     @Html.AntiForgeryToken()
                                     <select name="status" class="event-item__status-select">
-                                        @foreach (var status in Enum.GetValues(typeof(HealingInWriting.Domain.Events.EventStatus)))
+                                        @foreach (var status in
+                                                                        Enum.GetValues(typeof(HealingInWriting.Domain.Events.EventStatus)))
                                         {
-                                            <option value="@status" selected="@(eventItem.Status == (HealingInWriting.Domain.Events.EventStatus)status)">@status</option>
+                                            <option value="@status"
+                                                selected="@(eventItem.Status == (HealingInWriting.Domain.Events.EventStatus)status)">
+                                                @status</option>
                                         }
                                     </select>
                                     <button type="submit" class="event-item__status-submit">Update</button>
                                 </form>
-                                <a class="event-item__btn event-item__btn--registrations" asp-area="Admin" asp-controller="Events" asp-action="Registrations" asp-route-id="@eventItem.Id">Registrations</a>
-                                <a class="event-item__btn event-item__btn--edit" asp-area="Admin" asp-controller="Events" asp-action="Details" asp-route-id="@eventItem.Id">Edit</a>
-                                <form asp-area="Admin" asp-controller="Events" asp-action="Delete" asp-route-id="@eventItem.Id" method="post" class="event-item__status-form" onsubmit="return confirm('Are you sure you want to delete this event? This action cannot be undone.');">
+                                <a class="event-item__btn event-item__btn--registrations" asp-area="Admin"
+                                    asp-controller="Events" asp-action="Registrations"
+                                    asp-route-id="@eventItem.Id">Registrations</a>
+                                <a class="event-item__btn event-item__btn--edit" asp-area="Admin" asp-controller="Events"
+                                    asp-action="Details" asp-route-id="@eventItem.Id">Edit</a>
+                                <form asp-area="Admin" asp-controller="Events" asp-action="Delete" asp-route-id="@eventItem.Id"
+                                    method="post" class="event-item__status-form"
+                                    onsubmit="return confirm('Are you sure you want to delete this event? This action cannot be undone.');">
                                     @Html.AntiForgeryToken()
                                     <button type="submit" class="event-item__btn event-item__btn--delete">Delete</button>
                                 </form>

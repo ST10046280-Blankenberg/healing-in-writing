@@ -15,8 +15,17 @@
     <title>@(isRegisterMode ? "Join Our Community" : "Sign In") - Healing In Writing</title>
     <link rel="stylesheet" href="~/css/base/_variables.css" />
     <link rel="stylesheet" href="~/css/views/auth.css" />
+    <link rel="stylesheet" href="~/css/shared/button-loading.css" />
+    <link rel="stylesheet" href="~/css/shared/toast.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <style>
+        /* Hide validation summary as we show toasts instead */
+        .auth__validation-summary {
+            display: none !important;
+        }
+    </style>
 </head>
-<body>
+<body data-error-message="@TempData["ErrorMessage"]" data-success-message="@TempData["SuccessMessage"]">
     <main class="auth @initialState">
         <!-- Image Panel (Left on Register, Right on Login) -->
         <aside class="auth__image-panel" aria-label="Community background">
@@ -215,6 +224,8 @@
         </section>
     </main>
 
+    <script src="~/js/toast.js"></script>
+    <script src="~/js/auth-toast-handler.js"></script>
     <script src="~/js/auth.js" asp-append-version="true"></script>
 </body>
 </html>

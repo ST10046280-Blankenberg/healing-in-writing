@@ -26,11 +26,14 @@
     <section class="page-hero">
         <div class="page-hero__content">
             <h1 class="page-hero__title">Books for the Community</h1>
-            <p class="page-hero__subtitle">Browse and share books available in the community. Find what you need or give a book a new home.</p>
+            <p class="page-hero__subtitle">Browse and share books available in the community. Find what you need or give
+                a book a new home.</p>
         </div>
 
         <!-- Reusable Search and Filter Bar -->
-        <partial name="_SearchAndFilterBar" model="Model.Filter" />
+        <div class="fade-in-up delay-100">
+            <partial name="_SearchAndFilterBar" model="Model.Filter" />
+        </div>
     </section>
 
     <!-- Books List Section -->
@@ -40,10 +43,8 @@
         </div>
     </section>
 
-    <div id="books-pagination"
-         data-total-count="@totalCount"
-         data-page-size="@pageSize"
-         data-current-page="@currentPage">
+    <div id="books-pagination" data-total-count="@totalCount" data-page-size="@pageSize"
+        data-current-page="@currentPage">
         <button class="btn btn--primary" data-page="prev">Prev</button>
         <span id="pagination-current">@currentPage</span> / <span id="pagination-total">@totalPages</span>
         <button class="btn btn--primary" data-page="next">Next</button>

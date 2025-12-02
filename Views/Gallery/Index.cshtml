@@ -12,7 +12,7 @@
 
 <main class="gallery">
     <!-- Hero Section -->
-    <section class="page-hero">
+    <section class="page-hero fade-in-up">
         <div class="page-hero__content">
             <h1 class="page-hero__title">Gallery</h1>
             <p class="page-hero__subtitle">Browse and share books available in the community. Find what you need or give
@@ -31,7 +31,7 @@
                     {
                         <!-- Group Photo Card (with multi-photo indicator) - Clickable -->
                         <a asp-area="" asp-controller="Gallery" asp-action="Details" asp-route-collectionId="@photo.CollectionId"
-                            class="gallery-card gallery-card--group" style="text-decoration: none; display: block;">
+                            class="gallery-card gallery-card--group gallery-card--link scroll-animate hover-lift">
                             <img src="@photo.ImageUrl" alt="@photo.AltText" class="gallery-card__image" />
                             <div class="gallery-card__multi-indicator">
                                 <svg class="gallery-card__multi-icon" xmlns="http://www.w3.org/2000/svg" width="38" height="38"
@@ -49,22 +49,19 @@
                     else
                     {
                         <!-- Single Photo Card -->
-                        <article class="gallery-card gallery-card--single">
-                            <img src="@photo.ImageUrl" 
-                                 alt="@photo.AltText" 
-                                 class="gallery-card__image" 
-                                 data-lightbox="gallery-index"
-                                 data-alt="@photo.AltText"
-                                 style="cursor: pointer;" />
+                        <article class="gallery-card gallery-card--single scroll-animate hover-lift">
+                            <img src="@photo.ImageUrl" alt="@photo.AltText"
+                                class="gallery-card__image gallery-card__image--clickable" data-lightbox="gallery-index"
+                                data-alt="@photo.AltText" />
                         </article>
                     }
                 }
             }
             else
             {
-                <div class="gallery__empty-state" style="grid-column: 1 / -1; text-align: center; padding: 48px 24px;">
-                    <p style="font-size: 1.25rem; color: #6b7280; margin-bottom: 16px;">No photos in the gallery yet.</p>
-                    <p style="color: #9ca3af;">Check back soon for updates!</p>
+                <div class="gallery__empty-state">
+                    <p class="gallery__empty-text">No photos in the gallery yet.</p>
+                    <p class="gallery__empty-subtext">Check back soon for updates!</p>
                 </div>
             }
         </div>

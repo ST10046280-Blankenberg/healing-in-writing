@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UI Components Demo - Healing In Writing</title>
+    <link rel="stylesheet" href="css/base/_variables.css" />
+    <link rel="stylesheet" href="css/shared/button-loading.css" />
+    <link rel="stylesheet" href="css/shared/toast.css" />
+    <link rel="stylesheet" href="css/shared/alerts.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <style>
+        body {
+            padding: var(--spacing-2xl);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .demo-section {
+            margin-bottom: var(--spacing-3xl);
+            padding: var(--spacing-xl);
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-card);
+        }
+
+        .demo-section h2 {
+            color: var(--brand-700);
+            margin-bottom: var(--spacing-lg);
+            border-bottom: 2px solid var(--brand-300);
+            padding-bottom: var(--spacing-sm);
+        }
+
+        .demo-section h3 {
+            color: var(--brand-600);
+            margin-top: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .demo-button {
+            padding: 0.75rem 1.5rem;
+            background: var(--brand-700);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-family: var(--font-family-base);
+            font-size: var(--font-size-body);
+            font-weight: var(--font-weight-semibold);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            width: 100%;
+        }
+
+        .demo-button:hover {
+            background: var(--brand-600);
+            transform: translateY(-1px);
+        }
+
+        .code-block {
+            background: #f5f5f5;
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            overflow-x: auto;
+            margin: var(--spacing-md) 0;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: var(--font-size-body-sm);
+        }
+
+        .btn-lg {
+            padding: 1rem 2rem;
+            font-size: var(--font-size-body-lg);
+        }
+
+        .inline-demo {
+            display: flex;
+            align-items: centre;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .position-selector {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .position-selector label {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .position-selector select {
+            width: 100%;
+            max-width: 300px;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid #E5E7EB;
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-body);
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: centre; color: var(--brand-700); margin-bottom: var(--spacing-2xl);">
+        UI Components Demo
+    </h1>
+
+    <!-- Toast Notifications Demo -->
+    <div class="demo-section">
+        <h2><i class="fas fa-bell"></i> Toast Notifications</h2>
+
+        <div class="position-selector">
+            <label for="toastPosition">Toast Position:</label>
+            <select id="toastPosition" onchange="changeToastPosition()">
+                <option value="top-right">Top Right</option>
+                <option value="top-left">Top Left</option>
+                <option value="top-center">Top Centre</option>
+                <option value="bottom-right">Bottom Right</option>
+                <option value="bottom-left">Bottom Left</option>
+                <option value="bottom-center">Bottom Centre</option>
+            </select>
+        </div>
+
+        <h3>Basic Toast Types</h3>
+        <div class="demo-grid">
+            <button class="demo-button" onclick="showSuccessToast()">
+                <i class="fas fa-circle-check"></i> Success Toast
+            </button>
+            <button class="demo-button" onclick="showErrorToast()">
+                <i class="fas fa-circle-xmark"></i> Error Toast
+            </button>
+            <button class="demo-button" onclick="showWarningToast()">
+                <i class="fas fa-triangle-exclamation"></i> Warning Toast
+            </button>
+            <button class="demo-button" onclick="showInfoToast()">
+                <i class="fas fa-circle-info"></i> Info Toast
+            </button>
+        </div>
+
+        <h3>Advanced Options</h3>
+        <div class="demo-grid">
+            <button class="demo-button" onclick="showPersistentToast()">
+                No Auto-Dismiss
+            </button>
+            <button class="demo-button" onclick="showShortToast()">
+                Short Duration (2s)
+            </button>
+            <button class="demo-button" onclick="showNoProgressToast()">
+                No Progress Bar
+            </button>
+            <button class="demo-button" onclick="showMultipleToasts()">
+                Multiple Toasts
+            </button>
+        </div>
+
+        <button class="demo-button" onclick="ToastManager.clearAll()" style="background: var(--color-error); max-width: 300px;">
+            <i class="fas fa-trash"></i> Clear All Toasts
+        </button>
+
+        <div class="code-block">
+ToastManager.success('Success!', 'Your changes have been saved.');
+ToastManager.error('Error', 'Unable to complete the operation.');
+ToastManager.warning('Warning', 'Your session will expire soon.');
+ToastManager.info('Did You Know?', 'You can use keyboard shortcuts.');
+        </div>
+    </div>
+
+    <!-- Button Loading States Demo -->
+    <div class="demo-section">
+        <h2><i class="fas fa-spinner"></i> Button Loading States</h2>
+
+        <h3>Standard Loading Spinner</h3>
+        <div class="demo-grid">
+            <button class="demo-button btn-sm" onclick="demoButtonLoading(this, 3000)">
+                Small Button
+            </button>
+            <button class="demo-button" onclick="demoButtonLoading(this, 3000)">
+                Default Button
+            </button>
+            <button class="demo-button btn-lg" onclick="demoButtonLoading(this, 3000)">
+                Large Button
+            </button>
+        </div>
+
+        <h3>Dot Loading Style</h3>
+        <div class="demo-grid">
+            <button class="demo-button" onclick="demoDotsLoading(this, 3000)">
+                Click to Load (Dots)
+            </button>
+        </div>
+
+        <h3>Form Simulation</h3>
+        <form onsubmit="return handleFormSubmit(event)" style="max-width: 400px;">
+            <div style="margin-bottom: var(--spacing-md);">
+                <label style="display: block; margin-bottom: var(--spacing-xs);">Email</label>
+                <input type="email" required style="width: 100%; padding: var(--spacing-sm); border: 1px solid #E5E7EB; border-radius: var(--radius-md);" />
+            </div>
+            <div style="margin-bottom: var(--spacing-md);">
+                <label style="display: block; margin-bottom: var(--spacing-xs);">Password</label>
+                <input type="password" required style="width: 100%; padding: var(--spacing-sm); border: 1px solid #E5E7EB; border-radius: var(--radius-md);" />
+            </div>
+            <button type="submit" class="demo-button">
+                Submit Form
+            </button>
+        </form>
+
+        <div class="code-block">
+// Add loading state
+button.classList.add('btn-loading');
+button.disabled = true;
+
+// Remove loading state
+button.classList.remove('btn-loading');
+button.disabled = false;
+        </div>
+    </div>
+
+    <!-- Static Alerts Demo -->
+    <div class="demo-section">
+        <h2><i class="fas fa-exclamation-circle"></i> Static Alerts</h2>
+
+        <div class="alert alert-success">
+            <i class="fas fa-circle-check"></i>
+            <div>
+                <strong>Success!</strong> Your account has been created successfully.
+            </div>
+        </div>
+
+        <div class="alert alert-error">
+            <i class="fas fa-circle-xmark"></i>
+            <div>
+                <strong>Error!</strong> Unable to process your request. Please try again.
+            </div>
+        </div>
+
+        <div class="alert alert-warning">
+            <i class="fas fa-triangle-exclamation"></i>
+            <div>
+                <strong>Warning!</strong> Your session will expire in 5 minutes.
+            </div>
+        </div>
+
+        <div class="alert alert-info">
+            <i class="fas fa-circle-info"></i>
+            <div>
+                <strong>Info:</strong> You have 3 new messages waiting for you.
+            </div>
+        </div>
+
+        <div class="code-block">
+&lt;div class="alert alert-success"&gt;
+    &lt;i class="fas fa-circle-check"&gt;&lt;/i&gt;
+    &lt;div&gt;Success message here&lt;/div&gt;
+&lt;/div&gt;
+        </div>
+    </div>
+
+    <!-- Combined Demo -->
+    <div class="demo-section">
+        <h2><i class="fas fa-rocket"></i> Combined Demo</h2>
+        <p>Click to simulate a complete form submission flow:</p>
+
+        <button class="demo-button" onclick="simulateFormFlow(this)" style="max-width: 400px;">
+            <i class="fas fa-paper-plane"></i> Simulate Complete Flow
+        </button>
+
+        <p style="margin-top: var(--spacing-md); color: var(--neutral-400); font-size: var(--font-size-body-sm);">
+            This demo shows: Button loading state → Success toast → Button returns to normal
+        </p>
+    </div>
+
+    <script src="js/toast.js"></script>
+    <script>
+        // Toast Examples
+        function showSuccessToast() {
+            ToastManager.success('Success!', 'Operation completed successfully.');
+        }
+
+        function showErrorToast() {
+            ToastManager.error('Error Occurred', 'Unable to complete the operation. Please try again.');
+        }
+
+        function showWarningToast() {
+            ToastManager.warning('Warning', 'Your session will expire in 5 minutes. Please save your work.');
+        }
+
+        function showInfoToast() {
+            ToastManager.info('Did You Know?', 'You can use keyboard shortcuts to navigate faster.');
+        }
+
+        function showPersistentToast() {
+            ToastManager.error('Critical Error', 'This toast will not auto-dismiss. Click X to close.', {
+                duration: 0,
+                closeButton: true
+            });
+        }
+
+        function showShortToast() {
+            ToastManager.success('Quick Save', 'Changes saved!', { duration: 2000 });
+        }
+
+        function showNoProgressToast() {
+            ToastManager.info('Tip', 'Press Ctrl+S to quick-save.', { showProgress: false });
+        }
+
+        function showMultipleToasts() {
+            ToastManager.success('First', 'This is the first toast');
+            setTimeout(() => ToastManager.info('Second', 'This is the second toast'), 500);
+            setTimeout(() => ToastManager.warning('Third', 'This is the third toast'), 1000);
+        }
+
+        function changeToastPosition() {
+            const position = document.getElementById('toastPosition').value;
+            ToastManager.updateConfig({ position });
+            ToastManager.info('Position Changed', `Toasts will now appear at: ${position}`);
+        }
+
+        // Button Loading Examples
+        function demoButtonLoading(button, duration) {
+            button.classList.add('btn-loading');
+            button.disabled = true;
+
+            setTimeout(() => {
+                button.classList.remove('btn-loading');
+                button.disabled = false;
+            }, duration);
+        }
+
+        function demoDotsLoading(button, duration) {
+            const originalText = button.textContent;
+            button.classList.add('btn-loading-dots');
+            button.disabled = true;
+
+            setTimeout(() => {
+                button.classList.remove('btn-loading-dots');
+                button.disabled = false;
+                button.textContent = originalText;
+            }, duration);
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const form = event.target;
+            const button = form.querySelector('button[type="submit"]');
+
+            button.classList.add('btn-loading');
+            button.disabled = true;
+
+            // Simulate async operation
+            setTimeout(() => {
+                button.classList.remove('btn-loading');
+                button.disabled = false;
+                ToastManager.success('Form Submitted', 'Your form has been processed successfully.');
+                form.reset();
+            }, 2500);
+
+            return false;
+        }
+
+        function simulateFormFlow(button) {
+            // Show loading state
+            button.classList.add('btn-loading');
+            button.disabled = true;
+
+            // Simulate processing
+            setTimeout(() => {
+                // Remove loading
+                button.classList.remove('btn-loading');
+                button.disabled = false;
+
+                // Show success toast
+                ToastManager.success(
+                    'Process Complete',
+                    'Your request has been processed successfully.',
+                    { duration: 5000 }
+                );
+            }, 2500);
+        }
+
+        // Initialise toast system
+        ToastManager.init({ position: 'top-right' });
+    </script>
+</body>
+</html>

@@ -16,6 +16,7 @@
 - [Solution Layout](#solution-layout)
 - [Workflow Checklist](#workflow-checklist)
 - [Getting Started](#getting-started)
+- [Documentation](#documentation)
 - [Contribution Notes](#contribution-notes)
 
 <details>
@@ -110,9 +111,25 @@ Domain          -> entities, value objects, invariants
 
 </details>
 
+## Documentation
+
+Comprehensive project documentation is located in the [`docs/`](docs/) folder:
+
+- **[Component System Guide](docs/COMPONENT-SYSTEM-GUIDE.md)** - Complete guide to using standardised UI components (forms, cards, buttons)
+- **[Spacing Audit Guide](docs/SPACING-AUDIT-GUIDE.md)** - Guide for replacing hardcoded spacing with CSS variables
+- **[UI Improvements](docs/UI-IMPROVEMENTS-README.md)** - UI improvement checklist and progress tracking
+- **[Architecture](docs/ARCHITECTURE.md)** - Detailed system architecture and technical overview
+- **[Contributing](docs/CONTRIBUTING.md)** - Contribution guidelines and workflow
+- **[Security](docs/SECURITY.md)** - Security policies and vulnerability reporting
+- **[About](docs/ABOUT.md)** - About the Healing In Writing project
+
+For a complete documentation index, see [docs/README.md](docs/README.md).
+
 ## Contribution Notes
 - Prefer constructor injection for controllers, services, and middleware.
 - Add TODO markers to placeholders; replace them once functionality is implemented.
 - Keep PR descriptions aligned with the repo PR template for consistency.
+- Review the [Component System Guide](docs/COMPONENT-SYSTEM-GUIDE.md) before adding UI elements.
+- Follow the [Spacing Audit Guide](docs/SPACING-AUDIT-GUIDE.md) when working with CSS.
 
 > REMINDER: Surface any cross-cutting changes (middlewares, filters, mappings) early in code review to keep the architecture coherent.

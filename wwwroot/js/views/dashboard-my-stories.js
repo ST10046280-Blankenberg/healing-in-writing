@@ -3,11 +3,11 @@
  * Handles tab switching functionality for story status filtering
  */
 
-(function() {
+(function () {
     'use strict';
 
     // Wait for DOM to be fully loaded
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         initializeTabSwitching();
     });
 
@@ -22,8 +22,8 @@
             return; // Exit if elements don't exist
         }
 
-        tabs.forEach(function(tab) {
-            tab.addEventListener('click', function() {
+        tabs.forEach(function (tab) {
+            tab.addEventListener('click', function () {
                 handleTabClick(tab, tabs, cards);
             });
         });
@@ -37,7 +37,7 @@
      */
     function handleTabClick(clickedTab, allTabs, allCards) {
         // Remove active class from all tabs
-        allTabs.forEach(function(tab) {
+        allTabs.forEach(function (tab) {
             tab.classList.remove('my-stories__nav-button--active');
         });
 
@@ -57,13 +57,13 @@
      * @param {string} status - The status to filter by
      */
     function filterCardsByStatus(cards, status) {
-        cards.forEach(function(card) {
+        cards.forEach(function (card) {
             const cardStatus = card.getAttribute('data-status');
 
             if (cardStatus === status) {
-                card.style.display = 'flex';
+                card.classList.remove('hidden');
             } else {
-                card.style.display = 'none';
+                card.classList.add('hidden');
             }
         });
     }

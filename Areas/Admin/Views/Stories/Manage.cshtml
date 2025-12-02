@@ -13,7 +13,7 @@
 
 <main class="manage-stories">
     <!-- Header Section -->
-    <header class="admin-header">
+    <header class="admin-header fade-in-up">
         <div class="admin-header__content">
             <div class="admin-header__text">    
                 <h1 class="admin-header__title">Manage Stories</h1>
@@ -91,28 +91,28 @@
     <partial name="_AdminSearchBar" model="(searchConfig, Model.Filters.SearchTerm)" />
 
     <!-- Status Summary -->
-    <section class="manage-stories__metrics">
-        <div class="manage-stories__metric">
+    <section class="manage-stories__metrics fade-in-up delay-100">
+        <div class="manage-stories__metric hover-lift">
             <span class="manage-stories__metric-label">Submitted</span>
             <span class="manage-stories__metric-value">@Model.PendingCount</span>
         </div>
-        <div class="manage-stories__metric">
+        <div class="manage-stories__metric hover-lift">
             <span class="manage-stories__metric-label">Published</span>
             <span class="manage-stories__metric-value">@Model.PublishedCount</span>
         </div>
-        <div class="manage-stories__metric">
+        <div class="manage-stories__metric hover-lift">
             <span class="manage-stories__metric-label">Draft</span>
             <span class="manage-stories__metric-value">@Model.DraftCount</span>
         </div>
-        <div class="manage-stories__metric">
+        <div class="manage-stories__metric hover-lift">
             <span class="manage-stories__metric-label">Rejected</span>
             <span class="manage-stories__metric-value">@Model.RejectedCount</span>
         </div>
     </section>
 
     <!-- Stories Table -->
-    <p class="manage-stories__results">Showing @Model.Stories.Count of @Model.TotalStories story@((Model.TotalStories == 1) ? string.Empty : "ies")</p>
-    <div class="manage-stories__table-container">
+    <p class="manage-stories__results fade-in-up delay-200">Showing @Model.Stories.Count of @Model.TotalStories story@((Model.TotalStories == 1) ? string.Empty : "ies")</p>
+    <div class="manage-stories__table-container fade-in-up delay-200">
         <table class="manage-stories__table">
             <thead>
                 <tr>
