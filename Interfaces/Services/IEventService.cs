@@ -41,4 +41,13 @@ public interface IEventService
         string sortOrder,
         int page,
         int pageSize);
+
+    /// <summary>
+    /// Seeds the database with sample event data and registrations for testing purposes.
+    /// Should only be used in development or staging environments.
+    /// </summary>
+    /// <param name="userId">The user ID to associate as the event creator</param>
+    /// <param name="eventCount">Number of events to seed (default: 10)</param>
+    /// <returns>Success or error message</returns>
+    Task<string?> SeedEventsAsync(string userId, int eventCount = 10);
 }
