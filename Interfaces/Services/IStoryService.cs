@@ -1,4 +1,5 @@
 using HealingInWriting.Domain.Stories;
+using HealingInWriting.Models.Admin;
 
 namespace HealingInWriting.Interfaces.Services;
 
@@ -65,4 +66,41 @@ public interface IStoryService
         string sortOrder,
         int page,
         int pageSize);
+
+    /// <summary>
+    /// Resolves the display name for a story author, handling anonymous stories and missing data gracefully.
+    /// Returns "Anonymous" for anonymous stories, the author's full name if available, email as fallback, or user ID.
+    /// </summary>
+    string ResolveAuthorName(Story story);
+
+    /// <summary>
+    /// Maps a story status to its corresponding CSS badge class for display purposes.
+    /// </summary>
+    string GetStatusBadgeClass(StoryStatus status);
+
+    /// <summary>
+    /// Calculates the count of stories grouped by status from a collection of stories.
+    /// </summary>
+    Dictionary<StoryStatus, int> CalculateStatusCounts(IEnumerable<Story> stories);
+
+    /// <summary>
+    /// Builds a list of status filter options for admin dropdowns with the selected value highlighted.
+    /// </summary>
+    IReadOnlyCollection<AdminSelectOption> BuildStatusOptions(string? selectedStatus);
+
+    /// <summary>
+    /// Builds a list of date range filter options for admin dropdowns with the selected value highlighted.
+    /// </summary>
+    IReadOnlyCollection<AdminSelectOption> BuildDateOptions(string? selectedDate);
+
+    /// <summary>
+    /// Builds a list of tag filter options for admin dropdowns based on available tags in stories.
+    /// Includes the selected tag even if it doesn't exist in the current dataset.
+    /// </summary>
+    IReadOnlyCollection<AdminSelectOption> BuildTagOptions(string? selectedTag, IEnumerable<Story> stories);
+
+    /// <summary>
+    /// Builds a list of sort order options for admin dropdowns with the selected value highlighted.
+    /// </summary>
+    IReadOnlyCollection<AdminSelectOption> BuildSortOptions(string? selectedSort);
 }
