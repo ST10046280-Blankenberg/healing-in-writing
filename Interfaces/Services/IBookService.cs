@@ -52,6 +52,15 @@ public interface IBookService
     /// <param name="book">The <see cref="Book"/> entity to update.</param>
     Task UpdateBookAsync(Book book);
 
+    /// <summary>
+    /// Sets the visibility status of a book.
+    /// Retrieves the book, updates its visibility, and persists the change.
+    /// </summary>
+    /// <param name="bookId">The unique identifier of the book.</param>
+    /// <param name="isVisible">The visibility status to set.</param>
+    /// <returns>True if the book was found and updated; otherwise, false.</returns>
+    Task<bool> SetBookVisibilityAsync(int bookId, bool isVisible);
+
     #endregion
 
     #region Mapping Methods

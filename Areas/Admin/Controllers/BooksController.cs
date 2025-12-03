@@ -239,7 +239,8 @@ namespace HealingInWriting.Areas.Admin.Controllers
         }
 
         /// <summary>
-        /// Sets the visibility of a book.
+        /// Sets the visibility of a book by delegating to the service layer.
+        /// The service handles retrieving the book, updating its visibility, and persisting the change.
         /// </summary>
         /// <param name="request">The request object containing book ID and visibility status.</param>
         /// <returns>Ok on success, BadRequest if request is null, NotFound if book doesn't exist.</returns>
@@ -250,12 +251,11 @@ namespace HealingInWriting.Areas.Admin.Controllers
             if (request == null)
                 return BadRequest();
 
-            var book = await _bookService.GetBookByIdAsync(request.BookId);
-            if (book == null)
-                return NotFound();
+            // Delegate visibility logic to service layer
+            var success = await _bookService.SetBookVisibilityAsync(request.BookId, request.IsVisible);
 
-            book.IsVisible = request.IsVisible;
-            await _bookService.UpdateBookAsync(book);
+            if (!success)
+                return NotFound();
 
             return Ok();
         }
