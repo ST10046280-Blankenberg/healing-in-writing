@@ -4,6 +4,7 @@ using HealingInWriting.Domain.Shared;
 using HealingInWriting.Interfaces.Repository;
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Events;
+using HealingInWriting.Models.Shared;
 using HealingInWriting.Mapping;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,11 +14,16 @@ public class EventService : IEventService
 {
     private readonly IEventRepository _eventRepository;
     private readonly ApplicationDbContext _context;
+    private readonly IRegistrationService _registrationService;
 
-    public EventService(IEventRepository eventRepository, ApplicationDbContext context)
+    public EventService(
+        IEventRepository eventRepository,
+        ApplicationDbContext context,
+        IRegistrationService registrationService)
     {
         _eventRepository = eventRepository;
         _context = context;
+        _registrationService = registrationService;
     }
 
     public async Task<int> CreateEventAsync(CreateEventViewModel model, string userId)
@@ -343,6 +349,134 @@ public class EventService : IEventService
         return (events, totalCount);
     }
 
+    /// <summary>
+    /// Seeds the database with sample event data and registrations for testing purposes.
+    /// This method generates multiple events with randomised registrations.
+    /// Should only be used in development or staging environments.
+    /// </summary>
+    /// <param name="userId">The user ID to associate as the event creator</param>
+    /// <param name="eventCount">Number of events to seed (default: 10)</param>
+    /// <returns>Null on success, or an error message string on failure</returns>
+    public async Task<string?> SeedEventsAsync(string userId, int eventCount = 10)
+    {
+        try
+        {
+            var random = new Random();
+
+            for (int i = 1; i <= eventCount; i++)
+            {
+                // Create view model for event creation
+                var model = new CreateEventViewModel
+                {
+                    Title = $"Seeded Event {i}",
+                    Description = $"This is a seeded event number {i}.",
+                    EventType = (i % 2 == 0) ? EventType.Workshop : EventType.CommunityEvent,
+                    EventStatus = EventStatus.Published,
+                    EventDate = DateTime.Today.AddDays(i),
+                    StartTime = new TimeSpan(9 + i % 5, 0, 0),
+                    EndTime = new TimeSpan(10 + i % 5, 0, 0),
+                    Capacity = 20 + i,
+                    StreetAddress = $"123{i} Main St",
+                    Suburb = $"Suburb {i}",
+                    City = "Cape Town",
+                    Province = "Western Cape",
+                    PostalCode = "8000",
+                    Latitude = -33.9 + i * 0.01,
+                    Longitude = 18.4 + i * 0.01,
+                    Tags = "seed,auto"
+                };
+
+                // Create the event using existing service method
+                var eventId = await CreateEventAsync(model, userId);
+
+                // Seed a random number of guest registrations (between 1 and event capacity)
+                int guestCount = random.Next(1, model.Capacity + 1);
+                for (int r = 1; r <= guestCount; r++)
+                {
+                    var guestName = $"Guest {r} for Event {i}";
+                    var guestEmail = $"guest{r}_event{i}@example.com";
+
+                    // Register guest using registration service with admin override
+                    await _registrationService.RegisterGuestAsync(
+                        eventId,
+                        guestName,
+                        guestEmail,
+                        ipAddress: null,
+                        guestPhone: null,
+                        isAdminOverride: true
+                    );
+                }
+            }
+
+            return null; // Success - no error message
+        }
+        catch (Exception ex)
+        {
+            return $"Seeding failed: {ex.Message}";
+        }
+    }
+
+    /// <summary>
+    /// Builds a list of status filter options for admin dropdowns with the selected value highlighted.
+    /// Provides options for all event statuses to allow filtering.
+    /// </summary>
+    public List<AdminDropdownOption> BuildStatusOptions(string? selectedStatus)
+    {
+        return Enum.GetValues<EventStatus>()
+            .Select(s => new AdminDropdownOption
+            {
+                Value = s.ToString(),
+                Text = s.ToString(),
+                Selected = s.ToString().Equals(selectedStatus, StringComparison.OrdinalIgnoreCase)
+            })
+            .ToList();
+    }
+
+    /// <summary>
+    /// Builds a list of date range filter options for admin dropdowns with the selected value highlighted.
+    /// Provides common date ranges such as upcoming, past, this week, this month, and next 30 days.
+    /// </summary>
+    public List<AdminDropdownOption> BuildDateOptions(string? selectedRange)
+    {
+        var options = new[]
+        {
+            ("upcoming", "Upcoming Events"),
+            ("past", "Past Events"),
+            ("this-week", "This Week"),
+            ("this-month", "This Month"),
+            ("next-30", "Next 30 Days")
+        };
+
+        return options.Select(o => new AdminDropdownOption
+        {
+            Value = o.Item1,
+            Text = o.Item2,
+            Selected = o.Item1.Equals(selectedRange, StringComparison.OrdinalIgnoreCase)
+        }).ToList();
+    }
+
+    /// <summary>
+    /// Builds a list of sort order options for admin dropdowns with the selected value highlighted.
+    /// Provides options for sorting by event date and creation date in both ascending and descending order.
+    /// </summary>
+    public List<AdminDropdownOption> BuildSortOptions(string? selectedSort)
+    {
+        var options = new[]
+        {
+            ("date-asc", "Date (Upcoming First)"),
+            ("date-desc", "Date (Latest First)"),
+            ("oldest", "Oldest Created"),
+            ("newest", "Newest Created")
+        };
+
+        return options.Select(o => new AdminDropdownOption
+        {
+            Value = o.Item1,
+            Text = o.Item2,
+            Selected = o.Item1.Equals(selectedSort, StringComparison.OrdinalIgnoreCase)
+        }).ToList();
+    }
+
     private static (DateTime StartDate, DateTime? EndDate)? ParseEventDateRange(string? dateRange)
     {
         if (string.IsNullOrWhiteSpace(dateRange) ||
@@ -352,7 +486,7 @@ public class EventService : IEventService
         }
 
         var now = DateTime.UtcNow;
-        
+
         // Calculate start of week inline (Monday as start of week)
         var diff = (7 + (now.DayOfWeek - DayOfWeek.Monday)) % 7;
         var startOfWeek = now.AddDays(-1 * diff).Date;

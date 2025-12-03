@@ -1,9 +1,11 @@
+using System.Globalization;
 using HealingInWriting.Data;
 using HealingInWriting.Domain.Shared;
 using HealingInWriting.Domain.Stories;
 using HealingInWriting.Domain.Users;
 using HealingInWriting.Interfaces.Repository;
 using HealingInWriting.Interfaces.Services;
+using HealingInWriting.Models.Admin;
 using Microsoft.EntityFrameworkCore;
 
 namespace HealingInWriting.Services.Stories;
@@ -333,6 +335,157 @@ public class StoryService : IStoryService
             .ToListAsync();
 
         return (stories, totalCount);
+    }
+
+    /// <summary>
+    /// Resolves the display name for a story author, handling anonymous stories and missing data gracefully.
+    /// Returns "Anonymous" for anonymous stories, the author's full name if available,
+    /// email as fallback, or user ID as last resort.
+    /// </summary>
+    public string ResolveAuthorName(Story story)
+    {
+        if (story.IsAnonymous)
+        {
+            return "Anonymous";
+        }
+
+        var firstName = story.Author?.User?.FirstName;
+        var lastName = story.Author?.User?.LastName;
+
+        var nameParts = new[] { firstName, lastName }
+            .Where(part => !string.IsNullOrWhiteSpace(part))
+            .ToArray();
+
+        if (nameParts.Any())
+        {
+            return string.Join(" ", nameParts);
+        }
+
+        if (!string.IsNullOrWhiteSpace(story.Author?.User?.Email))
+        {
+            return story.Author!.User!.Email!;
+        }
+
+        return story.Author?.UserId ?? "Unknown";
+    }
+
+    /// <summary>
+    /// Maps a story status to its corresponding CSS badge class for display purposes.
+    /// This ensures consistent visual representation of story statuses across the application.
+    /// </summary>
+    public string GetStatusBadgeClass(StoryStatus status)
+    {
+        return status switch
+        {
+            StoryStatus.Submitted => "manage-stories__status-badge--submitted",
+            StoryStatus.Published => "manage-stories__status-badge--published",
+            StoryStatus.Rejected => "manage-stories__status-badge--rejected",
+            StoryStatus.Draft => "manage-stories__status-badge--pending",
+            StoryStatus.Archived => "manage-stories__status-badge--approved",
+            _ => "manage-stories__status-badge"
+        };
+    }
+
+    /// <summary>
+    /// Calculates the count of stories grouped by status from a collection of stories.
+    /// Useful for displaying statistics and metrics in admin dashboards.
+    /// </summary>
+    public Dictionary<StoryStatus, int> CalculateStatusCounts(IEnumerable<Story> stories)
+    {
+        return stories
+            .GroupBy(story => story.Status)
+            .ToDictionary(group => group.Key, group => group.Count());
+    }
+
+    /// <summary>
+    /// Builds a list of status filter options for admin dropdowns with the selected value highlighted.
+    /// Creates options for all available story statuses with proper formatting.
+    /// </summary>
+    public IReadOnlyCollection<AdminSelectOption> BuildStatusOptions(string? selectedStatus)
+    {
+        var options = new List<AdminSelectOption>
+        {
+            new("", "Any Status", string.IsNullOrWhiteSpace(selectedStatus))
+        };
+
+        foreach (var status in Enum.GetValues(typeof(StoryStatus)).Cast<StoryStatus>())
+        {
+            options.Add(new AdminSelectOption(
+                status.ToString(),
+                CultureInfo.CurrentCulture.TextInfo.ToTitleCase(status.ToString().Replace("_", " ").ToLowerInvariant()),
+                string.Equals(selectedStatus, status.ToString(), StringComparison.OrdinalIgnoreCase)));
+        }
+
+        return options;
+    }
+
+    /// <summary>
+    /// Builds a list of date range filter options for admin dropdowns with the selected value highlighted.
+    /// Provides common date range filters such as last 7, 30, 90 days, and this year.
+    /// </summary>
+    public IReadOnlyCollection<AdminSelectOption> BuildDateOptions(string? selectedDate)
+    {
+        var options = new List<AdminSelectOption>
+        {
+            new("any", "Any Date", string.IsNullOrWhiteSpace(selectedDate) || selectedDate.Equals("any", StringComparison.OrdinalIgnoreCase)),
+            new("last7", "Last 7 days", string.Equals(selectedDate, "last7", StringComparison.OrdinalIgnoreCase)),
+            new("last30", "Last 30 days", string.Equals(selectedDate, "last30", StringComparison.OrdinalIgnoreCase)),
+            new("last90", "Last 90 days", string.Equals(selectedDate, "last90", StringComparison.OrdinalIgnoreCase)),
+            new("this-year", "This year", string.Equals(selectedDate, "this-year", StringComparison.OrdinalIgnoreCase))
+        };
+
+        return options;
+    }
+
+    /// <summary>
+    /// Builds a list of tag filter options for admin dropdowns based on available tags in stories.
+    /// Extracts unique tags from the provided stories and includes the selected tag even if not in the dataset.
+    /// </summary>
+    public IReadOnlyCollection<AdminSelectOption> BuildTagOptions(string? selectedTag, IEnumerable<Story> stories)
+    {
+        var tags = stories
+            .SelectMany(story => story.Tags)
+            .Select(tag => tag.Name)
+            .Where(name => !string.IsNullOrWhiteSpace(name))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .OrderBy(name => name, StringComparer.OrdinalIgnoreCase)
+            .ToList();
+
+        var options = new List<AdminSelectOption>
+        {
+            new("", "Any Tag", string.IsNullOrWhiteSpace(selectedTag))
+        };
+
+        foreach (var tag in tags)
+        {
+            options.Add(new AdminSelectOption(tag, tag, string.Equals(tag, selectedTag, StringComparison.OrdinalIgnoreCase)));
+        }
+
+        // Preserve manually entered tags even if not present in dataset
+        if (!string.IsNullOrWhiteSpace(selectedTag)
+            && options.All(option => !string.Equals(option.Value, selectedTag, StringComparison.OrdinalIgnoreCase)))
+        {
+            options.Add(new AdminSelectOption(selectedTag, selectedTag, true));
+        }
+
+        return options;
+    }
+
+    /// <summary>
+    /// Builds a list of sort order options for admin dropdowns with the selected value highlighted.
+    /// Provides options for sorting by newest or oldest stories.
+    /// </summary>
+    public IReadOnlyCollection<AdminSelectOption> BuildSortOptions(string? selectedSort)
+    {
+        var normalizedSort = string.IsNullOrWhiteSpace(selectedSort)
+            ? "newest"
+            : selectedSort.ToLowerInvariant();
+
+        return new List<AdminSelectOption>
+        {
+            new("newest", "Newest", normalizedSort == "newest"),
+            new("oldest", "Oldest", normalizedSort == "oldest")
+        };
     }
 
     private static DateTime? ParseDateRange(string? dateRange)

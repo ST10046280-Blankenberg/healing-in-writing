@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using HealingInWriting.Domain.Stories;
@@ -22,6 +20,10 @@ namespace HealingInWriting.Areas.Admin.Controllers
             _storyService = storyService;
         }
 
+        /// <summary>
+        /// Displays the admin story management page with filtering, sorting, and pagination.
+        /// Delegates all business logic to the story service layer.
+        /// </summary>
         // GET: Admin/Stories/Manage
         public async Task<IActionResult> Manage(string? searchTerm, string? status, string? dateRange, string? tag, string? sortOrder, int page = 1)
         {
@@ -47,20 +49,20 @@ namespace HealingInWriting.Areas.Admin.Controllers
                 currentPage,
                 pageSize);
 
-            // Get status counts (presentation logic)
+            // Get all stories for dropdowns and status counts
             var allStories = await _storyService.GetAllStoriesForAdminAsync();
-            var statusCounts = CalculateStatusCounts(allStories);
+            var statusCounts = _storyService.CalculateStatusCounts(allStories);
 
-            // Map to view models
+            // Map to view models using service methods
             var storyViewModels = stories.Select(story => new AdminStoryListItemViewModel
             {
                 StoryId = story.StoryId,
                 Title = story.Title,
-                AuthorName = ResolveAuthorName(story),
+                AuthorName = _storyService.ResolveAuthorName(story),
                 CreatedAt = story.CreatedAt,
                 Status = story.Status,
                 StatusText = story.Status.ToString(),
-                StatusBadgeClass = GetStatusBadgeClass(story.Status)
+                StatusBadgeClass = _storyService.GetStatusBadgeClass(story.Status)
             }).ToList();
 
             var totalPages = Math.Max((int)Math.Ceiling(totalCount / (double)pageSize), 1);
@@ -77,10 +79,10 @@ namespace HealingInWriting.Areas.Admin.Controllers
                     SortOrder = normalizedSortOrder,
                     Page = currentPage
                 },
-                StatusOptions = BuildStatusOptions(status),
-                DateOptions = BuildDateOptions(dateRange),
-                TagOptions = BuildTagOptions(tag, allStories),
-                SortOptions = BuildSortOptions(normalizedSortOrder),
+                StatusOptions = _storyService.BuildStatusOptions(status),
+                DateOptions = _storyService.BuildDateOptions(dateRange),
+                TagOptions = _storyService.BuildTagOptions(tag, allStories),
+                SortOptions = _storyService.BuildSortOptions(normalizedSortOrder),
                 PendingCount = statusCounts.GetValueOrDefault(StoryStatus.Submitted),
                 PublishedCount = statusCounts.GetValueOrDefault(StoryStatus.Published),
                 DraftCount = statusCounts.GetValueOrDefault(StoryStatus.Draft),
@@ -124,130 +126,10 @@ namespace HealingInWriting.Areas.Admin.Controllers
             return RedirectToAction(nameof(Manage));
         }
 
-        private static string ResolveAuthorName(Story story)
-        {
-            if (story.IsAnonymous)
-            {
-                return "Anonymous";
-            }
-
-            var firstName = story.Author?.User?.FirstName;
-            var lastName = story.Author?.User?.LastName;
-
-            var nameParts = new[] { firstName, lastName }
-                .Where(part => !string.IsNullOrWhiteSpace(part))
-                .ToArray();
-
-            if (nameParts.Any())
-            {
-                return string.Join(" ", nameParts);
-            }
-
-            if (!string.IsNullOrWhiteSpace(story.Author?.User?.Email))
-            {
-                return story.Author!.User!.Email!;
-            }
-
-            return story.Author?.UserId ?? "Unknown";
-        }
-
-        private static string GetStatusBadgeClass(StoryStatus status)
-        {
-            return status switch
-            {
-                StoryStatus.Submitted => "manage-stories__status-badge--submitted",
-                StoryStatus.Published => "manage-stories__status-badge--published",
-                StoryStatus.Rejected => "manage-stories__status-badge--rejected",
-                StoryStatus.Draft => "manage-stories__status-badge--pending",
-                StoryStatus.Archived => "manage-stories__status-badge--approved",
-                _ => "manage-stories__status-badge"
-            };
-        }
-
-        private static Dictionary<StoryStatus, int> CalculateStatusCounts(IEnumerable<Story> stories)
-        {
-            return stories
-                .GroupBy(story => story.Status)
-                .ToDictionary(group => group.Key, group => group.Count());
-        }
-
-
-        private static IReadOnlyCollection<AdminSelectOption> BuildStatusOptions(string? selectedStatus)
-        {
-            var options = new List<AdminSelectOption>
-            {
-                new("", "Any Status", string.IsNullOrWhiteSpace(selectedStatus))
-            };
-
-            foreach (var status in Enum.GetValues(typeof(StoryStatus)).Cast<StoryStatus>())
-            {
-                options.Add(new AdminSelectOption(
-                    status.ToString(),
-                    CultureInfo.CurrentCulture.TextInfo.ToTitleCase(status.ToString().Replace("_", " ").ToLowerInvariant()),
-                    string.Equals(selectedStatus, status.ToString(), StringComparison.OrdinalIgnoreCase)));
-            }
-
-            return options;
-        }
-
-        private static IReadOnlyCollection<AdminSelectOption> BuildDateOptions(string? selectedDate)
-        {
-            var options = new List<AdminSelectOption>
-            {
-                new("any", "Any Date", string.IsNullOrWhiteSpace(selectedDate) || selectedDate.Equals("any", StringComparison.OrdinalIgnoreCase)),
-                new("last7", "Last 7 days", string.Equals(selectedDate, "last7", StringComparison.OrdinalIgnoreCase)),
-                new("last30", "Last 30 days", string.Equals(selectedDate, "last30", StringComparison.OrdinalIgnoreCase)),
-                new("last90", "Last 90 days", string.Equals(selectedDate, "last90", StringComparison.OrdinalIgnoreCase)),
-                new("this-year", "This year", string.Equals(selectedDate, "this-year", StringComparison.OrdinalIgnoreCase))
-            };
-
-            return options;
-        }
-
-        private static IReadOnlyCollection<AdminSelectOption> BuildTagOptions(string? selectedTag, IEnumerable<Story> stories)
-        {
-            var tags = stories
-                .SelectMany(story => story.Tags)
-                .Select(tag => tag.Name)
-                .Where(name => !string.IsNullOrWhiteSpace(name))
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .OrderBy(name => name, StringComparer.OrdinalIgnoreCase)
-                .ToList();
-
-            var options = new List<AdminSelectOption>
-            {
-                new("", "Any Tag", string.IsNullOrWhiteSpace(selectedTag))
-            };
-
-            foreach (var tag in tags)
-            {
-                options.Add(new AdminSelectOption(tag, tag, string.Equals(tag, selectedTag, StringComparison.OrdinalIgnoreCase)));
-            }
-
-            // Preserve manually entered tags even if not present in dataset
-            if (!string.IsNullOrWhiteSpace(selectedTag)
-                && options.All(option => !string.Equals(option.Value, selectedTag, StringComparison.OrdinalIgnoreCase)))
-            {
-                options.Add(new AdminSelectOption(selectedTag, selectedTag, true));
-            }
-
-            return options;
-        }
-
-        private static IReadOnlyCollection<AdminSelectOption> BuildSortOptions(string? selectedSort)
-        {
-            var normalizedSort = string.IsNullOrWhiteSpace(selectedSort)
-                ? "newest"
-                : selectedSort.ToLowerInvariant();
-
-            return new List<AdminSelectOption>
-            {
-                new("newest", "Newest", normalizedSort == "newest"),
-                new("oldest", "Oldest", normalizedSort == "oldest")
-            };
-        }
-
-
+        /// <summary>
+        /// Safely redirects to a local URL if valid, otherwise returns null.
+        /// Prevents open redirect vulnerabilities by validating the URL.
+        /// </summary>
         private RedirectResult? RedirectToSafeUrl(string? returnUrl)
         {
             if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))

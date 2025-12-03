@@ -97,9 +97,9 @@ namespace HealingInWriting.Areas.Admin.Controllers
                     SortOrder = normalizedSortOrder,
                     Page = currentPage
                 },
-                StatusOptions = BuildStatusOptions(status),
-                DateOptions = BuildDateOptions(dateRange),
-                SortOptions = BuildSortOptions(normalizedSortOrder),
+                StatusOptions = _eventService.BuildStatusOptions(status),
+                DateOptions = _eventService.BuildDateOptions(dateRange),
+                SortOptions = _eventService.BuildSortOptions(normalizedSortOrder),
                 CurrentPage = currentPage,
                 TotalPages = totalPages,
                 PageSize = pageSize,
@@ -371,115 +371,32 @@ namespace HealingInWriting.Areas.Admin.Controllers
         }
 
 
+        /// <summary>
+        /// Seeds the database with sample event data for testing purposes.
+        /// This action delegates all seeding logic to the event service.
+        /// </summary>
+        /// <returns>Redirects to the Manage view with success or error message</returns>
         //TODO Remove in production
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SeedEvents()
         {
-            try
+            // Get the admin user ID (current user)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "admin-seed";
+
+            // Delegate seeding logic to service layer
+            var errorMessage = await _eventService.SeedEventsAsync(userId, eventCount: 10);
+
+            if (string.IsNullOrEmpty(errorMessage))
             {
-                // Get the admin user ID (current user)
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "admin-seed";
-                var random = new Random();
-
-                for (int i = 1; i <= 10; i++)
-                {
-                    var model = new CreateEventViewModel
-                    {
-                        Title = $"Seeded Event {i}",
-                        Description = $"This is a seeded event number {i}.",
-                        EventType = (i % 2 == 0) ? EventType.Workshop : EventType.CommunityEvent,
-                        EventStatus = EventStatus.Published,
-                        EventDate = DateTime.Today.AddDays(i),
-                        StartTime = new TimeSpan(9 + i % 5, 0, 0),
-                        EndTime = new TimeSpan(10 + i % 5, 0, 0),
-                        Capacity = 20 + i,
-                        StreetAddress = $"123{i} Main St",
-                        Suburb = $"Suburb {i}",
-                        City = "Cape Town",
-                        Province = "Western Cape",
-                        PostalCode = "8000",
-                        Latitude = -33.9 + i * 0.01,
-                        Longitude = 18.4 + i * 0.01,
-                        Tags = "seed,auto"
-                    };
-
-                    var eventId = await _eventService.CreateEventAsync(model, userId);
-
-                    // Seed a random number of guest registrations (between 1 and event capacity)
-                    int guestCount = random.Next(1, model.Capacity + 1);
-                    for (int r = 1; r <= guestCount; r++)
-                    {
-                        var guestName = $"Guest {r} for Event {i}";
-                        var guestEmail = $"guest{r}_event{i}@example.com";
-                        await _registrationService.RegisterGuestAsync(
-                            eventId,
-                            guestName,
-                            guestEmail,
-                            ipAddress: null,
-                            guestPhone: null,
-                            isAdminOverride: true
-                        );
-                    }
-                }
-
                 TempData["SuccessMessage"] = "10 events with a random number of registrations have been seeded.";
             }
-            catch (Exception ex)
+            else
             {
-                TempData["ErrorMessage"] = $"Seeding failed: {ex.Message}";
+                TempData["ErrorMessage"] = errorMessage;
             }
 
             return RedirectToAction(nameof(Manage));
-        }
-
-        private static List<AdminDropdownOption> BuildStatusOptions(string? selectedStatus)
-        {
-            return Enum.GetValues<EventStatus>()
-                .Select(s => new AdminDropdownOption
-                {
-                    Value = s.ToString(),
-                    Text = s.ToString(),
-                    Selected = s.ToString().Equals(selectedStatus, StringComparison.OrdinalIgnoreCase)
-                })
-                .ToList();
-        }
-
-        private static List<AdminDropdownOption> BuildDateOptions(string? selectedRange)
-        {
-            var options = new[]
-            {
-                ("upcoming", "Upcoming Events"),
-                ("past", "Past Events"),
-                ("this-week", "This Week"),
-                ("this-month", "This Month"),
-                ("next-30", "Next 30 Days")
-            };
-
-            return options.Select(o => new AdminDropdownOption
-            {
-                Value = o.Item1,
-                Text = o.Item2,
-                Selected = o.Item1.Equals(selectedRange, StringComparison.OrdinalIgnoreCase)
-            }).ToList();
-        }
-
-        private static List<AdminDropdownOption> BuildSortOptions(string? selectedSort)
-        {
-            var options = new[]
-            {
-                ("date-asc", "Date (Upcoming First)"),
-                ("date-desc", "Date (Latest First)"),
-                ("oldest", "Oldest Created"),
-                ("newest", "Newest Created")
-            };
-
-            return options.Select(o => new AdminDropdownOption
-            {
-                Value = o.Item1,
-                Text = o.Item2,
-                Selected = o.Item1.Equals(selectedSort, StringComparison.OrdinalIgnoreCase)
-            }).ToList();
         }
     }
 }

@@ -310,6 +310,26 @@ public class BookService : IBookService
         await _bookRepository.UpdateAsync(book);
     }
 
+    /// <summary>
+    /// Sets the visibility status of a book.
+    /// Retrieves the book by ID, updates its visibility property, and persists the change.
+    /// </summary>
+    /// <param name="bookId">The unique identifier of the book.</param>
+    /// <param name="isVisible">The visibility status to set.</param>
+    /// <returns>True if the book was found and updated; otherwise, false.</returns>
+    public async Task<bool> SetBookVisibilityAsync(int bookId, bool isVisible)
+    {
+        var book = await _bookRepository.GetByIdAsync(bookId);
+        if (book == null)
+        {
+            return false;
+        }
+
+        book.IsVisible = isVisible;
+        await _bookRepository.UpdateAsync(book);
+        return true;
+    }
+
     #endregion
 
     #region Mapping Methods

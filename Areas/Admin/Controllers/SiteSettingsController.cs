@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using HealingInWriting.Interfaces.Services;
@@ -19,20 +18,17 @@ namespace HealingInWriting.Areas.Admin.Controllers
         private readonly IPrivacyPolicyService _privacyPolicyService;
         private readonly IOurImpactService _ourImpactService;
         private readonly IGalleryService _galleryService;
-        private readonly IBlobStorageService _blobStorageService;
 
         public SiteSettingsController(
             IBankDetailsService bankDetailsService,
             IPrivacyPolicyService privacyPolicyService,
             IOurImpactService ourImpactService,
-            IGalleryService galleryService,
-            IBlobStorageService blobStorageService)
+            IGalleryService galleryService)
         {
             _bankDetailsService = bankDetailsService;
             _privacyPolicyService = privacyPolicyService;
             _ourImpactService = ourImpactService;
             _galleryService = galleryService;
-            _blobStorageService = blobStorageService;
         }
 
         [HttpGet]
@@ -185,10 +181,15 @@ namespace HealingInWriting.Areas.Admin.Controllers
             }
         }
 
+        /// <summary>
+        /// Handles gallery image upload requests with validation and delegates processing to the gallery service.
+        /// Validates inputs, calls the service layer, and provides user feedback via TempData.
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddGalleryItem(List<IFormFile> images, string altText, bool isAlbum, int? albumPhotoCount, string collectionId)
         {
+            // Input validation
             if (images == null || images.Count == 0)
             {
                 TempData["GalleryError"] = "Please select at least one image to upload.";
@@ -208,39 +209,16 @@ namespace HealingInWriting.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
 
-            int successCount = 0;
-            int failCount = 0;
-            string lastError = "";
+            // Delegate upload logic to service
+            var (successCount, failCount, lastError) = await _galleryService.AddMultipleGalleryItemsAsync(
+                images,
+                altText,
+                isAlbum,
+                albumPhotoCount,
+                collectionId,
+                User.Identity?.Name ?? "System");
 
-            foreach (var image in images)
-            {
-                if (image.Length == 0) continue;
-
-                try
-                {
-                    // Upload image to Azure Blob Storage (public container)
-                    // BlobStorageService handles validation (file type, size, etc.)
-                    var imageUrl = await _blobStorageService.UploadImageAsync(image, "gallery", isPublic: true);
-
-                    var entity = new HealingInWriting.Domain.Gallery.GalleryItem
-                    {
-                        ImageUrl = imageUrl,
-                        AltText = altText, // Use same alt text for all images in batch
-                        IsAlbum = isAlbum,
-                        AlbumPhotoCount = albumPhotoCount,
-                        CollectionId = !string.IsNullOrWhiteSpace(collectionId) ? collectionId : null,
-                        CreatedDate = DateTime.UtcNow
-                    };
-                    await _galleryService.AddAsync(entity, User.Identity?.Name ?? "System");
-                    successCount++;
-                }
-                catch (Exception ex)
-                {
-                    failCount++;
-                    lastError = ex.Message;
-                }
-            }
-
+            // Provide user feedback
             if (successCount > 0)
             {
                 TempData["GallerySuccess"] = $"{successCount} photo(s) added successfully.";
@@ -257,41 +235,24 @@ namespace HealingInWriting.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// Handles gallery item deletion by delegating to the service layer.
+        /// The service handles both blob storage and legacy file system cleanup.
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteGalleryItem(int id)
         {
             try
             {
-                var item = await _galleryService.GetByIdAsync(id);
-                if (item != null)
-                {
-                    // Check if this is a blob storage URL or local file path
-                    if (item.ImageUrl.StartsWith("https://") || item.ImageUrl.StartsWith("http://"))
-                    {
-                        // Delete from Azure Blob Storage
-                        await _blobStorageService.DeleteImageAsync(item.ImageUrl, isPublic: true);
-                    }
-                    else
-                    {
-                        // Legacy: Delete physical file from disk (for old local images)
-                        var imagePath = item.ImageUrl.TrimStart('/');
-                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", imagePath);
-
-                        if (System.IO.File.Exists(filePath))
-                        {
-                            System.IO.File.Delete(filePath);
-                        }
-                    }
-
-                    // Delete from database
-                    await _galleryService.DeleteAsync(id);
-                    TempData["GallerySuccess"] = "Photo deleted successfully.";
-                }
-                else
-                {
-                    TempData["GalleryError"] = "Photo not found.";
-                }
+                // Delegate deletion logic to service (handles image and database cleanup)
+                await _galleryService.DeleteGalleryItemWithImageAsync(id);
+                TempData["GallerySuccess"] = "Photo deleted successfully.";
+            }
+            catch (InvalidOperationException ex)
+            {
+                // Item not found
+                TempData["GalleryError"] = ex.Message;
             }
             catch (Exception ex)
             {
