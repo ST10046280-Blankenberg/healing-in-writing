@@ -201,8 +201,8 @@
                             required
                             aria-describedby="acceptTerms-error" />
                         <label for="acceptTerms" class="auth__checkbox-label">
-                            I accept the <a href="/Home/Terms" target="_blank" rel="noopener noreferrer">Terms of Service</a>
-                            and <a href="/Home/Privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+                            I accept the <a href="@Url.Action("TermsOfService", "Home", new { area = "" })" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+                            and <a href="@Url.Action("Privacy", "Home", new { area = "" })" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
                         </label>
                         <span id="acceptTerms-error" class="auth__error-message" data-valmsg-for="AcceptTerms" data-valmsg-replace="true"></span>
                     </div>
