@@ -97,9 +97,9 @@ namespace HealingInWriting.Areas.Admin.Controllers
                     SortOrder = normalizedSortOrder,
                     Page = currentPage
                 },
-                StatusOptions = BuildStatusOptions(status),
-                DateOptions = BuildDateOptions(dateRange),
-                SortOptions = BuildSortOptions(normalizedSortOrder),
+                StatusOptions = _eventService.BuildStatusOptions(status),
+                DateOptions = _eventService.BuildDateOptions(dateRange),
+                SortOptions = _eventService.BuildSortOptions(normalizedSortOrder),
                 CurrentPage = currentPage,
                 TotalPages = totalPages,
                 PageSize = pageSize,
@@ -397,55 +397,6 @@ namespace HealingInWriting.Areas.Admin.Controllers
             }
 
             return RedirectToAction(nameof(Manage));
-        }
-
-        private static List<AdminDropdownOption> BuildStatusOptions(string? selectedStatus)
-        {
-            return Enum.GetValues<EventStatus>()
-                .Select(s => new AdminDropdownOption
-                {
-                    Value = s.ToString(),
-                    Text = s.ToString(),
-                    Selected = s.ToString().Equals(selectedStatus, StringComparison.OrdinalIgnoreCase)
-                })
-                .ToList();
-        }
-
-        private static List<AdminDropdownOption> BuildDateOptions(string? selectedRange)
-        {
-            var options = new[]
-            {
-                ("upcoming", "Upcoming Events"),
-                ("past", "Past Events"),
-                ("this-week", "This Week"),
-                ("this-month", "This Month"),
-                ("next-30", "Next 30 Days")
-            };
-
-            return options.Select(o => new AdminDropdownOption
-            {
-                Value = o.Item1,
-                Text = o.Item2,
-                Selected = o.Item1.Equals(selectedRange, StringComparison.OrdinalIgnoreCase)
-            }).ToList();
-        }
-
-        private static List<AdminDropdownOption> BuildSortOptions(string? selectedSort)
-        {
-            var options = new[]
-            {
-                ("date-asc", "Date (Upcoming First)"),
-                ("date-desc", "Date (Latest First)"),
-                ("oldest", "Oldest Created"),
-                ("newest", "Newest Created")
-            };
-
-            return options.Select(o => new AdminDropdownOption
-            {
-                Value = o.Item1,
-                Text = o.Item2,
-                Selected = o.Item1.Equals(selectedSort, StringComparison.OrdinalIgnoreCase)
-            }).ToList();
         }
     }
 }

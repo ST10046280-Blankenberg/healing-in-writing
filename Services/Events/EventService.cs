@@ -4,6 +4,7 @@ using HealingInWriting.Domain.Shared;
 using HealingInWriting.Interfaces.Repository;
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Events;
+using HealingInWriting.Models.Shared;
 using HealingInWriting.Mapping;
 using Microsoft.EntityFrameworkCore;
 
@@ -413,6 +414,67 @@ public class EventService : IEventService
         {
             return $"Seeding failed: {ex.Message}";
         }
+    }
+
+    /// <summary>
+    /// Builds a list of status filter options for admin dropdowns with the selected value highlighted.
+    /// Provides options for all event statuses to allow filtering.
+    /// </summary>
+    public List<AdminDropdownOption> BuildStatusOptions(string? selectedStatus)
+    {
+        return Enum.GetValues<EventStatus>()
+            .Select(s => new AdminDropdownOption
+            {
+                Value = s.ToString(),
+                Text = s.ToString(),
+                Selected = s.ToString().Equals(selectedStatus, StringComparison.OrdinalIgnoreCase)
+            })
+            .ToList();
+    }
+
+    /// <summary>
+    /// Builds a list of date range filter options for admin dropdowns with the selected value highlighted.
+    /// Provides common date ranges such as upcoming, past, this week, this month, and next 30 days.
+    /// </summary>
+    public List<AdminDropdownOption> BuildDateOptions(string? selectedRange)
+    {
+        var options = new[]
+        {
+            ("upcoming", "Upcoming Events"),
+            ("past", "Past Events"),
+            ("this-week", "This Week"),
+            ("this-month", "This Month"),
+            ("next-30", "Next 30 Days")
+        };
+
+        return options.Select(o => new AdminDropdownOption
+        {
+            Value = o.Item1,
+            Text = o.Item2,
+            Selected = o.Item1.Equals(selectedRange, StringComparison.OrdinalIgnoreCase)
+        }).ToList();
+    }
+
+    /// <summary>
+    /// Builds a list of sort order options for admin dropdowns with the selected value highlighted.
+    /// Provides options for sorting by event date and creation date in both ascending and descending order.
+    /// </summary>
+    public List<AdminDropdownOption> BuildSortOptions(string? selectedSort)
+    {
+        var options = new[]
+        {
+            ("date-asc", "Date (Upcoming First)"),
+            ("date-desc", "Date (Latest First)"),
+            ("oldest", "Oldest Created"),
+            ("newest", "Newest Created")
+        };
+
+        return options.Select(o => new AdminDropdownOption
+        {
+            Value = o.Item1,
+            Text = o.Item2,
+            Selected = o.Item1.Equals(selectedSort, StringComparison.OrdinalIgnoreCase)
+        }).ToList();
     }
 
     private static (DateTime StartDate, DateTime? EndDate)? ParseEventDateRange(string? dateRange)
