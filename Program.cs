@@ -262,6 +262,13 @@ using (var scope = app.Services.CreateScope())
         logger.LogWarning("Google Books API key is not configured. Admin ISBN import and book seeding will be disabled until ApiKeys:GoogleBooks is provided via user secrets or environment configuration.");
     }
 
+    var devConnectionString = configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
+    if (app.Environment.IsDevelopment()
+        && devConnectionString.Contains("database.windows.net", StringComparison.OrdinalIgnoreCase))
+    {
+        logger.LogWarning("Development is configured to use an Azure SQL connection string. Use a local SQLite database or a dedicated dev SQL instance to avoid production data access.");
+    }
+
     try
     {
         // Development: Automatic database creation and migration
