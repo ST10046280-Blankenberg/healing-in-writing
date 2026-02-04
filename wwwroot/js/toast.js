@@ -128,11 +128,26 @@ const ToastManager = (function () {
             content.appendChild(message);
         }
 
-        // Close button
+        // Close button with inline SVG (Lucide X icon)
         const closeButton = document.createElement('button');
         closeButton.className = 'toast__close';
         closeButton.setAttribute('aria-label', 'Close notification');
-        closeButton.innerHTML = '<i class="fas fa-xmark"></i>';
+        const closeSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        closeSvg.setAttribute('width', '16');
+        closeSvg.setAttribute('height', '16');
+        closeSvg.setAttribute('viewBox', '0 0 24 24');
+        closeSvg.setAttribute('fill', 'none');
+        closeSvg.setAttribute('stroke', 'currentColor');
+        closeSvg.setAttribute('stroke-width', '2');
+        closeSvg.setAttribute('stroke-linecap', 'round');
+        closeSvg.setAttribute('stroke-linejoin', 'round');
+        const path1 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path1.setAttribute('d', 'M18 6 6 18');
+        const path2 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path2.setAttribute('d', 'm6 6 12 12');
+        closeSvg.appendChild(path1);
+        closeSvg.appendChild(path2);
+        closeButton.appendChild(closeSvg);
         closeButton.addEventListener('click', () => removeToast(toast));
 
         // Assemble toast

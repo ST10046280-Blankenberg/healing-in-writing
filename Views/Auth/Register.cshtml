@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="~/css/views/auth.css" />
     <link rel="stylesheet" href="~/css/shared/button-loading.css" />
     <link rel="stylesheet" href="~/css/shared/toast.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/shared/icons.css" />
 </head>
 
 <body>
@@ -90,7 +90,7 @@
                         <div class="auth__validation-summary" role="alert">
                             <div
                                 style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; font-weight: 600;">
-                                <i class="fas fa-exclamation-circle"></i> Please correct the following errors:
+                                <i data-lucide="circle-alert" aria-hidden="true"></i> Please correct the following errors:
                             </div>
                             @Html.ValidationSummary(false, "", new { @class = "" })
                         </div>
@@ -123,7 +123,14 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide/dist/umd/lucide.min.js"></script>
     <script src="~/js/toast.js"></script>
+    <script>
+        // Initialize Lucide icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    </script>
     <script>
         // Form submission handler with loading state
         document.addEventListener('DOMContentLoaded', function() {

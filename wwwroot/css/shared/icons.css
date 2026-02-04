@@ -1,0 +1,109 @@
+/* ==========================================================================
+   Icons - Lucide Icon Utilities
+   ========================================================================== */
+
+/**
+ * Base Lucide icon styles
+ * Lucide icons are SVG-based and rendered via data-lucide attribute
+ */
+.lucide {
+    width: 1.25em;
+    height: 1.25em;
+    stroke-width: 2;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+/* ==========================================================================
+   Icon Size Utilities
+   ========================================================================== */
+
+.icon--xs {
+    width: 0.75rem;
+    height: 0.75rem;
+}
+
+.icon--sm {
+    width: 1rem;
+    height: 1rem;
+}
+
+.icon--md {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.icon--lg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.icon--xl {
+    width: 2rem;
+    height: 2rem;
+}
+
+/* ==========================================================================
+   Icon Color Utilities
+   ========================================================================== */
+
+.icon--brand {
+    color: var(--brand-700);
+}
+
+.icon--success {
+    color: var(--color-success);
+}
+
+.icon--error {
+    color: var(--color-error);
+}
+
+.icon--warning {
+    color: var(--color-warning);
+}
+
+.icon--info {
+    color: var(--color-info);
+}
+
+.icon--muted {
+    color: var(--neutral-400);
+}
+
+/* ==========================================================================
+   Icon Container Utilities
+   ========================================================================== */
+
+/**
+ * Inline icon - for icons next to text
+ */
+.icon-inline {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+}
+
+/**
+ * Icon button - for icon-only interactive elements
+ */
+.icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: background-color 0.2s ease;
+}
+
+.icon-btn:hover {
+    background-color: var(--neutral-100);
+}
+
+.icon-btn:focus-visible {
+    outline: 2px solid var(--brand-500);
+    outline-offset: 2px;
+}

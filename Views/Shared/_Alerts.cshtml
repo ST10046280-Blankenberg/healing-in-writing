@@ -1,10 +1,10 @@
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <i class="fas fa-check-circle"></i>
+        <i data-lucide="circle-check" aria-hidden="true"></i>
         @TempData["SuccessMessage"]
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-            <i class="fas fa-times"></i>
+            <i data-lucide="x" aria-hidden="true"></i>
         </button>
     </div>
 }
@@ -12,10 +12,10 @@
 @if (TempData["ErrorMessage"] != null)
 {
     <div class="alert alert-error alert-dismissible fade show" role="alert">
-        <i class="fas fa-exclamation-circle"></i>
+        <i data-lucide="circle-alert" aria-hidden="true"></i>
         @TempData["ErrorMessage"]
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-            <i class="fas fa-times"></i>
+            <i data-lucide="x" aria-hidden="true"></i>
         </button>
     </div>
 }
@@ -23,10 +23,10 @@
 @if (TempData["WarningMessage"] != null)
 {
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <i class="fas fa-exclamation-triangle"></i>
+        <i data-lucide="triangle-alert" aria-hidden="true"></i>
         @TempData["WarningMessage"]
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-            <i class="fas fa-times"></i>
+            <i data-lucide="x" aria-hidden="true"></i>
         </button>
     </div>
 }
@@ -34,10 +34,10 @@
 @if (TempData["InfoMessage"] != null)
 {
     <div class="alert alert-info alert-dismissible fade show" role="alert">
-        <i class="fas fa-info-circle"></i>
+        <i data-lucide="info" aria-hidden="true"></i>
         @TempData["InfoMessage"]
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-            <i class="fas fa-times"></i>
+            <i data-lucide="x" aria-hidden="true"></i>
         </button>
     </div>
 }

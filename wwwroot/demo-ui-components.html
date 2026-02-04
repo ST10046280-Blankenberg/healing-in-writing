@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/shared/button-loading.css" />
     <link rel="stylesheet" href="css/shared/toast.css" />
     <link rel="stylesheet" href="css/shared/alerts.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="css/shared/icons.css" />
     <style>
         body {
             padding: var(--spacing-2xl);
@@ -117,7 +117,7 @@
 
     <!-- Toast Notifications Demo -->
     <div class="demo-section">
-        <h2><i class="fas fa-bell"></i> Toast Notifications</h2>
+        <h2><i data-lucide="bell" aria-hidden="true"></i> Toast Notifications</h2>
 
         <div class="position-selector">
             <label for="toastPosition">Toast Position:</label>
@@ -134,16 +134,16 @@
         <h3>Basic Toast Types</h3>
         <div class="demo-grid">
             <button class="demo-button" onclick="showSuccessToast()">
-                <i class="fas fa-circle-check"></i> Success Toast
+                <i data-lucide="circle-check" aria-hidden="true"></i> Success Toast
             </button>
             <button class="demo-button" onclick="showErrorToast()">
-                <i class="fas fa-circle-xmark"></i> Error Toast
+                <i data-lucide="circle-x" aria-hidden="true"></i> Error Toast
             </button>
             <button class="demo-button" onclick="showWarningToast()">
-                <i class="fas fa-triangle-exclamation"></i> Warning Toast
+                <i data-lucide="triangle-alert" aria-hidden="true"></i> Warning Toast
             </button>
             <button class="demo-button" onclick="showInfoToast()">
-                <i class="fas fa-circle-info"></i> Info Toast
+                <i data-lucide="info" aria-hidden="true"></i> Info Toast
             </button>
         </div>
 
@@ -164,7 +164,7 @@
         </div>
 
         <button class="demo-button" onclick="ToastManager.clearAll()" style="background: var(--color-error); max-width: 300px;">
-            <i class="fas fa-trash"></i> Clear All Toasts
+            <i data-lucide="trash-2" aria-hidden="true"></i> Clear All Toasts
         </button>
 
         <div class="code-block">
@@ -177,7 +177,7 @@ ToastManager.info('Did You Know?', 'You can use keyboard shortcuts.');
 
     <!-- Button Loading States Demo -->
     <div class="demo-section">
-        <h2><i class="fas fa-spinner"></i> Button Loading States</h2>
+        <h2><i data-lucide="loader" aria-hidden="true"></i> Button Loading States</h2>
 
         <h3>Standard Loading Spinner</h3>
         <div class="demo-grid">
@@ -227,31 +227,31 @@ button.disabled = false;
 
     <!-- Static Alerts Demo -->
     <div class="demo-section">
-        <h2><i class="fas fa-exclamation-circle"></i> Static Alerts</h2>
+        <h2><i data-lucide="circle-alert" aria-hidden="true"></i> Static Alerts</h2>
 
         <div class="alert alert-success">
-            <i class="fas fa-circle-check"></i>
+            <i data-lucide="circle-check" aria-hidden="true"></i>
             <div>
                 <strong>Success!</strong> Your account has been created successfully.
             </div>
         </div>
 
         <div class="alert alert-error">
-            <i class="fas fa-circle-xmark"></i>
+            <i data-lucide="circle-x" aria-hidden="true"></i>
             <div>
                 <strong>Error!</strong> Unable to process your request. Please try again.
             </div>
         </div>
 
         <div class="alert alert-warning">
-            <i class="fas fa-triangle-exclamation"></i>
+            <i data-lucide="triangle-alert" aria-hidden="true"></i>
             <div>
                 <strong>Warning!</strong> Your session will expire in 5 minutes.
             </div>
         </div>
 
         <div class="alert alert-info">
-            <i class="fas fa-circle-info"></i>
+            <i data-lucide="info" aria-hidden="true"></i>
             <div>
                 <strong>Info:</strong> You have 3 new messages waiting for you.
             </div>
@@ -259,7 +259,7 @@ button.disabled = false;
 
         <div class="code-block">
 &lt;div class="alert alert-success"&gt;
-    &lt;i class="fas fa-circle-check"&gt;&lt;/i&gt;
+    &lt;i data-lucide="circle-check" aria-hidden="true"&gt;&lt;/i&gt;
     &lt;div&gt;Success message here&lt;/div&gt;
 &lt;/div&gt;
         </div>
@@ -267,11 +267,11 @@ button.disabled = false;
 
     <!-- Combined Demo -->
     <div class="demo-section">
-        <h2><i class="fas fa-rocket"></i> Combined Demo</h2>
+        <h2><i data-lucide="rocket" aria-hidden="true"></i> Combined Demo</h2>
         <p>Click to simulate a complete form submission flow:</p>
 
         <button class="demo-button" onclick="simulateFormFlow(this)" style="max-width: 400px;">
-            <i class="fas fa-paper-plane"></i> Simulate Complete Flow
+            <i data-lucide="send" aria-hidden="true"></i> Simulate Complete Flow
         </button>
 
         <p style="margin-top: var(--spacing-md); color: var(--neutral-400); font-size: var(--font-size-body-sm);">
@@ -279,8 +279,14 @@ button.disabled = false;
         </p>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/lucide/dist/umd/lucide.min.js"></script>
     <script src="js/toast.js"></script>
     <script>
+        // Initialize Lucide icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+
         // Toast Examples
         function showSuccessToast() {
             ToastManager.success('Success!', 'Operation completed successfully.');

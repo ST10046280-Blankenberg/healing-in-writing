@@ -1,3 +1,11 @@
+// Initialize Lucide icons
+// This must run after the DOM is loaded to convert data-lucide attributes to SVGs
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+});
+
 // Mobile navigation toggle functionality
 // Handles opening and closing the mobile menu with backdrop and focus management
 document.addEventListener('DOMContentLoaded', function() {

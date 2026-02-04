@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="~/css/views/auth.css" />
     <link rel="stylesheet" href="~/css/shared/button-loading.css" />
     <link rel="stylesheet" href="~/css/shared/toast.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/shared/icons.css" />
     <style>
         /* Hide validation summary as we show toasts instead */
         .auth__validation-summary {
@@ -224,8 +224,15 @@
         </section>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/lucide/dist/umd/lucide.min.js"></script>
     <script src="~/js/toast.js"></script>
     <script src="~/js/auth-toast-handler.js"></script>
     <script src="~/js/auth.js" asp-append-version="true"></script>
+    <script>
+        // Initialize Lucide icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    </script>
 </body>
 </html>
