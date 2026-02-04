@@ -16,13 +16,7 @@ const ToastManager = (function () {
         duration: 5000,            // Auto-dismiss duration in milliseconds
         showProgress: true,        // Show progress bar
         closeButton: true,         // Show close button
-        maxToasts: 5,              // Maximum number of toasts to display
-        icons: {
-            success: 'fa-circle-check',
-            error: 'fa-circle-xmark',
-            warning: 'fa-triangle-exclamation',
-            info: 'fa-circle-info'
-        }
+        maxToasts: 5               // Maximum number of toasts to display
     };
 
     let config = { ...DEFAULT_CONFIG };
@@ -107,10 +101,11 @@ const ToastManager = (function () {
         toast.className = `toast toast-${options.type}`;
         toast.setAttribute('role', options.type === 'error' ? 'alert' : 'status');
 
-        // Icon
+        // Icon (using inline SVG via DOM methods)
         const icon = document.createElement('div');
         icon.className = 'toast__icon';
-        icon.innerHTML = `<i class="fas ${config.icons[options.type]}"></i>`;
+        const iconSvg = createIconSvg(options.type);
+        icon.appendChild(iconSvg);
 
         // Content
         const content = document.createElement('div');
@@ -202,6 +197,58 @@ const ToastManager = (function () {
                 toastQueue.splice(index, 1);
             }
         }, { once: true });
+    }
+
+    /**
+     * Creates an SVG icon element for the given toast type
+     * @param {string} type - Toast type (success, error, warning, info)
+     * @returns {SVGElement} The SVG icon element
+     */
+    function createIconSvg(type) {
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('width', '20');
+        svg.setAttribute('height', '20');
+        svg.setAttribute('viewBox', '0 0 24 24');
+        svg.setAttribute('fill', 'none');
+        svg.setAttribute('stroke', 'currentColor');
+        svg.setAttribute('stroke-width', '2');
+        svg.setAttribute('stroke-linecap', 'round');
+        svg.setAttribute('stroke-linejoin', 'round');
+        svg.setAttribute('aria-hidden', 'true');
+
+        // Icon paths for each type (Lucide icons)
+        const iconPaths = {
+            success: [
+                { tag: 'circle', attrs: { cx: '12', cy: '12', r: '10' } },
+                { tag: 'path', attrs: { d: 'm9 12 2 2 4-4' } }
+            ],
+            error: [
+                { tag: 'circle', attrs: { cx: '12', cy: '12', r: '10' } },
+                { tag: 'path', attrs: { d: 'm15 9-6 6' } },
+                { tag: 'path', attrs: { d: 'm9 9 6 6' } }
+            ],
+            warning: [
+                { tag: 'path', attrs: { d: 'm21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3' } },
+                { tag: 'path', attrs: { d: 'M12 9v4' } },
+                { tag: 'path', attrs: { d: 'M12 17h.01' } }
+            ],
+            info: [
+                { tag: 'circle', attrs: { cx: '12', cy: '12', r: '10' } },
+                { tag: 'path', attrs: { d: 'M12 16v-4' } },
+                { tag: 'path', attrs: { d: 'M12 8h.01' } }
+            ]
+        };
+
+        const paths = iconPaths[type] || iconPaths.info;
+        paths.forEach(pathDef => {
+            const element = document.createElementNS('http://www.w3.org/2000/svg', pathDef.tag);
+            Object.entries(pathDef.attrs).forEach(([key, value]) => {
+                element.setAttribute(key, value);
+            });
+            svg.appendChild(element);
+        });
+
+        return svg;
     }
 
     /**

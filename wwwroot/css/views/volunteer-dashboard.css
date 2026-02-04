@@ -317,6 +317,14 @@
     color: #2563EB;
 }
 
+.notification__icon--warning {
+    background: #FEF3C7;
+}
+
+.notification__icon--warning svg {
+    color: #D97706;
+}
+
 .notification__icon--comment {
     background: rgba(202, 159, 157, 0.2);
 }

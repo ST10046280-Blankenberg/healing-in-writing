@@ -294,6 +294,28 @@
     width: 14px;
     height: 14px;
     flex-shrink: 0;
+    color: #FFFFFF;
+}
+
+/* Activity icon variants by type */
+.admin-dashboard__activity-icon--story {
+    background: #CA9F9D;
+}
+
+.admin-dashboard__activity-icon--event {
+    background: #E9D5EB;
+}
+
+.admin-dashboard__activity-icon--event svg {
+    color: var(--brand-700);
+}
+
+.admin-dashboard__activity-icon--hours {
+    background: rgba(47, 22, 72, 0.2);
+}
+
+.admin-dashboard__activity-icon--hours svg {
+    color: var(--brand-700);
 }
 
 /* Activity Content */
