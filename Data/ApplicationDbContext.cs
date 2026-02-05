@@ -38,6 +38,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<BankDetails> BankDetails { get; set; }
     public DbSet<Story> Stories { get; set; }
     public DbSet<PrivacyPolicy> PrivacyPolicies { get; set; }
+    public DbSet<TermsOfService> TermsOfServices { get; set; }
     public DbSet<OurImpact> OurImpacts { get; set; }
     public DbSet<GalleryItem> GalleryItems { get; set; }
     public DbSet<Volunteer> Volunteers { get; set; }

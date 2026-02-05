@@ -13,6 +13,9 @@ namespace HealingInWriting.Models.Common
         public PrivacyPolicyViewModel PrivacyPolicy { get; set; } = new PrivacyPolicyViewModel();
 
         [Required]
+        public TermsOfServiceViewModel TermsOfService { get; set; } = new TermsOfServiceViewModel();
+
+        [Required]
         public OurImpactViewModel OurImpact { get; set; } = new OurImpactViewModel();
         
         public List<GalleryItemViewModel> GalleryItems { get; set; } = new List<GalleryItemViewModel>();

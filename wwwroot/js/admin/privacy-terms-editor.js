@@ -1,39 +1,37 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('privacy-terms-form');
-    const textarea = document.querySelector('.privacy-editor__textarea');
-    
-    if (!form || !textarea) return;
+    const forms = document.querySelectorAll('.policy-editor-form');
 
-    // Toolbar button handlers
-    const toolbarButtons = document.querySelectorAll('.privacy-editor__toolbar-btn');
-    
-    toolbarButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            const title = this.getAttribute('title');
-            handleToolbarAction(title, textarea);
-        });
-    });
+    forms.forEach(form => {
+        const textarea = form.querySelector('.privacy-editor__textarea');
+        if (!textarea) return;
 
-    // Form submit handler
-    form.addEventListener('submit', function (e) {
-        const content = textarea.value.trim();
-        if (!content) {
-            e.preventDefault();
-            alert('Please enter privacy & terms content before saving.');
-            return false;
-        }
-    });
-
-    // Form reset handler
-    const discardBtn = document.querySelector('.privacy-editor__btn-discard');
-    if (discardBtn) {
-        discardBtn.addEventListener('click', function (e) {
-            if (!confirm('Are you sure you want to discard your changes?')) {
+        const toolbarButtons = form.querySelectorAll('.privacy-editor__toolbar-btn');
+        toolbarButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
                 e.preventDefault();
+                const title = this.getAttribute('title');
+                handleToolbarAction(title, textarea);
+            });
+        });
+
+        form.addEventListener('submit', function (e) {
+            const content = textarea.value.trim();
+            if (!content) {
+                e.preventDefault();
+                alert('Please enter policy content before saving.');
+                return false;
             }
         });
-    }
+
+        const discardBtn = form.querySelector('.privacy-editor__btn-discard');
+        if (discardBtn) {
+            discardBtn.addEventListener('click', function (e) {
+                if (!confirm('Are you sure you want to discard your changes?')) {
+                    e.preventDefault();
+                }
+            });
+        }
+    });
 });
 
 function handleToolbarAction(action, textarea) {
@@ -93,4 +91,3 @@ function handleToolbarAction(action, textarea) {
     // Trigger change event
     textarea.dispatchEvent(new Event('input', { bubbles: true }));
 }
-

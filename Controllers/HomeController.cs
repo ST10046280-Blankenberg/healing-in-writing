@@ -15,17 +15,23 @@ namespace HealingInWriting.Controllers
         private readonly IEventService _eventService;
         private readonly IStoryService _storyService;
         private readonly IOurImpactService _ourImpactService;
+        private readonly IPrivacyPolicyService _privacyPolicyService;
+        private readonly ITermsOfServiceService _termsOfServiceService;
 
         public HomeController(
             ILogger<HomeController> logger,
             IEventService eventService,
             IStoryService storyService,
-            IOurImpactService ourImpactService)
+            IOurImpactService ourImpactService,
+            IPrivacyPolicyService privacyPolicyService,
+            ITermsOfServiceService termsOfServiceService)
         {
             _logger = logger;
             _eventService = eventService;
             _storyService = storyService;
             _ourImpactService = ourImpactService;
+            _privacyPolicyService = privacyPolicyService;
+            _termsOfServiceService = termsOfServiceService;
         }
 
         public async Task<IActionResult> Index()
@@ -170,9 +176,10 @@ namespace HealingInWriting.Controllers
             return View(ourImpact != null ? ourImpact.ToViewModel() : new OurImpactViewModel());
         }
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> Privacy()
         {
-            return View();
+            var privacyPolicy = await _privacyPolicyService.GetAsync();
+            return View(privacyPolicy.ToViewModel());
         }
 
         // TODO: Let the service surface diagnostics while the controller returns the view.
@@ -192,9 +199,10 @@ namespace HealingInWriting.Controllers
             return View();
         } 
         
-        public IActionResult TermsOfService()
+        public async Task<IActionResult> TermsOfService()
         {
-            return View();
+            var terms = await _termsOfServiceService.GetAsync();
+            return View(terms.ToViewModel());
         }
         
         public IActionResult FAQ()
