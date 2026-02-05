@@ -7,7 +7,9 @@
 @section Styles {
     <link rel="stylesheet" href="~/css/views/stories.css" asp-append-version="true" />
     <!-- Quill Editor CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet"
+          integrity="sha384-ecIckRi4QlKYya/FQUbBUjS4qp65jF/J87Guw5uzTbO1C1Jfa/6kYmd6dXUF6D7i"
+          crossorigin="anonymous">
 }
 
 <main class="story-submit" data-user-id="@userId">
@@ -186,9 +188,10 @@
 
 @section Scripts {
     <!-- Quill Editor JS -->
-    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"
+            integrity="sha384-utBUCeG4SYaCm4m7GQZYr8Hy8Fpy3V4KGjBZaf4WTKOcwhCYpt/0PfeEe3HNlwx8"
+            crossorigin="anonymous"></script>
     <!-- Tag Manager -->
     <script src="~/js/shared/tag-manager.js" asp-append-version="true"></script>
     <script src="~/js/story-submit.js" asp-append-version="true"></script>
 }
-
