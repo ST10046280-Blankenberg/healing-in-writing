@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const item = currentGroup[currentIndex];
         lightboxImg.src = item.src;
-        captionText.innerHTML = item.alt;
+        captionText.textContent = item.alt;
 
         // Show/hide nav buttons
         if (currentGroup.length > 1) {

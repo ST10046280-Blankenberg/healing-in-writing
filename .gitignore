@@ -155,3 +155,5 @@ build/
 /config/local/
 # Azure CLI local config directory
 .azure_cli_home/
+# Local security audit reports
+security_best_practices_report.md
