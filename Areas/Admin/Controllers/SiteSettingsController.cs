@@ -118,51 +118,6 @@ namespace HealingInWriting.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdatePrivacyPolicy([Bind(Prefix = "PrivacyPolicy")] PrivacyPolicyViewModel privacyPolicyVm)
         {
-            privacyPolicyVm.ContentFormat = Domain.Common.PolicyContentFormat.Html;
-            if (!ModelState.IsValid)
-            {
-                // Re-fetch other data for the view model
-                var bankDetails = await _bankDetailsService.GetAsync();
-                var termsOfService = await _termsOfServiceService.GetAsync();
-                var ourImpact = await _ourImpactService.GetAsync();
-                var model = new SiteSettingsViewModel
-                {
-                    BankDetails = bankDetails.ToViewModel(),
-                    PrivacyPolicy = privacyPolicyVm,
-                    TermsOfService = termsOfService.ToViewModel(),
-                    OurImpact = ourImpact.ToViewModel()
-                };
-                return View("Index", model);
-            }
-
-            try
-            {
-                var entity = privacyPolicyVm.ToEntity();
-                await _privacyPolicyService.UpdateAsync(entity, User.Identity?.Name ?? "System");
-                TempData["PrivacySuccess"] = "Privacy policy updated successfully.";
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", $"An error occurred while saving: {ex.Message}");
-                var bankDetails = await _bankDetailsService.GetAsync();
-                var termsOfService = await _termsOfServiceService.GetAsync();
-                var ourImpact = await _ourImpactService.GetAsync();
-                var model = new SiteSettingsViewModel
-                {
-                    BankDetails = bankDetails.ToViewModel(),
-                    PrivacyPolicy = privacyPolicyVm,
-                    TermsOfService = termsOfService.ToViewModel(),
-                    OurImpact = ourImpact.ToViewModel()
-                };
-                return View("Index", model);
-            }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdatePrivacyPolicySimple([Bind(Prefix = "PrivacyPolicy")] PrivacyPolicyViewModel privacyPolicyVm)
-        {
             privacyPolicyVm.ContentFormat = Domain.Common.PolicyContentFormat.Template;
 
             if (privacyPolicyVm.TemplateData == null)
@@ -217,63 +172,7 @@ namespace HealingInWriting.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ConvertPrivacyPolicyToSimple()
-        {
-            var privacyPolicy = await _privacyPolicyService.GetAsync();
-            privacyPolicy.ContentFormat = Domain.Common.PolicyContentFormat.Template;
-            privacyPolicy.Content = PolicyTemplateSerializer.Serialize(PolicyTemplateDefaults.CreatePrivacyDefaults());
-            await _privacyPolicyService.UpdateAsync(privacyPolicy, User.Identity?.Name ?? "System");
-            TempData["PrivacySuccess"] = "Privacy policy converted to Simple Editor format.";
-            return RedirectToAction("Index");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateTermsOfService([Bind(Prefix = "TermsOfService")] TermsOfServiceViewModel termsVm)
-        {
-            termsVm.ContentFormat = Domain.Common.PolicyContentFormat.Html;
-            if (!ModelState.IsValid)
-            {
-                var bankDetails = await _bankDetailsService.GetAsync();
-                var privacyPolicy = await _privacyPolicyService.GetAsync();
-                var ourImpact = await _ourImpactService.GetAsync();
-                var model = new SiteSettingsViewModel
-                {
-                    BankDetails = bankDetails.ToViewModel(),
-                    PrivacyPolicy = privacyPolicy.ToViewModel(),
-                    TermsOfService = termsVm,
-                    OurImpact = ourImpact.ToViewModel()
-                };
-                return View("Index", model);
-            }
-
-            try
-            {
-                var entity = termsVm.ToEntity();
-                await _termsOfServiceService.UpdateAsync(entity, User.Identity?.Name ?? "System");
-                TempData["TermsSuccess"] = "Terms of service updated successfully.";
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", $"An error occurred while saving: {ex.Message}");
-                var bankDetails = await _bankDetailsService.GetAsync();
-                var privacyPolicy = await _privacyPolicyService.GetAsync();
-                var ourImpact = await _ourImpactService.GetAsync();
-                var model = new SiteSettingsViewModel
-                {
-                    BankDetails = bankDetails.ToViewModel(),
-                    PrivacyPolicy = privacyPolicy.ToViewModel(),
-                    TermsOfService = termsVm,
-                    OurImpact = ourImpact.ToViewModel()
-                };
-                return View("Index", model);
-            }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateTermsOfServiceSimple([Bind(Prefix = "TermsOfService")] TermsOfServiceViewModel termsVm)
         {
             termsVm.ContentFormat = Domain.Common.PolicyContentFormat.Template;
 
@@ -325,18 +224,6 @@ namespace HealingInWriting.Areas.Admin.Controllers
                 };
                 return View("Index", model);
             }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ConvertTermsOfServiceToSimple()
-        {
-            var terms = await _termsOfServiceService.GetAsync();
-            terms.ContentFormat = Domain.Common.PolicyContentFormat.Template;
-            terms.Content = PolicyTemplateSerializer.Serialize(PolicyTemplateDefaults.CreateTermsDefaults());
-            await _termsOfServiceService.UpdateAsync(terms, User.Identity?.Name ?? "System");
-            TempData["TermsSuccess"] = "Terms of service converted to Simple Editor format.";
-            return RedirectToAction("Index");
         }
 
         [HttpPost]

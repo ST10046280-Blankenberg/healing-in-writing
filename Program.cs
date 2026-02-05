@@ -1,7 +1,9 @@
 using HealingInWriting.Data;
+using HealingInWriting.Domain.Common;
 using HealingInWriting.Domain.Users;
 using HealingInWriting.Interfaces.Repository;
 using HealingInWriting.Interfaces.Services;
+using HealingInWriting.Models.Common;
 using HealingInWriting.Repositories.BankDetailsFolder;
 using HealingInWriting.Repositories.Books;
 using HealingInWriting.Repositories.Events;
@@ -306,6 +308,37 @@ using (var scope = app.Services.CreateScope())
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
         await DbInitialiser.InitialiseAsync(context, userManager, roleManager, seedTestAccounts: app.Environment.IsDevelopment());
+
+        // Auto-migrate HTML policies to Template format
+        try
+        {
+            var privacyService = services.GetRequiredService<IPrivacyPolicyService>();
+            var termsService = services.GetRequiredService<ITermsOfServiceService>();
+
+            var privacy = await privacyService.GetAsync();
+            if (privacy.ContentFormat == PolicyContentFormat.Html)
+            {
+                logger.LogInformation("Migrating Privacy Policy from HTML to Template format...");
+                privacy.ContentFormat = PolicyContentFormat.Template;
+                privacy.Content = PolicyTemplateSerializer.Serialize(PolicyTemplateDefaults.CreatePrivacyDefaults());
+                await privacyService.UpdateAsync(privacy, "System");
+                logger.LogInformation("Privacy Policy migrated to Template format.");
+            }
+
+            var terms = await termsService.GetAsync();
+            if (terms.ContentFormat == PolicyContentFormat.Html)
+            {
+                logger.LogInformation("Migrating Terms of Service from HTML to Template format...");
+                terms.ContentFormat = PolicyContentFormat.Template;
+                terms.Content = PolicyTemplateSerializer.Serialize(PolicyTemplateDefaults.CreateTermsDefaults());
+                await termsService.UpdateAsync(terms, "System");
+                logger.LogInformation("Terms of Service migrated to Template format.");
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning(ex, "Could not auto-migrate policy content formats. This is non-fatal.");
+        }
 
         if (app.Environment.IsDevelopment())
         {

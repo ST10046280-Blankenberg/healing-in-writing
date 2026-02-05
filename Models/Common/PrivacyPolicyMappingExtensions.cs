@@ -11,7 +11,6 @@ namespace HealingInWriting.Models.Common
                 ? PolicyTemplateSerializer.Deserialize(entity.Content)
                 : PolicyTemplateDefaults.CreatePrivacyDefaults();
             PolicyTemplateSerializer.PopulateTextFields(templateData);
-            PolicyTemplateDefaults.EnsureMinimumSections(templateData);
 
             return new PrivacyPolicyViewModel
             {
@@ -20,8 +19,7 @@ namespace HealingInWriting.Models.Common
                 LastUpdated = entity.LastUpdated,
                 RowVersion = entity.RowVersion,
                 ContentFormat = entity.ContentFormat,
-                TemplateData = templateData,
-                UseSimpleEditor = entity.ContentFormat == Domain.Common.PolicyContentFormat.Template
+                TemplateData = templateData
             };
         }
 

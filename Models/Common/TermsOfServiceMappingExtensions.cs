@@ -10,7 +10,6 @@ namespace HealingInWriting.Models.Common
                 ? PolicyTemplateSerializer.Deserialize(entity.Content)
                 : PolicyTemplateDefaults.CreateTermsDefaults();
             PolicyTemplateSerializer.PopulateTextFields(templateData);
-            PolicyTemplateDefaults.EnsureMinimumSections(templateData);
 
             return new TermsOfServiceViewModel
             {
@@ -19,8 +18,7 @@ namespace HealingInWriting.Models.Common
                 LastUpdated = entity.LastUpdated,
                 RowVersion = entity.RowVersion,
                 ContentFormat = entity.ContentFormat,
-                TemplateData = templateData,
-                UseSimpleEditor = entity.ContentFormat == Domain.Common.PolicyContentFormat.Template
+                TemplateData = templateData
             };
         }
 

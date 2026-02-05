@@ -18,8 +18,6 @@ namespace HealingInWriting.Models.Common
 
         public PolicyTemplateData TemplateData { get; set; } = new PolicyTemplateData();
 
-        public bool UseSimpleEditor { get; set; }
-
         public byte[]? RowVersion { get; set; }
     }
 }

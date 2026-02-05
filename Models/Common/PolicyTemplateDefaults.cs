@@ -4,8 +4,6 @@ namespace HealingInWriting.Models.Common
 {
     public static class PolicyTemplateDefaults
     {
-        public const int DefaultSectionCount = 6;
-
         public static PolicyTemplateData CreatePrivacyDefaults()
         {
             return new PolicyTemplateData
@@ -49,58 +47,10 @@ namespace HealingInWriting.Models.Common
                 new PolicyTemplateSection
                 {
                     Title = "Section 1 Title",
-                    Body = "Describe the first section in plain language.",
-                    Bullets = new List<string>()
-                },
-                new PolicyTemplateSection
-                {
-                    Title = "Section 2 Title",
-                    Body = "Describe the second section in plain language.",
-                    Bullets = new List<string>()
-                },
-                new PolicyTemplateSection
-                {
-                    Title = "Section 3 Title",
-                    Body = "Describe the third section in plain language.",
-                    Bullets = new List<string>()
-                },
-                new PolicyTemplateSection
-                {
-                    Title = "Section 4 Title",
-                    Body = "Describe the fourth section in plain language.",
-                    Bullets = new List<string>()
-                },
-                new PolicyTemplateSection
-                {
-                    Title = "Section 5 Title",
-                    Body = "Describe the fifth section in plain language.",
-                    Bullets = new List<string>()
-                },
-                new PolicyTemplateSection
-                {
-                    Title = "Section 6 Title",
-                    Body = "Describe the sixth section in plain language.",
+                    Body = "Describe this section in plain language.",
                     Bullets = new List<string>()
                 }
             };
-        }
-
-        public static void EnsureMinimumSections(PolicyTemplateData data)
-        {
-            if (data.Sections == null)
-            {
-                data.Sections = new List<PolicyTemplateSection>();
-            }
-
-            while (data.Sections.Count < DefaultSectionCount)
-            {
-                data.Sections.Add(new PolicyTemplateSection
-                {
-                    Title = string.Empty,
-                    Body = string.Empty,
-                    Bullets = new List<string>()
-                });
-            }
         }
     }
 }
