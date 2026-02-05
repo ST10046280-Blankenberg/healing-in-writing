@@ -1,4 +1,5 @@
 ﻿
+@using HealingInWriting.Domain.Common
 @model HealingInWriting.Models.Common.TermsOfServiceViewModel
 
 @{
@@ -22,8 +23,73 @@
     <!-- Body Section -->
     <section class="terms__body">
         <div class="terms__container">
-            @Html.Raw(Model?.Content ?? string.Empty)
+            @if (Model?.ContentFormat == PolicyContentFormat.Template)
+            {
+                var template = Model.TemplateData ?? HealingInWriting.Models.Common.PolicyTemplateDefaults.CreateTermsDefaults();
+                <div class="terms__intro">
+                    <p class="terms__effective-date">Last Updated: @template.IntroLastUpdated</p>
+                    <div class="terms__intro-text">@Html.Raw(template.IntroText)</div>
+                </div>
 
+                <div class="terms__content">
+                    @if (template.Sections != null)
+                    {
+                        foreach (var policySection in template.Sections)
+                        {
+                            if (string.IsNullOrWhiteSpace(policySection.Title) && string.IsNullOrWhiteSpace(policySection.Body))
+                            {
+                                continue;
+                            }
+                            <section class="terms__section">
+                                <h2 class="terms__section-title">@policySection.Title</h2>
+                                <div class="terms__section-content">
+                                    <div class="terms__paragraph">@Html.Raw(policySection.Body)</div>
+                                    @if (policySection.Bullets != null && policySection.Bullets.Count > 0)
+                                    {
+                                        <ul class="terms__list terms__list--unordered">
+                                            @foreach (var bullet in policySection.Bullets)
+                                            {
+                                                <li class="terms__list-item">@bullet</li>
+                                            }
+                                        </ul>
+                                    }
+                                    @if (!string.IsNullOrWhiteSpace(policySection.HighlightTitle) || !string.IsNullOrWhiteSpace(policySection.HighlightBody))
+                                    {
+                                        <div class="terms__highlight">
+                                            @if (!string.IsNullOrWhiteSpace(policySection.HighlightTitle))
+                                            {
+                                                <h4 class="terms__highlight-title">@policySection.HighlightTitle</h4>
+                                            }
+                                            @if (!string.IsNullOrWhiteSpace(policySection.HighlightBody))
+                                            {
+                                                <div class="terms__highlight-text">@Html.Raw(policySection.HighlightBody)</div>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            </section>
+                        }
+                    }
+                </div>
+
+                <div class="terms__footer">
+                    <div class="terms__footer-text">@Html.Raw(template.FooterText)</div>
+                    <div class="terms__contact-info">
+                        <h3 class="terms__contact-title">Contact Information</h3>
+                        @if (template.ContactLines != null)
+                        {
+                            foreach (var line in template.ContactLines)
+                            {
+                                <p class="terms__contact-detail">@line</p>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+            else
+            {
+                @Html.Raw(Model?.Content ?? string.Empty)
+            }
         </div>
     </section>
 </div>

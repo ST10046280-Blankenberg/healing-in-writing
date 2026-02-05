@@ -1,3 +1,4 @@
+@using HealingInWriting.Domain.Common
 @model HealingInWriting.Models.Common.SiteSettingsViewModel
 
 @{
@@ -83,46 +84,149 @@
         <section class="privacy-editor">
             <div class="privacy-editor__header">
                 <h2 class="privacy-editor__title">Privacy Policy Editor</h2>
-                <p class="privacy-editor__description">Edit the privacy policy content (HTML allowed)</p>
+                <p class="privacy-editor__description">Use the Simple Editor for plain text updates. Advanced HTML is optional.</p>
             </div>
+            @{
+                var privacyIsTemplate = Model.PrivacyPolicy.ContentFormat == PolicyContentFormat.Template;
+            }
             @if (TempData["PrivacySuccess"] != null)
             {
                 <div class="alert alert-success" style="padding: 12px; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 8px; color: #155724; margin-bottom: 16px;">
                     @TempData["PrivacySuccess"]
                 </div>
             }
-            <form asp-area="Admin" asp-controller="SiteSettings" asp-action="UpdatePrivacyPolicy" method="post" id="privacy-policy-form" class="policy-editor-form">
-                @Html.AntiForgeryToken()
-                <input asp-for="PrivacyPolicy.Id" type="hidden" />
-                <input asp-for="PrivacyPolicy.RowVersion" type="hidden" />
-                <input asp-for="PrivacyPolicy.LastUpdated" type="hidden" />
+            <div class="policy-editor-tabs">
+                <button type="button" class="policy-tab-btn @(privacyIsTemplate ? "is-active" : "")" data-target="privacy-simple">Simple Editor (Recommended)</button>
+                <button type="button" class="policy-tab-btn @(!privacyIsTemplate ? "is-active" : "")" data-target="privacy-advanced">Advanced HTML</button>
+            </div>
 
-                <div class="privacy-editor__rich-text-box">
-                    <div class="privacy-editor__toolbar">
-                        <button type="button" class="privacy-editor__toolbar-btn" title="Bold">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path d="M15.6 10.79c.97-.67 1.65-1.77 1.65-2.79 0-2.26-1.75-4-4-4H7v14h7.04c2.09 0 3.71-1.7 3.71-3.79 0-1.52-.86-2.82-2.15-3.42zM10 6.5h3c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-3v-3zm3.5 9H10v-3h3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5z"/>
-                            </svg>
-                        </button>
-                        <button type="button" class="privacy-editor__toolbar-btn" title="Italic">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path d="M10 4v3h2.21l-3.42 8H6v3h8v-3h-2.21l3.42-8H18V4z"/>
-                            </svg>
-                        </button>
-                        <button type="button" class="privacy-editor__toolbar-btn" title="Bullet List">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"/>
-                            </svg>
-                        </button>
+            <div id="privacy-simple" class="policy-tab-panel @(privacyIsTemplate ? "is-active" : "")">
+                @if (!privacyIsTemplate)
+                {
+                    <form asp-area="Admin" asp-controller="SiteSettings" asp-action="ConvertPrivacyPolicyToSimple" method="post" class="policy-convert-form">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="admin-settings-btn admin-settings-btn--secondary">Convert to Simple Editor (replaces custom HTML)</button>
+                    </form>
+                }
+                else
+                {
+                    <form asp-area="Admin" asp-controller="SiteSettings" asp-action="UpdatePrivacyPolicySimple" method="post" class="policy-editor-form simple-policy-form">
+                        @Html.AntiForgeryToken()
+                        <input asp-for="PrivacyPolicy.Id" type="hidden" />
+                        <input asp-for="PrivacyPolicy.RowVersion" type="hidden" />
+                        <input asp-for="PrivacyPolicy.LastUpdated" type="hidden" />
+
+                        <div class="simple-editor__field">
+                            <label class="privacy-editor__label">Last Updated</label>
+                            <input asp-for="PrivacyPolicy.TemplateData.IntroLastUpdated" class="privacy-editor__input" />
+                        </div>
+
+                        <div class="simple-editor__field">
+                            <label class="privacy-editor__label">Introduction</label>
+                            <div class="simple-editor__toolbar">
+                                <button type="button" class="simple-editor__btn" data-command="bold">Bold</button>
+                                <button type="button" class="simple-editor__btn" data-command="italic">Italic</button>
+                                <button type="button" class="simple-editor__btn" data-command="insertUnorderedList">Bullets</button>
+                                <button type="button" class="simple-editor__btn" data-command="createLink">Link</button>
+                            </div>
+                            <div class="simple-editor__rich-text" contenteditable="true" data-input="PrivacyPolicy.TemplateData.IntroText">@Html.Raw(Model.PrivacyPolicy.TemplateData.IntroText)</div>
+                            <input type="hidden" name="PrivacyPolicy.TemplateData.IntroText" value="@Model.PrivacyPolicy.TemplateData.IntroText" />
+                        </div>
+
+                        @for (var i = 0; i < Model.PrivacyPolicy.TemplateData.Sections.Count; i++)
+                        {
+                            var policySection = Model.PrivacyPolicy.TemplateData.Sections[i];
+                            <div class="simple-editor__section">
+                                <h4 class="simple-editor__section-title">Section @(i + 1)</h4>
+                                <label class="privacy-editor__label">Section Title</label>
+                                <input name="@($"PrivacyPolicy.TemplateData.Sections[{i}].Title")" value="@policySection.Title" class="privacy-editor__input" />
+
+                                <label class="privacy-editor__label">Section Text</label>
+                                <div class="simple-editor__toolbar">
+                                    <button type="button" class="simple-editor__btn" data-command="bold">Bold</button>
+                                    <button type="button" class="simple-editor__btn" data-command="italic">Italic</button>
+                                    <button type="button" class="simple-editor__btn" data-command="insertUnorderedList">Bullets</button>
+                                    <button type="button" class="simple-editor__btn" data-command="createLink">Link</button>
+                                </div>
+                                <div class="simple-editor__rich-text" contenteditable="true" data-input="@($"PrivacyPolicy.TemplateData.Sections[{i}].Body")">@Html.Raw(policySection.Body)</div>
+                                <input type="hidden" name="@($"PrivacyPolicy.TemplateData.Sections[{i}].Body")" value="@policySection.Body" />
+
+                                <label class="privacy-editor__label">Bullet List (one per line)</label>
+                                <textarea name="@($"PrivacyPolicy.TemplateData.Sections[{i}].BulletsText")" class="privacy-editor__textarea" rows="4">@policySection.BulletsText</textarea>
+
+                                <label class="privacy-editor__label">Highlight Title (optional)</label>
+                                <input name="@($"PrivacyPolicy.TemplateData.Sections[{i}].HighlightTitle")" value="@policySection.HighlightTitle" class="privacy-editor__input" />
+
+                                <label class="privacy-editor__label">Highlight Text (optional)</label>
+                                <div class="simple-editor__toolbar">
+                                    <button type="button" class="simple-editor__btn" data-command="bold">Bold</button>
+                                    <button type="button" class="simple-editor__btn" data-command="italic">Italic</button>
+                                    <button type="button" class="simple-editor__btn" data-command="insertUnorderedList">Bullets</button>
+                                    <button type="button" class="simple-editor__btn" data-command="createLink">Link</button>
+                                </div>
+                                <div class="simple-editor__rich-text" contenteditable="true" data-input="@($"PrivacyPolicy.TemplateData.Sections[{i}].HighlightBody")">@Html.Raw(policySection.HighlightBody)</div>
+                                <input type="hidden" name="@($"PrivacyPolicy.TemplateData.Sections[{i}].HighlightBody")" value="@policySection.HighlightBody" />
+                            </div>
+                        }
+
+                        <div class="simple-editor__field">
+                            <label class="privacy-editor__label">Footer Text</label>
+                            <div class="simple-editor__toolbar">
+                                <button type="button" class="simple-editor__btn" data-command="bold">Bold</button>
+                                <button type="button" class="simple-editor__btn" data-command="italic">Italic</button>
+                                <button type="button" class="simple-editor__btn" data-command="insertUnorderedList">Bullets</button>
+                                <button type="button" class="simple-editor__btn" data-command="createLink">Link</button>
+                            </div>
+                            <div class="simple-editor__rich-text" contenteditable="true" data-input="PrivacyPolicy.TemplateData.FooterText">@Html.Raw(Model.PrivacyPolicy.TemplateData.FooterText)</div>
+                            <input type="hidden" name="PrivacyPolicy.TemplateData.FooterText" value="@Model.PrivacyPolicy.TemplateData.FooterText" />
+                        </div>
+
+                        <div class="simple-editor__field">
+                            <label class="privacy-editor__label">Contact Lines (one per line)</label>
+                            <textarea name="PrivacyPolicy.TemplateData.ContactLinesText" class="privacy-editor__textarea" rows="4">@Model.PrivacyPolicy.TemplateData.ContactLinesText</textarea>
+                        </div>
+
+                        <div class="privacy-editor__actions">
+                            <button type="submit" class="admin-settings-btn admin-settings-btn--primary">Save</button>
+                        </div>
+                    </form>
+                }
+            </div>
+
+            <div id="privacy-advanced" class="policy-tab-panel @(!privacyIsTemplate ? "is-active" : "")">
+                <form asp-area="Admin" asp-controller="SiteSettings" asp-action="UpdatePrivacyPolicy" method="post" class="policy-editor-form advanced-policy-form">
+                    @Html.AntiForgeryToken()
+                    <input asp-for="PrivacyPolicy.Id" type="hidden" />
+                    <input asp-for="PrivacyPolicy.RowVersion" type="hidden" />
+                    <input asp-for="PrivacyPolicy.LastUpdated" type="hidden" />
+
+                    <div class="privacy-editor__rich-text-box">
+                        <div class="privacy-editor__toolbar">
+                            <button type="button" class="privacy-editor__toolbar-btn" title="Bold">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M15.6 10.79c.97-.67 1.65-1.77 1.65-2.79 0-2.26-1.75-4-4-4H7v14h7.04c2.09 0 3.71-1.7 3.71-3.79 0-1.52-.86-2.82-2.15-3.42zM10 6.5h3c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-3v-3zm3.5 9H10v-3h3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5z"/>
+                                </svg>
+                            </button>
+                            <button type="button" class="privacy-editor__toolbar-btn" title="Italic">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M10 4v3h2.21l-3.42 8H6v3h8v-3h-2.21l3.42-8H18V4z"/>
+                                </svg>
+                            </button>
+                            <button type="button" class="privacy-editor__toolbar-btn" title="Bullet List">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <textarea asp-for="PrivacyPolicy.Content" class="privacy-editor__textarea" placeholder="Enter privacy policy content here..."></textarea>
+                        <span asp-validation-for="PrivacyPolicy.Content" class="text-danger"></span>
                     </div>
-                    <textarea asp-for="PrivacyPolicy.Content" class="privacy-editor__textarea" placeholder="Enter privacy policy content here..."></textarea>
-                    <span asp-validation-for="PrivacyPolicy.Content" class="text-danger"></span>
-                </div>
-                <div class="privacy-editor__actions">
-                    <button type="submit" class="admin-settings-btn admin-settings-btn--primary privacy-editor__btn-save">Save</button>
-                    <button type="reset" class="admin-settings-btn admin-settings-btn--secondary privacy-editor__btn-discard">Discard</button>
-                </div>
-            </form>
+                    <div class="privacy-editor__actions">
+                        <button type="submit" class="admin-settings-btn admin-settings-btn--primary">Save</button>
+                        <button type="reset" class="admin-settings-btn admin-settings-btn--secondary">Discard</button>
+                    </div>
+                </form>
+            </div>
         </section>
         
         <!-- Gallery Page -->
@@ -261,46 +365,149 @@
         <section class="privacy-editor">
             <div class="privacy-editor__header">
                 <h2 class="privacy-editor__title">Terms of Service Editor</h2>
-                <p class="privacy-editor__description">Edit the terms of service content (HTML allowed)</p>
+                <p class="privacy-editor__description">Use the Simple Editor for plain text updates. Advanced HTML is optional.</p>
             </div>
+            @{
+                var termsIsTemplate = Model.TermsOfService.ContentFormat == PolicyContentFormat.Template;
+            }
             @if (TempData["TermsSuccess"] != null)
             {
                 <div class="alert alert-success" style="padding: 12px; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 8px; color: #155724; margin-bottom: 16px;">
                     @TempData["TermsSuccess"]
                 </div>
             }
-            <form asp-area="Admin" asp-controller="SiteSettings" asp-action="UpdateTermsOfService" method="post" id="terms-of-service-form" class="policy-editor-form">
-                @Html.AntiForgeryToken()
-                <input asp-for="TermsOfService.Id" type="hidden" />
-                <input asp-for="TermsOfService.RowVersion" type="hidden" />
-                <input asp-for="TermsOfService.LastUpdated" type="hidden" />
+            <div class="policy-editor-tabs">
+                <button type="button" class="policy-tab-btn @(termsIsTemplate ? "is-active" : "")" data-target="terms-simple">Simple Editor (Recommended)</button>
+                <button type="button" class="policy-tab-btn @(!termsIsTemplate ? "is-active" : "")" data-target="terms-advanced">Advanced HTML</button>
+            </div>
 
-                <div class="privacy-editor__rich-text-box">
-                    <div class="privacy-editor__toolbar">
-                        <button type="button" class="privacy-editor__toolbar-btn" title="Bold">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path d="M15.6 10.79c.97-.67 1.65-1.77 1.65-2.79 0-2.26-1.75-4-4-4H7v14h7.04c2.09 0 3.71-1.7 3.71-3.79 0-1.52-.86-2.82-2.15-3.42zM10 6.5h3c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-3v-3zm3.5 9H10v-3h3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5z"/>
-                            </svg>
-                        </button>
-                        <button type="button" class="privacy-editor__toolbar-btn" title="Italic">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path d="M10 4v3h2.21l-3.42 8H6v3h8v-3h-2.21l3.42-8H18V4z"/>
-                            </svg>
-                        </button>
-                        <button type="button" class="privacy-editor__toolbar-btn" title="Bullet List">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"/>
-                            </svg>
-                        </button>
+            <div id="terms-simple" class="policy-tab-panel @(termsIsTemplate ? "is-active" : "")">
+                @if (!termsIsTemplate)
+                {
+                    <form asp-area="Admin" asp-controller="SiteSettings" asp-action="ConvertTermsOfServiceToSimple" method="post" class="policy-convert-form">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="admin-settings-btn admin-settings-btn--secondary">Convert to Simple Editor (replaces custom HTML)</button>
+                    </form>
+                }
+                else
+                {
+                    <form asp-area="Admin" asp-controller="SiteSettings" asp-action="UpdateTermsOfServiceSimple" method="post" class="policy-editor-form simple-policy-form">
+                        @Html.AntiForgeryToken()
+                        <input asp-for="TermsOfService.Id" type="hidden" />
+                        <input asp-for="TermsOfService.RowVersion" type="hidden" />
+                        <input asp-for="TermsOfService.LastUpdated" type="hidden" />
+
+                        <div class="simple-editor__field">
+                            <label class="privacy-editor__label">Last Updated</label>
+                            <input asp-for="TermsOfService.TemplateData.IntroLastUpdated" class="privacy-editor__input" />
+                        </div>
+
+                        <div class="simple-editor__field">
+                            <label class="privacy-editor__label">Introduction</label>
+                            <div class="simple-editor__toolbar">
+                                <button type="button" class="simple-editor__btn" data-command="bold">Bold</button>
+                                <button type="button" class="simple-editor__btn" data-command="italic">Italic</button>
+                                <button type="button" class="simple-editor__btn" data-command="insertUnorderedList">Bullets</button>
+                                <button type="button" class="simple-editor__btn" data-command="createLink">Link</button>
+                            </div>
+                            <div class="simple-editor__rich-text" contenteditable="true" data-input="TermsOfService.TemplateData.IntroText">@Html.Raw(Model.TermsOfService.TemplateData.IntroText)</div>
+                            <input type="hidden" name="TermsOfService.TemplateData.IntroText" value="@Model.TermsOfService.TemplateData.IntroText" />
+                        </div>
+
+                        @for (var i = 0; i < Model.TermsOfService.TemplateData.Sections.Count; i++)
+                        {
+                            var policySection = Model.TermsOfService.TemplateData.Sections[i];
+                            <div class="simple-editor__section">
+                                <h4 class="simple-editor__section-title">Section @(i + 1)</h4>
+                                <label class="privacy-editor__label">Section Title</label>
+                                <input name="@($"TermsOfService.TemplateData.Sections[{i}].Title")" value="@policySection.Title" class="privacy-editor__input" />
+
+                                <label class="privacy-editor__label">Section Text</label>
+                                <div class="simple-editor__toolbar">
+                                    <button type="button" class="simple-editor__btn" data-command="bold">Bold</button>
+                                    <button type="button" class="simple-editor__btn" data-command="italic">Italic</button>
+                                    <button type="button" class="simple-editor__btn" data-command="insertUnorderedList">Bullets</button>
+                                    <button type="button" class="simple-editor__btn" data-command="createLink">Link</button>
+                                </div>
+                                <div class="simple-editor__rich-text" contenteditable="true" data-input="@($"TermsOfService.TemplateData.Sections[{i}].Body")">@Html.Raw(policySection.Body)</div>
+                                <input type="hidden" name="@($"TermsOfService.TemplateData.Sections[{i}].Body")" value="@policySection.Body" />
+
+                                <label class="privacy-editor__label">Bullet List (one per line)</label>
+                                <textarea name="@($"TermsOfService.TemplateData.Sections[{i}].BulletsText")" class="privacy-editor__textarea" rows="4">@policySection.BulletsText</textarea>
+
+                                <label class="privacy-editor__label">Highlight Title (optional)</label>
+                                <input name="@($"TermsOfService.TemplateData.Sections[{i}].HighlightTitle")" value="@policySection.HighlightTitle" class="privacy-editor__input" />
+
+                                <label class="privacy-editor__label">Highlight Text (optional)</label>
+                                <div class="simple-editor__toolbar">
+                                    <button type="button" class="simple-editor__btn" data-command="bold">Bold</button>
+                                    <button type="button" class="simple-editor__btn" data-command="italic">Italic</button>
+                                    <button type="button" class="simple-editor__btn" data-command="insertUnorderedList">Bullets</button>
+                                    <button type="button" class="simple-editor__btn" data-command="createLink">Link</button>
+                                </div>
+                                <div class="simple-editor__rich-text" contenteditable="true" data-input="@($"TermsOfService.TemplateData.Sections[{i}].HighlightBody")">@Html.Raw(policySection.HighlightBody)</div>
+                                <input type="hidden" name="@($"TermsOfService.TemplateData.Sections[{i}].HighlightBody")" value="@policySection.HighlightBody" />
+                            </div>
+                        }
+
+                        <div class="simple-editor__field">
+                            <label class="privacy-editor__label">Footer Text</label>
+                            <div class="simple-editor__toolbar">
+                                <button type="button" class="simple-editor__btn" data-command="bold">Bold</button>
+                                <button type="button" class="simple-editor__btn" data-command="italic">Italic</button>
+                                <button type="button" class="simple-editor__btn" data-command="insertUnorderedList">Bullets</button>
+                                <button type="button" class="simple-editor__btn" data-command="createLink">Link</button>
+                            </div>
+                            <div class="simple-editor__rich-text" contenteditable="true" data-input="TermsOfService.TemplateData.FooterText">@Html.Raw(Model.TermsOfService.TemplateData.FooterText)</div>
+                            <input type="hidden" name="TermsOfService.TemplateData.FooterText" value="@Model.TermsOfService.TemplateData.FooterText" />
+                        </div>
+
+                        <div class="simple-editor__field">
+                            <label class="privacy-editor__label">Contact Lines (one per line)</label>
+                            <textarea name="TermsOfService.TemplateData.ContactLinesText" class="privacy-editor__textarea" rows="4">@Model.TermsOfService.TemplateData.ContactLinesText</textarea>
+                        </div>
+
+                        <div class="privacy-editor__actions">
+                            <button type="submit" class="admin-settings-btn admin-settings-btn--primary">Save</button>
+                        </div>
+                    </form>
+                }
+            </div>
+
+            <div id="terms-advanced" class="policy-tab-panel @(!termsIsTemplate ? "is-active" : "")">
+                <form asp-area="Admin" asp-controller="SiteSettings" asp-action="UpdateTermsOfService" method="post" class="policy-editor-form advanced-policy-form">
+                    @Html.AntiForgeryToken()
+                    <input asp-for="TermsOfService.Id" type="hidden" />
+                    <input asp-for="TermsOfService.RowVersion" type="hidden" />
+                    <input asp-for="TermsOfService.LastUpdated" type="hidden" />
+
+                    <div class="privacy-editor__rich-text-box">
+                        <div class="privacy-editor__toolbar">
+                            <button type="button" class="privacy-editor__toolbar-btn" title="Bold">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M15.6 10.79c.97-.67 1.65-1.77 1.65-2.79 0-2.26-1.75-4-4-4H7v14h7.04c2.09 0 3.71-1.7 3.71-3.79 0-1.52-.86-2.82-2.15-3.42zM10 6.5h3c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-3v-3zm3.5 9H10v-3h3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5z"/>
+                                </svg>
+                            </button>
+                            <button type="button" class="privacy-editor__toolbar-btn" title="Italic">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M10 4v3h2.21l-3.42 8H6v3h8v-3h-2.21l3.42-8H18V4z"/>
+                                </svg>
+                            </button>
+                            <button type="button" class="privacy-editor__toolbar-btn" title="Bullet List">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <textarea asp-for="TermsOfService.Content" class="privacy-editor__textarea" placeholder="Enter terms of service content here..."></textarea>
+                        <span asp-validation-for="TermsOfService.Content" class="text-danger"></span>
                     </div>
-                    <textarea asp-for="TermsOfService.Content" class="privacy-editor__textarea" placeholder="Enter terms of service content here..."></textarea>
-                    <span asp-validation-for="TermsOfService.Content" class="text-danger"></span>
-                </div>
-                <div class="privacy-editor__actions">
-                    <button type="submit" class="admin-settings-btn admin-settings-btn--primary privacy-editor__btn-save">Save</button>
-                    <button type="reset" class="admin-settings-btn admin-settings-btn--secondary privacy-editor__btn-discard">Discard</button>
-                </div>
-            </form>
+                    <div class="privacy-editor__actions">
+                        <button type="submit" class="admin-settings-btn admin-settings-btn--primary">Save</button>
+                        <button type="reset" class="admin-settings-btn admin-settings-btn--secondary">Discard</button>
+                    </div>
+                </form>
+            </div>
         </section>
     </div>
     
@@ -451,6 +658,7 @@
 @section Scripts {
     <script src="~/js/admin/site-settings-bank.js" asp-append-version="true"></script>
     <script src="~/js/admin/privacy-terms-editor.js" asp-append-version="true"></script>
+    <script src="~/js/admin/policy-simple-editor.js" asp-append-version="true"></script>
     <script src="~/js/admin/site-settings-gallery.js" asp-append-version="true"></script>
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }

@@ -8,4 +8,3 @@ namespace HealingInWriting.Interfaces.Services
         Task UpdateAsync(PrivacyPolicy entity, string updatedBy);
     }
 }
-

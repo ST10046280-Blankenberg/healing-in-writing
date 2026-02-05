@@ -519,6 +519,111 @@
     flex-grow: 0;
 }
 
+/* Policy Editor Tabs */
+.policy-editor-tabs {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.policy-tab-btn {
+    border: 1px solid #D1D5DB;
+    background: #F9FAFB;
+    color: #374151;
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+}
+
+.policy-tab-btn.is-active {
+    background: #111827;
+    color: #FFFFFF;
+    border-color: #111827;
+}
+
+.policy-tab-panel {
+    display: none;
+}
+
+.policy-tab-panel.is-active {
+    display: block;
+}
+
+.policy-convert-form {
+    margin-top: 12px;
+}
+
+.privacy-editor__label {
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    margin: 12px 0 6px 0;
+}
+
+.privacy-editor__input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #D1D5DB;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+}
+
+.simple-editor__field {
+    margin-top: 16px;
+}
+
+.simple-editor__section {
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 18px;
+    background: #FAFAFB;
+}
+
+.simple-editor__section-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+    color: #111827;
+}
+
+.simple-editor__toolbar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.simple-editor__btn {
+    padding: 6px 10px;
+    border: 1px solid #D1D5DB;
+    border-radius: 6px;
+    background: #FFFFFF;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+}
+
+.simple-editor__rich-text {
+    min-height: 120px;
+    border: 1px solid #D1D5DB;
+    border-radius: 8px;
+    padding: 10px 12px;
+    background: #FFFFFF;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+}
+
+.simple-editor__section .privacy-editor__textarea,
+.simple-editor__field .privacy-editor__textarea {
+    height: 120px;
+}
+
 /* Privacy Editor button specifics - Override padding for larger buttons */
 .privacy-editor__btn-save,
 .privacy-editor__btn-discard {
@@ -1220,4 +1325,3 @@
         width: 100%;
     }
 }
-

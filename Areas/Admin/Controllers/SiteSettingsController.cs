@@ -4,9 +4,11 @@ using System.Threading.Tasks;
 using HealingInWriting.Interfaces.Services;
 using HealingInWriting.Models.Common;
 using HealingInWriting.Models.Gallery;
+using Ganss.Xss;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 
 namespace HealingInWriting.Areas.Admin.Controllers
 {
@@ -14,6 +16,8 @@ namespace HealingInWriting.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class SiteSettingsController : Controller
     {
+        private static readonly HtmlSanitizer PolicySanitizer = BuildPolicySanitizer();
+
         private readonly IBankDetailsService _bankDetailsService;
         private readonly IPrivacyPolicyService _privacyPolicyService;
         private readonly ITermsOfServiceService _termsOfServiceService;
@@ -114,6 +118,7 @@ namespace HealingInWriting.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdatePrivacyPolicy([Bind(Prefix = "PrivacyPolicy")] PrivacyPolicyViewModel privacyPolicyVm)
         {
+            privacyPolicyVm.ContentFormat = Domain.Common.PolicyContentFormat.Html;
             if (!ModelState.IsValid)
             {
                 // Re-fetch other data for the view model
@@ -156,8 +161,77 @@ namespace HealingInWriting.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdatePrivacyPolicySimple([Bind(Prefix = "PrivacyPolicy")] PrivacyPolicyViewModel privacyPolicyVm)
+        {
+            privacyPolicyVm.ContentFormat = Domain.Common.PolicyContentFormat.Template;
+
+            if (privacyPolicyVm.TemplateData == null)
+            {
+                privacyPolicyVm.TemplateData = PolicyTemplateDefaults.CreatePrivacyDefaults();
+            }
+
+            PolicyTemplateSerializer.PopulateListsFromText(privacyPolicyVm.TemplateData);
+            SanitizeTemplateData(privacyPolicyVm.TemplateData);
+            privacyPolicyVm.Content = PolicyTemplateSerializer.Serialize(privacyPolicyVm.TemplateData);
+            ModelState.Remove("PrivacyPolicy.Content");
+            ModelState.Remove("Content");
+
+            if (!ModelState.IsValid)
+            {
+                var bankDetails = await _bankDetailsService.GetAsync();
+                var termsOfService = await _termsOfServiceService.GetAsync();
+                var ourImpact = await _ourImpactService.GetAsync();
+                var model = new SiteSettingsViewModel
+                {
+                    BankDetails = bankDetails.ToViewModel(),
+                    PrivacyPolicy = privacyPolicyVm,
+                    TermsOfService = termsOfService.ToViewModel(),
+                    OurImpact = ourImpact.ToViewModel()
+                };
+                return View("Index", model);
+            }
+
+            try
+            {
+                var entity = privacyPolicyVm.ToEntity();
+                await _privacyPolicyService.UpdateAsync(entity, User.Identity?.Name ?? "System");
+                TempData["PrivacySuccess"] = "Privacy policy updated successfully.";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"An error occurred while saving: {ex.Message}");
+                var bankDetails = await _bankDetailsService.GetAsync();
+                var termsOfService = await _termsOfServiceService.GetAsync();
+                var ourImpact = await _ourImpactService.GetAsync();
+                var model = new SiteSettingsViewModel
+                {
+                    BankDetails = bankDetails.ToViewModel(),
+                    PrivacyPolicy = privacyPolicyVm,
+                    TermsOfService = termsOfService.ToViewModel(),
+                    OurImpact = ourImpact.ToViewModel()
+                };
+                return View("Index", model);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ConvertPrivacyPolicyToSimple()
+        {
+            var privacyPolicy = await _privacyPolicyService.GetAsync();
+            privacyPolicy.ContentFormat = Domain.Common.PolicyContentFormat.Template;
+            privacyPolicy.Content = PolicyTemplateSerializer.Serialize(PolicyTemplateDefaults.CreatePrivacyDefaults());
+            await _privacyPolicyService.UpdateAsync(privacyPolicy, User.Identity?.Name ?? "System");
+            TempData["PrivacySuccess"] = "Privacy policy converted to Simple Editor format.";
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateTermsOfService([Bind(Prefix = "TermsOfService")] TermsOfServiceViewModel termsVm)
         {
+            termsVm.ContentFormat = Domain.Common.PolicyContentFormat.Html;
             if (!ModelState.IsValid)
             {
                 var bankDetails = await _bankDetailsService.GetAsync();
@@ -195,6 +269,74 @@ namespace HealingInWriting.Areas.Admin.Controllers
                 };
                 return View("Index", model);
             }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateTermsOfServiceSimple([Bind(Prefix = "TermsOfService")] TermsOfServiceViewModel termsVm)
+        {
+            termsVm.ContentFormat = Domain.Common.PolicyContentFormat.Template;
+
+            if (termsVm.TemplateData == null)
+            {
+                termsVm.TemplateData = PolicyTemplateDefaults.CreateTermsDefaults();
+            }
+
+            PolicyTemplateSerializer.PopulateListsFromText(termsVm.TemplateData);
+            SanitizeTemplateData(termsVm.TemplateData);
+            termsVm.Content = PolicyTemplateSerializer.Serialize(termsVm.TemplateData);
+            ModelState.Remove("TermsOfService.Content");
+            ModelState.Remove("Content");
+
+            if (!ModelState.IsValid)
+            {
+                var bankDetails = await _bankDetailsService.GetAsync();
+                var privacyPolicy = await _privacyPolicyService.GetAsync();
+                var ourImpact = await _ourImpactService.GetAsync();
+                var model = new SiteSettingsViewModel
+                {
+                    BankDetails = bankDetails.ToViewModel(),
+                    PrivacyPolicy = privacyPolicy.ToViewModel(),
+                    TermsOfService = termsVm,
+                    OurImpact = ourImpact.ToViewModel()
+                };
+                return View("Index", model);
+            }
+
+            try
+            {
+                var entity = termsVm.ToEntity();
+                await _termsOfServiceService.UpdateAsync(entity, User.Identity?.Name ?? "System");
+                TempData["TermsSuccess"] = "Terms of service updated successfully.";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"An error occurred while saving: {ex.Message}");
+                var bankDetails = await _bankDetailsService.GetAsync();
+                var privacyPolicy = await _privacyPolicyService.GetAsync();
+                var ourImpact = await _ourImpactService.GetAsync();
+                var model = new SiteSettingsViewModel
+                {
+                    BankDetails = bankDetails.ToViewModel(),
+                    PrivacyPolicy = privacyPolicy.ToViewModel(),
+                    TermsOfService = termsVm,
+                    OurImpact = ourImpact.ToViewModel()
+                };
+                return View("Index", model);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ConvertTermsOfServiceToSimple()
+        {
+            var terms = await _termsOfServiceService.GetAsync();
+            terms.ContentFormat = Domain.Common.PolicyContentFormat.Template;
+            terms.Content = PolicyTemplateSerializer.Serialize(PolicyTemplateDefaults.CreateTermsDefaults());
+            await _termsOfServiceService.UpdateAsync(terms, User.Identity?.Name ?? "System");
+            TempData["TermsSuccess"] = "Terms of service converted to Simple Editor format.";
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -320,6 +462,43 @@ namespace HealingInWriting.Areas.Admin.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+        private static HtmlSanitizer BuildPolicySanitizer()
+        {
+            var sanitizer = new HtmlSanitizer();
+            sanitizer.AllowedTags.Clear();
+            sanitizer.AllowedTags.Add("p");
+            sanitizer.AllowedTags.Add("strong");
+            sanitizer.AllowedTags.Add("em");
+            sanitizer.AllowedTags.Add("ul");
+            sanitizer.AllowedTags.Add("li");
+            sanitizer.AllowedTags.Add("a");
+            sanitizer.AllowedTags.Add("br");
+            sanitizer.AllowedAttributes.Clear();
+            sanitizer.AllowedAttributes.Add("href");
+            sanitizer.AllowedAttributes.Add("rel");
+            sanitizer.AllowedAttributes.Add("target");
+            sanitizer.AllowedSchemes.Add("http");
+            sanitizer.AllowedSchemes.Add("https");
+            sanitizer.AllowedSchemes.Add("mailto");
+            return sanitizer;
+        }
+
+        private static void SanitizeTemplateData(PolicyTemplateData data)
+        {
+            data.IntroText = PolicySanitizer.Sanitize(data.IntroText ?? string.Empty);
+            data.FooterText = PolicySanitizer.Sanitize(data.FooterText ?? string.Empty);
+
+            if (data.Sections == null)
+            {
+                data.Sections = new List<PolicyTemplateSection>();
+            }
+
+            foreach (var section in data.Sections)
+            {
+                section.Body = PolicySanitizer.Sanitize(section.Body ?? string.Empty);
+                section.HighlightBody = PolicySanitizer.Sanitize(section.HighlightBody ?? string.Empty);
+            }
         }
     }
 }

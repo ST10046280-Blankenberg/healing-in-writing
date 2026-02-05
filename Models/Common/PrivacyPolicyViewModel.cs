@@ -14,7 +14,12 @@ namespace HealingInWriting.Models.Common
 
         public DateTime LastUpdated { get; set; }
 
+        public Domain.Common.PolicyContentFormat ContentFormat { get; set; } = Domain.Common.PolicyContentFormat.Html;
+
+        public PolicyTemplateData TemplateData { get; set; } = new PolicyTemplateData();
+
+        public bool UseSimpleEditor { get; set; }
+
         public byte[]? RowVersion { get; set; }
     }
 }
-

@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const forms = document.querySelectorAll('.policy-editor-form');
+    const forms = document.querySelectorAll('.advanced-policy-form');
 
     forms.forEach(form => {
         const textarea = form.querySelector('.privacy-editor__textarea');

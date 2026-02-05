@@ -7,12 +7,21 @@ namespace HealingInWriting.Models.Common
     {
         public static PrivacyPolicyViewModel ToViewModel(this PrivacyPolicy entity)
         {
+            var templateData = entity.ContentFormat == Domain.Common.PolicyContentFormat.Template
+                ? PolicyTemplateSerializer.Deserialize(entity.Content)
+                : PolicyTemplateDefaults.CreatePrivacyDefaults();
+            PolicyTemplateSerializer.PopulateTextFields(templateData);
+            PolicyTemplateDefaults.EnsureMinimumSections(templateData);
+
             return new PrivacyPolicyViewModel
             {
                 Id = entity.Id,
                 Content = entity.Content,
                 LastUpdated = entity.LastUpdated,
-                RowVersion = entity.RowVersion
+                RowVersion = entity.RowVersion,
+                ContentFormat = entity.ContentFormat,
+                TemplateData = templateData,
+                UseSimpleEditor = entity.ContentFormat == Domain.Common.PolicyContentFormat.Template
             };
         }
 
@@ -23,9 +32,9 @@ namespace HealingInWriting.Models.Common
                 Id = vm.Id,
                 Content = vm.Content,
                 LastUpdated = vm.LastUpdated,
-                RowVersion = vm.RowVersion
+                RowVersion = vm.RowVersion,
+                ContentFormat = vm.ContentFormat
             };
         }
     }
 }
-

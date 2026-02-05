@@ -6,12 +6,21 @@ namespace HealingInWriting.Models.Common
     {
         public static TermsOfServiceViewModel ToViewModel(this TermsOfService entity)
         {
+            var templateData = entity.ContentFormat == Domain.Common.PolicyContentFormat.Template
+                ? PolicyTemplateSerializer.Deserialize(entity.Content)
+                : PolicyTemplateDefaults.CreateTermsDefaults();
+            PolicyTemplateSerializer.PopulateTextFields(templateData);
+            PolicyTemplateDefaults.EnsureMinimumSections(templateData);
+
             return new TermsOfServiceViewModel
             {
                 Id = entity.Id,
                 Content = entity.Content,
                 LastUpdated = entity.LastUpdated,
-                RowVersion = entity.RowVersion
+                RowVersion = entity.RowVersion,
+                ContentFormat = entity.ContentFormat,
+                TemplateData = templateData,
+                UseSimpleEditor = entity.ContentFormat == Domain.Common.PolicyContentFormat.Template
             };
         }
 
@@ -22,7 +31,8 @@ namespace HealingInWriting.Models.Common
                 Id = vm.Id,
                 Content = vm.Content,
                 LastUpdated = vm.LastUpdated,
-                RowVersion = vm.RowVersion
+                RowVersion = vm.RowVersion,
+                ContentFormat = vm.ContentFormat
             };
         }
     }

@@ -1,3 +1,4 @@
+@using HealingInWriting.Domain.Common
 @model HealingInWriting.Models.Common.PrivacyPolicyViewModel
 
 @{
@@ -22,8 +23,73 @@
     <!-- Body Section -->
     <section class="privacy__body">
         <div class="privacy__container">
-            @Html.Raw(Model?.Content ?? string.Empty)
+            @if (Model?.ContentFormat == PolicyContentFormat.Template)
+            {
+                var template = Model.TemplateData ?? HealingInWriting.Models.Common.PolicyTemplateDefaults.CreatePrivacyDefaults();
+                <div class="privacy__intro">
+                    <p class="privacy__effective-date">Last Updated: @template.IntroLastUpdated</p>
+                    <div class="privacy__intro-text">@Html.Raw(template.IntroText)</div>
+                </div>
 
+                <div class="privacy__content">
+                    @if (template.Sections != null)
+                    {
+                        foreach (var policySection in template.Sections)
+                        {
+                            if (string.IsNullOrWhiteSpace(policySection.Title) && string.IsNullOrWhiteSpace(policySection.Body))
+                            {
+                                continue;
+                            }
+                            <section class="privacy__section">
+                                <h2 class="privacy__section-title">@policySection.Title</h2>
+                                <div class="privacy__section-content">
+                                    <div class="privacy__paragraph">@Html.Raw(policySection.Body)</div>
+                                    @if (policySection.Bullets != null && policySection.Bullets.Count > 0)
+                                    {
+                                        <ul class="privacy__list privacy__list--unordered">
+                                            @foreach (var bullet in policySection.Bullets)
+                                            {
+                                                <li class="privacy__list-item">@bullet</li>
+                                            }
+                                        </ul>
+                                    }
+                                    @if (!string.IsNullOrWhiteSpace(policySection.HighlightTitle) || !string.IsNullOrWhiteSpace(policySection.HighlightBody))
+                                    {
+                                        <div class="privacy__highlight">
+                                            @if (!string.IsNullOrWhiteSpace(policySection.HighlightTitle))
+                                            {
+                                                <h4 class="privacy__highlight-title">@policySection.HighlightTitle</h4>
+                                            }
+                                            @if (!string.IsNullOrWhiteSpace(policySection.HighlightBody))
+                                            {
+                                                <div class="privacy__highlight-text">@Html.Raw(policySection.HighlightBody)</div>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            </section>
+                        }
+                    }
+                </div>
+
+                <div class="privacy__footer">
+                    <div class="privacy__footer-text">@Html.Raw(template.FooterText)</div>
+                    <div class="privacy__contact-info">
+                        <h3 class="privacy__contact-title">Contact Information</h3>
+                        @if (template.ContactLines != null)
+                        {
+                            foreach (var line in template.ContactLines)
+                            {
+                                <p class="privacy__contact-detail">@line</p>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+            else
+            {
+                @Html.Raw(Model?.Content ?? string.Empty)
+            }
         </div>
     </section>
 </div>

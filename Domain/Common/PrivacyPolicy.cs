@@ -17,7 +17,8 @@ namespace HealingInWriting.Domain.Common
         [StringLength(200)]
         public string UpdatedBy { get; set; } = "System";
 
+        public PolicyContentFormat ContentFormat { get; set; } = PolicyContentFormat.Html;
+
         public byte[]? RowVersion { get; set; }
     }
 }
-
