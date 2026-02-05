@@ -1,5 +1,9 @@
 // Toggle between login and register forms with simple fade transition
 document.addEventListener('DOMContentLoaded', function() {
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+
     const authContainer = document.querySelector('.auth');
     const toggleLinks = document.querySelectorAll('[data-toggle]');
     const title = document.querySelector('.auth__title');

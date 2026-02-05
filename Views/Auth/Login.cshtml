@@ -100,44 +100,7 @@
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lucide/dist/umd/lucide.min.js"></script>
     <script src="~/js/toast.js"></script>
-    <script>
-        // Initialize Lucide icons
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
-        }
-    </script>
-    <script>
-        // Form submission handler with loading state
-        document.addEventListener('DOMContentLoaded', function() {
-            const loginForm = document.querySelector('.auth__form--login');
-            const submitButton = loginForm.querySelector('button[type="submit"]');
-
-            loginForm.addEventListener('submit', function(e) {
-                // Check if form is valid before showing loading state
-                if (loginForm.checkValidity()) {
-                    // Add loading state to button
-                    submitButton.classList.add('btn-loading');
-                    submitButton.disabled = true;
-
-                    // Add screen reader announcement
-                    const loadingLabel = document.createElement('span');
-                    loadingLabel.className = 'btn-loading-label';
-                    loadingLabel.textContent = 'Signing in, please wait...';
-                    submitButton.appendChild(loadingLabel);
-                }
-            });
-
-            // Show error toast if there are validation errors
-            const validationSummary = document.querySelector('.auth__validation-summary');
-            if (validationSummary) {
-                ToastManager.error(
-                    'Sign In Failed',
-                    'Please correct the errors below and try again.',
-                    { duration: 6000 }
-                );
-            }
-        });
-    </script>
+    <script src="~/js/views/auth-login.js" asp-append-version="true"></script>
 </body>
 
 </html>

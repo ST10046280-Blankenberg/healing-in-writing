@@ -121,7 +121,7 @@
 
         <div class="position-selector">
             <label for="toastPosition">Toast Position:</label>
-            <select id="toastPosition" onchange="changeToastPosition()">
+            <select id="toastPosition" data-toast-position>
                 <option value="top-right">Top Right</option>
                 <option value="top-left">Top Left</option>
                 <option value="top-center">Top Centre</option>
@@ -133,37 +133,37 @@
 
         <h3>Basic Toast Types</h3>
         <div class="demo-grid">
-            <button class="demo-button" onclick="showSuccessToast()">
+            <button class="demo-button" data-toast="success">
                 <i data-lucide="circle-check" aria-hidden="true"></i> Success Toast
             </button>
-            <button class="demo-button" onclick="showErrorToast()">
+            <button class="demo-button" data-toast="error">
                 <i data-lucide="circle-x" aria-hidden="true"></i> Error Toast
             </button>
-            <button class="demo-button" onclick="showWarningToast()">
+            <button class="demo-button" data-toast="warning">
                 <i data-lucide="triangle-alert" aria-hidden="true"></i> Warning Toast
             </button>
-            <button class="demo-button" onclick="showInfoToast()">
+            <button class="demo-button" data-toast="info">
                 <i data-lucide="info" aria-hidden="true"></i> Info Toast
             </button>
         </div>
 
         <h3>Advanced Options</h3>
         <div class="demo-grid">
-            <button class="demo-button" onclick="showPersistentToast()">
+            <button class="demo-button" data-toast="persistent">
                 No Auto-Dismiss
             </button>
-            <button class="demo-button" onclick="showShortToast()">
+            <button class="demo-button" data-toast="short">
                 Short Duration (2s)
             </button>
-            <button class="demo-button" onclick="showNoProgressToast()">
+            <button class="demo-button" data-toast="no-progress">
                 No Progress Bar
             </button>
-            <button class="demo-button" onclick="showMultipleToasts()">
+            <button class="demo-button" data-toast="multiple">
                 Multiple Toasts
             </button>
         </div>
 
-        <button class="demo-button" onclick="ToastManager.clearAll()" style="background: var(--color-error); max-width: 300px;">
+        <button class="demo-button" data-toast="clear" style="background: var(--color-error); max-width: 300px;">
             <i data-lucide="trash-2" aria-hidden="true"></i> Clear All Toasts
         </button>
 
@@ -181,26 +181,26 @@ ToastManager.info('Did You Know?', 'You can use keyboard shortcuts.');
 
         <h3>Standard Loading Spinner</h3>
         <div class="demo-grid">
-            <button class="demo-button btn-sm" onclick="demoButtonLoading(this, 3000)">
+            <button class="demo-button btn-sm" data-loading="spinner" data-duration="3000">
                 Small Button
             </button>
-            <button class="demo-button" onclick="demoButtonLoading(this, 3000)">
+            <button class="demo-button" data-loading="spinner" data-duration="3000">
                 Default Button
             </button>
-            <button class="demo-button btn-lg" onclick="demoButtonLoading(this, 3000)">
+            <button class="demo-button btn-lg" data-loading="spinner" data-duration="3000">
                 Large Button
             </button>
         </div>
 
         <h3>Dot Loading Style</h3>
         <div class="demo-grid">
-            <button class="demo-button" onclick="demoDotsLoading(this, 3000)">
+            <button class="demo-button" data-loading="dots" data-duration="3000">
                 Click to Load (Dots)
             </button>
         </div>
 
         <h3>Form Simulation</h3>
-        <form onsubmit="return handleFormSubmit(event)" style="max-width: 400px;">
+        <form id="demoForm" style="max-width: 400px;">
             <div style="margin-bottom: var(--spacing-md);">
                 <label style="display: block; margin-bottom: var(--spacing-xs);">Email</label>
                 <input type="email" required style="width: 100%; padding: var(--spacing-sm); border: 1px solid #E5E7EB; border-radius: var(--radius-md);" />
@@ -270,7 +270,7 @@ button.disabled = false;
         <h2><i data-lucide="rocket" aria-hidden="true"></i> Combined Demo</h2>
         <p>Click to simulate a complete form submission flow:</p>
 
-        <button class="demo-button" onclick="simulateFormFlow(this)" style="max-width: 400px;">
+        <button class="demo-button" data-demo="simulate-flow" style="max-width: 400px;">
             <i data-lucide="send" aria-hidden="true"></i> Simulate Complete Flow
         </button>
 
@@ -281,120 +281,6 @@ button.disabled = false;
 
     <script src="https://cdn.jsdelivr.net/npm/lucide/dist/umd/lucide.min.js"></script>
     <script src="js/toast.js"></script>
-    <script>
-        // Initialize Lucide icons
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
-        }
-
-        // Toast Examples
-        function showSuccessToast() {
-            ToastManager.success('Success!', 'Operation completed successfully.');
-        }
-
-        function showErrorToast() {
-            ToastManager.error('Error Occurred', 'Unable to complete the operation. Please try again.');
-        }
-
-        function showWarningToast() {
-            ToastManager.warning('Warning', 'Your session will expire in 5 minutes. Please save your work.');
-        }
-
-        function showInfoToast() {
-            ToastManager.info('Did You Know?', 'You can use keyboard shortcuts to navigate faster.');
-        }
-
-        function showPersistentToast() {
-            ToastManager.error('Critical Error', 'This toast will not auto-dismiss. Click X to close.', {
-                duration: 0,
-                closeButton: true
-            });
-        }
-
-        function showShortToast() {
-            ToastManager.success('Quick Save', 'Changes saved!', { duration: 2000 });
-        }
-
-        function showNoProgressToast() {
-            ToastManager.info('Tip', 'Press Ctrl+S to quick-save.', { showProgress: false });
-        }
-
-        function showMultipleToasts() {
-            ToastManager.success('First', 'This is the first toast');
-            setTimeout(() => ToastManager.info('Second', 'This is the second toast'), 500);
-            setTimeout(() => ToastManager.warning('Third', 'This is the third toast'), 1000);
-        }
-
-        function changeToastPosition() {
-            const position = document.getElementById('toastPosition').value;
-            ToastManager.updateConfig({ position });
-            ToastManager.info('Position Changed', `Toasts will now appear at: ${position}`);
-        }
-
-        // Button Loading Examples
-        function demoButtonLoading(button, duration) {
-            button.classList.add('btn-loading');
-            button.disabled = true;
-
-            setTimeout(() => {
-                button.classList.remove('btn-loading');
-                button.disabled = false;
-            }, duration);
-        }
-
-        function demoDotsLoading(button, duration) {
-            const originalText = button.textContent;
-            button.classList.add('btn-loading-dots');
-            button.disabled = true;
-
-            setTimeout(() => {
-                button.classList.remove('btn-loading-dots');
-                button.disabled = false;
-                button.textContent = originalText;
-            }, duration);
-        }
-
-        function handleFormSubmit(event) {
-            event.preventDefault();
-            const form = event.target;
-            const button = form.querySelector('button[type="submit"]');
-
-            button.classList.add('btn-loading');
-            button.disabled = true;
-
-            // Simulate async operation
-            setTimeout(() => {
-                button.classList.remove('btn-loading');
-                button.disabled = false;
-                ToastManager.success('Form Submitted', 'Your form has been processed successfully.');
-                form.reset();
-            }, 2500);
-
-            return false;
-        }
-
-        function simulateFormFlow(button) {
-            // Show loading state
-            button.classList.add('btn-loading');
-            button.disabled = true;
-
-            // Simulate processing
-            setTimeout(() => {
-                // Remove loading
-                button.classList.remove('btn-loading');
-                button.disabled = false;
-
-                // Show success toast
-                ToastManager.success(
-                    'Process Complete',
-                    'Your request has been processed successfully.',
-                    { duration: 5000 }
-                );
-            }, 2500);
-        }
-
-        // Initialise toast system
-        ToastManager.init({ position: 'top-right' });
-    </script>
+    <script src="js/demo-ui-components.js"></script>
 </body>
 </html>

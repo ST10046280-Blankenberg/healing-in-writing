@@ -368,7 +368,7 @@ app.Use(async (context, next) =>
     var csp = string.Join("; ", new[]
     {
         "default-src 'self'",
-        "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com",
+        "script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com",
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com",
 
         // 1. ADDED https://cdn.jsdelivr.net to allow Font Awesome fonts
