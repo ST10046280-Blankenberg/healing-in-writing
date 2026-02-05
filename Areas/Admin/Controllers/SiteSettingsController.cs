@@ -199,6 +199,7 @@ namespace HealingInWriting.Areas.Admin.Controllers
                     TermsOfService = termsVm,
                     OurImpact = ourImpact.ToViewModel()
                 };
+                ViewBag.ActivePolicyTab = "terms-panel";
                 return View("Index", model);
             }
 
@@ -207,6 +208,7 @@ namespace HealingInWriting.Areas.Admin.Controllers
                 var entity = termsVm.ToEntity();
                 await _termsOfServiceService.UpdateAsync(entity, User.Identity?.Name ?? "System");
                 TempData["TermsSuccess"] = "Terms of service updated successfully.";
+                TempData["ActivePolicyTab"] = "terms-panel";
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -222,6 +224,7 @@ namespace HealingInWriting.Areas.Admin.Controllers
                     TermsOfService = termsVm,
                     OurImpact = ourImpact.ToViewModel()
                 };
+                ViewBag.ActivePolicyTab = "terms-panel";
                 return View("Index", model);
             }
         }

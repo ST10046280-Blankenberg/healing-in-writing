@@ -385,11 +385,46 @@
     line-height: 20px;
     color: #6B7280;
     margin: 0;
-    
+
     /* Layout */
     flex: none;
     order: 1;
     flex-grow: 0;
+}
+
+/* =========================================================
+   Policy Editor Tabs
+   ========================================================= */
+
+.policy-tab-bar {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid #E5E7EB;
+    margin-bottom: 16px;
+}
+
+.policy-tab-btn {
+    padding: 10px 20px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #6B7280;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.policy-tab-btn:hover {
+    color: #2F1648;
+}
+
+.policy-tab-btn--active {
+    color: #2F1648;
+    border-bottom-color: #2F1648;
+    font-weight: 600;
 }
 
 /* Textarea for bullet lists and other multiline fields */

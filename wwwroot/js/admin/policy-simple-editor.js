@@ -1,6 +1,28 @@
 document.addEventListener('DOMContentLoaded', function () {
     let activeEditor = null;
 
+    // Policy editor tab switching
+    document.querySelectorAll('.policy-tab-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var targetId = this.getAttribute('data-tab');
+
+            // Deactivate all tabs and panels
+            document.querySelectorAll('.policy-tab-btn').forEach(function (b) {
+                b.classList.remove('policy-tab-btn--active');
+            });
+            document.querySelectorAll('.policy-tab-panel').forEach(function (panel) {
+                panel.style.display = 'none';
+            });
+
+            // Activate clicked tab and target panel
+            this.classList.add('policy-tab-btn--active');
+            var target = document.getElementById(targetId);
+            if (target) {
+                target.style.display = '';
+            }
+        });
+    });
+
     function bindRichTextEditors(container) {
         container.querySelectorAll('.simple-editor__rich-text').forEach(function (editor) {
             editor.addEventListener('focus', function () {
