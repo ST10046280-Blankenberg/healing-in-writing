@@ -136,19 +136,18 @@
     flex-direction: column;
     padding: 32px;
     gap: 22px;
-    width: 100%;
-    
+
     /* Visual */
     background: #FFFFFF;
     border: 1px solid #F3F4F6;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 16px;
-    
+
     /* Layout */
-    flex: none;
+    flex: 1;
+    min-width: 0;
     order: 0;
     align-self: stretch;
-    flex-grow: 0;
 }
 
 /* Donation Settings Header */
@@ -315,10 +314,10 @@
     flex-direction: row;
     gap: 32px;
     width: 100%;
-    
+
     /* Layout */
     flex: none;
-    order: 1;
+    order: 0;
     align-self: stretch;
     flex-grow: 0;
 }
@@ -425,6 +424,22 @@
     color: #2F1648;
     border-bottom-color: #2F1648;
     font-weight: 600;
+}
+
+/* Full-width modifier for standalone Policy Editor card */
+.privacy-editor--full {
+    max-width: 100%;
+    width: 100%;
+    padding: 32px;
+    order: 2;
+}
+
+/* Full-width modifier for standalone Gallery card */
+.gallery-page--full {
+    max-width: 100%;
+    width: 100%;
+    padding: 32px;
+    order: 1;
 }
 
 /* Textarea for bullet lists and other multiline fields */
@@ -931,16 +946,16 @@
     padding: 32px;
     gap: 22px;
     width: 100%;
-    
+
     /* Visual */
     background: #FFFFFF;
     border: 1px solid #F3F4F6;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 16px;
-    
+
     /* Layout */
     flex: none;
-    order: 2;
+    order: 3;
     align-self: stretch;
     flex-grow: 0;
 }
