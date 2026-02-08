@@ -309,16 +309,21 @@ using (var scope = app.Services.CreateScope())
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
         await DbInitialiser.InitialiseAsync(context, userManager, roleManager, seedTestAccounts: app.Environment.IsDevelopment());
 
-        // Auto-migrate HTML policies to Template format
+        // Auto-migrate HTML policies to Template format, or replace placeholder content
         try
         {
             var privacyService = services.GetRequiredService<IPrivacyPolicyService>();
             var termsService = services.GetRequiredService<ITermsOfServiceService>();
 
+            // Helper to detect old placeholder content that should be replaced
+            bool IsPlaceholderContent(string content) =>
+                !string.IsNullOrWhiteSpace(content) &&
+                (content.Contains("Section 1 Title") || content.Contains("Update this introduction"));
+
             var privacy = await privacyService.GetAsync();
-            if (privacy.ContentFormat == PolicyContentFormat.Html)
+            if (privacy.ContentFormat == PolicyContentFormat.Html || IsPlaceholderContent(privacy.Content))
             {
-                logger.LogInformation("Migrating Privacy Policy from HTML to Template format...");
+                logger.LogInformation("Migrating Privacy Policy to Template format with full content...");
                 privacy.ContentFormat = PolicyContentFormat.Template;
                 privacy.Content = PolicyTemplateSerializer.Serialize(PolicyTemplateDefaults.CreatePrivacyDefaults());
                 await privacyService.UpdateAsync(privacy, "System");
@@ -326,9 +331,9 @@ using (var scope = app.Services.CreateScope())
             }
 
             var terms = await termsService.GetAsync();
-            if (terms.ContentFormat == PolicyContentFormat.Html)
+            if (terms.ContentFormat == PolicyContentFormat.Html || IsPlaceholderContent(terms.Content))
             {
-                logger.LogInformation("Migrating Terms of Service from HTML to Template format...");
+                logger.LogInformation("Migrating Terms of Service to Template format with full content...");
                 terms.ContentFormat = PolicyContentFormat.Template;
                 terms.Content = PolicyTemplateSerializer.Serialize(PolicyTemplateDefaults.CreateTermsDefaults());
                 await termsService.UpdateAsync(terms, "System");
