@@ -157,3 +157,7 @@ build/
 .azure_cli_home/
 # Local security audit reports
 security_best_practices_report.md
+
+# Claude Code project instructions
+CLAUDE.md
+AGENTS.md
