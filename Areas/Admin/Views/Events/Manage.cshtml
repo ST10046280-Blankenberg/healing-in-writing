@@ -101,8 +101,10 @@
         <div class="admin-manage-events__events-list">
             @if (!Model.Events.Any())
             {
-                <div class="admin-manage-events__empty">
-                    <p class="admin-manage-events__empty-text">No events found matching your criteria.</p>
+                <div class="empty-state empty-state--compact">
+                    <i data-lucide="calendar-x" class="empty-state__icon"></i>
+                    <h3 class="empty-state__title">No Events Found</h3>
+                    <p class="empty-state__description">No events match your current filters. Try adjusting your search criteria.</p>
                 </div>
             }
             else

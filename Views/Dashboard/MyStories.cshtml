@@ -53,8 +53,12 @@
         @if (!Model.Stories.Any())
         {
             <div class="empty-state">
-                <p>You haven't submitted any stories yet.</p>
-                <a asp-area="" asp-controller="Stories" asp-action="Submit" class="btn btn-primary">Share Your Story</a>
+                <i data-lucide="pen-line" class="empty-state__icon"></i>
+                <h3 class="empty-state__title">No Stories Yet</h3>
+                <p class="empty-state__description">You haven't submitted any stories yet. Share your experience with the community.</p>
+                <div class="empty-state__actions">
+                    <a asp-area="" asp-controller="Stories" asp-action="Submit" class="btn btn--primary">Share Your Story</a>
+                </div>
             </div>
         }
         else

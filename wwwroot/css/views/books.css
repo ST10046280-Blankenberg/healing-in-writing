@@ -217,22 +217,6 @@
     overflow: hidden;
 }
 
-/* Empty State */
-.books__empty {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 64px;
-    width: 100%;
-}
-
-.books__empty p {
-    font-family: 'Poppins', sans-serif;
-    font-size: 18px;
-    line-height: 28px;
-    color: #4B5563;
-    text-align: center;
-}
 
 /* Load More Button Container */
 .books__load-more {

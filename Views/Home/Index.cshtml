@@ -77,20 +77,14 @@
             }
             else
             {
-                <article class="home-stories__card">
-                    <h3 class="home-stories__card-title">No stories yet</h3>
-                    <p class="home-stories__card-excerpt">
-                        Stories shared by the community will appear here once submissions are published.
-                    </p>
-                    <div class="home-stories__card-footer">
-                        <div class="home-stories__author">
-                            <span class="home-stories__author-name">Healing in Writing</span>
-                        </div>
-                        <a class="btn home-stories__read-more-btn" asp-area="" asp-controller="Stories" asp-action="Submit">
-                            Share Your Story
-                        </a>
+                <div class="empty-state empty-state--compact empty-state--grid">
+                    <i data-lucide="book-heart" class="empty-state__icon"></i>
+                    <h3 class="empty-state__title">No Stories Yet</h3>
+                    <p class="empty-state__description">Stories from the community will appear here. Be the first to share your journey.</p>
+                    <div class="empty-state__actions">
+                        <a class="btn btn--primary" asp-area="" asp-controller="Stories" asp-action="Submit">Share Your Story</a>
                     </div>
-                </article>
+                </div>
             }
         </div>
 
@@ -178,9 +172,10 @@
         }
         else
         {
-            <div class="home-events__empty">
-                <h3>No upcoming events available</h3>
-                <p>Check back soon for exciting community events and workshops.</p>
+            <div class="empty-state empty-state--compact">
+                <i data-lucide="calendar-heart" class="empty-state__icon"></i>
+                <h3 class="empty-state__title">No Upcoming Events</h3>
+                <p class="empty-state__description">We're planning new community events and workshops. Check back soon for updates.</p>
             </div>
         }
 

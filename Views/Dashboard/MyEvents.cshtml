@@ -54,8 +54,12 @@
         @if (!Model.Registrations.Any())
         {
             <div class="empty-state">
-                <p>You haven't registered for any events yet.</p>
-                <a asp-area="" asp-controller="Events" asp-action="Index" class="btn btn-primary">Browse Events</a>
+                <i data-lucide="calendar" class="empty-state__icon"></i>
+                <h3 class="empty-state__title">No Events Yet</h3>
+                <p class="empty-state__description">You haven't registered for any events yet. Explore upcoming community gatherings.</p>
+                <div class="empty-state__actions">
+                    <a asp-area="" asp-controller="Events" asp-action="Index" class="btn btn--primary">Browse Events</a>
+                </div>
             </div>
         }
         else

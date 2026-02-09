@@ -31,9 +31,10 @@
         <div class="events__grid">
             @if (!Model.EventsList.Events.Any())
             {
-                <div class="events__empty">
-                    <h3>No published events available</h3>
-                    <p>Check back soon for upcoming events and workshops.</p>
+                <div class="empty-state empty-state--grid">
+                    <i data-lucide="calendar-heart" class="empty-state__icon"></i>
+                    <h3 class="empty-state__title">No Events Available</h3>
+                    <p class="empty-state__description">We're planning new events and workshops. Check back soon for opportunities to connect, learn, and grow together.</p>
                 </div>
             }
             else

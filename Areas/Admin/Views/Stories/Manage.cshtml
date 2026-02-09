@@ -111,28 +111,30 @@
     </section>
 
     <!-- Stories Table -->
-    <p class="manage-stories__results fade-in-up delay-200">Showing @Model.Stories.Count of @Model.TotalStories story@((Model.TotalStories == 1) ? string.Empty : "ies")</p>
-    <div class="manage-stories__table-container fade-in-up delay-200">
-        <table class="manage-stories__table">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Submitted Date</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (!Model.Stories.Any())
-                {
+    @if (!Model.Stories.Any())
+    {
+        <div class="empty-state empty-state--compact fade-in-up delay-200">
+            <i data-lucide="file-text" class="empty-state__icon"></i>
+            <h3 class="empty-state__title">No Stories Found</h3>
+            <p class="empty-state__description">No stories match your current filters. Try adjusting your search criteria.</p>
+        </div>
+    }
+    else
+    {
+        <p class="manage-stories__results fade-in-up delay-200">Showing @Model.Stories.Count of @Model.TotalStories story@((Model.TotalStories == 1) ? string.Empty : "ies")</p>
+        <div class="manage-stories__table-container fade-in-up delay-200">
+            <table class="manage-stories__table">
+                <thead>
                     <tr>
-                        <td colspan="5" class="manage-stories__empty">No stories available yet.</td>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Submitted Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
                     </tr>
-                }
-                else
-                {
-                    foreach (var story in Model.Stories)
+                </thead>
+                <tbody>
+                    @foreach (var story in Model.Stories)
                     {
                         <tr>
                             <td>
@@ -169,12 +171,11 @@
                             </td>
                         </tr>
                     }
-                }
-            </tbody>
-        </table>
-    </div>
+                </tbody>
+            </table>
+        </div>
 
-    @if (Model.TotalPages > 1)
+        @if (Model.TotalPages > 1)
     {
         <nav class="manage-stories__pagination" aria-label="Stories pagination">
             <a class="manage-stories__pagination-link @(Model.CurrentPage == 1 ? "is-disabled" : null)"
@@ -216,5 +217,6 @@
                }))"
                aria-disabled="@(Model.CurrentPage == Model.TotalPages ? "true" : "false")">Next</a>
         </nav>
+        }
     }
 </main>

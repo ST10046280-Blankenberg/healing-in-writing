@@ -88,8 +88,10 @@
     <main class="manage-books__inventory fade-in-up delay-100">
         @if (!Model.Books.Any())
         {
-            <div class="manage-books__empty">
-                <p class="manage-books__empty-text">No books found matching your criteria.</p>
+            <div class="empty-state empty-state--compact">
+                <i data-lucide="book-open" class="empty-state__icon"></i>
+                <h3 class="empty-state__title">No Books Found</h3>
+                <p class="empty-state__description">No books match your current filters. Try adjusting your search criteria.</p>
             </div>
         }
         else
