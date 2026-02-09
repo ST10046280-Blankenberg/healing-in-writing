@@ -12,15 +12,15 @@
     justify-content: center;
     gap: var(--spacing-md);
 
-    /* Spacing - using variables */
-    padding: var(--spacing-3xl) var(--spacing-xl);
+    /* Spacing */
+    padding: var(--spacing-xl) var(--spacing-md);
 
     /* Typography */
     text-align: center;
 
     /* Visual */
     width: 100%;
-    min-height: 300px;
+    min-height: 200px;
 }
 
 /* Empty State Icon */
@@ -28,10 +28,13 @@
     /* Box model */
     width: 4rem;
     height: 4rem;
+    padding: 1rem;
+    box-sizing: border-box;
 
     /* Visual */
-    color: var(--neutral-400);
-    opacity: 0.6;
+    background: var(--brand-300);
+    border-radius: var(--radius-full);
+    color: var(--brand-700);
 }
 
 /* Empty State Title */
@@ -76,13 +79,8 @@
 /* Compact Variant - for smaller spaces */
 .empty-state--compact {
     /* Spacing */
-    padding: var(--spacing-xl) var(--spacing-md);
-    min-height: 200px;
-}
-
-.empty-state--compact .empty-state__icon {
-    width: 3rem;
-    height: 3rem;
+    padding: var(--spacing-lg) var(--spacing-md);
+    min-height: 150px;
 }
 
 .empty-state--compact .empty-state__title {
@@ -101,13 +99,14 @@
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .empty-state {
-        padding: var(--spacing-xl) var(--spacing-md);
-        min-height: 250px;
+        padding: var(--spacing-lg) var(--spacing-sm);
+        min-height: 150px;
     }
 
     .empty-state__icon {
-        width: 3rem;
-        height: 3rem;
+        width: 3.5rem;
+        height: 3.5rem;
+        padding: 0.875rem;
     }
 
     .empty-state__title {
@@ -121,7 +120,8 @@
 
 @media (max-width: 480px) {
     .empty-state {
-        padding: var(--spacing-lg) var(--spacing-sm);
+        padding: var(--spacing-md) var(--spacing-sm);
+        min-height: 120px;
     }
 
     .empty-state__actions {
